@@ -20,7 +20,7 @@ jobs:
     - name: Xcode Select Version
       uses: MobileDevOps/xcode-select-version-action@v1.0.0
       with:
-        xcode-select-version: 14.2
+        xcode-select-version: 15.2
 
     - name: Install Fastlane
       run: |
@@ -28,6 +28,6 @@ jobs:
           fastlane env
 
     - name: Build and test with Fastlane
-      run: fastlane scan --scheme "NodeCrypto"
+      run: bundle exec fastlane scan --scheme NodeCrypto
 
 
