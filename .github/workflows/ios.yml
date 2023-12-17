@@ -28,6 +28,6 @@ jobs:
           fastlane env
 
     - name: Build and test with Fastlane
-      run: fastlane scan(scheme:"NodeCrypto")
+      run: fastlane scan --scheme "NodeCrypto"
 
 
