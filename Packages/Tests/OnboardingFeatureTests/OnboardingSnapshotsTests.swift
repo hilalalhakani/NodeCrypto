@@ -7,7 +7,9 @@ import XCTest
 @MainActor
 final class OnboardingSnapshotsTests: XCTestCase {
     func testpage1_light() async {
-        let onboardingView = OnboardingView().environment(\.colorScheme, .light)
+        let onboardingView = OnboardingView()
+            .environment(\.colorScheme, .light)
+
         assertSnapshot(of: onboardingView, as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneXsMax)))
     }
 

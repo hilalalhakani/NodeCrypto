@@ -24,7 +24,7 @@ final class AppFeatureTests: XCTestCase {
   }
 
   func test_rootView_userExistsSetsHomeAsRoot() async {
-    guard let userData = try? JSONEncoder().encode(User.mock1) else {
+      guard (try? JSONEncoder().encode(User.mock1)) != nil else {
       fatalError("Unable to encode User.mock1")
     }
 //    let store = Test Store(initialState: .init()) {
