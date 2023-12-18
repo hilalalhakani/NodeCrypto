@@ -138,7 +138,7 @@ let package = Package(
 //// Inject base plugins into each target
 package.targets = package.targets.map { target in
     var plugins = target.plugins ?? []
-    plugins.append(.plugin(name: "SwiftLintPlugin", package: "SwiftLint"))
+   // plugins.append(.plugin(name: "SwiftLintPlugin", package: "SwiftLint"))
     target.plugins = plugins
     return target
 }
