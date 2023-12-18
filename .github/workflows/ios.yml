@@ -16,16 +16,15 @@ jobs:
   build:
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup Xcode 15
-    - uses: BoundfoxStudios/action-xcode-select@v1
+      - name: Setup Xcode 15
+        uses: SwiftyLab/setup-swift@latest
+        with:
+          swift-version: "5.9.0"
 
-    - name: Install Fastlane
-      run: |
+      - name: Install Fastlane
+        run: |
           gem install fastlane
           fastlane env
 
-    - name: Build and test with Fastlane
-      run:  fastlane scan --scheme NodeCrypto
-
-
+      - name: Build and test with Fastlane
+        run: fastlane scan --scheme NodeCrypto
