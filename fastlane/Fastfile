@@ -20,7 +20,7 @@ platform :ios do
   lane :run_tests do
     scan(
       scheme: "NodeCrypto", 
-      testplan: "NodeCrypto/NodeCrypto.xctestplan"
+      testplan: "NodeCrypto"
     )
   end
 
