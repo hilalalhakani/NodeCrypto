@@ -21,4 +21,4 @@ jobs:
           gem install fastlane
           fastlane env
     - name: Build and test with Fastlane
-      run: fastlane scan --scheme "NodeCrypto" --xcargs "-skipPackagePluginValidation" 
+      run: fastlane scan --scheme "OnboardingFeature" --xcargs "-skipPackagePluginValidation" 
