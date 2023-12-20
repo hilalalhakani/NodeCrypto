@@ -1,7 +1,7 @@
 {
   "configurations" : [
     {
-      "id" : "FF95249A-E9EF-4089-9FFC-C8D3EDF75B4E",
+      "id" : "2A0F004F-04EA-4629-A266-75572212EC71",
       "name" : "Test Scheme Action",
       "options" : {
 
@@ -9,6 +9,7 @@
     }
   ],
   "defaultOptions" : {
+    "codeCoverage" : false,
     "targetForVariableExpansion" : {
       "containerPath" : "container:NodeCrypto.xcodeproj",
       "identifier" : "E75E1A532B0A8E750053C9E9",
@@ -17,7 +18,6 @@
   },
   "testTargets" : [
     {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:..\/Packages",
         "identifier" : "AppFeatureTests",
@@ -25,7 +25,6 @@
       }
     },
     {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:..\/Packages",
         "identifier" : "ConnectWalletFeatureTests",
@@ -33,7 +32,6 @@
       }
     },
     {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:..\/Packages",
         "identifier" : "KeychainTests",
@@ -41,7 +39,6 @@
       }
     },
     {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:..\/Packages",
         "identifier" : "OnboardingFeatureTests",

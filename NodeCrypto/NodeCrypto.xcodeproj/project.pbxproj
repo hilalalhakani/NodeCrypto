@@ -10,7 +10,6 @@
 		E7340EAD2B1794D00037A11D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7340EA92B1794D00037A11D /* Assets.xcassets */; };
 		E7340EAE2B1794D00037A11D /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7340EAA2B1794D00037A11D /* App.swift */; };
 		E7340EAF2B1794D00037A11D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7340EAC2B1794D00037A11D /* Preview Assets.xcassets */; };
-		E77741FE2B32182D00FB30ED /* NodeCrypto.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = E77741FD2B32182D00FB30ED /* NodeCrypto.xctestplan */; };
 		E7AE92E92B2260CA0065A9C2 /* AppFeature in Frameworks */ = {isa = PBXBuildFile; productRef = E7AE92E82B2260CA0065A9C2 /* AppFeature */; };
 /* End PBXBuildFile section */
 
@@ -20,7 +19,6 @@
 		E7340EAA2B1794D00037A11D /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		E7340EAC2B1794D00037A11D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E75E1A542B0A8E750053C9E9 /* NodeCrypto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NodeCrypto.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		E77741FD2B32182D00FB30ED /* NodeCrypto.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = NodeCrypto.xctestplan; path = ../../NodeCrypto.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,7 +36,6 @@
 		E7340EA82B1794D00037A11D /* NodeCrypto */ = {
 			isa = PBXGroup;
 			children = (
-				E77741FD2B32182D00FB30ED /* NodeCrypto.xctestplan */,
 				E7059DF62B1C9A4800C1DE4F /* Info.plist */,
 				E7340EA92B1794D00037A11D /* Assets.xcassets */,
 				E7340EAA2B1794D00037A11D /* App.swift */,
@@ -141,7 +138,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7340EAF2B1794D00037A11D /* Preview Assets.xcassets in Resources */,
-				E77741FE2B32182D00FB30ED /* NodeCrypto.xctestplan in Resources */,
 				E7340EAD2B1794D00037A11D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

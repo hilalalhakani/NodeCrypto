@@ -19,8 +19,7 @@ platform :ios do
   desc "Description of what the lane does"
   lane :run_tests do
     scan(
-      scheme: "NodeCrypto", 
-      testplan: "NodeCrypto"
+      scheme: "CI"
     )
   end
 
