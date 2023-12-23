@@ -22,15 +22,13 @@ final class AppFeatureTests: XCTestCase {
   }
 
   func test_rootView_userExistsSetsHomeAsRoot() async {
-      guard (try? JSONEncoder().encode(User.mock1)) != nil else {
-      fatalError("Unable to encode User.mock1")
+
+    let store = TestStore(initialState: AppViewReducer.State()) {
+      AppViewReducer()
+    } withDependencies: {
+      $0.keychainManager.get = { @Sendable _ in try! JSONEncoder().encode(User.mock1) }
+      $0.decode = .liveValue
     }
-//    let store = Test Store(initialState: .init()) {
-//      AppViewReducer()
-//    } withDependencies: {
-//      $0.keychainManager.get = { _ in userData }
-//      $0.decode = .liveValue
-//    }
 
 //    await store.send(.view(.onAppear))
 //

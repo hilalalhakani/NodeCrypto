@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "Main",
+    defaultLocalization: "en",
     platforms: [
         .iOS(.v17), .macOS(.v14),
     ],
@@ -67,6 +68,9 @@ let package = Package(
             name: "OnboardingFeature",
             dependencies: [
                 "NodeCryptoCore",
+            ],
+            resources: [
+              .process("./Resources"),
             ]
         ),
         .testTarget(

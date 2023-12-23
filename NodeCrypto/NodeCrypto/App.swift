@@ -71,5 +71,6 @@ struct NodeCryptoApp: App {
         WindowGroup {
             AppView(store: appDelegate.store)
         }
+        #error("Automatic locale is not working. in settings, in the app's settings, the preferred language tab is not showmn")
     }
 }

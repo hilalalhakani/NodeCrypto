@@ -160,7 +160,7 @@ public struct OnboardingView: View {
                                 store.send(.view(.onGetStartedButtonPressed))
                             },
                             label: {
-                                Text("Get started now")
+                                Text("Get started now", bundle: .module)
                                     .padding(.horizontal, 32)
                                     .padding(.vertical, 16)
                             }
@@ -232,11 +232,11 @@ struct OnboardingLabels: View {
 
     var body: some View {
         VStack(spacing: 12) {
-            Text(title)
+            Text(LocalizedStringKey(title), bundle: .module)
                 .font(Font(FontName.dmSansBold, size: 40))
                 .foregroundStyle(colorScheme == .light ? Color.neutral2 : Color.neutral8)
 
-            Text(subtitle)
+            Text(LocalizedStringKey(subtitle), bundle: .module)
                 .font(Font(FontName.poppinsRegular, size: 14))
                 .foregroundStyle(colorScheme == .light ? Color.neutral2 : Color.neutral6)
         }
@@ -250,7 +250,7 @@ struct SkipButton: View {
 
     var body: some View {
         Button(action: action) {
-            Text("Skip")
+            Text("Skip", bundle: .module)
                 .font(.init(.dmSansBold, size: 14))
         }
         .foregroundStyle(colorScheme == .dark ? Color.neutral8 : Color.neutral2)
