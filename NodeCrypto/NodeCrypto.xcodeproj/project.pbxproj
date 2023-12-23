@@ -13,6 +13,7 @@
 		E77742022B337D8000FB30ED /* CI.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = E77742012B337D8000FB30ED /* CI.xctestplan */; };
 		E78A9D932B373D7A00AE49F1 /* fr.xcloc in Resources */ = {isa = PBXBuildFile; fileRef = E78A9D912B373D7A00AE49F1 /* fr.xcloc */; };
 		E78A9D942B373D7A00AE49F1 /* en.xcloc in Resources */ = {isa = PBXBuildFile; fileRef = E78A9D922B373D7A00AE49F1 /* en.xcloc */; };
+		E78A9D962B37641300AE49F1 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = E78A9D952B37641300AE49F1 /* InfoPlist.xcstrings */; };
 		E7AE92E92B2260CA0065A9C2 /* AppFeature in Frameworks */ = {isa = PBXBuildFile; productRef = E7AE92E82B2260CA0065A9C2 /* AppFeature */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +26,7 @@
 		E77742012B337D8000FB30ED /* CI.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CI.xctestplan; sourceTree = "<group>"; };
 		E78A9D912B373D7A00AE49F1 /* fr.xcloc */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = fr.xcloc; sourceTree = "<group>"; };
 		E78A9D922B373D7A00AE49F1 /* en.xcloc */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = en.xcloc; sourceTree = "<group>"; };
+		E78A9D952B37641300AE49F1 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,7 +44,7 @@
 		E7340EA82B1794D00037A11D /* NodeCrypto */ = {
 			isa = PBXGroup;
 			children = (
-				E78A9D902B373D7A00AE49F1 /* NodeCrypto Localizations */,
+				E78A9D902B373D7A00AE49F1 /* Localizations */,
 				E77742012B337D8000FB30ED /* CI.xctestplan */,
 				E7059DF62B1C9A4800C1DE4F /* Info.plist */,
 				E7340EA92B1794D00037A11D /* Assets.xcassets */,
@@ -84,14 +86,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		E78A9D902B373D7A00AE49F1 /* NodeCrypto Localizations */ = {
+		E78A9D902B373D7A00AE49F1 /* Localizations */ = {
 			isa = PBXGroup;
 			children = (
+				E78A9D952B37641300AE49F1 /* InfoPlist.xcstrings */,
 				E78A9D912B373D7A00AE49F1 /* fr.xcloc */,
 				E78A9D922B373D7A00AE49F1 /* en.xcloc */,
 			);
-			name = "NodeCrypto Localizations";
-			path = "../../NodeCrypto Localizations";
+			name = Localizations;
+			path = ../../Localizations;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,6 +142,7 @@
 			knownRegions = (
 				en,
 				fr,
+				Base,
 			);
 			mainGroup = E75E1A4B2B0A8E750053C9E9;
 			productRefGroup = E75E1A552B0A8E750053C9E9 /* Products */;
@@ -155,6 +159,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E78A9D962B37641300AE49F1 /* InfoPlist.xcstrings in Resources */,
 				E7340EAF2B1794D00037A11D /* Preview Assets.xcassets in Resources */,
 				E77742022B337D8000FB30ED /* CI.xctestplan in Resources */,
 				E7340EAD2B1794D00037A11D /* Assets.xcassets in Resources */,

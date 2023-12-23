@@ -235,10 +235,12 @@ struct OnboardingLabels: View {
             Text(LocalizedStringKey(title), bundle: .module)
                 .font(Font(FontName.dmSansBold, size: 40))
                 .foregroundStyle(colorScheme == .light ? Color.neutral2 : Color.neutral8)
+                .fixedSize(horizontal: false, vertical: true)
 
             Text(LocalizedStringKey(subtitle), bundle: .module)
                 .font(Font(FontName.poppinsRegular, size: 14))
                 .foregroundStyle(colorScheme == .light ? Color.neutral2 : Color.neutral6)
+                .fixedSize(horizontal: false, vertical: true)
         }
         .multilineTextAlignment(.center)
     }
