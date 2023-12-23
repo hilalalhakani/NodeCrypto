@@ -6,8 +6,10 @@
 //
 
 import Foundation
+import ComposableArchitecture
 
-public enum AnalyticsData: Equatable {
+@CasePathable
+public enum AnalyticsData {
     case event(name: String, properties: [String: String] = [:])
     case screen(name: String)
     case userId(String)

@@ -19,7 +19,8 @@ public struct ConnectWalletReducer {
         }
     }
 
-    public enum Action: Equatable {
+    @CasePathable
+    public enum Action {
         case rainbowButtonPressed
         case metamaskButtonPressed
         case coinbaseButtonPressed

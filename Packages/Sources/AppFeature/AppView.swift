@@ -14,119 +14,32 @@ public struct AppViewReducer {
 
     public init() {}
 
-    public struct Destination: Reducer {
-        @CasePathable
-        public enum State: Equatable {
-            public static func == (lhs: AppViewReducer.Destination.State, rhs: AppViewReducer.Destination.State) -> Bool {
-                switch (lhs, rhs) {
-                case (.launchImage, .launchImage):
-                    return true
-                case (.onboarding(let stateLhs), .onboarding(let stateRhs)):
-                    return stateLhs == stateRhs
-                case (.connectWallet(let stateLhs), .connectWallet(let stateRhs)):
-                    return stateLhs == stateRhs
-                default:
-                    return false
-                }
-            }
-
-            case onboarding(OnboardingViewReducer.State)
-            case launchImage
-            case connectWallet(ConnectWalletReducer.State)
-        }
-
-        @CasePathable
-        public enum Action: Equatable {
-            public static func == (lhs: AppViewReducer.Destination.Action, rhs: AppViewReducer.Destination.Action) -> Bool {
-                switch (lhs, rhs) {
-                case (.onboarding(let lhsAction), .onboarding(let rhsAction)):
-                    return lhsAction == rhsAction
-                case (.connectWallet(let lhsAction), .connectWallet(let rhsAction)):
-                    return lhsAction == rhsAction
-                default:
-                    return false
-                }
-            }
-
-            case onboarding(OnboardingViewReducer.Action)
-            case connectWallet(ConnectWalletReducer.Action)
-        }
-
-        public var body: some ReducerOf<Self> {
-            EmptyReducer()
-                .ifCaseLet(\.onboarding, action: \.onboarding) {
-                    OnboardingViewReducer()
-                }
-                .ifCaseLet(\.connectWallet, action: \.connectWallet) {
-                    ConnectWalletReducer()
-                }
-        }
-    }
-
     @ObservableState
     public struct State: Equatable {
-        public static func == (lhs: AppViewReducer.State, rhs: AppViewReducer.State) -> Bool {
-            lhs.appDelegate == rhs.appDelegate && lhs.destination == rhs.destination
-        }
         public var appDelegate = AppDelegateReducer.State()
         public var destination: Destination.State?
         public init() {}
     }
 
-    public enum Action: TCAFeatureAction, Equatable {
+    @CasePathable
+    public enum Action: TCAFeatureAction {
         case view(ViewAction)
         case `internal`(InternalAction)
         case delegate(DelegateAction)
-
-        public static func == (lhs: Action, rhs: Action) -> Bool {
-            switch (lhs, rhs) {
-            case (.view(let lhsAction), .view(let rhsAction)):
-                return lhsAction == rhsAction
-            case (.internal(let lhsAction), .internal(let rhsAction)):
-                return lhsAction == rhsAction
-            case (.delegate(let lhsAction), .delegate(let rhsAction)):
-                return lhsAction == rhsAction
-            default:
-                return false
-            }
-        }
     }
 
     @CasePathable
-    public enum InternalAction: Equatable {
+    public enum InternalAction {
         case onKeychainUser(Result<User, Error>)
         case destination(Destination.Action)
         case appDelegate(AppDelegateReducer.Action)
-
-        public static func == (lhs: InternalAction, rhs: InternalAction) -> Bool {
-            switch (lhs, rhs) {
-            case (.onKeychainUser(let lhsResult), .onKeychainUser(let rhsResult)):
-
-                switch (lhsResult, rhsResult) {
-                case (.success(let lhsData), .success(let rhsData)):
-                    return lhsData == rhsData
-                case (.failure, .failure):
-                    return true
-                default:
-                    return false
-                }
-
-            case (.destination(let lhsAction), .destination(let rhsAction)):
-                return lhsAction == rhsAction
-
-            case (.appDelegate(let lhsAction), .appDelegate(let rhsAction)):
-                return lhsAction == rhsAction
-
-            default:
-                return false
-            }
-        }
     }
 
-    public enum DelegateAction: Equatable {}
+    @CasePathable
+    public enum DelegateAction {}
 
     @CasePathable
-    public enum ViewAction: Equatable {
+    public enum ViewAction {
         case onAppear
     }
 
@@ -185,6 +98,32 @@ public struct AppViewReducer {
                 case .appDelegate:
                     return .none
                 }
+            }
+        }
+    }
+
+    public struct Destination: Reducer {
+        @CasePathable
+        public enum State: Equatable {
+            case onboarding(OnboardingViewReducer.State)
+            case launchImage
+            case connectWallet(ConnectWalletReducer.State)
+        }
+
+        @CasePathable
+        public enum Action {
+            case onboarding(OnboardingViewReducer.Action)
+            case connectWallet(ConnectWalletReducer.Action)
+        }
+
+        public var body: some ReducerOf<Self> {
+
+            Scope(state: \.onboarding, action: \.onboarding) {
+                OnboardingViewReducer()
+            }
+
+            Scope(state: \.connectWallet, action: \.connectWallet) {
+                ConnectWalletReducer()
             }
         }
     }

@@ -18,22 +18,22 @@ public struct OnboardingViewReducer {
     }
 
     @CasePathable
-    public enum Action: Equatable, TCAFeatureAction {
+    public enum Action: TCAFeatureAction {
         case view(ViewAction)
         case `internal`(InternalAction)
         case delegate(DelegateAction)
     }
 
     @CasePathable
-    public enum InternalAction: Equatable {}
+    public enum InternalAction {}
 
     @CasePathable
-    public enum DelegateAction: Equatable {
+    public enum DelegateAction {
         case onGetStartedButtonPressed
     }
 
     @CasePathable
-    public enum ViewAction: Equatable {
+    public enum ViewAction {
         case onSelectedIndexChange(OnboardingStep)
         case onSkipButtonPressed
         case onGetStartedButtonPressed
@@ -146,29 +146,32 @@ public struct OnboardingView: View {
                 Spacer()
                     .frame(height: 75)
 
-                if store.isGetStartedButtonHidden {
-                    OnboardingStepper(
-                        store: self.store.scope(
-                            state: \.onboardingStepper,
-                            action: \.view.onboardingStepper
+                Group {
+                    if store.isGetStartedButtonHidden {
+                        OnboardingStepper(
+                            store: self.store.scope(
+                                state: \.onboardingStepper,
+                                action: \.view.onboardingStepper
+                            )
                         )
-                    )
-                } else {
-                    Button(
-                        action: {
-                            store.send(.view(.onGetStartedButtonPressed))
-                        },
-                        label: {
-                            Text("Get started now")
-                                .padding(.horizontal, 32)
-                                .padding(.vertical, 16)
-                        }
-                    )
-                    .buttonStyle(.borderedProminent)
-                    .font(Font(FontName.dmSansBold, size: 16))
-                    .tint(Color.primary1)
-                    .clipShape(Capsule())
+                    } else {
+                        Button(
+                            action: {
+                                store.send(.view(.onGetStartedButtonPressed))
+                            },
+                            label: {
+                                Text("Get started now")
+                                    .padding(.horizontal, 32)
+                                    .padding(.vertical, 16)
+                            }
+                        )
+                        .buttonStyle(.borderedProminent)
+                        .font(Font(FontName.dmSansBold, size: 16))
+                        .tint(Color.primary1)
+                        .clipShape(Capsule())
+                    }
                 }
+                .padding(.bottom, 40)
             }
             .padding([.horizontal, .top])
             .frame(maxWidth: .infinity, maxHeight: .infinity)

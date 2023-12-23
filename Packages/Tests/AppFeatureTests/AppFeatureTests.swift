@@ -8,7 +8,7 @@ import XCTest
 final class AppFeatureTests: XCTestCase {
 
   func test_rootView_userDoesntExistSetsOnboardingAsRoot() async {
-    let store = TestStore(initialState: .init()) {
+      let store = TestStore(initialState: AppViewReducer.State()) {
       AppViewReducer()
     } withDependencies: {
       $0.keychainManager.get = { @Sendable _ in throw NSError(domain: "", code: 0) }
@@ -16,11 +16,9 @@ final class AppFeatureTests: XCTestCase {
 
     await store.send(.view(.onAppear))
 
-    await store.receive(
-      AppViewReducer.Action.internal(.onKeychainUser(.failure(NSError(domain: "", code: 0))))
-    ) {
-      $0.destination = .onboarding(.init())
-    }
+      await store.receive(\.internal.onKeychainUser.failure) {
+          $0.destination = .onboarding(.init())
+      }
   }
 
   func test_rootView_userExistsSetsHomeAsRoot() async {

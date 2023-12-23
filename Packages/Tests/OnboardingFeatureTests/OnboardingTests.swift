@@ -21,7 +21,7 @@ final class OnboardingTests: XCTestCase {
             $0.backwardButtonDisabled = false
         }
 
-        await store.receive(.delegate(.updatedStep))
+        await store.receive(\.delegate.updatedStep)
     }
 
     func testNavigationForwardThenBackwardUpdatesSteps() async {
@@ -34,14 +34,14 @@ final class OnboardingTests: XCTestCase {
             $0.backwardButtonDisabled = false
         }
 
-        await store.receive(.delegate(.updatedStep))
+        await store.receive(\.delegate.updatedStep)
 
         await store.send(.view(.onBackwardButtonPress)) {
             $0.currentStep = .step1
             $0.backwardButtonDisabled = true
         }
 
-        await store.receive(.delegate(.updatedStep))
+        await store.receive(\.delegate.updatedStep)
     }
 
     func testForwardButtonReachesLastStepAndDisables() async {
@@ -54,7 +54,7 @@ final class OnboardingTests: XCTestCase {
             $0.backwardButtonDisabled = false
         }
 
-        await store.receive(.delegate(.updatedStep))
+        await store.receive(\.delegate.updatedStep)
 
         await store.send(.view(.onForwardButtonPress)) {
             $0.currentStep = .step3
@@ -62,7 +62,7 @@ final class OnboardingTests: XCTestCase {
             $0.forwardButtonDisabled = true
         }
 
-        await store.receive(.delegate(.updatedStep))
+        await store.receive(\.delegate.updatedStep)
     }
 
     func testSkipButtonVisibilityOnChangeToStepFour() async {
@@ -100,7 +100,7 @@ final class OnboardingTests: XCTestCase {
         }
 
         await store.send(.view(.onGetStartedButtonPressed))
-        await store.receive(.delegate(.onGetStartedButtonPressed))
+        await store.receive(\.delegate.onGetStartedButtonPressed)
     }
 
     func test_onboardingStepperChanged() async {
@@ -114,7 +114,7 @@ final class OnboardingTests: XCTestCase {
             $0.onboardingStepper.backwardButtonDisabled = false
         }
 
-        await store.receive(.view(.onboardingStepper(.delegate(.updatedStep)))) {
+        await store.receive(\.view.onboardingStepper.delegate.updatedStep) {
             $0.currentStep = .step2
         }
     }

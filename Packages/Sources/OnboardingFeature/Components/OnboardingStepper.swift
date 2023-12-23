@@ -22,21 +22,25 @@ public struct OnboardingStepperReducer {
         }
     }
 
-    public enum Action: Equatable, TCAFeatureAction {
+    @CasePathable
+    public enum Action: TCAFeatureAction {
         case view(ViewAction)
         case `internal`(InternalAction)
         case delegate(DelegateAction)
     }
 
-    public enum InternalAction: Equatable {
+    @CasePathable
+    public enum InternalAction {
         case updateStep(OnboardingStep)
     }
 
-    public enum DelegateAction: Equatable {
+    @CasePathable
+    public enum DelegateAction {
         case updatedStep
     }
 
-    public enum ViewAction: Equatable {
+    @CasePathable
+    public enum ViewAction {
         case onForwardButtonPress
         case onBackwardButtonPress
     }

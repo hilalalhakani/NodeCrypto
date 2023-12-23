@@ -13,30 +13,10 @@ import UserNotifications
 public struct AppDelegateReducer {
     public struct State: Equatable {}
 
-    public enum Action: Equatable {
+    @CasePathable
+    public enum Action {
         case didFinishLaunching
         case didRegisterForRemoteNotifications(Result<Data, Error>)
-
-        public static func == (lhs: AppDelegateReducer.Action, rhs: AppDelegateReducer.Action) -> Bool {
-            switch (lhs, rhs) {
-             case (.didFinishLaunching, .didFinishLaunching):
-                 return true
-
-             case (.didRegisterForRemoteNotifications(let lhsResult), .didRegisterForRemoteNotifications(let rhsResult)):
-
-                switch (lhsResult, rhsResult) {
-                case (.success(let lhsData), .success(let rhsData)):
-                    return lhsData == rhsData
-                case (.failure, .failure):
-                    return true
-                default:
-                    return false
-                }
-
-             default:
-                 return false
-             }
-         }
     }
 
     @Dependency(\.userNotificationCenter) var userNotificationCenter
