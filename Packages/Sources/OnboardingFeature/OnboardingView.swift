@@ -54,11 +54,11 @@ public struct OnboardingViewReducer {
                 default:
                     return .none
                 }
-
             default:
                 return .none
             }
         }
+
         Reduce { state, action in
             switch action {
             case let .view(viewAction):
@@ -235,14 +235,13 @@ struct OnboardingLabels: View {
             Text(LocalizedStringKey(title), bundle: .module)
                 .font(Font(FontName.dmSansBold, size: 40))
                 .foregroundStyle(colorScheme == .light ? Color.neutral2 : Color.neutral8)
-                .fixedSize(horizontal: false, vertical: true)
 
             Text(LocalizedStringKey(subtitle), bundle: .module)
                 .font(Font(FontName.poppinsRegular, size: 14))
                 .foregroundStyle(colorScheme == .light ? Color.neutral2 : Color.neutral6)
-                .fixedSize(horizontal: false, vertical: true)
         }
         .multilineTextAlignment(.center)
+        .fixedSize(horizontal: false, vertical: true)
     }
 }
 

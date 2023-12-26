@@ -1,4 +1,3 @@
-@_exported import AnalyticsClient
 @_exported import ComposableArchitecture
 @_exported import Dependencies
 @_exported import DependenciesAdditions
@@ -8,3 +7,4 @@
 @_exported import TCAHelpers
 @_exported import XCTestDynamicOverlay
 @_exported import SharedModels
+@_exported import ComposableAnalytics

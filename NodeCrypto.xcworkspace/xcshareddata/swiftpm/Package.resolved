@@ -82,6 +82,15 @@
       }
     },
     {
+      "identity" : "swift-composable-analytics",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/oliverfoggin/swift-composable-analytics",
+      "state" : {
+        "revision" : "bfc65262806bb616e62262f18116d9f6f7ee8d27",
+        "version" : "1.1.0"
+      }
+    },
+    {
       "identity" : "swift-composable-architecture",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-composable-architecture",

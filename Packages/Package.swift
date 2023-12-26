@@ -16,7 +16,6 @@ let package = Package(
         .singleTargetLibrary("TCAHelpers"),
         .singleTargetLibrary("Keychain"),
         .singleTargetLibrary("ConnectWalletFeature"),
-        .singleTargetLibrary("AnalyticsClient"),
         .singleTargetLibrary("NodeCryptoCore"),
     ],
     dependencies: [
@@ -27,6 +26,7 @@ let package = Package(
         .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.15.1"),
         .package(url: "https://github.com/tgrapperon/swift-dependencies-additions", from: "1.0.1"),
         .package(url: "https://github.com/pointfreeco/swift-tagged", from: "0.10.0"),
+        .package(url: "https://github.com/oliverfoggin/swift-composable-analytics", from: "1.1.0"),
     ],
     targets: [
         .target(
@@ -44,12 +44,6 @@ let package = Package(
             name: "AppFeatureTests",
             dependencies: [
                 "AppFeature",
-            ]
-        ),
-        .target(
-            name: "AnalyticsClient",
-            dependencies: [
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
         ),
         .target(
@@ -117,7 +111,8 @@ let package = Package(
                 .product(name: "Tagged", package: "swift-tagged"),
                 "StyleGuide",
                 "TCAHelpers",
-                "AnalyticsClient",
+                "SharedModels",
+                .product(name: "ComposableAnalytics", package: "swift-composable-analytics"),
             ]
         ),
         .target(

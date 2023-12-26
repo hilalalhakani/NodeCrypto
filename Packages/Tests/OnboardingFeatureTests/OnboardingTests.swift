@@ -84,6 +84,10 @@ final class OnboardingTests: XCTestCase {
             OnboardingViewReducer()
         }
 
+        store.dependencies.analyticsClient.expect(
+            .event(name: "onSkipButtonPressed", properties: [:])
+        )
+
         await store.send(.view(.onSkipButtonPressed)) {
             let lastStep = OnboardingStep.allCases.last!
             $0.currentStep = lastStep
@@ -92,12 +96,18 @@ final class OnboardingTests: XCTestCase {
             $0.onboardingStepper.backwardButtonDisabled = false
             $0.onboardingStepper.forwardButtonDisabled = true
         }
+
+
     }
 
     func testonGetStartedButtonPressed() async {
         let store = TestStore(initialState: OnboardingViewReducer.State()) {
             OnboardingViewReducer()
         }
+
+        store.dependencies.analyticsClient.expect(
+            .event(name: "onGetStartedButtonPressed", properties: [:])
+        )
 
         await store.send(.view(.onGetStartedButtonPressed))
         await store.receive(\.delegate.onGetStartedButtonPressed)
