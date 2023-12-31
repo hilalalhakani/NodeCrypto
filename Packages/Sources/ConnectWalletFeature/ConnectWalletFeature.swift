@@ -8,9 +8,9 @@ public struct ConnectWalletReducer {
 
   @ObservableState
   public struct State: Equatable {
-    var showPopup = false
-    var navigateToConnectingWallet = false
-    var selectedWallet: WalletType? = .none
+    public var showPopup = false
+    public var navigateToConnectingWallet = false
+    public var selectedWallet: WalletType? = .none
     public init() {
 
     }

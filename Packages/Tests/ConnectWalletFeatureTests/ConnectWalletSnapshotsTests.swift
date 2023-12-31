@@ -5,7 +5,7 @@ import SnapshotTesting
 import XCTest
 
 @MainActor
-final class OnboardingSnapshotsTests: XCTestCase {
+final class ConnectWalletSnapshotsTests: XCTestCase {
   func test_connectWallet_light() async {
     let connectWalletView = ConnectWalletView(
       store: .init(
