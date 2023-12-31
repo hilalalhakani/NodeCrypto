@@ -36,7 +36,9 @@ final class ConnectWalletSnapshotsTests: XCTestCase {
 
   func test_connectWallet_alert_light() async {
     let store = StoreOf<ConnectWalletReducer>(
-      initialState: ConnectWalletReducer.State(), reducer: { ConnectWalletReducer() })
+      initialState: ConnectWalletReducer.State(), 
+      reducer: { ConnectWalletReducer().dependency(\.analyticsClient, .consoleLogger) })
+
     let connectWalletView = ConnectWalletView(store: store)
       .environment(\.colorScheme, .light)
       .environment(\.locale, .init(identifier: "en"))
@@ -50,7 +52,9 @@ final class ConnectWalletSnapshotsTests: XCTestCase {
 
   func test_connectWallet_alert_dark() async {
     let store = StoreOf<ConnectWalletReducer>(
-      initialState: ConnectWalletReducer.State(), reducer: { ConnectWalletReducer() })
+      initialState: ConnectWalletReducer.State(),
+      reducer: { ConnectWalletReducer().dependency(\.analyticsClient, .consoleLogger) })
+
     let connectWalletView = ConnectWalletView(store: store)
       .environment(\.colorScheme, .dark)
       .environment(\.locale, .init(identifier: "fr"))
