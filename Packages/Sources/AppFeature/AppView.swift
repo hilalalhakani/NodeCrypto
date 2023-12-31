@@ -153,7 +153,12 @@ public struct AppView: View {
                     CaseLet(
                         /AppViewReducer.Destination.State.connectWallet,
                          action: AppViewReducer.Destination.Action.connectWallet,
-                         then: ConnectWalletView.init
+                         then: { store in
+                             NavigationStack {
+                                 ConnectWalletView(store: store)
+                             }
+                             .transition(.opacity.animation(.easeInOut))
+                          }
                     )
 
                 }

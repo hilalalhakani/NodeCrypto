@@ -64,8 +64,10 @@ final class OnboardingSnapshotsTests: XCTestCase {
     let store = StoreOf<OnboardingViewReducer>.init(initialState: .init(currentStep: .step3)) {
       OnboardingViewReducer()
     }
-    let onboardingView = OnboardingView(store: store).environment(\.colorScheme, .dark).environment(
-      \.locale, .init(identifier: "fr"))
+    let onboardingView = OnboardingView(store: store)
+          .environment(\.colorScheme, .dark)
+          .environment(\.locale, .init(identifier: "fr"))
+
     assertSnapshot(
       of: onboardingView, as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
   }

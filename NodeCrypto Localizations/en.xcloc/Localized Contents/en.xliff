@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+  <file original="NodeCrypto/NodeCrypto/InfoPlist.xcstrings" source-language="en" target-language="en" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="15.2" build-num="15C5500c"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleName" xml:space="preserve">
+        <source>NodeCrypto</source>
+        <target state="new">NodeCrypto</target>
+        <note>Bundle name</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="Packages/Sources/ConnectWalletFeature/Resources/en.lproj/Localizable.strings" source-language="en" target-language="en" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="15.2" build-num="15C5500c"/>
+    </header>
+    <body>
+      <trans-unit id="By connecting your wallet, you agree to our" xml:space="preserve">
+        <source>By connecting your wallet, you agree to our</source>
+        <target>By connecting your wallet, you agree to our</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Choose your wallet" xml:space="preserve">
+        <source>Choose your wallet</source>
+        <target>Choose your wallet</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Coinbase" xml:space="preserve">
+        <source>Coinbase</source>
+        <target>Coinbase</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Connect Wallet" xml:space="preserve">
+        <source>Connect Wallet</source>
+        <target>Connect Wallet</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Metamasak" xml:space="preserve">
+        <source>Metamasak</source>
+        <target>Metamasak</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Privacy and Policy" xml:space="preserve">
+        <source>Privacy and Policy</source>
+        <target>Privacy and Policy</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Rainbow" xml:space="preserve">
+        <source>Rainbow</source>
+        <target>Rainbow</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Terms of Service" xml:space="preserve">
+        <source>Terms of Service</source>
+        <target>Terms of Service</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="and our" xml:space="preserve">
+        <source>and our</source>
+        <target>and our</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="Packages/Sources/OnboardingFeature/Resources/en.lproj/Localizable.strings" source-language="en" target-language="en" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="15.2" build-num="15C5500c"/>
+    </header>
+    <body>
+      <trans-unit id="A new NFT experience" xml:space="preserve">
+        <source>A new NFT experience</source>
+        <target>A new NFT experience</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Enjoy trading and collecting NFTs with minimal fees and maximum value." xml:space="preserve">
+        <source>Enjoy trading and collecting NFTs with minimal fees and maximum value.</source>
+        <target>Enjoy trading and collecting NFTs with minimal fees and maximum value.</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Explore and trade in a diverse world of digital art and collectibles." xml:space="preserve">
+        <source>Explore and trade in a diverse world of digital art and collectibles.</source>
+        <target>Explore and trade in a diverse world of digital art and collectibles.</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Get started now" xml:space="preserve">
+        <source>Get started now</source>
+        <target>Get started now</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Get success in the crypto art" xml:space="preserve">
+        <source>Get success in the crypto art</source>
+        <target>Get success in the crypto art</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Immerse yourself in a cutting-edge platform for NFT discovery and acquisition." xml:space="preserve">
+        <source>Immerse yourself in a cutting-edge platform for NFT discovery and acquisition.</source>
+        <target>Immerse yourself in a cutting-edge platform for NFT discovery and acquisition.</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Lowest fees in the market" xml:space="preserve">
+        <source>Lowest fees in the market</source>
+        <target>Lowest fees in the market</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Skip" xml:space="preserve">
+        <source>Skip</source>
+        <target>Skip</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="The new NFT marketplace" xml:space="preserve">
+        <source>The new NFT marketplace</source>
+        <target>The new NFT marketplace</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Unlock your potential in a booming market of crypto-based artistry." xml:space="preserve">
+        <source>Unlock your potential in a booming market of crypto-based artistry.</source>
+        <target>Unlock your potential in a booming market of crypto-based artistry.</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

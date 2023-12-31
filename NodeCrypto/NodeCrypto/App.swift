@@ -15,6 +15,7 @@ final class AppDelegate: NSObject {
         initialState: .init(),
         reducer: {
             AppViewReducer()
+                .dependency(\.analyticsClient, AnalyticsClient.consoleLogger)
                 ._printChanges()
         }
     )
