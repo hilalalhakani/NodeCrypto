@@ -31,4 +31,4 @@ jobs:
           gem install fastlane
           fastlane env
     - name: Build and test with Fastlane
-      run: fastlane run_tests
+      run: fastlane run_appTests
