@@ -20,6 +20,7 @@ platform :ios do
   lane :run_appTests do
     packages_path = "#{File.expand_path("..", Dir.pwd)}/packages_cache"
     scan(
+      buildForTesting: true,
       scheme: "CI", 
       device: "iPhone SE (3rd generation) (17.0)",
       cloned_source_packages_path: packages_path,
