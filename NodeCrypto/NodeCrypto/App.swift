@@ -10,6 +10,7 @@ import NodeCryptoCore
 import OnboardingFeature
 import SwiftUI
 
+//package_caches is added to gitignore, maybe it's incorrect
 final class AppDelegate: NSObject {
     let store = Store(
         initialState: .init(),
