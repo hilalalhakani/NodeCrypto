@@ -17,7 +17,7 @@ struct LabelsView: View {
     var result = AttributedString(
       String(localized: "By connecting your wallet, you agree to our", bundle: .module))
     result.font = Font(FontName.poppinsRegular, size: 12)
-      result.foregroundColor =   Color.neutral4  
+    result.foregroundColor =   Color.neutral4
     return result
   }
 

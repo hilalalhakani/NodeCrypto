@@ -18,7 +18,7 @@ public struct ConnectingWalletView: View {
         self.selectedWallet = selectedWallet
         self.cancelPressed = cancelPressed
     }
-    
+
     public var body: some View {
         ZStack {
             Image(.connectWalletBackground)
@@ -33,7 +33,6 @@ public struct ConnectingWalletView: View {
                     .frame(width: 80, height: 80)
 
                 HStack(spacing: 8) {
-                
                     ProgressView()
                         .tint(colorScheme == .light ? Color.neutral2 : Color.neutral8)
 
@@ -44,9 +43,11 @@ public struct ConnectingWalletView: View {
             }
         }
         .toolbar {
+            #if os(iOS)
             ToolbarItem(placement: .navigationBarLeading) {
                 CancelButton(action: cancelPressed)
             }
+            #endif
         }
     }
 }
