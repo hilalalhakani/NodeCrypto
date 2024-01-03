@@ -20,14 +20,11 @@ ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "180"
 platform :ios do
   desc "Running tests"
   lane :run_appTests do
-    packages_path = "#{File.expand_path("..", Dir.pwd)}/packages_cache"
     scan(
       build_for_testing: true,
       scheme: "CI", 
       device: "iPhone SE (3rd generation) (17.0)",
-      cloned_source_packages_path: packages_path,
       disable_package_automatic_updates: true,
-      skip_package_dependencies_resolution: ENV["HAS_PACKAGES_CACHE_HIT"]
       )
   end
 end

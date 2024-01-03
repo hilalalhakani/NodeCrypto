@@ -19,7 +19,6 @@ let package = Package(
         .singleTargetLibrary("NodeCryptoCore"),
     ],
     dependencies: [
-        .package(url: "https://github.com/krzysztofzablocki/Inject.git", exact: "1.2.3"),
         .package(url: "https://github.com/realm/SwiftLint", from: "0.54.0"),
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture", branch: "observation-beta"),
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.1.2"),
@@ -89,9 +88,7 @@ let package = Package(
         ),
         .target(
             name: "SharedViews",
-            dependencies: [
-                .product(name: "Inject", package: "Inject"),
-            ]
+            dependencies: []
         ),
         .target(
             name: "SharedModels",
