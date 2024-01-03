@@ -21,6 +21,7 @@ platform :ios do
 
   desc "Running tests"
   lane :run_appTests do
+    sh("defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES")
     scan(
       project: "NodeCrypto/NodeCrypto.xcodeproj",
       scheme: "CI", 
