@@ -23,7 +23,7 @@ final class AppFeatureTests: XCTestCase {
 
   func test_rootView_userExistsSetsHomeAsRoot() async {
 
-    let store = TestStore(initialState: AppViewReducer.State()) {
+      _ = TestStore(initialState: AppViewReducer.State()) {
       AppViewReducer()
     } withDependencies: {
       $0.keychainManager.get = { @Sendable _ in try! JSONEncoder().encode(User.mock1) }
