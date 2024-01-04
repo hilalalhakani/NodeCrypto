@@ -33,19 +33,19 @@ public struct ListView: View {
             VStack(spacing: 8) {
               ListLabel(
                 title: "Rainbow",
-                icon: .rainbow,
+                walletType: .rainbow,
                 didSelectButton: didSelectButton(.rainbow)
               )
 
               ListLabel(
                 title: "Coinbase",
-                icon: .coinbase,
+                walletType: .coinbase,
                 didSelectButton: didSelectButton(.coinbase)
               )
 
               ListLabel(
                 title: "Metamasak",
-                icon: .metamask,
+                walletType: .metamask,
                 didSelectButton: didSelectButton(.metamask)
               )
 

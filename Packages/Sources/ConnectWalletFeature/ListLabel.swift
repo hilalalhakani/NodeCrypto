@@ -12,15 +12,16 @@ import StyleGuide
 struct ListLabel: View {
 
   let title: LocalizedStringKey
-  let icon: ImageResource
+  let walletType: WalletType
   let didSelectButton: () -> Void
     @Environment(\.colorScheme) var  colorScheme
   init(
-    title: LocalizedStringKey, icon: ImageResource,
+    title: LocalizedStringKey,
+    walletType: WalletType,
     didSelectButton: @autoclosure @escaping () -> Void
   ) {
     self.title = title
-    self.icon = icon
+    self.walletType = walletType
     self.didSelectButton = didSelectButton
   }
 
@@ -36,7 +37,7 @@ struct ListLabel: View {
                 .font(Font(FontName.poppinsBold, size: 18))
                 .foregroundStyle(colorScheme == .light ? Color.neutral2 : Color.neutral8)
             },
-            icon: { Image(icon) }
+            icon: { Image(walletType.rawValue, bundle: .module) }
           )
           Spacer()
           Image(systemName: "chevron.right")
