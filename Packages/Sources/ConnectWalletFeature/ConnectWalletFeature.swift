@@ -6,18 +6,16 @@ import SwiftUI
 public struct ConnectWalletReducer {
   public init() {}
 
-  @ObservableState
   public struct State: Equatable {
     public var showPopup = false
-    public var navigateToConnectingWallet = false
     public var selectedWallet: WalletType? = .none
-    public init() {
-
-    }
+    @BindingState public var navigateToConnectingWallet = false
+    public init() {}
   }
 
   @CasePathable
-  public enum Action {
+  public enum Action: BindableAction {
+    case binding(BindingAction<State>)
     case onButtonSelect(WalletType)
     case popUpModifier(Bool)
     case cancelButtonPressed
@@ -27,6 +25,8 @@ public struct ConnectWalletReducer {
   }
 
   public var body: some ReducerOf<Self> {
+
+    BindingReducer()
 
     AnalyticsReducer { _, action in
       switch action {
@@ -61,8 +61,18 @@ public struct ConnectWalletReducer {
   }
 }
 
+extension BindingViewStore<ConnectWalletReducer.State> {
+  var view: ConnectWalletView.ViewState {
+      ConnectWalletView.ViewState(
+        navigateToConnectingWallet: self.$navigateToConnectingWallet,
+        showPopup: self.showPopup,
+        selectedWallet: self.selectedWallet
+    )
+  }
+}
+
 public struct ConnectWalletView: View {
-  @Bindable var store: StoreOf<ConnectWalletReducer>
+  var store: StoreOf<ConnectWalletReducer>
 
   @Environment(\.colorScheme) var colorScheme
 
@@ -70,47 +80,57 @@ public struct ConnectWalletView: View {
     self.store = store
   }
 
-  public var body: some View {
-    ZStack {
-
-      BackgroundLinearGradient()
-
-      VStack(alignment: .center) {
-
-        Image(.background)
-          .resizable()
-          .scaledToFit()
-
-        Text("Connect Wallet", bundle: .module)
-          .multilineTextAlignment(.center)
-          .font(Font(FontName.poppinsBold, size: 24))
-          .foregroundStyle(colorScheme == .light ? Color.neutral2 : Color.neutral8)
-
-        Spacer()
-
-        ListView(didSelectButton: { store.send(.onButtonSelect($0), animation: .easeIn) })
-          .frame(height: 350)
-          .padding(.horizontal, 20)
-
-      }
-      .frame(maxWidth: .infinity, alignment: .center)
-      .padding(.vertical)
+    struct ViewState: Equatable {
+        @BindingViewState var navigateToConnectingWallet: Bool
+        var showPopup: Bool
+        var selectedWallet: WalletType?
     }
-    .popup(
-      isPresented: store.showPopup,
-      confirmAction: {
-        store.send(.openButtonPressed, animation: .easeIn)
-      },
-      cancelAction: {
-        store.send(.cancelButtonPressed, animation: .easeIn)
-      }
-    )
-    .navigationDestination(isPresented: $store.navigateToConnectingWallet.sending(\.navigation)) {
-      if let wallet = store.selectedWallet {
-        ConnectingWalletView(selectedWallet: wallet) {
-          store.send(.popConnectingWalletView)
+
+  public var body: some View {
+
+      WithViewStore(store, observe: \.view) { viewStore in
+
+      ZStack {
+
+        BackgroundLinearGradient()
+
+        VStack(alignment: .center) {
+
+          Image(.background)
+            .resizable()
+            .scaledToFit()
+
+          Text("Connect Wallet", bundle: .module)
+            .multilineTextAlignment(.center)
+            .font(Font(FontName.poppinsBold, size: 24))
+            .foregroundStyle(colorScheme == .light ? Color.neutral2 : Color.neutral8)
+
+          Spacer()
+
+          ListView(didSelectButton: { store.send(.onButtonSelect($0), animation: .easeIn) })
+            .frame(height: 350)
+            .padding(.horizontal, 20)
+
         }
-        .navigationBarBackButtonHidden(true)
+        .frame(maxWidth: .infinity, alignment: .center)
+        .padding(.vertical)
+      }
+      .popup(
+        isPresented: viewStore.showPopup,
+        confirmAction: {
+          store.send(.openButtonPressed, animation: .easeIn)
+        },
+        cancelAction: {
+          store.send(.cancelButtonPressed, animation: .easeIn)
+        }
+      )
+      .navigationDestination(isPresented: viewStore.$navigateToConnectingWallet) {
+          if let wallet = viewStore.selectedWallet {
+              ConnectingWalletView(selectedWallet: wallet) {
+                  store.send(.popConnectingWalletView)
+              }
+              .navigationBarBackButtonHidden(true)
+          }
       }
     }
   }

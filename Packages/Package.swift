@@ -7,7 +7,7 @@ let package = Package(
     name: "Main",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v17), .macOS(.v14),
+        .iOS(.v16), .macOS(.v11),
     ],
     products: [
         .singleTargetLibrary("AppFeature"),
@@ -20,12 +20,13 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/realm/SwiftLint", from: "0.54.0"),
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", branch: "observation-beta"),
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", branch: "main"),
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.1.2"),
         .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.15.1"),
         .package(url: "https://github.com/tgrapperon/swift-dependencies-additions", from: "1.0.1"),
         .package(url: "https://github.com/pointfreeco/swift-tagged", from: "0.10.0"),
         .package(url: "https://github.com/oliverfoggin/swift-composable-analytics", from: "1.1.0"),
+        .package(url: "https://github.com/pointfreeco/swiftui-navigation", branch: "main")
     ],
     targets: [
         .target(
@@ -102,6 +103,7 @@ let package = Package(
             name: "NodeCryptoCore",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                .product(name: "SwiftUINavigation", package: "swiftui-navigation"),
                 .product(name: "Dependencies", package: "swift-dependencies"),
                 .product(name: "DependenciesMacros", package: "swift-dependencies"),
                 .product(name: "DependenciesAdditions", package: "swift-dependencies-additions"),
