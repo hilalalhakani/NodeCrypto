@@ -14,30 +14,59 @@ public struct ConnectWalletReducer {
   }
 
   @CasePathable
-  public enum Action: BindableAction {
+  public enum Action: TCAFeatureAction {
+    case view(ViewAction)
+    case `internal`(InternalAction)
+    case delegate(DelegateAction)
+
+    init(action: ConnectWalletView.ViewAction) {
+      switch action {
+      case .binding(let action):
+        self = .internal(.binding(action))
+      }
+    }
+  }
+
+  @CasePathable
+  public enum InternalAction: BindableAction {
     case binding(BindingAction<State>)
+  }
+
+  @CasePathable
+  public enum DelegateAction {}
+
+  @CasePathable
+  public enum ViewAction {
     case onButtonSelect(WalletType)
-    case popUpModifier(Bool)
     case cancelButtonPressed
     case openButtonPressed
     case popConnectingWalletView
-    case navigation(Bool)
   }
 
   public var body: some ReducerOf<Self> {
 
-    BindingReducer()
+    BindingReducer(action: \.internal)
 
-    AnalyticsReducer { _, action in
+    AnalyticsReducer { state, action in
+
       switch action {
-      case .onButtonSelect(let wallet):
-        return .event(name: "walletSelected", properties: ["wallet": wallet.rawValue])
+
+      case .view(let viewAction):
+        switch viewAction {
+
+        case .onButtonSelect(let wallet):
+          return .event(name: "walletSelected", properties: ["wallet": wallet.rawValue])
+
+        default:
+          return .none
+        }
+
       default:
         return .none
       }
     }
 
-    Reduce { state, action in
+    NestedAction(\.view) { state, action in
       switch action {
       case .onButtonSelect(let wallet):
         state.selectedWallet = wallet
@@ -53,20 +82,17 @@ public struct ConnectWalletReducer {
       case .popConnectingWalletView:
         state.navigateToConnectingWallet = false
         return .none
-      default:
-        return .none
       }
     }
-
   }
 }
 
 extension BindingViewStore<ConnectWalletReducer.State> {
   var view: ConnectWalletView.ViewState {
-      ConnectWalletView.ViewState(
-        navigateToConnectingWallet: self.$navigateToConnectingWallet,
-        showPopup: self.showPopup,
-        selectedWallet: self.selectedWallet
+    ConnectWalletView.ViewState(
+      navigateToConnectingWallet: self.$navigateToConnectingWallet,
+      showPopup: self.showPopup,
+      selectedWallet: self.selectedWallet
     )
   }
 }
@@ -80,15 +106,19 @@ public struct ConnectWalletView: View {
     self.store = store
   }
 
-    struct ViewState: Equatable {
-        @BindingViewState var navigateToConnectingWallet: Bool
-        var showPopup: Bool
-        var selectedWallet: WalletType?
-    }
+  struct ViewState: Equatable {
+    @BindingViewState var navigateToConnectingWallet: Bool
+    var showPopup: Bool
+    var selectedWallet: WalletType?
+  }
+
+  enum ViewAction: Equatable, BindableAction {
+    case binding(BindingAction<ConnectWalletReducer.State>)
+  }
 
   public var body: some View {
 
-      WithViewStore(store, observe: \.view) { viewStore in
+    WithViewStore(store, observe: \.view, send: ConnectWalletReducer.Action.init) { viewStore in
 
       ZStack {
 
@@ -107,7 +137,7 @@ public struct ConnectWalletView: View {
 
           Spacer()
 
-          ListView(didSelectButton: { store.send(.onButtonSelect($0), animation: .easeIn) })
+          ListView(didSelectButton: { store.send(.view(.onButtonSelect($0)), animation: .easeIn) })
             .frame(height: 350)
             .padding(.horizontal, 20)
 
@@ -118,19 +148,19 @@ public struct ConnectWalletView: View {
       .popup(
         isPresented: viewStore.showPopup,
         confirmAction: {
-          store.send(.openButtonPressed, animation: .easeIn)
+          store.send(.view(.openButtonPressed), animation: .easeIn)
         },
         cancelAction: {
-          store.send(.cancelButtonPressed, animation: .easeIn)
+          store.send(.view(.cancelButtonPressed), animation: .easeIn)
         }
       )
       .navigationDestination(isPresented: viewStore.$navigateToConnectingWallet) {
-          if let wallet = viewStore.selectedWallet {
-              ConnectingWalletView(selectedWallet: wallet) {
-                  store.send(.popConnectingWalletView)
-              }
-              .navigationBarBackButtonHidden(true)
+        if let wallet = viewStore.selectedWallet {
+          ConnectingWalletView(selectedWallet: wallet) {
+            store.send(.view(.popConnectingWalletView))
           }
+          .navigationBarBackButtonHidden(true)
+        }
       }
     }
   }

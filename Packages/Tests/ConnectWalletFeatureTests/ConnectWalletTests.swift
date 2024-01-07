@@ -13,7 +13,7 @@ final class ConnectWalletTests: XCTestCase {
         )
 
         let walletType: WalletType = .coinbase
-        await store.send(.onButtonSelect(walletType)) {
+        await store.send(.view(.onButtonSelect(walletType))) {
             $0.selectedWallet = .coinbase
             $0.showPopup = true
         }
@@ -26,12 +26,12 @@ final class ConnectWalletTests: XCTestCase {
         )
 
         let walletType: WalletType = .coinbase
-        await store.send(.onButtonSelect(walletType)) {
+        await store.send(.view(.onButtonSelect(walletType))) {
             $0.selectedWallet = .coinbase
             $0.showPopup = true
         }
         
-        await store.send(.cancelButtonPressed) {
+        await store.send(.view(.cancelButtonPressed)) {
             $0.showPopup = false
         }
     }
@@ -42,7 +42,7 @@ final class ConnectWalletTests: XCTestCase {
             reducer: { ConnectWalletReducer() }
         )
 
-        await store.send(.openButtonPressed) {
+        await store.send(.view(.openButtonPressed)) {
             $0.showPopup = false
             $0.navigateToConnectingWallet = true
         }
@@ -55,12 +55,12 @@ final class ConnectWalletTests: XCTestCase {
             reducer: { ConnectWalletReducer() }
         )
 
-        await store.send(.openButtonPressed) {
+        await store.send(.view(.openButtonPressed)) {
             $0.showPopup = false
             $0.navigateToConnectingWallet = true
         }
 
-        await  store.send(.popConnectingWalletView) {
+        await  store.send(.view(.popConnectingWalletView)) {
             $0.navigateToConnectingWallet = false
         }
     }
