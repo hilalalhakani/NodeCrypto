@@ -54,6 +54,7 @@ final class ConnectWalletTests: XCTestCase {
             initialState: ConnectWalletReducer.State(),
             reducer: { ConnectWalletReducer() }
         )
+        
 
         await store.send(.view(.openButtonPressed)) {
             $0.showPopup = false
