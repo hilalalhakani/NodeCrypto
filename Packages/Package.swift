@@ -7,7 +7,7 @@ let package = Package(
     name: "Main",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v16), .macOS(.v11),
+        .iOS(.v16), .macOS(.v13),
     ],
     products: [
         .singleTargetLibrary("AppFeature"),
@@ -69,7 +69,6 @@ let package = Package(
         .testTarget(
             name: "OnboardingFeatureTests",
             dependencies: [
-                .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
                 "OnboardingFeature",
             ]
         ),
@@ -82,7 +81,6 @@ let package = Package(
         .testTarget(
             name: "ConnectWalletFeatureTests",
             dependencies: [
-                .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
                 "ConnectWalletFeature",
             ]
         ),
@@ -111,6 +109,15 @@ let package = Package(
                 "TCAHelpers",
                 "SharedModels",
                 .product(name: "ComposableAnalytics", package: "swift-composable-analytics"),
+            ]
+        ),
+        .testTarget(
+            name: "SnapshotsTests",
+            dependencies: [
+                .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
+                "ConnectWalletFeature",
+                "OnboardingFeature",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
         ),
         .target(

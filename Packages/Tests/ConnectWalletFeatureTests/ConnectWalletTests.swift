@@ -1,7 +1,6 @@
 import ComposableArchitecture
 import ConnectWalletFeature
 import Foundation
-import SnapshotTesting
 import XCTest
 
 @MainActor
