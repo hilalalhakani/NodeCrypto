@@ -31,15 +31,19 @@ on:
 #         run: fastlane run_appTests
 
 jobs:
-  build:
-    runs-on: macos-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Cache packages
-        uses: actions/cache@v3
-        id: packages-cache
-        with:
+  mac:
+     name: macOS
+     runs-on: macOS-13
+     steps:
+       - uses: actions/checkout@v3
+       # - name: Setup tmate session
+       #   uses: mxschmitt/action-tmate@v2
+       - name: Select Xcode 15.0.1
+         run: sudo xcode-select -s /Applications/Xcode_15.0.1.app
+       - name: Cache packages
+         uses: actions/cache@v3
+         id: packages-cache
+         with:
           path: |
             packages_cache/artifacts
             packages_cache/checkouts
@@ -47,7 +51,7 @@ jobs:
           key: ${{ runner.os }}-packages-${{ hashFiles('**/Package.resolved') }}
           restore-keys: |
             ${{ runner.os }}-packages-
-      - name: Build
-        run: fastlane run_appTests
-        env:
+       - name: Build
+         run: fastlane run_appTests
+         env:
           HAS_PACKAGES_CACHE_HIT: ${{ steps.packages-cache.outputs.cache-hit == 'true' }}
