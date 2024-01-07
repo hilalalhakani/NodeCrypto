@@ -1,0 +1,86 @@
+458931f9ae29f7000ce59b07e23485574d80cc03	not-for-merge	branch 'core-data-safety' of https://github.com/tgrapperon/swift-dependencies-additions
+8ea69032722abe12c64f9198ebd5df59737cc235	not-for-merge	branch 'debug-dependency' of https://github.com/tgrapperon/swift-dependencies-additions
+7bd25945c75dc09648190b74c8e1d6d946f3f5bb	not-for-merge	branch 'delegates' of https://github.com/tgrapperon/swift-dependencies-additions
+3abb73aa232dd21e472d8e65b07dc1e7b1545e48	not-for-merge	branch 'ephemeral-initial-values' of https://github.com/tgrapperon/swift-dependencies-additions
+eaa5773401ca5046c9376cf0e60691f58a2153d8	not-for-merge	branch 'fix-example' of https://github.com/tgrapperon/swift-dependencies-additions
+48f0047e0b935542233cc0961115e396deeacb5a	not-for-merge	branch 'fix-userdefaults-2' of https://github.com/tgrapperon/swift-dependencies-additions
+125a2cccd860de4a2caa699a3867ff78db661b29	not-for-merge	branch 'gh-pages' of https://github.com/tgrapperon/swift-dependencies-additions
+76766bd66277cbe4539b1717d7b1d4ffa2510a05	not-for-merge	branch 'mail-compose' of https://github.com/tgrapperon/swift-dependencies-additions
+e8a7c46b5325f1d13cac424047dec16f82bbb943	not-for-merge	branch 'main' of https://github.com/tgrapperon/swift-dependencies-additions
+d1f583e7e1fb6807a20d96ca9c83bfd63aab7639	not-for-merge	branch 'main-actor-isolated' of https://github.com/tgrapperon/swift-dependencies-additions
+5028df3908263d58afa90ae03cd15e55a045fb20	not-for-merge	branch 'release/1.0' of https://github.com/tgrapperon/swift-dependencies-additions
+bfe05e7da5ec7392df6880359b50a60b43356daf	not-for-merge	'refs/pull/1/head' of https://github.com/tgrapperon/swift-dependencies-additions
+3d254484d3cb7b4e40cc6d5158e16acd4d32664d	not-for-merge	'refs/pull/10/head' of https://github.com/tgrapperon/swift-dependencies-additions
+badf0b1c82e208b5ef75716f65eee4fff8b01b24	not-for-merge	'refs/pull/11/head' of https://github.com/tgrapperon/swift-dependencies-additions
+d173b95a685082dd9d06941dd879657f3bb71b44	not-for-merge	'refs/pull/12/head' of https://github.com/tgrapperon/swift-dependencies-additions
+c3ba5e332efb5032a5445fbe8bff6b3c7c746e9d	not-for-merge	'refs/pull/13/head' of https://github.com/tgrapperon/swift-dependencies-additions
+eee11cfff00292366faed640acb83b86ad356c02	not-for-merge	'refs/pull/14/head' of https://github.com/tgrapperon/swift-dependencies-additions
+361a55cc9a9c65cb2a99866e2e031d88135e40ce	not-for-merge	'refs/pull/15/head' of https://github.com/tgrapperon/swift-dependencies-additions
+22b5444dfc65f35aa351f79132ee45a1449b7db3	not-for-merge	'refs/pull/2/head' of https://github.com/tgrapperon/swift-dependencies-additions
+537d7335bef79c30757de1bc1a7e4f3ad9156206	not-for-merge	'refs/pull/20/head' of https://github.com/tgrapperon/swift-dependencies-additions
+fd4b685655b019f80536210f7bea98a1928b4af1	not-for-merge	'refs/pull/22/head' of https://github.com/tgrapperon/swift-dependencies-additions
+e6c6d37bd1ac3c2b59db13b5daf180f0e646a57c	not-for-merge	'refs/pull/23/head' of https://github.com/tgrapperon/swift-dependencies-additions
+25a7bf2f7c31a31793682c1c7a0a498bf6c27e22	not-for-merge	'refs/pull/24/head' of https://github.com/tgrapperon/swift-dependencies-additions
+85e8c234f809fad5d6d53b1cfba6a5142581d5ae	not-for-merge	'refs/pull/25/head' of https://github.com/tgrapperon/swift-dependencies-additions
+beb4b843cef9e922fbaeff41592a08e3326373ce	not-for-merge	'refs/pull/26/head' of https://github.com/tgrapperon/swift-dependencies-additions
+50f0d6b2bbc73cf59e386b9f21f4d9cb09c7f689	not-for-merge	'refs/pull/28/head' of https://github.com/tgrapperon/swift-dependencies-additions
+fa991595141c19f08f4ec4801d7549ff0e5a6d88	not-for-merge	'refs/pull/29/head' of https://github.com/tgrapperon/swift-dependencies-additions
+79eec6cc6518d14483869124ebdaaf1554303388	not-for-merge	'refs/pull/3/head' of https://github.com/tgrapperon/swift-dependencies-additions
+db4689145da155e3c8904e5592b5c68c94655de7	not-for-merge	'refs/pull/31/head' of https://github.com/tgrapperon/swift-dependencies-additions
+9ee3430e307b2b5e7ba8e2c78243872c5089267c	not-for-merge	'refs/pull/35/head' of https://github.com/tgrapperon/swift-dependencies-additions
+6e28f5d7e4f1f52d0a80a65f4fd41e0578b4d02e	not-for-merge	'refs/pull/39/head' of https://github.com/tgrapperon/swift-dependencies-additions
+d021174d2f9e79cd9272d3a6652c1a6210811ba4	not-for-merge	'refs/pull/4/head' of https://github.com/tgrapperon/swift-dependencies-additions
+e9e4ef87295c5dddf60d9334b1232d1b3ffe659f	not-for-merge	'refs/pull/40/head' of https://github.com/tgrapperon/swift-dependencies-additions
+1d09b08fee32486b0a85b0d5e9cfe774bc743125	not-for-merge	'refs/pull/41/head' of https://github.com/tgrapperon/swift-dependencies-additions
+401174e13971ff975f642c8ddd9061881fe9d995	not-for-merge	'refs/pull/45/head' of https://github.com/tgrapperon/swift-dependencies-additions
+8a888c1ffa1247a57a1212732a430c0853c780c8	not-for-merge	'refs/pull/46/head' of https://github.com/tgrapperon/swift-dependencies-additions
+f640cea9f82160a7b835f5af61d09552d687762d	not-for-merge	'refs/pull/47/head' of https://github.com/tgrapperon/swift-dependencies-additions
+1fb2bded00a2889880f2f357dfedf543551d180a	not-for-merge	'refs/pull/48/head' of https://github.com/tgrapperon/swift-dependencies-additions
+5952352bb37853a9720fdfd238b88613a76f098d	not-for-merge	'refs/pull/5/head' of https://github.com/tgrapperon/swift-dependencies-additions
+09b8ec1be56231090299edd105e0761e1ce4ddf8	not-for-merge	'refs/pull/51/head' of https://github.com/tgrapperon/swift-dependencies-additions
+b0e71ed61a532af11f5a3c25bc39ed2967d12acb	not-for-merge	'refs/pull/53/head' of https://github.com/tgrapperon/swift-dependencies-additions
+99b8952b3b208f5b3c690dcc6dc1ebdf52e163b8	not-for-merge	'refs/pull/54/head' of https://github.com/tgrapperon/swift-dependencies-additions
+c19ca139ee7a476f0ec2f729e512747367da9941	not-for-merge	'refs/pull/55/head' of https://github.com/tgrapperon/swift-dependencies-additions
+359f9b23c3186d0940a60bd25b3f064337e24ff2	not-for-merge	'refs/pull/56/head' of https://github.com/tgrapperon/swift-dependencies-additions
+60d1839b2e3e7153e4b4d89dfafca6443e33e10c	not-for-merge	'refs/pull/57/head' of https://github.com/tgrapperon/swift-dependencies-additions
+9fa8eb80aa15fbd52e475d9bb58553302f3ee5ca	not-for-merge	'refs/pull/58/head' of https://github.com/tgrapperon/swift-dependencies-additions
+5228614f03201ee240fa07812d333499ca2382de	not-for-merge	'refs/pull/59/head' of https://github.com/tgrapperon/swift-dependencies-additions
+aa0b89553939d89aad9736def5b7adeea027d273	not-for-merge	'refs/pull/6/head' of https://github.com/tgrapperon/swift-dependencies-additions
+3883bc032ddd2abed71868fc9e45d1e18090ccec	not-for-merge	'refs/pull/60/head' of https://github.com/tgrapperon/swift-dependencies-additions
+6259ba74174e3b38d0b7879113e75b7fffc4578e	not-for-merge	'refs/pull/61/head' of https://github.com/tgrapperon/swift-dependencies-additions
+f9a09b5d3cfd0606cc4c6fed974fc2c7b839abac	not-for-merge	'refs/pull/62/head' of https://github.com/tgrapperon/swift-dependencies-additions
+1eaf65d71f39226b21d87abb582db27256aeef2b	not-for-merge	'refs/pull/63/head' of https://github.com/tgrapperon/swift-dependencies-additions
+47d4a5dde19fb56f68ad6f260efb15b6c3900ddd	not-for-merge	'refs/pull/65/head' of https://github.com/tgrapperon/swift-dependencies-additions
+1941bdc6e9914703653ae15d83a989378af6cd8b	not-for-merge	'refs/pull/66/head' of https://github.com/tgrapperon/swift-dependencies-additions
+15aed13fcc5294330482e5125abaa109ab1dfa24	not-for-merge	'refs/pull/7/head' of https://github.com/tgrapperon/swift-dependencies-additions
+dcf15724e608126dbf4b8e61d8747b0b4f3cc5d1	not-for-merge	'refs/pull/70/head' of https://github.com/tgrapperon/swift-dependencies-additions
+3493bcb952093a3f1ae4c2269758ae3900aeda16	not-for-merge	'refs/pull/70/merge' of https://github.com/tgrapperon/swift-dependencies-additions
+d0179b42e3d41c8989f60ab3490cc272afe9ea47	not-for-merge	'refs/pull/73/head' of https://github.com/tgrapperon/swift-dependencies-additions
+e5b83ae98e4747b1a64432841bb201231da8efde	not-for-merge	'refs/pull/74/head' of https://github.com/tgrapperon/swift-dependencies-additions
+c7393e50f18c43a5cdf64791d3ab443a944232d8	not-for-merge	'refs/pull/75/head' of https://github.com/tgrapperon/swift-dependencies-additions
+c32fde8916fc48d0cd9edf111b915f5de105b624	not-for-merge	'refs/pull/76/head' of https://github.com/tgrapperon/swift-dependencies-additions
+5028df3908263d58afa90ae03cd15e55a045fb20	not-for-merge	'refs/pull/78/head' of https://github.com/tgrapperon/swift-dependencies-additions
+eaa5773401ca5046c9376cf0e60691f58a2153d8	not-for-merge	'refs/pull/79/head' of https://github.com/tgrapperon/swift-dependencies-additions
+a877930a4fde1123ef6afac933ae23324fc432ed	not-for-merge	'refs/pull/80/head' of https://github.com/tgrapperon/swift-dependencies-additions
+5d72a24611b2019f9946e0d2e2c68cbefdaa4277	not-for-merge	'refs/pull/80/merge' of https://github.com/tgrapperon/swift-dependencies-additions
+773f29b8fec9d82d8a80ea261639924884e7a714	not-for-merge	'refs/pull/81/head' of https://github.com/tgrapperon/swift-dependencies-additions
+a1d667d3cd3d8adfe5d979e87de651a1c620126e	not-for-merge	'refs/pull/81/merge' of https://github.com/tgrapperon/swift-dependencies-additions
+48f0047e0b935542233cc0961115e396deeacb5a	not-for-merge	'refs/pull/87/head' of https://github.com/tgrapperon/swift-dependencies-additions
+9cfcafe0638ef3d5833268754e2315321ef69837	not-for-merge	'refs/pull/88/head' of https://github.com/tgrapperon/swift-dependencies-additions
+9d53f8b1c0ed3c1d0f991eff2135895157defbca	not-for-merge	'refs/pull/88/merge' of https://github.com/tgrapperon/swift-dependencies-additions
+d8d9a2d26b5d2aec53a1805ea2a60e78340a3015	not-for-merge	'refs/pull/90/head' of https://github.com/tgrapperon/swift-dependencies-additions
+a8819186f74ce7d7fae68887fd86ecc1fbcb6edd	not-for-merge	'refs/pull/90/merge' of https://github.com/tgrapperon/swift-dependencies-additions
+c8198e186d4c2ccfdf3bd63df0a208d348ef6b20	not-for-merge	tag '0.1.0' of https://github.com/tgrapperon/swift-dependencies-additions
+1b86c81fab6f8fde5016853257bdc5533e5c2886	not-for-merge	tag '0.1.1' of https://github.com/tgrapperon/swift-dependencies-additions
+c75118fede025ba9ed57d515f77d2346224d7630	not-for-merge	tag '0.1.2' of https://github.com/tgrapperon/swift-dependencies-additions
+02dacbe25ac67badd6a16bc1293ddbf8cf36bdaa	not-for-merge	tag '0.1.3' of https://github.com/tgrapperon/swift-dependencies-additions
+2e5d138090b643fa8ed398a94d0e1a3fb00375b1	not-for-merge	tag '0.2.0' of https://github.com/tgrapperon/swift-dependencies-additions
+842f6f2f03c591275a40550839bfa20b05e85072	not-for-merge	tag '0.3.0' of https://github.com/tgrapperon/swift-dependencies-additions
+a963ee1d98f8c8bb3fd98675aabd91fb87ea1eda	not-for-merge	tag '0.3.1' of https://github.com/tgrapperon/swift-dependencies-additions
+94765bcf32730ae31aa3b57e5824b4593180a02d	not-for-merge	tag '0.3.2' of https://github.com/tgrapperon/swift-dependencies-additions
+aa4b15770beecc66a6354d0d7255907b2e3b016e	not-for-merge	tag '0.4.0' of https://github.com/tgrapperon/swift-dependencies-additions
+4dba5a5935cbd88f2ca085097a75da2079da8a87	not-for-merge	tag '0.5.0' of https://github.com/tgrapperon/swift-dependencies-additions
+9b483d46caa12ff425521cddf3a988d0c5515927	not-for-merge	tag '0.5.1' of https://github.com/tgrapperon/swift-dependencies-additions
+9fa2e7eeaa9b3de663ad68acffdfbed3c598408a	not-for-merge	tag '0.5.2' of https://github.com/tgrapperon/swift-dependencies-additions
+3223855b5ad1e049bc89330496a09ff7a69c5a48	not-for-merge	tag '1.0.0' of https://github.com/tgrapperon/swift-dependencies-additions
+02e7b1801a96828049fe4d3e8bdc5e608ef5ffbc	not-for-merge	tag '1.0.1' of https://github.com/tgrapperon/swift-dependencies-additions

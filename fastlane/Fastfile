@@ -25,9 +25,11 @@ platform :mac do
     packages_path = "#{File.expand_path("..", Dir.pwd)}/packages_cache"
     scan(
       build_for_testing: true,
+      project: "NodeCrypto/NodeCrypto.xcodeproj",
       scheme: "CI",
       cloned_source_packages_path: packages_path,
       disable_package_automatic_updates: true,
       skip_package_dependencies_resolution: ENV["HAS_PACKAGES_CACHE_HIT"],
     )
+end
 end
