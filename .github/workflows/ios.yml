@@ -32,7 +32,6 @@ on:
 
 jobs:
   mac:
-    steps:
      name: macOS
      runs-on: macOS-13
      steps:
