@@ -19,7 +19,6 @@ let package = Package(
         .singleTargetLibrary("NodeCryptoCore"),
     ],
     dependencies: [
-        .package(url: "https://github.com/realm/SwiftLint", from: "0.54.0"),
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture", branch: "main"),
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.1.2"),
         .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.15.1"),
@@ -136,7 +135,6 @@ let package = Package(
 //// Inject base plugins into each target
 package.targets = package.targets.map { target in
     var plugins = target.plugins ?? []
-   // plugins.append(.plugin(name: "SwiftLintPlugin", package: "SwiftLint"))
     target.plugins = plugins
     return target
 }
