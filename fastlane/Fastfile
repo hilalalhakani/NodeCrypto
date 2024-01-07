@@ -22,10 +22,12 @@ platform :mac do
   desc "Running tests"
   lane :run_appTests do
     sh("defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES")
+    packages_path = "#{File.expand_path("..", Dir.pwd)}/packages_cache"
     scan(
-      project: "NodeCrypto/NodeCrypto.xcodeproj",
-      scheme: "CI", 
-      clean: true
-      )
-  end
+      build_for_testing: true,
+      scheme: "CI",
+      cloned_source_packages_path: packages_path,
+      disable_package_automatic_updates: true,
+      skip_package_dependencies_resolution: ENV["HAS_PACKAGES_CACHE_HIT"],
+    )
 end
