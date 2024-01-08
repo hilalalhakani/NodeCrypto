@@ -67,7 +67,7 @@ fa6aee43483a8b9edf93feaf05808583d8549e04	not-for-merge	branch 'focus-state-trick
 1f010ee9d0879612a685104e0f21decdb32adf05	not-for-merge	branch 'for-tca-nav-eps' of https://github.com/pointfreeco/swift-composable-architecture
 2313f2f295f801909afc727dd1514b26ca6ce8c2	not-for-merge	branch 'form-reducer' of https://github.com/pointfreeco/swift-composable-architecture
 68f3bcfc4bdd95451a5882685ddd36a20625d9b0	not-for-merge	branch 'generic-alerts-dismiss-action' of https://github.com/pointfreeco/swift-composable-architecture
-66ad50fcca709278d9098f9d8a15a76b7b677358	not-for-merge	branch 'gh-pages' of https://github.com/pointfreeco/swift-composable-architecture
+1b58008fb7e0dc7d1fe214c8591590afab739020	not-for-merge	branch 'gh-pages' of https://github.com/pointfreeco/swift-composable-architecture
 12daecf6e48dd11fa5021ae424528fda875d3647	not-for-merge	branch 'handle-invalidation' of https://github.com/pointfreeco/swift-composable-architecture
 245e2f2acbb0ca3944bab0d85ad57ab3bc6f2d05	not-for-merge	branch 'ia' of https://github.com/pointfreeco/swift-composable-architecture
 b461ed45f56711910f579df3ade126d13b97662a	not-for-merge	branch 'identified-array-fixes' of https://github.com/pointfreeco/swift-composable-architecture
@@ -84,7 +84,7 @@ abce88a98e589a3eb4961a278b709e3c7dd6bae8	not-for-merge	branch 'iso-ia' of https:
 9723e8bce66f293ee398c4a08081b1b49fd8ae91	not-for-merge	branch 'iso-scope' of https://github.com/pointfreeco/swift-composable-architecture
 b654a3c3b4c2359e3c0e4614294ea79eab30e1cf	not-for-merge	branch 'iso-store-refactor' of https://github.com/pointfreeco/swift-composable-architecture
 96c17cf092fa06bde9260e2c228d3f6fc34fabfa	not-for-merge	branch 'key-path-debug-printing' of https://github.com/pointfreeco/swift-composable-architecture
-1b1355cf1fccf4f117bd354ca06c7b497233c003	not-for-merge	branch 'main' of https://github.com/pointfreeco/swift-composable-architecture
+40304a1670bf3442df15e52be6f80509e95eaca2	not-for-merge	branch 'main' of https://github.com/pointfreeco/swift-composable-architecture
 7ca20155cd570a1193d7d59b270f70a790dd93c7	not-for-merge	branch 'main-actor-run' of https://github.com/pointfreeco/swift-composable-architecture
 c9c1a9a50040408c436e496bac35007add327186	not-for-merge	branch 'master' of https://github.com/pointfreeco/swift-composable-architecture
 3e9d53593cee921647b8e93d1720b621dc747f71	not-for-merge	branch 'misc-clean-up' of https://github.com/pointfreeco/swift-composable-architecture
@@ -102,12 +102,12 @@ a44ae16eb16cb76abd05aec5ddc818a8def72fff	not-for-merge	branch 'navigation-presen
 7c12f55e633d267de2fd7389d9b691caaac7e017	not-for-merge	branch 'navigation-stack' of https://github.com/pointfreeco/swift-composable-architecture
 513d686bc3f58b8c6ddbc3304ea79811914b86b1	not-for-merge	branch 'observable-pt3-perception' of https://github.com/pointfreeco/swift-composable-architecture
 0b2f24bc64f60e93410d1fb9bae6d84feee0ff9e	not-for-merge	branch 'observation' of https://github.com/pointfreeco/swift-composable-architecture
-39228a6a41764ceffcccdecbe4748a586b06a52e	not-for-merge	branch 'observation-beta' of https://github.com/pointfreeco/swift-composable-architecture
+6bb6ca6757b636aae555902d25efb0fe6a80bede	not-for-merge	branch 'observation-beta' of https://github.com/pointfreeco/swift-composable-architecture
 7d6b11816fd9b9a58230a4d5bfaec40d9dae6e09	not-for-merge	branch 'observation-beta-1.5.6' of https://github.com/pointfreeco/swift-composable-architecture
 969d28a57a8c306f95b3dcfe7dade2b0dbe1eab1	not-for-merge	branch 'observation-beta-core' of https://github.com/pointfreeco/swift-composable-architecture
 06a0845b5fbd6fb063749c14b23fdfa15bf8af09	not-for-merge	branch 'observation-beta-key-path-scopes' of https://github.com/pointfreeco/swift-composable-architecture
 f58a5d978ade2b09edaef4ecd0f8b074f15b227c	not-for-merge	branch 'observation-beta-perception' of https://github.com/pointfreeco/swift-composable-architecture
-0532978a434093fb5a9f3286c971013177b37e33	not-for-merge	branch 'observation-beta-reducer-node' of https://github.com/pointfreeco/swift-composable-architecture
+402959c05f2b8f78b1e4c43f95173ec1dee09f57	not-for-merge	branch 'observation-beta-reducer-node' of https://github.com/pointfreeco/swift-composable-architecture
 81f49aa8c77e97bae93aa7fa36b007b537246c90	not-for-merge	branch 'observation-beta-rescope-tree' of https://github.com/pointfreeco/swift-composable-architecture
 f2246f365a686dc027245456184b3e4c211c8190	not-for-merge	branch 'observation-beta-scope-overhaul' of https://github.com/pointfreeco/swift-composable-architecture
 072e68df0eec137e4e45ca8178fe6df4eb3df443	not-for-merge	branch 'observation-beta-shared-state' of https://github.com/pointfreeco/swift-composable-architecture
@@ -944,8 +944,8 @@ bad9685f4ce8677007d0e202818e32533828ebb1	not-for-merge	'refs/pull/2577/head' of 
 7cf9155417fa488fedad46881f7e76c3d7419a1b	not-for-merge	'refs/pull/2578/head' of https://github.com/pointfreeco/swift-composable-architecture
 e2a9c9157d8fd0d0c43136e707e5b75b7f309fd6	not-for-merge	'refs/pull/258/head' of https://github.com/pointfreeco/swift-composable-architecture
 93956d245dbe20ce59cd0b57ddf0793ca7d3eaaf	not-for-merge	'refs/pull/2586/head' of https://github.com/pointfreeco/swift-composable-architecture
-39228a6a41764ceffcccdecbe4748a586b06a52e	not-for-merge	'refs/pull/2593/head' of https://github.com/pointfreeco/swift-composable-architecture
-ad4971089c74dd25b83317738fb627d77606dd98	not-for-merge	'refs/pull/2593/merge' of https://github.com/pointfreeco/swift-composable-architecture
+6bb6ca6757b636aae555902d25efb0fe6a80bede	not-for-merge	'refs/pull/2593/head' of https://github.com/pointfreeco/swift-composable-architecture
+bbf7d190f37d63b93c58869f4fe7134fc3dd3566	not-for-merge	'refs/pull/2593/merge' of https://github.com/pointfreeco/swift-composable-architecture
 d1b4587b9f9c8a59de5f7e0c8114afef7fac1904	not-for-merge	'refs/pull/2595/head' of https://github.com/pointfreeco/swift-composable-architecture
 c50db4dceb4b4ba1eccbc94a2dd878111a80dd99	not-for-merge	'refs/pull/2596/head' of https://github.com/pointfreeco/swift-composable-architecture
 98bb1bfa92a84f1d1d7c33bfc5bbbe6b95c19767	not-for-merge	'refs/pull/2597/head' of https://github.com/pointfreeco/swift-composable-architecture
@@ -1011,7 +1011,7 @@ ae9b41caedc048490f1d10e66654d518787a81c5	not-for-merge	'refs/pull/2678/head' of 
 e1bf61cc51f2205c20a7e650411685c50373b80a	not-for-merge	'refs/pull/268/head' of https://github.com/pointfreeco/swift-composable-architecture
 d75b2c1485335dbfbabead260ce05e25b4c9da20	not-for-merge	'refs/pull/2680/head' of https://github.com/pointfreeco/swift-composable-architecture
 19279540384bc602e7a1b32196be6e1e84435dcf	not-for-merge	'refs/pull/2681/head' of https://github.com/pointfreeco/swift-composable-architecture
-749ebb157b468f6e09ea706e84bdf0c1842ce267	not-for-merge	'refs/pull/2681/merge' of https://github.com/pointfreeco/swift-composable-architecture
+2d2e4bc9d499a8157c20975666cf6ed9c137029f	not-for-merge	'refs/pull/2681/merge' of https://github.com/pointfreeco/swift-composable-architecture
 cfce44059cacc6d5045a46749e10bf1a84e5094a	not-for-merge	'refs/pull/2685/head' of https://github.com/pointfreeco/swift-composable-architecture
 d31a28a9538014814c5603aa964ff99d3af8a877	not-for-merge	'refs/pull/2688/head' of https://github.com/pointfreeco/swift-composable-architecture
 ef3114ae633aeebeac255265f04e686fdfc99bca	not-for-merge	'refs/pull/2690/head' of https://github.com/pointfreeco/swift-composable-architecture
@@ -1021,11 +1021,11 @@ c8a05043bbc027f958de99fb3577a6743e5e8606	not-for-merge	'refs/pull/2693/head' of 
 ea98c2a15f203914ff6600a7d2422fec4638d2e3	not-for-merge	'refs/pull/2695/head' of https://github.com/pointfreeco/swift-composable-architecture
 b1e6d86d5f6d09cbda4490bc9a0ca2037ddc29e4	not-for-merge	'refs/pull/2696/head' of https://github.com/pointfreeco/swift-composable-architecture
 e11b36661892c43751570714e2bec55928900c49	not-for-merge	'refs/pull/2697/head' of https://github.com/pointfreeco/swift-composable-architecture
-54e640f70f5b9a6fb0c298fa48cbbccb58c4f9af	not-for-merge	'refs/pull/2698/head' of https://github.com/pointfreeco/swift-composable-architecture
-95e79d322a1678f06e1cd8f1604a1c7a4b2b6b2a	not-for-merge	'refs/pull/2698/merge' of https://github.com/pointfreeco/swift-composable-architecture
+cabc3e10466936df201221d9dc24247c37089c96	not-for-merge	'refs/pull/2698/head' of https://github.com/pointfreeco/swift-composable-architecture
 1b5ec56527618a6708d9e6803752f3214c5f767b	not-for-merge	'refs/pull/2699/head' of https://github.com/pointfreeco/swift-composable-architecture
-043a25f3bfdf883a645754314d96c32d85daeaa9	not-for-merge	'refs/pull/2699/merge' of https://github.com/pointfreeco/swift-composable-architecture
+e45f7e2c31401029d9a7db61fee1760811842ab2	not-for-merge	'refs/pull/2699/merge' of https://github.com/pointfreeco/swift-composable-architecture
 c12722a097b0e33c31fad7d37e3f680776e7cc3d	not-for-merge	'refs/pull/270/head' of https://github.com/pointfreeco/swift-composable-architecture
+c28b6cd511af46524f56c7240c3430a4f1a80889	not-for-merge	'refs/pull/2701/head' of https://github.com/pointfreeco/swift-composable-architecture
 4d0b7aa9544bbfbb53e346fb8e43ee4f0ffdb148	not-for-merge	'refs/pull/272/head' of https://github.com/pointfreeco/swift-composable-architecture
 9429aa4f86f2552710aaaff1b33e10573a38c9aa	not-for-merge	'refs/pull/275/head' of https://github.com/pointfreeco/swift-composable-architecture
 3ae28e40b9e4445b5b2bc1f0e83ede207bf3aa7b	not-for-merge	'refs/pull/276/head' of https://github.com/pointfreeco/swift-composable-architecture
@@ -1458,3 +1458,4 @@ d8f81ca2d43026641c5c60729d01f245ccc32370	not-for-merge	tag '1.5.3' of https://gi
 b86012c82d6c75f29edd3b53d76a7f3910473412	not-for-merge	tag '1.5.4' of https://github.com/pointfreeco/swift-composable-architecture
 cb9c1f845b3b981da787452beee893826210eb7a	not-for-merge	tag '1.5.5' of https://github.com/pointfreeco/swift-composable-architecture
 3568f01377c6c668aad40d066acf97ce670a1dad	not-for-merge	tag '1.5.6' of https://github.com/pointfreeco/swift-composable-architecture
+ae491c9e3f66631e72d58db8bb4c27dfc3d3afd4	not-for-merge	tag '1.6.0' of https://github.com/pointfreeco/swift-composable-architecture

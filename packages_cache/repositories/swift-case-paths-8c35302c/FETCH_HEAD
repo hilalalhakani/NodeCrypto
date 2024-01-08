@@ -6,9 +6,8 @@ b3e39479bfbdbd8236b19393ff5e4e8c960f2906	not-for-merge	branch 'extract-never' of
 0b1068bab97be560dfdb51141a0c6f86fa86a703	not-for-merge	branch 'func-fail' of https://github.com/pointfreeco/swift-case-paths
 6b4aec07c7255897a2bb9e700c5b8ad1c86e9037	not-for-merge	branch 'gh-pages' of https://github.com/pointfreeco/swift-case-paths
 5e810645d55d2ef00613e0b6f56f7fe288fbfe0c	not-for-merge	branch 'macro' of https://github.com/pointfreeco/swift-case-paths
-45d8ed7e9f3e4d764ae4bfeaac6a4f32a5755386	not-for-merge	branch 'main' of https://github.com/pointfreeco/swift-case-paths
+6c533b1efe30a36a3e3db7587e19fa88d9640f87	not-for-merge	branch 'main' of https://github.com/pointfreeco/swift-case-paths
 fb733d87aabb5b053ad782902f2f3d67e0a65ac5	not-for-merge	branch 'master' of https://github.com/pointfreeco/swift-case-paths
-3ab6195c27178db823626d1504ac00f952569ce2	not-for-merge	branch 'optional-chain' of https://github.com/pointfreeco/swift-case-paths
 65a78b0ea3e1f609bbb54894e80fe47bfc0d1d62	not-for-merge	branch 'optional-path' of https://github.com/pointfreeco/swift-case-paths
 ca010e2401430f6b291c363c2cafd3495e3b45f6	not-for-merge	branch 'performance' of https://github.com/pointfreeco/swift-case-paths
 f59e97425aed00d2f9c6c6274e591595942607fd	not-for-merge	branch 'reorg' of https://github.com/pointfreeco/swift-case-paths
@@ -49,7 +48,6 @@ cd3ace365d8302bb78e5503f53b81a8d8f5956ec	not-for-merge	'refs/pull/139/head' of h
 d8581a66cfcd51e32c8dd955008a787472d02f33	not-for-merge	'refs/pull/14/head' of https://github.com/pointfreeco/swift-case-paths
 1b21eb6d706ef385e486a3044c54da4f57d45a78	not-for-merge	'refs/pull/140/head' of https://github.com/pointfreeco/swift-case-paths
 3ab6195c27178db823626d1504ac00f952569ce2	not-for-merge	'refs/pull/141/head' of https://github.com/pointfreeco/swift-case-paths
-62fc3f5eb5437a9016e5042bafde83d8b5442546	not-for-merge	'refs/pull/141/merge' of https://github.com/pointfreeco/swift-case-paths
 1c3bd61e0887311ac9532abafecad18409ff8541	not-for-merge	'refs/pull/15/head' of https://github.com/pointfreeco/swift-case-paths
 43cb6262ca14db30d2d4c7b9832890636ce7dac0	not-for-merge	'refs/pull/18/head' of https://github.com/pointfreeco/swift-case-paths
 bd5de2808020f2ada1730f0c011b5cdcbbca0089	not-for-merge	'refs/pull/20/head' of https://github.com/pointfreeco/swift-case-paths
@@ -130,3 +128,4 @@ a09839348486db8866f85a727b8550be1d671c50	not-for-merge	tag '0.9.1' of https://gi
 ed7facdd4a361514b46e3bbc6238cd41c84be4ec	not-for-merge	tag '1.1.1' of https://github.com/pointfreeco/swift-case-paths
 a5521dde99570789d8cb7c43e51418d7cd1a87ca	not-for-merge	tag '1.1.2' of https://github.com/pointfreeco/swift-case-paths
 bba1111185863c9288c5f047770f421c3b7793a4	not-for-merge	tag '1.1.3' of https://github.com/pointfreeco/swift-case-paths
+6c533b1efe30a36a3e3db7587e19fa88d9640f87	not-for-merge	tag '1.2.0' of https://github.com/pointfreeco/swift-case-paths

@@ -10,7 +10,7 @@ b9e9a5ca9ec4185a7ac1e06873bc27541a773f7f	not-for-merge	branch 'foundation' of ht
 390f47fa76417ac9b081f485961887e7bf4574fc	not-for-merge	branch 'image-diffing' of https://github.com/pointfreeco/swift-snapshot-testing
 6caeb2951f4e87085d4fbec605842fb5685527da	not-for-merge	branch 'imap' of https://github.com/pointfreeco/swift-snapshot-testing
 feab5bab83340cfc415ff8190919570bfbb21d34	not-for-merge	branch 'jazzy' of https://github.com/pointfreeco/swift-snapshot-testing
-9bfa0aa4666618d2cd20a1ab7df6ecce7610bbc4	not-for-merge	branch 'main' of https://github.com/pointfreeco/swift-snapshot-testing
+8e68404f641300bfd0e37d478683bb275926760c	not-for-merge	branch 'main' of https://github.com/pointfreeco/swift-snapshot-testing
 4579af4118879be3a9c4d48ca0fd31b623af95bc	not-for-merge	branch 'master' of https://github.com/pointfreeco/swift-snapshot-testing
 ea1e82b602beeae0c628cd2689a5f1912fa8277a	not-for-merge	branch 'minus' of https://github.com/pointfreeco/swift-snapshot-testing
 7db1a3534485dc3c4cb3e6819f03ea716d8508f2	not-for-merge	branch 'optimize-async' of https://github.com/pointfreeco/swift-snapshot-testing
@@ -376,8 +376,8 @@ db1d4ad79582d8cd53be11a5da1a21b15010ab9a	not-for-merge	'refs/pull/643/merge' of 
 8268f8c75cad18b078b4779dd6478c136300525a	not-for-merge	'refs/pull/649/head' of https://github.com/pointfreeco/swift-snapshot-testing
 f13556604bf8235c3882432b6c2169938c5437f2	not-for-merge	'refs/pull/65/head' of https://github.com/pointfreeco/swift-snapshot-testing
 9a774c077a28d650e65f7989412cd16648dab4a0	not-for-merge	'refs/pull/650/head' of https://github.com/pointfreeco/swift-snapshot-testing
-00545602b21c19df7dd07df7f9cc1471dc1a7ed1	not-for-merge	'refs/pull/653/head' of https://github.com/pointfreeco/swift-snapshot-testing
-9b0d0696b9e26fb67e18f0c1dffa06c92e437dd5	not-for-merge	'refs/pull/653/merge' of https://github.com/pointfreeco/swift-snapshot-testing
+401bb3df4982ec7cd242379b349c40e8ee5a9951	not-for-merge	'refs/pull/653/head' of https://github.com/pointfreeco/swift-snapshot-testing
+cc2b8cb78643996c2eaf36a931d85ed2376fefc9	not-for-merge	'refs/pull/653/merge' of https://github.com/pointfreeco/swift-snapshot-testing
 7bc56c3fa6d825a968a6a89a59e2522041bd432e	not-for-merge	'refs/pull/66/head' of https://github.com/pointfreeco/swift-snapshot-testing
 338b4f023e049d770da17630da4e30ddd5e8959d	not-for-merge	'refs/pull/662/head' of https://github.com/pointfreeco/swift-snapshot-testing
 9401498a2205c5f7f14bf4936bd74f1ab078c1c6	not-for-merge	'refs/pull/662/merge' of https://github.com/pointfreeco/swift-snapshot-testing
@@ -400,8 +400,7 @@ f27965747d2d5c115679cd9da658d6df0a36419c	not-for-merge	'refs/pull/676/merge' of 
 a3a932123d96e8655e893a2142c417c59ea6a40c	not-for-merge	'refs/pull/688/merge' of https://github.com/pointfreeco/swift-snapshot-testing
 a6b5baef6c064fab338d9ece3ffa1b5f2e0908db	not-for-merge	'refs/pull/690/head' of https://github.com/pointfreeco/swift-snapshot-testing
 9397db103278c7add2d9480444155606ef312c80	not-for-merge	'refs/pull/690/merge' of https://github.com/pointfreeco/swift-snapshot-testing
-6f44840640982969d653a025a91e4cb1ca83a56c	not-for-merge	'refs/pull/692/head' of https://github.com/pointfreeco/swift-snapshot-testing
-13342383036bd7b8fd0b06039a1be825bb6f7fb5	not-for-merge	'refs/pull/692/merge' of https://github.com/pointfreeco/swift-snapshot-testing
+94cc7f76135a6b391a04c60bccf1e24ebd9db34f	not-for-merge	'refs/pull/692/head' of https://github.com/pointfreeco/swift-snapshot-testing
 75f06dcf380a5d89827c6366b491ad0832e78219	not-for-merge	'refs/pull/695/head' of https://github.com/pointfreeco/swift-snapshot-testing
 92ddf45c1fa8d6384070ba1d987802f93cad51ad	not-for-merge	'refs/pull/696/head' of https://github.com/pointfreeco/swift-snapshot-testing
 ff2f9d007e1e94ac6330488defd792985152ef64	not-for-merge	'refs/pull/698/head' of https://github.com/pointfreeco/swift-snapshot-testing
@@ -471,7 +470,7 @@ d772aafe2f3e7e9ff02c6fc152f31c7e0bc8cd54	not-for-merge	'refs/pull/81/head' of ht
 8d8ad77aaf2aacf84cda6659c2d4d73fd80fa7e9	not-for-merge	'refs/pull/812/head' of https://github.com/pointfreeco/swift-snapshot-testing
 f59b36eb4719bccbd38394eda49be925b991ec50	not-for-merge	'refs/pull/814/head' of https://github.com/pointfreeco/swift-snapshot-testing
 eaaba1cffc9b804c5622739df70a33913d4087d5	not-for-merge	'refs/pull/818/head' of https://github.com/pointfreeco/swift-snapshot-testing
-994a949d34bb037304b27b1b8312e6ea09ccac55	not-for-merge	'refs/pull/818/merge' of https://github.com/pointfreeco/swift-snapshot-testing
+4c6d66cf6d3b42de6a6e3bcf5724492cebd37f6d	not-for-merge	'refs/pull/818/merge' of https://github.com/pointfreeco/swift-snapshot-testing
 5b25b2e0afa120655cdc4558d43ecc0c2bac36e3	not-for-merge	'refs/pull/82/head' of https://github.com/pointfreeco/swift-snapshot-testing
 c27d437f98170092d94bfcaef87a97460423ba2b	not-for-merge	'refs/pull/821/head' of https://github.com/pointfreeco/swift-snapshot-testing
 3f12cf7f99d8c299d40cdeaf5e5722105b7f1e38	not-for-merge	'refs/pull/821/merge' of https://github.com/pointfreeco/swift-snapshot-testing
@@ -500,6 +499,7 @@ dc46eeb3928a75390651fac6c1ef7f93ad59a73b	not-for-merge	tag '1.11.1' of https://g
 bb0ea08db8e73324fe6c3727f755ca41a23ff2f4	not-for-merge	tag '1.14.2' of https://github.com/pointfreeco/swift-snapshot-testing
 4862d48562483d274a2ac7522d905c9237a31a48	not-for-merge	tag '1.15.0' of https://github.com/pointfreeco/swift-snapshot-testing
 59b663f68e69f27a87b45de48cb63264b8194605	not-for-merge	tag '1.15.1' of https://github.com/pointfreeco/swift-snapshot-testing
+8e68404f641300bfd0e37d478683bb275926760c	not-for-merge	tag '1.15.2' of https://github.com/pointfreeco/swift-snapshot-testing
 0ea1b40921766767856790fae046f57ce489b922	not-for-merge	tag '1.2.0' of https://github.com/pointfreeco/swift-snapshot-testing
 1fb2e65cf62d2f983b3cab2871cbb218ea9ee9b7	not-for-merge	tag '1.3.0' of https://github.com/pointfreeco/swift-snapshot-testing
 e25caba146280f7c5cb098202f6d04a9a7f8c760	not-for-merge	tag '1.4.0' of https://github.com/pointfreeco/swift-snapshot-testing
