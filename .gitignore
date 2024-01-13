@@ -88,3 +88,6 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
+
+# IntelliJ IDEA project files. This IDE is amazing for bash scripting, with BashSupport Pro plugin.
+.idea/
