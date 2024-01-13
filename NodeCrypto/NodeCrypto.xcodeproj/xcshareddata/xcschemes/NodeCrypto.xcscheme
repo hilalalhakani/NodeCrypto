@@ -29,23 +29,10 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:../../NodeCrypto.xctestplan"
+            reference = "container:NodeCrypto/Aggregated.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>
-      <Testables>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E71F0B392B2F155D00E90458"
-               BuildableName = "CI.xctest"
-               BlueprintName = "CI"
-               ReferencedContainer = "container:NodeCrypto.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
