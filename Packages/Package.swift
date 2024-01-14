@@ -17,6 +17,7 @@ let package = Package(
         .singleTargetLibrary("Keychain"),
         .singleTargetLibrary("ConnectWalletFeature"),
         .singleTargetLibrary("NodeCryptoCore"),
+        .singleTargetLibrary("RootView"),
     ],
     dependencies: [
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture", branch: "main"),
@@ -119,6 +120,10 @@ let package = Package(
                 "OnboardingFeature",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
+        ),
+        .target(
+            name: "RootView",
+            dependencies: ["NodeCryptoCore"]
         ),
         .target(
             name: "TCAHelpers",
