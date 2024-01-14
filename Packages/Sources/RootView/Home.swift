@@ -98,6 +98,7 @@ struct TabItem: View {
   var tab: Tab
   @Binding var activeTab: Tab
   var animation: Namespace.ID
+  @Environment(\.colorScheme) var colorScheme
 
   var body: some View {
     VStack(alignment: .center, spacing: 2) {
@@ -113,7 +114,7 @@ struct TabItem: View {
       Group {
         if self.tab == activeTab {
           Circle()
-            .fill(Color.black)
+            .fill(colorScheme == .light ? Color.black : Color.neutral8)
         } else {
           Spacer()
         }
