@@ -10,7 +10,7 @@
 		E7340EAD2B1794D00037A11D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7340EA92B1794D00037A11D /* Assets.xcassets */; };
 		E7340EAE2B1794D00037A11D /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7340EAA2B1794D00037A11D /* App.swift */; };
 		E7340EAF2B1794D00037A11D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7340EAC2B1794D00037A11D /* Preview Assets.xcassets */; };
-		E77742022B337D8000FB30ED /* CI.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = E77742012B337D8000FB30ED /* CI.xctestplan */; };
+		E77742022B337D8000FB30ED /* Aggregated.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = E77742012B337D8000FB30ED /* Aggregated.xctestplan */; };
 		E7AE92E92B2260CA0065A9C2 /* AppFeature in Frameworks */ = {isa = PBXBuildFile; productRef = E7AE92E82B2260CA0065A9C2 /* AppFeature */; };
 		E7DF1BB42B4033D300A776D1 /* fr.xcloc in Resources */ = {isa = PBXBuildFile; fileRef = E7DF1BB22B4033D300A776D1 /* fr.xcloc */; };
 		E7DF1BB52B4033D300A776D1 /* en.xcloc in Resources */ = {isa = PBXBuildFile; fileRef = E7DF1BB32B4033D300A776D1 /* en.xcloc */; };
@@ -22,7 +22,7 @@
 		E7340EAA2B1794D00037A11D /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		E7340EAC2B1794D00037A11D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E75E1A542B0A8E750053C9E9 /* NodeCrypto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NodeCrypto.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		E77742012B337D8000FB30ED /* CI.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CI.xctestplan; sourceTree = "<group>"; };
+		E77742012B337D8000FB30ED /* Aggregated.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Aggregated.xctestplan; sourceTree = "<group>"; };
 		E7BC9E862B45C36000C17D3E /* Packages */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Packages; path = ../Packages; sourceTree = "<group>"; };
 		E7DF1BB22B4033D300A776D1 /* fr.xcloc */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = fr.xcloc; sourceTree = "<group>"; };
 		E7DF1BB32B4033D300A776D1 /* en.xcloc */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = en.xcloc; sourceTree = "<group>"; };
@@ -44,7 +44,7 @@
 			isa = PBXGroup;
 			children = (
 				E7DF1BB12B4033D300A776D1 /* NodeCrypto Localizations */,
-				E77742012B337D8000FB30ED /* CI.xctestplan */,
+				E77742012B337D8000FB30ED /* Aggregated.xctestplan */,
 				E7059DF62B1C9A4800C1DE4F /* Info.plist */,
 				E7340EA92B1794D00037A11D /* Assets.xcassets */,
 				E7340EAA2B1794D00037A11D /* App.swift */,
@@ -159,7 +159,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7340EAF2B1794D00037A11D /* Preview Assets.xcassets in Resources */,
-				E77742022B337D8000FB30ED /* CI.xctestplan in Resources */,
+				E77742022B337D8000FB30ED /* Aggregated.xctestplan in Resources */,
 				E7340EAD2B1794D00037A11D /* Assets.xcassets in Resources */,
 				E7DF1BB52B4033D300A776D1 /* en.xcloc in Resources */,
 				E7DF1BB42B4033D300A776D1 /* fr.xcloc in Resources */,
