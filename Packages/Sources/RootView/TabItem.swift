@@ -4,7 +4,6 @@ import SwiftUI
 struct TabItem: View {
   var tab: Tab
   @Binding var activeTab: Tab
-  var animation: Namespace.ID
   @Environment(\.colorScheme) var colorScheme
 
   var body: some View {
@@ -16,17 +15,10 @@ struct TabItem: View {
         .onTapGesture {
           activeTab = tab
         }
-
-      Group {
-        if self.tab == activeTab {
-          Circle()
-            .fill(colorScheme == .light ? Color.black : Color.neutral8)
-        } else {
-          Spacer()
-        }
-
-      }
-      .matchedGeometryEffect(id: "ActiveTab", in: animation)
+        Circle()
+            .fill(
+                self.tab == activeTab ?
+                (colorScheme == .light ? Color.black : Color.neutral8) : Color.clear)
       .frame(width: 10, height: 10, alignment: .center)
     }
 
@@ -35,35 +27,28 @@ struct TabItem: View {
 
 #Preview {
     struct Preview: View {
-        @Namespace var homeAnimation
-        @Namespace var notificationsAnimation
-        @Namespace var searchAnimation
-        @Namespace var profileAnimation
 
         var body: some View {
             VStack(spacing: 30) {
                 HStack{
-                    TabItem(tab: .home, activeTab: .constant(.home), animation: homeAnimation)
-                    TabItem(tab: .home, activeTab: .constant(.notifications), animation: homeAnimation)
+                    TabItem(tab: .home, activeTab: .constant(.home))
+                    TabItem(tab: .home, activeTab: .constant(.notifications))
                 }
-
                 HStack{
-                    TabItem(tab: .notifications, activeTab: .constant(.notifications), animation: notificationsAnimation)
-                    TabItem(tab: .notifications, activeTab: .constant(.home), animation: notificationsAnimation)
+                    TabItem(tab: .notifications, activeTab: .constant(.notifications))
+                    TabItem(tab: .notifications, activeTab: .constant(.home))
                 }
-
                 HStack{
-                    TabItem(tab: .search, activeTab: .constant(.search), animation: searchAnimation)
-                    TabItem(tab: .search, activeTab: .constant(.home), animation: searchAnimation)
+                    TabItem(tab: .search, activeTab: .constant(.search))
+                    TabItem(tab: .search, activeTab: .constant(.home))
                 }
-
                 HStack{
-                    TabItem(tab: .profile, activeTab: .constant(.profile), animation: profileAnimation)
-                    TabItem(tab: .profile, activeTab: .constant(.home), animation: profileAnimation)
+                    TabItem(tab: .profile, activeTab: .constant(.profile))
+                    TabItem(tab: .profile, activeTab: .constant(.home))
                 }
             }
         }
     }
 
-    return Preview()
+  return Preview()
 }

@@ -12,20 +12,16 @@ struct RootView: View {
         Color.red
           .tag(Tab.home)
           .toolbar(.hidden, for: .tabBar)
-
-        Text("Services")
+          Text("Services", bundle: .module)
           .tag(Tab.search)
           .toolbar(.hidden, for: .tabBar)
-
-        Text("Notifications")
+        Text("Notifications", bundle: .module)
           .tag(Tab.notifications)
           .toolbar(.hidden, for: .tabBar)
-
-        Text("Profile")
+        Text("Profile", bundle: .module)
           .tag(Tab.profile)
           .toolbar(.hidden, for: .tabBar)
       }
-
       customTabBar()
     }
   }
@@ -33,17 +29,11 @@ struct RootView: View {
   @ViewBuilder
   func customTabBar() -> some View {
     HStack(spacing: 0) {
-
       makeTabItem(.home)
-
       makeTabItem(.search)
-
       AddButton {}
-
       makeTabItem(.notifications)
-
       makeTabItem(.profile)
-
     }
     .animation(.easeIn, value: activeTab)
   }
@@ -51,12 +41,11 @@ struct RootView: View {
   func makeTabItem(_ tab: Tab) -> some View {
     TabItem(
       tab: tab,
-      activeTab: $activeTab,
-      animation: animation
+      activeTab: $activeTab
     )
   }
 }
 
 #Preview {
-    RootView()
+  RootView()
 }
