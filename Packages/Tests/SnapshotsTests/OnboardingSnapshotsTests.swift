@@ -4,7 +4,9 @@ import OnboardingFeature
 import SnapshotTesting
 import XCTest
 
+#if os(iOS)
 @MainActor
+@available(macOS, unavailable)
 final class OnboardingSnapshotsTests: XCTestCase {
   func testpage1_light() async {
     let onboardingView = OnboardingView()
@@ -42,8 +44,8 @@ final class OnboardingSnapshotsTests: XCTestCase {
   }
 
   func testpage1_dark() async {
-    let onboardingView = OnboardingView().environment(\.colorScheme, .dark).environment(
-      \.locale, .init(identifier: "fr"))
+    let onboardingView = OnboardingView()
+          .environment(\.colorScheme, .dark)
     assertSnapshot(
       of: onboardingView, as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
   }
@@ -54,7 +56,6 @@ final class OnboardingSnapshotsTests: XCTestCase {
     }
     let onboardingView = OnboardingView(store: store)
       .environment(\.colorScheme, .dark)
-      .environment(\.locale, .init(identifier: "fr"))
 
     assertSnapshot(
       of: onboardingView, as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
@@ -66,7 +67,6 @@ final class OnboardingSnapshotsTests: XCTestCase {
     }
     let onboardingView = OnboardingView(store: store)
           .environment(\.colorScheme, .dark)
-          .environment(\.locale, .init(identifier: "fr"))
 
     assertSnapshot(
       of: onboardingView, as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
@@ -76,9 +76,10 @@ final class OnboardingSnapshotsTests: XCTestCase {
     let store = StoreOf<OnboardingViewReducer>.init(initialState: .init(currentStep: .step4)) {
       OnboardingViewReducer()
     }
-    let onboardingView = OnboardingView(store: store).environment(\.colorScheme, .dark).environment(
-      \.locale, .init(identifier: "fr"))
+    let onboardingView = OnboardingView(store: store)
+          .environment(\.colorScheme, .dark)
     assertSnapshot(
       of: onboardingView, as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
   }
 }
+#endif

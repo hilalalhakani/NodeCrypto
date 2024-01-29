@@ -89,7 +89,6 @@ public struct OnboardingStepperReducer {
 }
 
 struct OnboardingStepper: View {
-    @Environment(\.colorScheme) var colorScheme
     let store: StoreOf<OnboardingStepperReducer>
     let disabledColor = Color.neutral5
 
@@ -124,7 +123,7 @@ struct OnboardingStepper: View {
                 )
             }
             .frame(width: 154, height: 64)
-            .background(colorScheme == .dark ? Color.neutral1 : Color.neutral8)
+            .background(Color.neutral8)
             .clipShape(RoundedRectangle(cornerRadius: 16))
         }
     }

@@ -9,26 +9,22 @@ extension ButtonStyle where Self == HighlightButtonStyle {
 
 public struct HighlightButtonStyle: ButtonStyle {
     @ScaledMetric var buttonHeight: CGFloat = 64
-    public init() {}
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding(.horizontal)
             .frame(height: buttonHeight)
             .background(configuration.isPressed ? .secondary : .primary)
-            .foregroundStyle(configuration.isPressed ? .secondary : .primary)
-            .cornerRadius(20)
+            .cornerRadius(16)
     }
 }
 
-struct HighlightButtonStyle_Previews: PreviewProvider {
-    static var previews: some View {
-        Button {
-        } label: {
-            Text(verbatim: "Hello, world!")
-        }
-        .buttonStyle(HighlightButtonStyle())
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .foregroundStyle(.white)
-        .tint(.orange)
+#Preview {
+    Button {
+    } label: {
+        Text(verbatim: "Hello, world!")
+            .foregroundStyle(.red)
+
     }
+    .foregroundStyle(.black.opacity(0.000001), .green)
+    .buttonStyle(.highlighted)
 }
