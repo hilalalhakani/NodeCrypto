@@ -10,6 +10,8 @@
   ],
   "defaultOptions" : {
     "codeCoverage" : false,
+    "language" : "fr",
+    "region" : "FR",
     "targetForVariableExpansion" : {
       "containerPath" : "container:NodeCrypto.xcodeproj",
       "identifier" : "E75E1A532B0A8E750053C9E9",
@@ -47,6 +49,13 @@
         "containerPath" : "container:..\/Packages",
         "identifier" : "OnboardingFeatureTests",
         "name" : "OnboardingFeatureTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/Packages",
+        "identifier" : "SnapshotsTests",
+        "name" : "SnapshotsTests"
       }
     }
   ],

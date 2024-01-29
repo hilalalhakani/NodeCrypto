@@ -103,6 +103,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E75E1A622B0A8E760053C9E9 /* Build configuration list for PBXNativeTarget "NodeCrypto" */;
 			buildPhases = (
+				7A19B1A92B665853006CFE1A /* Swiftlint */,
 				E75E1A502B0A8E750053C9E9 /* Sources */,
 				E75E1A512B0A8E750053C9E9 /* Frameworks */,
 				E75E1A522B0A8E750053C9E9 /* Resources */,
@@ -167,6 +168,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7A19B1A92B665853006CFE1A /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E75E1A502B0A8E750053C9E9 /* Sources */ = {

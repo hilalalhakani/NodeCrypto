@@ -22,7 +22,8 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture", branch: "main"),
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.1.2"),
-        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.15.1"),
+        //.package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.15.2"),
+        .package(url: "https://github.com/Frameio/swift-snapshot-testing", branch: "image-colorspace-coversions"),
         .package(url: "https://github.com/tgrapperon/swift-dependencies-additions", from: "1.0.1"),
         .package(url: "https://github.com/pointfreeco/swift-tagged", from: "0.10.0"),
         .package(url: "https://github.com/oliverfoggin/swift-composable-analytics", from: "1.1.0"),

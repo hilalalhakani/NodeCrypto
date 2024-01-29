@@ -14,7 +14,7 @@ public struct StepperBarButtonStyle: ButtonStyle {
         configuration.label
             .foregroundColor(
                 currentIndex == selectedIndex ?
-                    Color.primary1 : Color.hex(0xFCFCFD).opacity(0.5)
+                    Color.primary1 : Color.stepperInactive
             )
             .frame(width: selectedIndex == currentIndex ? 24 : 12, height: 4)
     }

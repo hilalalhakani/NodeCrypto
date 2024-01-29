@@ -132,7 +132,6 @@ extension BindingViewStore<OnboardingViewReducer.State> {
 }
 
 public struct OnboardingView: View {
-  @Environment(\.colorScheme) var colorScheme
   var store: StoreOf<OnboardingViewReducer>
 
   public init(
@@ -231,27 +230,10 @@ public struct OnboardingView: View {
 
 struct BackgroundLinearGradient: View {
   var colors: [Color]
-  @Environment(\.colorScheme) var colorScheme
-
-  init(colors: [Color]) {
-    self.colors = colors
-  }
 
   var body: some View {
     LinearGradient(
-      stops: colorScheme == .light
-        ? [
-          Gradient.Stop(color: colors[0], location: 0.50),
-          Gradient.Stop(color: colors[1], location: 1.00),
-        ]
-        : [
-          Gradient.Stop(
-            color: Color(red: 13 / 255, green: 17 / 255, blue: 23 / 255), location: 0.50
-          ),
-          Gradient.Stop(
-            color: Color(red: 34 / 255, green: 44 / 255, blue: 55 / 255), location: 1.00
-          ),
-        ],
+      stops: [Gradient.Stop(color: colors[0], location: 0.50), Gradient.Stop(color: colors[1], location: 1.00)],
       startPoint: UnitPoint(x: 1, y: 0),
       endPoint: UnitPoint(x: 0, y: 1)
     )
@@ -273,49 +255,22 @@ struct BackgroundImage: View {
 struct OnboardingLabels: View {
   let title: String
   let subtitle: String
-  @Environment(\.colorScheme) var colorScheme
 
   var body: some View {
     VStack(spacing: 12) {
       Text(LocalizedStringKey(title), bundle: .module)
         .font(Font(FontName.dmSansBold, size: 40))
-        .foregroundStyle(colorScheme == .light ? Color.neutral2 : Color.neutral8)
+        .foregroundStyle(Color.neutral2)
 
       Text(LocalizedStringKey(subtitle), bundle: .module)
         .font(Font(FontName.poppinsRegular, size: 14))
-        .foregroundStyle(colorScheme == .light ? Color.neutral2 : Color.neutral6)
+        .foregroundStyle(Color.neutral2)
     }
     .multilineTextAlignment(.center)
     .fixedSize(horizontal: false, vertical: true)
   }
 }
 
-struct SkipButton: View {
-  let action: () -> Void
-  @Environment(\.colorScheme) var colorScheme
-
-  var body: some View {
-    Button(action: action) {
-      Text("Skip", bundle: .module)
-        .font(.init(.dmSansBold, size: 14))
-    }
-    .foregroundStyle(colorScheme == .dark ? Color.neutral8 : Color.neutral2)
-    .buttonStyle(.borderedProminent)
-    .tint(
-      colorScheme == .dark
-        ? Color.hex(0xFCFCDD).opacity(0.1) : Color.hex(0xFCFCDD).opacity(0.5)
-    )
-  }
+#Preview {
+    OnboardingView()
 }
-
-#if DEBUG
-  struct OnboardingViewPreviewDark: PreviewProvider {
-    static var previews: some View {
-      OnboardingView()
-        .preferredColorScheme(.light)
-
-      OnboardingView()
-        .preferredColorScheme(.dark)
-    }
-  }
-#endif

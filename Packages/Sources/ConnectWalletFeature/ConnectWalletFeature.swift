@@ -100,8 +100,6 @@ extension BindingViewStore<ConnectWalletReducer.State> {
 public struct ConnectWalletView: View {
   var store: StoreOf<ConnectWalletReducer>
 
-  @Environment(\.colorScheme) var colorScheme
-
   public init(store: StoreOf<ConnectWalletReducer>) {
     self.store = store
   }
@@ -133,7 +131,7 @@ public struct ConnectWalletView: View {
           Text("Connect Wallet", bundle: .module)
             .multilineTextAlignment(.center)
             .font(Font(FontName.poppinsBold, size: 24))
-            .foregroundStyle(colorScheme == .light ? Color.neutral2 : Color.neutral8)
+            .foregroundStyle(Color.neutral2)
 
           Spacer()
 
@@ -192,18 +190,19 @@ extension View {
 }
 
 struct PopUpModifier: ViewModifier {
-
   let isPresented: Bool
   let confirmAction: () -> Void
   let cancelAction: () -> Void
   @Environment(\.colorScheme) var colorScheme
+
   func body(content: Content) -> some View {
     ZStack {
       content
         .zIndex(0)
 
       if isPresented {
-        Color.neutral1.opacity(0.7)
+          Color.neutral1
+              .opacity(colorScheme == .dark ? 0.75 : 0.5)
           .ignoresSafeArea()
           .transition(.opacity.animation(.easeInOut))
           .zIndex(1)
@@ -211,7 +210,7 @@ struct PopUpModifier: ViewModifier {
         VStack {
           Text("This page will open another application.", bundle: .module)
             .multilineTextAlignment(.center)
-            .foregroundStyle(colorScheme == .light ? Color.neutral2 : Color.neutral8)
+            .foregroundStyle(Color.neutral2)
             .font(Font(FontName.poppinsRegular, size: 12))
             .padding(.bottom, 20)
 
@@ -225,7 +224,7 @@ struct PopUpModifier: ViewModifier {
           )
           .clipShape(Capsule())
           .buttonStyle(.borderedProminent)
-          .foregroundStyle(Color.neutral8)
+          .foregroundStyle(.white)
           .tint(Color.primary1)
           .frame(minHeight: 40)
 
@@ -251,7 +250,7 @@ struct PopUpModifier: ViewModifier {
         .padding(20)
         .frame(width: 270)
         .background(
-          (colorScheme == .light ? Color.neutral8 : Color.neutral2)
+          Color.neutral8
             .clipShape(RoundedRectangle(cornerRadius: 32))
         )
         .animation(.easeInOut, value: self.isPresented)

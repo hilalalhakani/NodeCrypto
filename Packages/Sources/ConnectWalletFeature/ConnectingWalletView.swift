@@ -9,8 +9,6 @@ import SwiftUI
 import StyleGuide
 
 public struct ConnectingWalletView: View {
-    @Environment (\.colorScheme) var colorScheme
-
     let selectedWallet: WalletType
     let cancelPressed: () -> Void
 
@@ -34,11 +32,11 @@ public struct ConnectingWalletView: View {
 
                 HStack(spacing: 8) {
                     ProgressView()
-                        .tint(colorScheme == .light ? Color.neutral2 : Color.neutral8)
+                        .tint(Color.neutral2)
 
                     Text("Opening \(selectedWallet.rawValue)")
                         .font(Font.init(FontName.poppinsRegular, size: 14))
-                        .foregroundStyle(colorScheme == .light ? Color.neutral2 : Color.neutral8)
+                        .foregroundStyle(Color.neutral2)
                 }
             }
         }
@@ -54,7 +52,6 @@ public struct ConnectingWalletView: View {
 
 struct CancelButton: View {
     let action: () -> Void
-    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         Button(action: { action() }) {
@@ -63,8 +60,7 @@ struct CancelButton: View {
         }
         .foregroundStyle(Color.neutral2)
         .buttonStyle(.borderedProminent)
-        .tint(colorScheme == .light ? Color.neutral6 : Color.neutral8
-        )
+        .tint(Color.neutral6)
         .clipShape(Capsule())
     }
 }

@@ -9,12 +9,11 @@ import Foundation
 import SwiftUI
 import StyleGuide
 
-struct ListLabel: View {
-
+struct WalletListRow: View {
   let title: LocalizedStringKey
   let walletType: WalletType
   let didSelectButton: () -> Void
-    @Environment(\.colorScheme) var  colorScheme
+
   init(
     title: LocalizedStringKey,
     walletType: WalletType,
@@ -35,20 +34,18 @@ struct ListLabel: View {
             title: {
               Text(title, bundle: .module)
                 .font(Font(FontName.poppinsBold, size: 18))
-                .foregroundStyle(colorScheme == .light ? Color.neutral2 : Color.neutral8)
+                .foregroundStyle(Color.neutral2)
             },
             icon: { Image(walletType.rawValue, bundle: .module) }
           )
           Spacer()
-          Image(systemName: "chevron.right")
-                .foregroundStyle(colorScheme == .light ? Color.neutral2 : Color.neutral8)
+            Image(systemName: "chevron.right")
+                .foregroundStyle(Color.neutral2)
         }
-        .frame(maxWidth: .infinity)
       }
     )
-    .frame(height: 65)
-    .foregroundStyle(.white.opacity(0.0001), colorScheme == .light ? Color.white.opacity(1) : Color.hex(0xFCFCDD).opacity(0.1))
     .buttonStyle(.highlighted)
+    .foregroundStyle(Color.invisibleColor, Color.highlightedButtonSelected)
   }
 
 }

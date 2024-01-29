@@ -4,7 +4,6 @@ import SwiftUI
 struct TabItem: View {
   var tab: Tab
   @Binding var activeTab: Tab
-  @Environment(\.colorScheme) var colorScheme
 
   var body: some View {
     VStack(alignment: .center, spacing: 2) {
@@ -16,10 +15,8 @@ struct TabItem: View {
           activeTab = tab
         }
         Circle()
-            .fill(
-                self.tab == activeTab ?
-                (colorScheme == .light ? Color.black : Color.neutral8) : Color.clear)
-      .frame(width: 10, height: 10, alignment: .center)
+            .fill(tab == activeTab ? Color.neutral8 : .clear)
+            .frame(width: 10, height: 10, alignment: .center)
     }
 
   }
