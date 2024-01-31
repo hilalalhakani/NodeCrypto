@@ -4,14 +4,13 @@
       "id" : "2A0F004F-04EA-4629-A266-75572212EC71",
       "name" : "Test Scheme Action",
       "options" : {
-
+        "region" : "US"
       }
     }
   ],
   "defaultOptions" : {
     "codeCoverage" : false,
-    "language" : "fr",
-    "region" : "FR",
+    "language" : "en",
     "targetForVariableExpansion" : {
       "containerPath" : "container:NodeCrypto.xcodeproj",
       "identifier" : "E75E1A532B0A8E750053C9E9",

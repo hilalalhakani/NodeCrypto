@@ -30,5 +30,6 @@ public extension Color {
     static let connectWalletGradient1 = Color(.connectWalletGradient1)
     static let connectWalletGradient2 = Color(.connectWalletGradient2)
     static let stepperInactive = Color(.stepperInactive)
-
+    static let connectWalletAlertBackground = Color(.connectWalletAlertBackground)
+    static let connectWalletCancelBorder = Color(.connectWalletCancelBorder)
 }

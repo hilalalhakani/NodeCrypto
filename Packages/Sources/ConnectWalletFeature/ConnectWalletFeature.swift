@@ -207,50 +207,51 @@ struct PopUpModifier: ViewModifier {
           .transition(.opacity.animation(.easeInOut))
           .zIndex(1)
 
-        VStack {
+        VStack(spacing: 0) {
           Text("This page will open another application.", bundle: .module)
             .multilineTextAlignment(.center)
             .foregroundStyle(Color.neutral2)
             .font(Font(FontName.poppinsRegular, size: 12))
+            .frame(width: 215)
             .padding(.bottom, 20)
 
-          Button(
-            action: confirmAction,
-            label: {
-              Text("Open")
-                .font(Font(FontName.dmSansBold, size: 14))
-                .frame(maxWidth: .infinity)
-            }
-          )
-          .clipShape(Capsule())
-          .buttonStyle(.borderedProminent)
-          .foregroundStyle(.white)
-          .tint(Color.primary1)
-          .frame(minHeight: 40)
+            Button(
+                action: confirmAction,
+                label: {
+                    Text("Open")
+                        .font(Font(FontName.dmSansBold, size: 14))
+                        .frame(width: 160)
+                }
+            )
+            .clipShape(Capsule())
+            .buttonStyle(.borderedProminent)
+            .foregroundStyle(.white)
+            .tint(Color.primary1)
+            .padding(.bottom, 12)
 
-          Button(
-            action: cancelAction,
-            label: {
-              Text("Cancel")
-                .font(Font(FontName.dmSansBold, size: 14))
-                .frame(maxWidth: .infinity)
-            }
-          )
-          .clipShape(Capsule())
-          .buttonStyle(.borderedProminent)
-          .foregroundStyle(Color.neutral2)
-          .tint(Color.neutral8)
-          .overlay(
-            RoundedRectangle(cornerRadius: 90)
-              .inset(by: 1)
-              .stroke(Color.neutral6)
-          )
-          .frame(minHeight: 40)
+            Button(
+                action: cancelAction,
+                label: {
+                    Text("Cancel")
+                        .font(Font(FontName.dmSansBold, size: 14))
+                        .frame(width: 160)
+                }
+            )
+            .clipShape(Capsule())
+            .buttonStyle(.borderedProminent)
+            .foregroundStyle(Color.neutral2)
+            .tint(.clear)
+            .overlay(
+                RoundedRectangle(cornerRadius: 90)
+                    .inset(by: 1)
+                    .stroke(Color.connectWalletCancelBorder)
+            )
+
+
         }
-        .padding(20)
-        .frame(width: 270)
+        .padding(32)
         .background(
-          Color.neutral8
+          Color.connectWalletAlertBackground
             .clipShape(RoundedRectangle(cornerRadius: 32))
         )
         .animation(.easeInOut, value: self.isPresented)
