@@ -15,7 +15,7 @@ final class ConnectWalletSnapshotsTests: XCTestCase {
                 reducer: { ConnectWalletReducer().dependency(\.analyticsClient, .consoleLogger) })
         )
             .environment(\.colorScheme, .light)
-        XCTExpectFailure("Fails in github actions environment. Should pass locally")
+
         assertSnapshot(
             of: connectWalletView,
             as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
@@ -28,7 +28,7 @@ final class ConnectWalletSnapshotsTests: XCTestCase {
                 reducer: { ConnectWalletReducer().dependency(\.analyticsClient, .consoleLogger) })
         )
             .environment(\.colorScheme, .dark)
-        XCTExpectFailure("Fails in github actions environment. Should pass locally")
+
         assertSnapshot(
             of: connectWalletView,
             as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
@@ -43,8 +43,8 @@ final class ConnectWalletSnapshotsTests: XCTestCase {
           .environment(\.colorScheme, .light)
 
           store.send(.view(.onButtonSelect(.coinbase)))
-          XCTExpectFailure("Fails in github actions environment. Should pass locally")
-        assertSnapshot(
+
+          assertSnapshot(
           of: connectWalletView,
           as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe))
         )
@@ -59,8 +59,8 @@ final class ConnectWalletSnapshotsTests: XCTestCase {
           .environment(\.colorScheme, .dark)
 
           store.send(.view(.onButtonSelect(.coinbase)))
-          XCTExpectFailure("Fails in github actions environment. Should pass locally")
-        assertSnapshot(
+
+          assertSnapshot(
           of: connectWalletView,
           as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
       }
@@ -69,7 +69,7 @@ final class ConnectWalletSnapshotsTests: XCTestCase {
         let connectWalletView = ConnectingWalletView(selectedWallet: .metamask, cancelPressed: {})
             .environment(\.colorScheme, .light)
 
-        XCTExpectFailure("Fails in github actions environment. Should pass locally")
+
         assertSnapshot(
             of: connectWalletView,
             as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
@@ -78,7 +78,7 @@ final class ConnectWalletSnapshotsTests: XCTestCase {
     func test_connectingWallet_dark() async {
         let connectWalletView = ConnectingWalletView(selectedWallet: .metamask, cancelPressed: {})
             .environment(\.colorScheme, .dark)
-        XCTExpectFailure("Fails in github actions environment. Should pass locally")
+
         assertSnapshot(
             of: connectWalletView,
             as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
