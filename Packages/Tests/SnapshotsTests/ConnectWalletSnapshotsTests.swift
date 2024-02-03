@@ -18,7 +18,7 @@ final class ConnectWalletSnapshotsTests: XCTestCase {
 
         assertSnapshot(
             of: connectWalletView,
-            as: .image(perceptualPrecision: 0.9, layout: .device(config: .iPhoneSe)))
+            as: .image(perceptualPrecision: 0.95, layout: .device(config: .iPhoneSe)))
     }
 
     func test_connectWallet_dark() async {
@@ -31,7 +31,7 @@ final class ConnectWalletSnapshotsTests: XCTestCase {
 
         assertSnapshot(
             of: connectWalletView,
-            as: .image(perceptualPrecision: 0.9, layout: .device(config: .iPhoneSe)))
+            as: .image(perceptualPrecision: 0.95, layout: .device(config: .iPhoneSe)))
     }
 
       func test_connectWallet_alert_light() async {
@@ -46,7 +46,7 @@ final class ConnectWalletSnapshotsTests: XCTestCase {
 
           assertSnapshot(
           of: connectWalletView,
-          as: .image(perceptualPrecision: 0.9, layout: .device(config: .iPhoneSe))
+          as: .image(perceptualPrecision: 0.95, layout: .device(config: .iPhoneSe))
         )
       }
 
@@ -62,7 +62,7 @@ final class ConnectWalletSnapshotsTests: XCTestCase {
 
           assertSnapshot(
           of: connectWalletView,
-          as: .image(perceptualPrecision: 0.9, layout: .device(config: .iPhoneSe)))
+          as: .image(perceptualPrecision: 0.95, layout: .device(config: .iPhoneSe)))
       }
 
     func test_connectingWallet_light() async {
@@ -72,7 +72,7 @@ final class ConnectWalletSnapshotsTests: XCTestCase {
 
         assertSnapshot(
             of: connectWalletView,
-            as: .image(perceptualPrecision: 0.9, layout: .device(config: .iPhoneSe)))
+            as: .image(perceptualPrecision: 0.95, layout: .device(config: .iPhoneSe)))
     }
 
     func test_connectingWallet_dark() async {
@@ -81,7 +81,7 @@ final class ConnectWalletSnapshotsTests: XCTestCase {
 
         assertSnapshot(
             of: connectWalletView,
-            as: .image(perceptualPrecision: 0.9, layout: .device(config: .iPhoneSe)))
+            as: .image(perceptualPrecision: 0.95, layout: .device(config: .iPhoneSe)))
     }
 }
 #endif
