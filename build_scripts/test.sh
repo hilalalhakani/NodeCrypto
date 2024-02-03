@@ -11,7 +11,7 @@ if $HAS_PACKAGES_CACHE_HIT; then
     -skipPackageUpdates \
     -disableAutomaticPackageResolution \
     -clonedSourcePackagesDirPath "$PACKAGES_PATH" \
-    -destination 'platform=iOS Simulator,name=iPhone SE (3rd generation),OS=17.2' |
+    -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0' |
     xcbeautify --renderer github-actions
 else
   # otherwise we run xcodebuild with full spm packages resolution
