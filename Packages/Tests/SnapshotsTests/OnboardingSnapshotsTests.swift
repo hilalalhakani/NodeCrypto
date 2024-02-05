@@ -13,7 +13,7 @@ final class OnboardingSnapshotsTests: XCTestCase {
       .environment(\.colorScheme, .light)
 
     assertSnapshot(
-      of: onboardingView, as: .image(perceptualPrecision: 0.95, layout: .device(config: .iPhoneSe)))
+      of: onboardingView, as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
   }
 
   func testpage2_light() async {
@@ -22,7 +22,7 @@ final class OnboardingSnapshotsTests: XCTestCase {
     }
     let onboardingView = OnboardingView(store: store).environment(\.colorScheme, .light)
     assertSnapshot(
-      of: onboardingView, as: .image(perceptualPrecision: 0.95, layout: .device(config: .iPhoneSe)))
+      of: onboardingView, as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
   }
 
   func testpage3_light() async {
@@ -31,7 +31,7 @@ final class OnboardingSnapshotsTests: XCTestCase {
     }
     let onboardingView = OnboardingView(store: store).environment(\.colorScheme, .light)
     assertSnapshot(
-      of: onboardingView, as: .image(perceptualPrecision: 0.95, layout: .device(config: .iPhoneSe)))
+      of: onboardingView, as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
   }
 
   func testpage4_light() async {
@@ -40,14 +40,14 @@ final class OnboardingSnapshotsTests: XCTestCase {
     }
     let onboardingView = OnboardingView(store: store).environment(\.colorScheme, .light)
     assertSnapshot(
-      of: onboardingView, as: .image(perceptualPrecision: 0.95, layout: .device(config: .iPhoneSe)))
+      of: onboardingView, as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
   }
 
   func testpage1_dark() async {
     let onboardingView = OnboardingView()
           .environment(\.colorScheme, .dark)
     assertSnapshot(
-      of: onboardingView, as: .image(perceptualPrecision: 0.95, layout: .device(config: .iPhoneSe)))
+      of: onboardingView, as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
   }
 
   func testpage2_dark() async {
@@ -58,7 +58,7 @@ final class OnboardingSnapshotsTests: XCTestCase {
       .environment(\.colorScheme, .dark)
 
     assertSnapshot(
-      of: onboardingView, as: .image(perceptualPrecision: 0.95, layout: .device(config: .iPhoneSe)))
+      of: onboardingView, as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
   }
 
   func testpage3_dark() async {
@@ -69,7 +69,7 @@ final class OnboardingSnapshotsTests: XCTestCase {
           .environment(\.colorScheme, .dark)
 
     assertSnapshot(
-      of: onboardingView, as: .image(perceptualPrecision: 0.95, layout: .device(config: .iPhoneSe)))
+      of: onboardingView, as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
   }
 
   func testpage4_dark() async {
@@ -79,7 +79,7 @@ final class OnboardingSnapshotsTests: XCTestCase {
     let onboardingView = OnboardingView(store: store)
           .environment(\.colorScheme, .dark)
     assertSnapshot(
-      of: onboardingView, as: .image(perceptualPrecision: 0.95, layout: .device(config: .iPhoneSe)))
+      of: onboardingView, as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
   }
 }
 #endif
