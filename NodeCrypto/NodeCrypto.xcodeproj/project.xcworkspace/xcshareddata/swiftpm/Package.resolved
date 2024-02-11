@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/oliverfoggin/swift-composable-analytics",
       "state" : {
-        "revision" : "bfc65262806bb616e62262f18116d9f6f7ee8d27",
-        "version" : "1.1.0"
+        "branch" : "main",
+        "revision" : "bfc65262806bb616e62262f18116d9f6f7ee8d27"
       }
     },
     {
@@ -51,7 +51,7 @@
       "location" : "https://github.com/pointfreeco/swift-composable-architecture",
       "state" : {
         "branch" : "main",
-        "revision" : "1b1355cf1fccf4f117bd354ca06c7b497233c003"
+        "revision" : "87b77a8bae4f461389d80c986a7c99ae181cd7fb"
       }
     },
     {
@@ -77,8 +77,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-dependencies",
       "state" : {
-        "revision" : "c31b1445c4fae49e6fdb75496b895a3653f6aefc",
-        "version" : "1.1.5"
+        "branch" : "main",
+        "revision" : "09e49dd46932adfe80ce672b4b3772d79ee6c21a"
       }
     },
     {
@@ -86,8 +86,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/tgrapperon/swift-dependencies-additions",
       "state" : {
-        "revision" : "02e7b1801a96828049fe4d3e8bdc5e608ef5ffbc",
-        "version" : "1.0.1"
+        "branch" : "main",
+        "revision" : "e8a7c46b5325f1d13cac424047dec16f82bbb943"
       }
     },
     {
@@ -100,12 +100,21 @@
       }
     },
     {
+      "identity" : "swift-perception",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/swift-perception",
+      "state" : {
+        "revision" : "42240120b2a8797595433288ab4118f8042214c3",
+        "version" : "1.1.1"
+      }
+    },
+    {
       "identity" : "swift-snapshot-testing",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Frameio/swift-snapshot-testing",
+      "location" : "https://github.com/pointfreeco/swift-snapshot-testing",
       "state" : {
-        "branch" : "image-colorspace-coversions",
-        "revision" : "2465c86a9f2166205ae3989e6909dfeb1d1b08a2"
+        "branch" : "main",
+        "revision" : "e7b77228b34057041374ebef00c0fd7739d71a2b"
       }
     },
     {
@@ -122,8 +131,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-tagged",
       "state" : {
-        "revision" : "3907a9438f5b57d317001dc99f3f11b46882272b",
-        "version" : "0.10.0"
+        "branch" : "main",
+        "revision" : "e4955955e17abc8765a79f3e4f1e56864cc4f2b5"
       }
     },
     {
@@ -140,8 +149,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/xctest-dynamic-overlay",
       "state" : {
-        "revision" : "23cbf2294e350076ea4dbd7d5d047c1e76b03631",
-        "version" : "1.0.2"
+        "revision" : "b58e6627149808b40634c4552fcf2f44d0b3ca87",
+        "version" : "1.1.0"
       }
     }
   ],

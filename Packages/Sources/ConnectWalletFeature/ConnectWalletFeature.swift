@@ -4,263 +4,144 @@ import SwiftUI
 
 @Reducer
 public struct ConnectWalletReducer {
+  public init() {}
+
+ @ObservableState
+  public struct State: Equatable {
+    public var showPopup = false
+    public var selectedWallet: WalletType? = .none
+    public var navigateToConnectingWallet = false
     public init() {}
+  }
 
-    public struct State: Equatable {
-        public var showPopup = false
-        public var selectedWallet: WalletType? = .none
-        @BindingState public var navigateToConnectingWallet = false
-        public init() {}
-    }
+  @CasePathable
+  public enum Action: TCAFeatureAction {
+    case view(ViewAction)
+    case `internal`(InternalAction)
+    case delegate(DelegateAction)
+  }
 
-    @CasePathable
-    public enum Action: TCAFeatureAction {
-        case view(ViewAction)
-        case `internal`(InternalAction)
-        case delegate(DelegateAction)
+  @CasePathable
+  public enum InternalAction {
+    case navigateToConnectingWallet(Bool)
+  }
 
-        init(action: ConnectWalletView.ViewAction) {
-            switch action {
-            case .binding(let action):
-                self = .internal(.binding(action))
-            }
-        }
-    }
+  @CasePathable
+  public enum DelegateAction {}
 
-    @CasePathable
-    public enum InternalAction: BindableAction {
-        case binding(BindingAction<State>)
-    }
+  @CasePathable
+  public enum ViewAction {
+    case onButtonSelect(WalletType)
+    case cancelButtonPressed
+    case openButtonPressed
+    case popConnectingWalletView
+  }
 
-    @CasePathable
-    public enum DelegateAction {}
+  public var body: some ReducerOf<Self> {
 
-    @CasePathable
-    public enum ViewAction {
-        case onButtonSelect(WalletType)
-        case cancelButtonPressed
-        case openButtonPressed
-        case popConnectingWalletView
-    }
+    AnalyticsReducer { state, action in
 
-    public var body: some ReducerOf<Self> {
+      switch action {
 
-        BindingReducer(action: \.internal)
+      case .view(let viewAction):
+        switch viewAction {
 
-        AnalyticsReducer { state, action in
+        case .onButtonSelect(let wallet):
+          return .event(name: "walletSelected", properties: ["wallet": wallet.rawValue])
 
-            switch action {
-
-            case .view(let viewAction):
-                switch viewAction {
-
-                case .onButtonSelect(let wallet):
-                    return .event(name: "walletSelected", properties: ["wallet": wallet.rawValue])
-
-                default:
-                    return .none
-                }
-
-            default:
-                return .none
-            }
+        default:
+          return .none
         }
 
-        NestedAction(\.view) { state, action in
-            switch action {
-            case .onButtonSelect(let wallet):
-                state.selectedWallet = wallet
-                state.showPopup = true
-                return .none
-            case .cancelButtonPressed:
-                state.showPopup = false
-                return .none
-            case .openButtonPressed:
-                state.showPopup = false
-                state.navigateToConnectingWallet = true
-                return .none
-            case .popConnectingWalletView:
-                state.navigateToConnectingWallet = false
-                return .none
-            }
-        }
+      default:
+        return .none
+      }
     }
-}
 
-extension BindingViewStore<ConnectWalletReducer.State> {
-    var view: ConnectWalletView.ViewState {
-        ConnectWalletView.ViewState(
-            navigateToConnectingWallet: self.$navigateToConnectingWallet,
-            showPopup: self.showPopup,
-            selectedWallet: self.selectedWallet
-        )
+    NestedAction(\.view) { state, action in
+      switch action {
+      case .onButtonSelect(let wallet):
+        state.selectedWallet = wallet
+        state.showPopup = true
+        return .none
+      case .cancelButtonPressed:
+        state.showPopup = false
+        return .none
+      case .openButtonPressed:
+        state.showPopup = false
+        state.navigateToConnectingWallet = true
+        return .none
+      case .popConnectingWalletView:
+        state.navigateToConnectingWallet = false
+        return .none
+      }
     }
+  }
 }
 
 public struct ConnectWalletView: View {
-    var store: StoreOf<ConnectWalletReducer>
+ @Perception.Bindable var store: StoreOf<ConnectWalletReducer>
 
-    public init(store: StoreOf<ConnectWalletReducer>) {
-        self.store = store
-    }
+  public init(store: StoreOf<ConnectWalletReducer>) {
+    self.store = store
+  }
 
-    struct ViewState: Equatable {
-        @BindingViewState var navigateToConnectingWallet: Bool
-        var showPopup: Bool
-        var selectedWallet: WalletType?
-    }
+  public var body: some View {
 
-    enum ViewAction: Equatable, BindableAction {
-        case binding(BindingAction<ConnectWalletReducer.State>)
-    }
+    WithPerceptionTracking {
 
-    public var body: some View {
+      ZStack {
 
-        WithViewStore(store, observe: \.view, send: ConnectWalletReducer.Action.init) { viewStore in
+        BackgroundLinearGradient()
 
-            ZStack {
+        VStack(alignment: .center) {
 
-                BackgroundLinearGradient()
+          Image(.background)
+            .resizable()
+            .scaledToFit()
 
-                VStack(alignment: .center) {
+          Text("Connect Wallet", bundle: .module)
+            .multilineTextAlignment(.center)
+            .font(Font(FontName.poppinsBold, size: 24))
+            .foregroundStyle(Color.neutral2)
 
-                    Image(.background)
-                        .resizable()
-                        .scaledToFit()
+          Spacer()
 
-                    Text("Connect Wallet", bundle: .module)
-                        .multilineTextAlignment(.center)
-                        .font(Font(FontName.poppinsBold, size: 24))
-                        .foregroundStyle(Color.neutral2)
+          ListView(didSelectButton: { store.send(.view(.onButtonSelect($0)), animation: .easeIn) })
+            .frame(height: 350)
+            .padding(.horizontal, 20)
 
-                    Spacer()
-
-                    ListView(didSelectButton: { store.send(.view(.onButtonSelect($0)), animation: .easeIn) })
-                        .frame(height: 350)
-                        .padding(.horizontal, 20)
-
-                }
-                .frame(maxWidth: .infinity, alignment: .center)
-                .padding(.vertical)
-            }
-            .popup(
-                isPresented: viewStore.showPopup,
-                confirmAction: {
-                    store.send(.view(.openButtonPressed), animation: .easeIn)
-                },
-                cancelAction: {
-                    store.send(.view(.cancelButtonPressed), animation: .easeIn)
-                }
-            )
-            .navigationDestination(isPresented: viewStore.$navigateToConnectingWallet) {
-                if let wallet = viewStore.selectedWallet {
-                    ConnectingWalletView(selectedWallet: wallet) {
-                        store.send(.view(.popConnectingWalletView))
-                    }
-                    .navigationBarBackButtonHidden(true)
-                }
-            }
         }
+        .frame(maxWidth: .infinity, alignment: .center)
+        .padding(.vertical)
+      }
+      .popup(
+        isPresented: store.showPopup,
+        confirmAction: {
+          store.send(.view(.openButtonPressed), animation: .easeIn)
+        },
+        cancelAction: {
+          store.send(.view(.cancelButtonPressed), animation: .easeIn)
+        }
+      )
+      .navigationDestination(isPresented: $store.navigateToConnectingWallet.sending(\.internal.navigateToConnectingWallet)) {
+        if let wallet = store.selectedWallet {
+          ConnectingWalletView(selectedWallet: wallet) {
+            store.send(.view(.popConnectingWalletView))
+          }
+          .navigationBarBackButtonHidden(true)
+        }
+      }
     }
+  }
 }
 
 #Preview {
-    ConnectWalletView(
-        store: .init(
-            initialState: .init(),
-            reducer: { ConnectWalletReducer() }
-        )
+  ConnectWalletView(
+    store: .init(
+      initialState: .init(),
+      reducer: { ConnectWalletReducer() }
     )
+  )
 }
 
-extension View {
-    func popup(
-        isPresented: Bool,
-        confirmAction: @escaping () -> Void,
-        cancelAction: @escaping () -> Void
-    ) -> some View {
-        self.modifier(
-            PopUpModifier(
-                isPresented: isPresented,
-                confirmAction: confirmAction,
-                cancelAction: cancelAction
-            )
-        )
-    }
-}
-
-struct PopUpModifier: ViewModifier {
-    let isPresented: Bool
-    let confirmAction: () -> Void
-    let cancelAction: () -> Void
-
-    func body(content: Content) -> some View {
-        ZStack {
-            content
-                .zIndex(0)
-
-            if isPresented {
-                Color.neutral1
-                    .opacity(0.5)
-                    .ignoresSafeArea()
-                    .transition(.opacity.animation(.easeInOut))
-                    .zIndex(1)
-
-                VStack(spacing: 0) {
-                    Text("This page will open another application.", bundle: .module)
-                        .multilineTextAlignment(.center)
-                        .foregroundStyle(Color.neutral2)
-                        .font(Font(FontName.poppinsRegular, size: 12))
-                        .padding(.bottom, 20)
-                    makeButton(
-                        foregroundStyle: .white,
-                        tint: Color.primary1,
-                        label: {
-                            Text("Open")
-                                .font(Font(FontName.dmSansBold, size: 14))
-                                .frame(width: 160)
-                        },
-                        action: confirmAction
-                    )
-                    .padding(.bottom, 12)
-
-                    makeButton(
-                        foregroundStyle: .neutral2,
-                        tint: .clear,
-                        label: {
-                            Text("Cancel")
-                                .font(Font(FontName.dmSansBold, size: 14))
-                                .frame(width: 160)
-                        },
-                        action: cancelAction
-                    )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 90)
-                            .inset(by: 1)
-                            .stroke(Color.connectWalletCancelBorder)
-                    )
-                }
-                .padding(20)
-                .background(
-                    Color.connectWalletAlertBackground
-                        .clipShape(RoundedRectangle(cornerRadius: 32))
-                )
-                .animation(.easeInOut, value: self.isPresented)
-                .zIndex(2)
-            }
-        }
-    }
-
-    @ViewBuilder func makeButton(
-        foregroundStyle: Color,
-        tint: Color,
-        @ViewBuilder label: () -> some View,
-        action: @escaping () -> Void
-    ) -> some View {
-        Button(action: action, label: label)
-            .foregroundStyle(foregroundStyle)
-            .tint(tint)
-            .buttonStyle(.borderedProminent)
-            .clipShape(Capsule())
-    }
-}
