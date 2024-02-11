@@ -5,9 +5,10 @@ import SwiftUI
 public struct OnboardingViewReducer {
   public init() {}
 
+@ObservableState
   public struct State: Equatable {
     public var onboardingStepper: OnboardingStepperReducer.State
-    @BindingState public var currentStep: OnboardingStep
+    public var currentStep: OnboardingStep
     public var isGetStartedButtonHidden = true
     public init(currentStep: OnboardingStep = .step1) {
       self.currentStep = currentStep
@@ -17,22 +18,11 @@ public struct OnboardingViewReducer {
   }
 
   @CasePathable
-  public enum Action: TCAFeatureAction {
-    case view(ViewAction)
-    case `internal`(InternalAction)
-    case delegate(DelegateAction)
-
-    init(action: OnboardingView.ViewAction) {
-      switch action {
-      case .binding(let action):
-        self = .internal(.binding(action))
-      case .onSkipButtonPressed:
-        self = .view(.onSkipButtonPressed)
-      case .onGetStartedButtonPressed:
-        self = .view(.onGetStartedButtonPressed)
-      }
+    public enum Action: TCAFeatureAction {
+        case view(ViewAction)
+        case `internal`(InternalAction)
+        case delegate(DelegateAction)
     }
-  }
 
   @CasePathable
   public enum InternalAction: BindableAction {
@@ -122,17 +112,9 @@ public struct OnboardingViewReducer {
   }
 }
 
-extension BindingViewStore<OnboardingViewReducer.State> {
-  var view: OnboardingView.ViewState {
-    OnboardingView.ViewState(
-      currentStep: self.$currentStep,
-      isGetStartedButtonHidden: self.isGetStartedButtonHidden
-    )
-  }
-}
 
 public struct OnboardingView: View {
-  var store: StoreOf<OnboardingViewReducer>
+ @Perception.Bindable var store: StoreOf<OnboardingViewReducer>
 
   public init(
     store: StoreOf<OnboardingViewReducer> = .init(initialState: .init()) { OnboardingViewReducer() }
@@ -140,53 +122,42 @@ public struct OnboardingView: View {
     self.store = store
   }
 
-  struct ViewState: Equatable {
-    @BindingViewState var currentStep: OnboardingStep
-    var isGetStartedButtonHidden: Bool
-  }
-
-  enum ViewAction: Equatable, BindableAction {
-    case binding(BindingAction<OnboardingViewReducer.State>)
-    case onSkipButtonPressed
-    case onGetStartedButtonPressed
-  }
-
   public var body: some View {
-    WithViewStore(store, observe: \.view, send: OnboardingViewReducer.Action.init) { viewStore in
+   WithPerceptionTracking {
       ZStack(alignment: .center) {
         BackgroundLinearGradient(
-          colors: viewStore.currentStep.value().gradientColors
+          colors: store.currentStep.value().gradientColors
         )
 
         VStack {
           HStack {
             SkipButton(action: {
-              viewStore.send(.onSkipButtonPressed)
+                store.send(.view(.onSkipButtonPressed))
             })
 
             Spacer()
 
             OnboardingBarStepper(
               numberOfSteps: OnboardingStep.allCases.count,
-              currentStep: viewStore.$currentStep
+              currentStep: $store.currentStep.sending(\.view.onSelectedIndexChange)
             )
           }
           .frame(maxWidth: .infinity)
 
           BackgroundImage(
-            imageResource: viewStore.currentStep.value().imageName
+            imageResource: store.currentStep.value().imageName
           )
 
           OnboardingLabels(
-            title: viewStore.currentStep.value().title,
-            subtitle: viewStore.currentStep.value().subtitle
+            title: store.currentStep.value().title,
+            subtitle: store.currentStep.value().subtitle
           )
 
           Spacer()
             .frame(height: 75)
 
           Group {
-            if viewStore.isGetStartedButtonHidden {
+            if store.isGetStartedButtonHidden {
               OnboardingStepper(
                 store: self.store.scope(
                   state: \.onboardingStepper,
@@ -196,7 +167,7 @@ public struct OnboardingView: View {
             } else {
               Button(
                 action: {
-                  viewStore.send(.onGetStartedButtonPressed)
+                    store.send(.view(.onGetStartedButtonPressed))
                 },
                 label: {
                   Text("Get started now", bundle: .module)
@@ -214,7 +185,7 @@ public struct OnboardingView: View {
         }
         .padding([.horizontal, .top])
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .animation(.easeIn, value: viewStore.currentStep)
+        .animation(.easeIn, value: store.currentStep)
         .transition(
           AnyTransition.asymmetric(
             insertion: .offset(x: 0, y: 50),

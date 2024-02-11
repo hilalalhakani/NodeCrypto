@@ -9,8 +9,9 @@ public struct OnboardingStepperReducer {
         self.totalSteps = totalSteps
     }
 
+    @ObservableState
     public struct State: Equatable {
-        @BindingState public var currentStep: OnboardingStep
+        public var currentStep: OnboardingStep
         public var forwardButtonDisabled = false
         public var backwardButtonDisabled = true
 
@@ -29,9 +30,8 @@ public struct OnboardingStepperReducer {
     }
 
     @CasePathable
-    public enum InternalAction: BindableAction {
+    public enum InternalAction {
         case updateStep(OnboardingStep)
-        case binding(BindingAction<State>)
     }
 
     @CasePathable
@@ -46,8 +46,6 @@ public struct OnboardingStepperReducer {
     }
 
     public var body: some Reducer<State, Action> {
-
-        BindingReducer(action: \.internal)
 
         Reduce { state, action in
 
@@ -80,8 +78,6 @@ public struct OnboardingStepperReducer {
                     state.forwardButtonDisabled = step.rawValue == totalSteps - 1
                     state.backwardButtonDisabled = step.rawValue == 0
                     return .none
-                case .binding:
-                    return .none
                 }
             }
         }
@@ -89,7 +85,7 @@ public struct OnboardingStepperReducer {
 }
 
 struct OnboardingStepper: View {
-    let store: StoreOf<OnboardingStepperReducer>
+    @Perception.Bindable var store: StoreOf<OnboardingStepperReducer>
     let disabledColor = Color.neutral5
 
     init(store: StoreOf<OnboardingStepperReducer>) {
@@ -97,29 +93,29 @@ struct OnboardingStepper: View {
     }
 
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithPerceptionTracking {
             HStack {
                 Button(action: {
-                    viewStore.send(.view(.onBackwardButtonPress))
+                    store.send(.view(.onBackwardButtonPress))
                 }) {
                     Image(systemName: "arrow.backward")
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(
-                    StepperButtonStyle(isDisabled: viewStore.backwardButtonDisabled)
+                    StepperButtonStyle(isDisabled: store.backwardButtonDisabled)
                 )
 
                 Divider()
                     .frame(width: 2, height: 24)
 
                 Button(action: {
-                    viewStore.send(.view(.onForwardButtonPress))
+                    store.send(.view(.onForwardButtonPress))
                 }) {
                     Image(systemName: "arrow.forward")
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(
-                    StepperButtonStyle(isDisabled: viewStore.forwardButtonDisabled)
+                    StepperButtonStyle(isDisabled: store.forwardButtonDisabled)
                 )
             }
             .frame(width: 154, height: 64)
