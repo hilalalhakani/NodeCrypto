@@ -7,11 +7,10 @@
 
 import Combine
 import Foundation
-import Tagged
-import Dependencies
+//import Dependencies
 
 public struct User: Identifiable, Hashable, Sendable, Codable, Equatable {
-    public var id: Tagged<Self, UUID>
+    public var id: UUID
     public var email: String
     public var fullName: String = ""
     public var mobileNumber: String = ""

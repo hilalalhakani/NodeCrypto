@@ -15,7 +15,7 @@ struct TabItem: View {
           activeTab = tab
         }
         Circle()
-            .fill(tab == activeTab ? Color.neutral8 : .clear)
+            .fill(tab == activeTab ? Color.neutral1 : .clear)
             .frame(width: 10, height: 10, alignment: .center)
     }
 

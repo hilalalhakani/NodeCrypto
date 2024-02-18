@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import StyleGuide
+import SharedModels
 
 public struct ListView: View {
   let didSelectButton: (WalletType) -> Void

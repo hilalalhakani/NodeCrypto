@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import StyleGuide
+import SharedModels
 
 struct WalletListRow: View {
   let title: LocalizedStringKey

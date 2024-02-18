@@ -6,11 +6,11 @@ import SwiftUI
 public struct ConnectWalletReducer {
   public init() {}
 
- @ObservableState
+  @ObservableState
   public struct State: Equatable {
     public var showPopup = false
     public var selectedWallet: WalletType? = .none
-    public var navigateToConnectingWallet = false
+    @Presents public var connectWallet: ConnectingWalletViewReducer.State?
     public init() {}
   }
 
@@ -23,7 +23,7 @@ public struct ConnectWalletReducer {
 
   @CasePathable
   public enum InternalAction {
-    case navigateToConnectingWallet(Bool)
+    case connectWalletView(PresentationAction<ConnectingWalletViewReducer.Action>)
   }
 
   @CasePathable
@@ -39,48 +39,74 @@ public struct ConnectWalletReducer {
 
   public var body: some ReducerOf<Self> {
 
-    AnalyticsReducer { state, action in
+    CombineReducers {
 
-      switch action {
+      AnalyticsReducer { state, action in
 
-      case .view(let viewAction):
-        switch viewAction {
+        switch action {
 
+        case .view(let viewAction):
+          switch viewAction {
+
+          case .onButtonSelect(let wallet):
+            return .event(name: "walletSelected", properties: ["wallet": wallet.rawValue])
+
+          default:
+            return .none
+          }
+
+        default:
+          return .none
+        }
+      }
+
+      NestedAction(\.view) { state, action in
+        switch action {
         case .onButtonSelect(let wallet):
-          return .event(name: "walletSelected", properties: ["wallet": wallet.rawValue])
+          state.selectedWallet = wallet
+          state.showPopup = true
+          return .none
+        case .cancelButtonPressed:
+          state.showPopup = false
+          return .none
+        case .openButtonPressed:
+          state.showPopup = false
+          if let selectedWallet = state.selectedWallet {
+            state.connectWallet = .init(wallet: selectedWallet)
+          }
+          return .none
+        case .popConnectingWalletView:
+          state.connectWallet = nil
+          return .none
+        }
+      }
+
+      NestedAction(\.internal) { state, action in
+
+        switch action {
+
+        case .connectWalletView(.presented(.delegate(.backButtonPressed))):
+          state.connectWallet = nil
+          return .none
+
+        case .connectWalletView(.presented(.delegate(.alertDismissed))):
+          state.connectWallet = nil
+          return .none
 
         default:
           return .none
         }
 
-      default:
-        return .none
       }
     }
-
-    NestedAction(\.view) { state, action in
-      switch action {
-      case .onButtonSelect(let wallet):
-        state.selectedWallet = wallet
-        state.showPopup = true
-        return .none
-      case .cancelButtonPressed:
-        state.showPopup = false
-        return .none
-      case .openButtonPressed:
-        state.showPopup = false
-        state.navigateToConnectingWallet = true
-        return .none
-      case .popConnectingWalletView:
-        state.navigateToConnectingWallet = false
-        return .none
-      }
+    .ifLet(\.$connectWallet, action: \.internal.connectWalletView) {
+      ConnectingWalletViewReducer()
     }
   }
 }
 
 public struct ConnectWalletView: View {
- @Perception.Bindable var store: StoreOf<ConnectWalletReducer>
+  @Perception.Bindable var store: StoreOf<ConnectWalletReducer>
 
   public init(store: StoreOf<ConnectWalletReducer>) {
     self.store = store
@@ -124,13 +150,11 @@ public struct ConnectWalletView: View {
           store.send(.view(.cancelButtonPressed), animation: .easeIn)
         }
       )
-      .navigationDestination(isPresented: $store.navigateToConnectingWallet.sending(\.internal.navigateToConnectingWallet)) {
-        if let wallet = store.selectedWallet {
-          ConnectingWalletView(selectedWallet: wallet) {
-            store.send(.view(.popConnectingWalletView))
-          }
+      .navigationDestinationWrapper(
+        item: $store.scope(state: \.connectWallet, action: \.internal.connectWalletView)
+      ) { store in
+        ConnectingWalletView(store: store)
           .navigationBarBackButtonHidden(true)
-        }
       }
     }
   }
@@ -144,4 +168,3 @@ public struct ConnectWalletView: View {
     )
   )
 }
-
