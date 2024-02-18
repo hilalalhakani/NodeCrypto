@@ -2,17 +2,33 @@ import Foundation
 import NodeCryptoCore
 import SwiftUI
 
-struct RootView: View {
+@Reducer
+public struct RootViewReducer {
+  public init() {}
+  public struct State: Equatable { public init() {} }
+  public enum Action {}
+
+  public func reduce(into state: inout State, action: Action) -> Effect<Action> {
+    return .none
+  }
+}
+
+public struct RootView: View {
   @State private var activeTab: Tab = .home
   @Namespace var animation
+  let store: StoreOf<RootViewReducer>
 
-  var body: some View {
+  public init(store: StoreOf<RootViewReducer>) {
+    self.store = store
+  }
+
+  public var body: some View {
     VStack(spacing: 0) {
       TabView(selection: $activeTab) {
         Color.red
           .tag(Tab.home)
           .toolbar(.hidden, for: .tabBar)
-          Text("Services", bundle: .module)
+        Text("Services", bundle: .module)
           .tag(Tab.search)
           .toolbar(.hidden, for: .tabBar)
         Text("Notifications", bundle: .module)
@@ -47,5 +63,10 @@ struct RootView: View {
 }
 
 #Preview {
-  RootView()
+  RootView(
+    store: .init(
+      initialState: .init(),
+      reducer: { RootViewReducer() }
+    )
+  )
 }

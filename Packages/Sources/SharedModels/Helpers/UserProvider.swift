@@ -12,7 +12,7 @@ import Combine
 public struct UserProvider: Sendable {
     var _get: @Sendable () -> User?
     var _set: @Sendable (User?) -> Void
-    var _stream: @Sendable () -> AsyncStream<User?>
+    public var _stream: @Sendable () -> AsyncStream<User?>
     public init(
         get: @escaping @Sendable () -> User?,
         set: @escaping @Sendable (User?) -> Void,
@@ -39,8 +39,8 @@ extension UserProvider: DependencyKey {
     } set: { newValue in
       user.withValue {
         $0 = newValue
+        currentValueSubject.send(newValue)
       }
-      currentValueSubject.send(newValue)
     } stream: {
       currentValueSubject.values.eraseToStream()
     }
