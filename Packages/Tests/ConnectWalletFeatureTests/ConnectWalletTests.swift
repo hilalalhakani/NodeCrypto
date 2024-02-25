@@ -2,6 +2,7 @@ import ComposableArchitecture
 import ConnectWalletFeature
 import Foundation
 import XCTest
+import SharedModels
 
 @MainActor
 final class ConnectWalletTests: XCTestCase {
@@ -39,12 +40,17 @@ final class ConnectWalletTests: XCTestCase {
     func testOpenButtonPressed() async {
         let store = TestStore(
             initialState: ConnectWalletReducer.State(),
-            reducer: { ConnectWalletReducer() }
+            reducer: { ConnectWalletReducer().dependency(\.analyticsClient, .consoleLogger) }
         )
+
+        await store.send(.view(.onButtonSelect(.metamask))) {
+            $0.showPopup = true
+            $0.selectedWallet = .metamask
+        }
 
         await store.send(.view(.openButtonPressed)) {
             $0.showPopup = false
-            $0.navigateToConnectingWallet = true
+            $0.connectWallet = .init(wallet: .metamask)
         }
     }
 
@@ -52,17 +58,23 @@ final class ConnectWalletTests: XCTestCase {
     func testNavigation() async {
         let store = TestStore(
             initialState: ConnectWalletReducer.State(),
-            reducer: { ConnectWalletReducer() }
+            reducer: { ConnectWalletReducer()
+                .dependency(\.analyticsClient, .consoleLogger)}
         )
 
 
+        await store.send(.view(.onButtonSelect(.metamask))) {
+            $0.showPopup = true
+            $0.selectedWallet = .metamask
+        }
+ 
         await store.send(.view(.openButtonPressed)) {
             $0.showPopup = false
-            $0.navigateToConnectingWallet = true
+            $0.connectWallet = .init(wallet: .metamask)
         }
 
         await  store.send(.view(.popConnectingWalletView)) {
-            $0.navigateToConnectingWallet = false
+            $0.connectWallet = nil
         }
     }
 

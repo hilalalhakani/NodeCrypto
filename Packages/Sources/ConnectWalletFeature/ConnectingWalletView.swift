@@ -16,17 +16,23 @@ import Keychain
 @Reducer
 public struct ConnectingWalletViewReducer {
     @Dependency(\.apiClient.connectWallet.connectWallet) var connectWallet
-    @Dependency(\.device.identifierForVendor) var identifierForVendor
+    @Dependency(\.device) var device
     @Dependency(\.dismiss) var dismiss
     @Dependency(\.encode) var encode
     @Dependency(\.keychainManager) var keychainManager
     @Dependency(\.logger) var logger
     @Dependency(\.user) var currentUser
 
+    public init() {}
+
   @ObservableState
   public struct State: Hashable {
     let wallet: WalletType
     @Presents var alert: AlertState<Action.InternalAction.Alert>?
+
+      public init(wallet: WalletType) {
+          self.wallet = wallet
+      }
   }
   @CasePathable
   public enum Action: TCAFeatureAction {
@@ -64,12 +70,15 @@ public struct ConnectingWalletViewReducer {
               switch action {
               case .onAppear:
                   return .run { [state] send in
+                      guard let identifier = await device.identifierForVendor?.uuidString else {
+                         fatalError()
+                      }
                       await send(
                         .internal(
                             .onConnectWallet(
                                 Result {
                                     try await connectWallet(
-                                        state.wallet, identifierForVendor!.uuidString)
+                                        state.wallet, identifier)
                                 }
                             )
                         ))

@@ -50,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-composable-architecture",
       "state" : {
-        "branch" : "main",
-        "revision" : "115fb559552c23cc4c23eba63e0b82b6c7bba857"
+        "revision" : "856f9b8d82f6851b7f61ec4c5ce9e4c18ebbdb45",
+        "version" : "1.8.2"
       }
     },
     {
@@ -77,8 +77,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-dependencies",
       "state" : {
-        "branch" : "main",
-        "revision" : "09e49dd46932adfe80ce672b4b3772d79ee6c21a"
+        "revision" : "09e49dd46932adfe80ce672b4b3772d79ee6c21a",
+        "version" : "1.2.1"
       }
     },
     {
@@ -113,8 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-snapshot-testing",
       "state" : {
-        "branch" : "main",
-        "revision" : "e7b77228b34057041374ebef00c0fd7739d71a2b"
+        "revision" : "e7b77228b34057041374ebef00c0fd7739d71a2b",
+        "version" : "1.15.3"
       }
     },
     {
@@ -140,8 +140,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swiftui-navigation",
       "state" : {
-        "branch" : "main",
-        "revision" : "d9e72f3083c08375794afa216fb2f89c0114f303"
+        "revision" : "d9e72f3083c08375794afa216fb2f89c0114f303",
+        "version" : "1.2.1"
       }
     },
     {
