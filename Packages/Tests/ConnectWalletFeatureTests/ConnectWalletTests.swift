@@ -67,7 +67,7 @@ final class ConnectWalletTests: XCTestCase {
             $0.showPopup = true
             $0.selectedWallet = .metamask
         }
- 
+
         await store.send(.view(.openButtonPressed)) {
             $0.showPopup = false
             $0.connectWallet = .init(wallet: .metamask)
