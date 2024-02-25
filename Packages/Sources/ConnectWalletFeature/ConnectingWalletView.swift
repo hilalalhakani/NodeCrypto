@@ -16,7 +16,6 @@ import Keychain
 @Reducer
 public struct ConnectingWalletViewReducer {
     @Dependency(\.apiClient.connectWallet.connectWallet) var connectWallet
-    @Dependency(\.device) var device
     @Dependency(\.dismiss) var dismiss
     @Dependency(\.encode) var encode
     @Dependency(\.keychainManager) var keychainManager
@@ -70,9 +69,15 @@ public struct ConnectingWalletViewReducer {
               switch action {
               case .onAppear:
                   return .run { [state] send in
-                      guard let identifier = await device.identifierForVendor?.uuidString else {
-                         fatalError()
+                      let identifier: String
+#if os(iOS)
+                      @Dependency(\.device) var device
+                     guard identifier = await device.identifierForVendor?.uuidString else {
+                          fatalError()
                       }
+#else
+                      identifier = UUID().uuidString
+#endif
                       await send(
                         .internal(
                             .onConnectWallet(
