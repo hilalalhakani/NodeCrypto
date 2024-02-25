@@ -73,7 +73,8 @@ public struct AppViewReducer {
 
       NestedAction(\.internal) { state, internalAction in
         switch internalAction {
-        case let .onKeychainUser(.success(user)):
+        case .onKeychainUser(.success(let user)):
+            currentUser.set(user)
           state.destination = .rootView(.init())
           return .none
 
