@@ -74,7 +74,7 @@ public struct RootView: View {
 extension View {
     func hideToolbar() -> some View {
         #if os(iOS)
-        .toolbar(.hidden, for: .tabBar)
+        self.toolbar(.hidden, for: .tabBar)
         #else
         self
         #endif

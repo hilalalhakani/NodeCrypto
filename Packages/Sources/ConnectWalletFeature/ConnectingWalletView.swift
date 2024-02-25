@@ -72,9 +72,10 @@ public struct ConnectingWalletViewReducer {
                       let identifier: String
 #if os(iOS)
                       @Dependency(\.device) var device
-                     guard identifier = await device.identifierForVendor?.uuidString else {
+                      guard let identifierForVendor = await device.identifierForVendor?.uuidString else {
                           fatalError()
                       }
+                      identifier = identifierForVendor
 #else
                       identifier = UUID().uuidString
 #endif
