@@ -27,16 +27,16 @@ public struct RootView: View {
       TabView(selection: $activeTab) {
         Color.red
           .tag(Tab.home)
-          .toolbar(.hidden, for: .tabBar)
+          .hideToolbar()
         Text("Services", bundle: .module)
           .tag(Tab.search)
-          .toolbar(.hidden, for: .tabBar)
+          .hideToolbar()
         Text("Notifications", bundle: .module)
           .tag(Tab.notifications)
-          .toolbar(.hidden, for: .tabBar)
+          .hideToolbar()
         Text("Profile", bundle: .module)
           .tag(Tab.profile)
-          .toolbar(.hidden, for: .tabBar)
+          .hideToolbar()
       }
       customTabBar()
     }
@@ -69,4 +69,14 @@ public struct RootView: View {
       reducer: { RootViewReducer() }
     )
   )
+}
+
+extension View {
+    func hideToolbar() -> some View {
+        #if os(iOS)
+        .toolbar(.hidden, for: .tabBar)
+        #else
+        self
+        #endif
+    }
 }
