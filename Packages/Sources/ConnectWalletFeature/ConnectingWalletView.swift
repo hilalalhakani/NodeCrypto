@@ -21,7 +21,6 @@ public struct ConnectingWalletViewReducer {
     @Dependency(\.keychainManager) var keychainManager
     @Dependency(\.logger) var logger
     @Dependency(\.user) var currentUser
-    @Dependency(\.device) var device
 
     public init() {}
 
@@ -72,6 +71,7 @@ public struct ConnectingWalletViewReducer {
                   return .run { [state] send in
                       let identifier: String
 #if os(iOS)
+                      @Dependency(\.device) var device
                       guard let identifierForVendor = await device.identifierForVendor?.uuidString else {
                           fatalError()
                       }
