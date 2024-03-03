@@ -34,10 +34,35 @@ final class AppFeatureTests: XCTestCase {
 
         await store.send(.view(.onAppear)).cancel()
 
-        await store.receive(\.internal.onKeychainUser.success){
+        await store.receive(\.internal.onKeychainUser.success)
+
+        await store.receive(\.internal.userChanged, User.mock1) {
             $0.destination = .rootView(.init())
         }
+    }
 
-        await store.receive(\.internal.userChanged, User.mock1)
+    func test_getStartButtonPressed_navigatesToHome() async {
+
+        let store = TestStore(initialState: AppViewReducer.State()) {
+            AppViewReducer()
+        } withDependencies: {
+            $0.keychainManager.get = { @Sendable _ in throw NSError(domain: "", code: 0) }
+            $0.decode = .liveValue
+        }
+
+
+        await store.send(.view(.onAppear)).cancel()
+
+        await store.receive(\.internal.onKeychainUser.failure) {
+            $0.destination = .onboarding(.init())
+        }
+
+        await store.receive(\.internal.userChanged, nil)
+
+
+        await store.send(\.internal.destination.onboarding.delegate.onGetStartedButtonPressed) {
+            $0.$destination = .init(wrappedValue: .connectWallet(.init()))
+        }
+
     }
 }

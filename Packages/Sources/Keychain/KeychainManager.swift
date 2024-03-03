@@ -10,11 +10,11 @@ import NodeCryptoCore
 
 @DependencyClient
 public struct KeychainManager: Sendable {
-    public var set: @Sendable (_ value: Data, _ key: KeychainKey) async throws -> Void
-    public var delete: @Sendable (_ key: KeychainKey) async throws -> Void
-    public var deleteAll: @Sendable () async throws -> Void
-    public var get: @Sendable (_ key: KeychainKey) async throws -> Data
-    public var contains: @Sendable (_ key: KeychainKey) throws -> Bool
+    public var set:  (_ value: Data, _ key: KeychainKey) async throws -> Void
+    public var delete: (_ key: KeychainKey) async throws -> Void
+    public var deleteAll: () async throws -> Void
+    public var get: (_ key: KeychainKey) async throws -> Data
+    public var contains: (_ key: KeychainKey) throws -> Bool
 
     public enum Error: Swift.Error, Equatable {
         case securityError(OSStatus)
