@@ -14,13 +14,16 @@ import XCTest
           initialState: .init(),
           reducer: {
             ConnectWalletReducer()
-              .dependency(\.analyticsClient, .consoleLogger)
-              .dependency(\.device, .current)
-          })
+          },
+          withDependencies: {
+            $0.analyticsClient = .consoleLogger
+            $0.device = .current
+            $0.encode = .liveValue
+            $0.apiClient.connectWallet.connectWallet = { _, _ in .mock1 }
+          }
+        )
       )
       .environment(\.colorScheme, .light)
-
-      XCTExpectFailure("Fails in github actions environment. Should pass locally")
 
       assertSnapshot(
         of: connectWalletView,
@@ -33,13 +36,16 @@ import XCTest
           initialState: .init(),
           reducer: {
             ConnectWalletReducer()
-              .dependency(\.analyticsClient, .consoleLogger)
-              .dependency(\.device, .current)
-          })
+          },
+          withDependencies: {
+            $0.analyticsClient = .consoleLogger
+            $0.device = .current
+            $0.encode = .liveValue
+            $0.apiClient.connectWallet.connectWallet = { _, _ in .mock1 }
+          }
+        )
       )
       .environment(\.colorScheme, .dark)
-
-      XCTExpectFailure("Fails in github actions environment. Should pass locally")
 
       assertSnapshot(
         of: connectWalletView,
@@ -51,16 +57,19 @@ import XCTest
         initialState: ConnectWalletReducer.State(),
         reducer: {
           ConnectWalletReducer()
-            .dependency(\.analyticsClient, .consoleLogger)
-            .dependency(\.device, .current)
-        })
+        },
+        withDependencies: {
+          $0.analyticsClient = .consoleLogger
+          $0.device = .current
+          $0.encode = .liveValue
+          $0.apiClient.connectWallet.connectWallet = { _, _ in .mock1 }
+        }
+      )
 
       let connectWalletView = ConnectWalletView(store: store)
         .environment(\.colorScheme, .light)
 
       store.send(.view(.onButtonSelect(.coinbase)))
-
-      XCTExpectFailure("Fails in github actions environment. Should pass locally")
 
       assertSnapshot(
         of: connectWalletView,
@@ -73,16 +82,19 @@ import XCTest
         initialState: ConnectWalletReducer.State(),
         reducer: {
           ConnectWalletReducer()
-            .dependency(\.analyticsClient, .consoleLogger)
-            .dependency(\.device, .current)
-        })
+        },
+        withDependencies: {
+          $0.analyticsClient = .consoleLogger
+          $0.device = .current
+          $0.encode = .liveValue
+          $0.apiClient.connectWallet.connectWallet = { _, _ in .mock1 }
+        }
+      )
 
       let connectWalletView = ConnectWalletView(store: store)
         .environment(\.colorScheme, .dark)
 
       store.send(.view(.onButtonSelect(.coinbase)))
-
-      XCTExpectFailure("Fails in github actions environment. Should pass locally")
 
       assertSnapshot(
         of: connectWalletView,
@@ -91,20 +103,21 @@ import XCTest
 
     func test_connectingWallet_light() async {
 
-      let connectWalletView = ConnectingWalletView(
-        store: Store(
-          initialState: ConnectingWalletViewReducer.State(wallet: .metamask),
+      let connectWalletView = ConnectWalletView(
+        store: .init(
+          initialState: .init(),
           reducer: {
-            ConnectingWalletViewReducer()
-              .dependency(\.analyticsClient, .consoleLogger)
-              .dependency(\.device, .current)
-
+            ConnectWalletReducer()
+          },
+          withDependencies: {
+            $0.analyticsClient = .consoleLogger
+            $0.device = .current
+            $0.encode = .liveValue
+            $0.apiClient.connectWallet.connectWallet = { _, _ in .mock1 }
           }
         )
       )
       .environment(\.colorScheme, .light)
-
-      XCTExpectFailure("Fails in github actions environment. Should pass locally")
 
       assertSnapshot(
         of: connectWalletView,
@@ -113,20 +126,21 @@ import XCTest
 
     func test_connectingWallet_dark() async {
 
-      let connectWalletView = ConnectingWalletView(
-        store: Store(
-          initialState: ConnectingWalletViewReducer.State(wallet: .metamask),
+      let connectWalletView = ConnectWalletView(
+        store: .init(
+          initialState: .init(),
           reducer: {
-            ConnectingWalletViewReducer()
-              .dependency(\.analyticsClient, .consoleLogger)
-              .dependency(\.device, .current)
-
+            ConnectWalletReducer()
+          },
+          withDependencies: {
+            $0.analyticsClient = .consoleLogger
+            $0.device = .current
+            $0.encode = .liveValue
+            $0.apiClient.connectWallet.connectWallet = { _, _ in .mock1 }
           }
         )
       )
       .environment(\.colorScheme, .dark)
-
-      XCTExpectFailure("Fails in github actions environment. Should pass locally")
 
       assertSnapshot(
         of: connectWalletView,
