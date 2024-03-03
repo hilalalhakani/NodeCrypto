@@ -1,7 +1,9 @@
 import Foundation
 import StyleGuide
 import SwiftUI
+import CasePaths
 
+@CasePathable
 public enum OnboardingStep: Int, CaseIterable, Comparable, Equatable {
     public struct Step {
         let title: String

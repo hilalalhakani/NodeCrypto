@@ -74,8 +74,7 @@ public struct AppViewReducer {
       NestedAction(\.internal) { state, internalAction in
         switch internalAction {
         case .onKeychainUser(.success(let user)):
-            currentUser.set(user)
-          state.destination = .rootView(.init())
+          currentUser.set(user)
           return .none
 
         case let .onKeychainUser(.failure(error)):
@@ -100,9 +99,7 @@ public struct AppViewReducer {
         }
       }
     }
-    .ifLet(\.$destination, action: \.internal.destination) {
-      Destination()
-    }
+    .ifLet(\.$destination, action: \.internal.destination)
     .subscribe(
       to: currentUser._stream,
       on: \.view.onAppear,
@@ -110,39 +107,14 @@ public struct AppViewReducer {
     )
   }
 
-  public struct Destination: Reducer {
-    @CasePathable
-    @ObservableState
-    @dynamicMemberLookup
-    public enum State: Equatable {
-      case onboarding(OnboardingViewReducer.State)
+
+@Reducer(state: .equatable)
+  public enum Destination {
+      case onboarding(OnboardingViewReducer)
       case launchImage
-      case connectWallet(ConnectWalletReducer.State)
-      case rootView(RootViewReducer.State)
+      case connectWallet(ConnectWalletReducer)
+      case rootView(RootViewReducer)
     }
-
-    @CasePathable
-    public enum Action {
-      case onboarding(OnboardingViewReducer.Action)
-      case connectWallet(ConnectWalletReducer.Action)
-      case rootView(RootViewReducer.Action)
-    }
-
-    public var body: some ReducerOf<Self> {
-
-      Scope(state: \.onboarding, action: \.onboarding) {
-        OnboardingViewReducer()
-      }
-
-      Scope(state: \.connectWallet, action: \.connectWallet) {
-        ConnectWalletReducer()
-      }
-
-      Scope(state: \.rootView, action: \.rootView) {
-        RootViewReducer()
-      }
-    }
-  }
 }
 
 public struct AppView: View {
@@ -150,6 +122,9 @@ public struct AppView: View {
 
   public init(store: StoreOf<AppViewReducer>) {
     self.store = store
+      Task {
+          try await KeychainManager.liveValue.deleteAll()
+      }
   }
 
   public var body: some View {

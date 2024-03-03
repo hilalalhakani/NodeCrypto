@@ -1,8 +1,8 @@
 import ComposableArchitecture
 import ConnectWalletFeature
 import Foundation
-import XCTest
 import SharedModels
+import XCTest
 
 @MainActor
 final class ConnectWalletTests: XCTestCase {
@@ -13,8 +13,7 @@ final class ConnectWalletTests: XCTestCase {
             reducer: { ConnectWalletReducer().dependency(\.analyticsClient, .consoleLogger) }
         )
 
-        let walletType: WalletType = .coinbase
-        await store.send(.view(.onButtonSelect(walletType))) {
+        await store.send(\.view.onButtonSelect.coinbase) {
             $0.selectedWallet = .coinbase
             $0.showPopup = true
         }
@@ -27,12 +26,12 @@ final class ConnectWalletTests: XCTestCase {
         )
 
         let walletType: WalletType = .coinbase
-        await store.send(.view(.onButtonSelect(walletType))) {
+        await store.send(\.view.onButtonSelect.coinbase) {
             $0.selectedWallet = .coinbase
             $0.showPopup = true
         }
-        
-        await store.send(.view(.cancelButtonPressed)) {
+
+        await store.send(\.view.cancelButtonPressed) {
             $0.showPopup = false
         }
     }
@@ -43,37 +42,37 @@ final class ConnectWalletTests: XCTestCase {
             reducer: { ConnectWalletReducer().dependency(\.analyticsClient, .consoleLogger) }
         )
 
-        await store.send(.view(.onButtonSelect(.metamask))) {
+        await store.send(\.view.onButtonSelect.metamask) {
             $0.showPopup = true
             $0.selectedWallet = .metamask
         }
 
-        await store.send(.view(.openButtonPressed)) {
+        await store.send(\.view.openButtonPressed) {
             $0.showPopup = false
             $0.connectWallet = .init(wallet: .metamask)
         }
     }
 
-
     func testNavigation() async {
         let store = TestStore(
             initialState: ConnectWalletReducer.State(),
-            reducer: { ConnectWalletReducer()
-                .dependency(\.analyticsClient, .consoleLogger)}
+            reducer: {
+                ConnectWalletReducer()
+                    .dependency(\.analyticsClient, .consoleLogger)
+            }
         )
 
-
-        await store.send(.view(.onButtonSelect(.metamask))) {
+        await store.send(\.view.onButtonSelect.metamask) {
             $0.showPopup = true
             $0.selectedWallet = .metamask
         }
 
-        await store.send(.view(.openButtonPressed)) {
+        await store.send(\.view.openButtonPressed) {
             $0.showPopup = false
             $0.connectWallet = .init(wallet: .metamask)
         }
 
-        await  store.send(.view(.popConnectingWalletView)) {
+        await store.send(\.view.popConnectingWalletView) {
             $0.connectWallet = nil
         }
     }

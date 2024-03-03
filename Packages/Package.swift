@@ -22,7 +22,7 @@ let package = Package(
     .singleTargetLibrary("SharedModels"),
   ],
   dependencies: [
-    .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.8.2"),
+    .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.9.1"),
     .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.2.1"),
     .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.15.3"),
     .package(url: "https://github.com/tgrapperon/swift-dependencies-additions", branch: "main"),

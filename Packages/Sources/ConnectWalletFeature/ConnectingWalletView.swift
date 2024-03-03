@@ -21,13 +21,14 @@ public struct ConnectingWalletViewReducer {
     @Dependency(\.keychainManager) var keychainManager
     @Dependency(\.logger) var logger
     @Dependency(\.user) var currentUser
+    @Dependency(\.device) var device
 
     public init() {}
 
   @ObservableState
   public struct State: Hashable {
     let wallet: WalletType
-    @Presents var alert: AlertState<Action.InternalAction.Alert>?
+     @Presents  public var alert: AlertState<Action.InternalAction.Alert>?
 
       public init(wallet: WalletType) {
           self.wallet = wallet
@@ -71,13 +72,12 @@ public struct ConnectingWalletViewReducer {
                   return .run { [state] send in
                       let identifier: String
 #if os(iOS)
-                      @Dependency(\.device) var device
                       guard let identifierForVendor = await device.identifierForVendor?.uuidString else {
                           fatalError()
                       }
                       identifier = identifierForVendor
 #else
-                      identifier = UUID().uuidString
+                      identifier = ""
 #endif
                       await send(
                         .internal(
@@ -200,7 +200,7 @@ struct CancelButton: View {
 }
 
 extension AlertState where Action == ConnectingWalletViewReducer.Action.InternalAction.Alert {
-  static let noAccountFound = Self {
+    public  static let noAccountFound = Self {
     TextState("No account was found for this wallet")
   } actions: {
       ButtonState(role: .cancel, action: .dismissAlert) {

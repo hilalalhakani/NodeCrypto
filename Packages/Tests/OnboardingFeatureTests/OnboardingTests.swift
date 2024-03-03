@@ -70,7 +70,7 @@ final class OnboardingTests: XCTestCase {
             OnboardingViewReducer()
         }
 
-        await store.send(.view(.onSelectedIndexChange(OnboardingStep.step4))) {
+        await store.send(\.view.onSelectedIndexChange.step4) {
             $0.isGetStartedButtonHidden = false
             $0.currentStep = .step4
             $0.onboardingStepper.forwardButtonDisabled = true
@@ -88,7 +88,7 @@ final class OnboardingTests: XCTestCase {
             .event(name: "onSkipButtonPressed", properties: [:])
         )
 
-        await store.send(.view(.onSkipButtonPressed)) {
+        await store.send(\.view.onSkipButtonPressed) {
             let lastStep = OnboardingStep.allCases.last!
             $0.currentStep = lastStep
             $0.isGetStartedButtonHidden = false
@@ -109,7 +109,7 @@ final class OnboardingTests: XCTestCase {
             .event(name: "onGetStartedButtonPressed", properties: [:])
         )
 
-        await store.send(.view(.onGetStartedButtonPressed))
+        await store.send(\.view.onGetStartedButtonPressed)
         await store.receive(\.delegate.onGetStartedButtonPressed)
     }
 
@@ -118,7 +118,7 @@ final class OnboardingTests: XCTestCase {
             OnboardingViewReducer()
         }
 
-        await store.send(.view(.onboardingStepper(.view(.onForwardButtonPress)))) {
+        await store.send(\.view.onboardingStepper.view.onForwardButtonPress) {
             $0.onboardingStepper.currentStep = .step2
             $0.onboardingStepper.forwardButtonDisabled = false
             $0.onboardingStepper.backwardButtonDisabled = false
