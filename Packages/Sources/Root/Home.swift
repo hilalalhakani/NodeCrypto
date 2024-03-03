@@ -8,9 +8,7 @@ public struct RootViewReducer {
   public struct State: Equatable { public init() {} }
   public enum Action {}
 
-  public func reduce(into state: inout State, action: Action) -> Effect<Action> {
-    return .none
-  }
+
 }
 
 public struct RootView: View {
