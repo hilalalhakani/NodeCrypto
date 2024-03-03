@@ -25,7 +25,6 @@ final class ConnectWalletTests: XCTestCase {
             reducer: { ConnectWalletReducer().dependency(\.analyticsClient, .consoleLogger) }
         )
 
-        let walletType: WalletType = .coinbase
         await store.send(\.view.onButtonSelect.coinbase) {
             $0.selectedWallet = .coinbase
             $0.showPopup = true

@@ -11,7 +11,7 @@ final class ConnectWalletViewTests: XCTestCase {
     let store = TestStore(initialState: ConnectingWalletViewReducer.State(wallet: .coinbase)) {
       ConnectingWalletViewReducer()
     } withDependencies: {
-      $0.keychainManager.set = { _, _ in }
+      $0.keychainManager.set = { @Sendable _, _ in }
       $0.encode = .liveValue
       #if os(iOS)
         $0.device = .current
@@ -28,7 +28,7 @@ final class ConnectWalletViewTests: XCTestCase {
     let store = TestStore(initialState: ConnectingWalletViewReducer.State(wallet: .coinbase)) {
       ConnectingWalletViewReducer()
     } withDependencies: {
-      $0.keychainManager.set = { _, _ in }
+      $0.keychainManager.set = { @Sendable _, _ in }
       $0.encode = .liveValue
       #if os(iOS)
         $0.device = .current
