@@ -17,10 +17,9 @@ import Keychain
 public struct ConnectingWalletViewReducer {
     @Dependency(\.apiClient.connectWallet.connectWallet) var connectWallet
     @Dependency(\.dismiss) var dismiss
-    @Dependency(\.encode) var encode
     @Dependency(\.keychainManager) var keychainManager
     @Dependency(\.logger) var logger
-    @Dependency(\.user) var currentUser
+    @Dependency(\.userManager) var userManager
 
     public init() {}
 
@@ -99,15 +98,8 @@ public struct ConnectingWalletViewReducer {
           NestedAction(\.internal) { state, action in
               switch action {
               case .onConnectWallet(.success(let user)):
-                  return .run { _ in
-                      do {
-                          let encodedUser = try encode(user)
-                          try await keychainManager.set(encodedUser, .user)
-                          currentUser.set(user)
-                      } catch {
-                          logger.log(level: .error, "\(error.localizedDescription)")
-                      }
-                  }
+                userManager.user = user
+              return .none
 
               case .onConnectWallet(.failure):
                   state.alert = .noAccountFound

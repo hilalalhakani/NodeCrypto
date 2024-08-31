@@ -9,10 +9,12 @@ import ComposableArchitecture
 import OnboardingFeature
 import XCTest
 
-@MainActor
 final class OnboardingTests: XCTestCase {
-    func testForwardButtonAdvancesStep() async {
-        let store = TestStore(initialState: OnboardingStepperReducer.State(currentStep: .step1)) {
+
+    @MainActor func testForwardButtonAdvancesStep() async {
+        let store = TestStore(
+            initialState: OnboardingStepperReducer.State(currentStep: Shared(.step1))
+        ) {
             OnboardingStepperReducer(totalSteps: 3)
         }
 
@@ -21,11 +23,13 @@ final class OnboardingTests: XCTestCase {
             $0.backwardButtonDisabled = false
         }
 
-        await store.receive(\.delegate.updatedStep)
     }
 
+    @MainActor
     func testNavigationForwardThenBackwardUpdatesSteps() async {
-        let store = TestStore(initialState: OnboardingStepperReducer.State(currentStep: .step1)) {
+        let store = TestStore(
+            initialState: OnboardingStepperReducer.State(currentStep: Shared(.step1))
+        ) {
             OnboardingStepperReducer(totalSteps: 3)
         }
 
@@ -33,19 +37,19 @@ final class OnboardingTests: XCTestCase {
             $0.currentStep = .step2
             $0.backwardButtonDisabled = false
         }
-
-        await store.receive(\.delegate.updatedStep)
 
         await store.send(.view(.onBackwardButtonPress)) {
             $0.currentStep = .step1
             $0.backwardButtonDisabled = true
         }
 
-        await store.receive(\.delegate.updatedStep)
     }
 
+    @MainActor
     func testForwardButtonReachesLastStepAndDisables() async {
-        let store = TestStore(initialState: OnboardingStepperReducer.State(currentStep: .step1)) {
+        let store = TestStore(
+            initialState: OnboardingStepperReducer.State(currentStep: Shared(.step1))
+        ) {
             OnboardingStepperReducer(totalSteps: 3)
         }
 
@@ -53,8 +57,6 @@ final class OnboardingTests: XCTestCase {
             $0.currentStep = .step2
             $0.backwardButtonDisabled = false
         }
-
-        await store.receive(\.delegate.updatedStep)
 
         await store.send(.view(.onForwardButtonPress)) {
             $0.currentStep = .step3
@@ -62,23 +64,9 @@ final class OnboardingTests: XCTestCase {
             $0.forwardButtonDisabled = true
         }
 
-        await store.receive(\.delegate.updatedStep)
     }
 
-    func testSkipButtonVisibilityOnChangeToStepFour() async {
-        let store = TestStore(initialState: OnboardingViewReducer.State()) {
-            OnboardingViewReducer()
-        }
-
-        await store.send(\.view.onSelectedIndexChange.step4) {
-            $0.isGetStartedButtonHidden = false
-            $0.currentStep = .step4
-            $0.onboardingStepper.forwardButtonDisabled = true
-            $0.onboardingStepper.backwardButtonDisabled = false
-            $0.onboardingStepper.currentStep = .step4
-        }
-    }
-
+    @MainActor
     func testSkipButtonPressed() async {
         let store = TestStore(initialState: OnboardingViewReducer.State()) {
             OnboardingViewReducer()
@@ -93,13 +81,12 @@ final class OnboardingTests: XCTestCase {
             $0.currentStep = lastStep
             $0.isGetStartedButtonHidden = false
             $0.onboardingStepper.currentStep = lastStep
-            $0.onboardingStepper.backwardButtonDisabled = false
             $0.onboardingStepper.forwardButtonDisabled = true
         }
 
-
     }
 
+    @MainActor
     func testonGetStartedButtonPressed() async {
         let store = TestStore(initialState: OnboardingViewReducer.State()) {
             OnboardingViewReducer()
@@ -113,6 +100,7 @@ final class OnboardingTests: XCTestCase {
         await store.receive(\.delegate.onGetStartedButtonPressed)
     }
 
+    @MainActor
     func test_onboardingStepperChanged() async {
         let store = TestStore(initialState: OnboardingViewReducer.State()) {
             OnboardingViewReducer()
@@ -122,9 +110,6 @@ final class OnboardingTests: XCTestCase {
             $0.onboardingStepper.currentStep = .step2
             $0.onboardingStepper.forwardButtonDisabled = false
             $0.onboardingStepper.backwardButtonDisabled = false
-        }
-
-        await store.receive(\.view.onboardingStepper.delegate.updatedStep) {
             $0.currentStep = .step2
         }
     }

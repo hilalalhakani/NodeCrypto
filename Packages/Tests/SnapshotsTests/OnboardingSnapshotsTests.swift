@@ -5,62 +5,62 @@ import SnapshotTesting
 import XCTest
 
 #if os(iOS)
-  @MainActor
   @available(macOS, unavailable)
   final class OnboardingSnapshotsTests: XCTestCase {
-    func testpage1_light() async {
-      let onboardingView = OnboardingView()
+    @MainActor
+    func testpage1_light() {
+        let store: StoreOf<OnboardingViewReducer> = .init(initialState: .init(currentStep: .step2)) {
+          OnboardingViewReducer()
+        }
+
+      let onboardingView = OnboardingView(store: store)
         .environment(\.colorScheme, .light)
 
       assertSnapshot(
         of: onboardingView,
-        as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
+        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhoneSe)))
     }
 
-    func testpage2_light() async {
+    @MainActor
+    func testpage2_light() {
       let store: StoreOf<OnboardingViewReducer> = .init(initialState: .init(currentStep: .step2)) {
         OnboardingViewReducer()
-      } withDependencies: {
-        $0.keychainManager.set = { @Sendable _, _ in }
       }
 
       let onboardingView = OnboardingView(store: store).environment(\.colorScheme, .light)
       assertSnapshot(
         of: onboardingView,
-        as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
+        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhoneSe)))
     }
 
-    func testpage3_light() async {
+      @MainActor
+    func testpage3_light() {
       let store: StoreOf<OnboardingViewReducer> = .init(initialState: .init(currentStep: .step3)) {
         OnboardingViewReducer()
-      } withDependencies: {
-        $0.keychainManager.set = { @Sendable _, _ in }
       }
 
       let onboardingView = OnboardingView(store: store).environment(\.colorScheme, .light)
       assertSnapshot(
         of: onboardingView,
-        as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
+        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhoneSe)))
     }
 
-    func testpage4_light() async {
+      @MainActor
+    func testpage4_light() {
       let store: StoreOf<OnboardingViewReducer> = .init(initialState: .init(currentStep: .step4)) {
         OnboardingViewReducer()
-      } withDependencies: {
-        $0.keychainManager.set = { @Sendable _, _ in }
       }
 
       let onboardingView = OnboardingView(store: store).environment(\.colorScheme, .light)
       assertSnapshot(
         of: onboardingView,
-        as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
+        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhoneSe)))
     }
 
-    func testpage1_dark() async {
+      @MainActor
+    func testpage1_dark() {
       let store: StoreOf<OnboardingViewReducer> = .init(initialState: .init(currentStep: .step1)) {
         OnboardingViewReducer()
-      } withDependencies: {
-        $0.keychainManager.set = { @Sendable _, _ in }
       }
 
       let onboardingView = OnboardingView(store: store)
@@ -68,22 +68,24 @@ import XCTest
 
       assertSnapshot(
         of: onboardingView,
-        as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
+        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhoneSe)))
     }
 
-    func testpage2_dark() async {
+    @MainActor
+    func testpage2_dark() {
       let store = StoreOf<OnboardingViewReducer>.init(initialState: .init(currentStep: .step2)) {
         OnboardingViewReducer()
       }
+
       let onboardingView = OnboardingView(store: store)
         .environment(\.colorScheme, .dark)
 
       assertSnapshot(
         of: onboardingView,
-        as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
+        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhoneSe)))
     }
-
-    func testpage3_dark() async {
+      @MainActor
+    func testpage3_dark() {
       let store = StoreOf<OnboardingViewReducer>.init(initialState: .init(currentStep: .step3)) {
         OnboardingViewReducer()
       }
@@ -92,10 +94,10 @@ import XCTest
 
       assertSnapshot(
         of: onboardingView,
-        as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
+        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhoneSe)))
     }
-
-    func testpage4_dark() async {
+      @MainActor
+    func testpage4_dark() {
       let store = StoreOf<OnboardingViewReducer>.init(initialState: .init(currentStep: .step4)) {
         OnboardingViewReducer()
       }
@@ -103,7 +105,7 @@ import XCTest
         .environment(\.colorScheme, .dark)
       assertSnapshot(
         of: onboardingView,
-        as: .image(perceptualPrecision: 0.98, layout: .device(config: .iPhoneSe)))
+        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhoneSe)))
     }
   }
 #endif

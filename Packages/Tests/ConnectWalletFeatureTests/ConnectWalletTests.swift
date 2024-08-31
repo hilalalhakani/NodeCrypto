@@ -4,9 +4,9 @@ import Foundation
 import SharedModels
 import XCTest
 
-@MainActor
 final class ConnectWalletTests: XCTestCase {
 
+    @MainActor
     func testOnButtonSelect() async {
         let store = TestStore(
             initialState: ConnectWalletReducer.State(),
@@ -19,6 +19,7 @@ final class ConnectWalletTests: XCTestCase {
         }
     }
 
+    @MainActor
     func testCancelButtonPressed() async {
         let store = TestStore(
             initialState: ConnectWalletReducer.State(),
@@ -35,6 +36,7 @@ final class ConnectWalletTests: XCTestCase {
         }
     }
 
+    @MainActor
     func testOpenButtonPressed() async {
         let store = TestStore(
             initialState: ConnectWalletReducer.State(),
@@ -52,6 +54,7 @@ final class ConnectWalletTests: XCTestCase {
         }
     }
 
+    @MainActor
     func testNavigation() async {
         let store = TestStore(
             initialState: ConnectWalletReducer.State(),

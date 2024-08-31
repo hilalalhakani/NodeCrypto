@@ -11,24 +11,21 @@ public enum FontName: String {
 public extension Font {
     init(
         _ fontName: FontName,
-        size: CGFloat? = nil,
-        relativeTo textStyle: TextStyle = .body,
-        bundle: Bundle? = nil
+        size: CGFloat
     ) {
         #if canImport(UIKit)
-            let fontSize = size ?? UIFont.systemFontSize
+            let fontSize = size
             UIFont.registerFont(
-                bundle: bundle ?? .module,
+                bundle: .module,
                 fontName: fontName.rawValue,
                 fontExtension: "ttf"
             )
         #else
-            let fontSize = size ?? 12
+            let fontSize = size
         #endif
         self = Font.custom(
             fontName.rawValue,
-            size: fontSize,
-            relativeTo: textStyle
+            size: fontSize
         )
     }
 }

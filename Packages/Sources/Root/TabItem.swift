@@ -7,7 +7,9 @@ struct TabItem: View {
 
   var body: some View {
     VStack(alignment: .center, spacing: 2) {
-      Image(tab.systemImage)
+        Image(tab.systemImage, bundle: .module)
+        .resizable()
+        .renderingMode(.template)
         .font(.title2)
         .frame(width: 24, height: 24)
         .frame(maxWidth: .infinity)

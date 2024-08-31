@@ -11,14 +11,14 @@ public struct OnboardingStepperReducer {
 
     @ObservableState
     public struct State: Equatable {
-        public var currentStep: OnboardingStep
+        @Shared public var currentStep: OnboardingStep
         public var forwardButtonDisabled = false
         public var backwardButtonDisabled = true
 
-        public init(currentStep: OnboardingStep) {
-            self.currentStep = currentStep
-            forwardButtonDisabled = currentStep.rawValue == OnboardingStep.allCases.count - 1
-            backwardButtonDisabled = currentStep.rawValue == 0
+        public init(currentStep: Shared<OnboardingStep>) {
+            self._currentStep = currentStep
+            forwardButtonDisabled = currentStep.wrappedValue.rawValue == OnboardingStep.allCases.count - 1
+            backwardButtonDisabled = currentStep.wrappedValue.rawValue == 0
         }
     }
 
@@ -30,14 +30,10 @@ public struct OnboardingStepperReducer {
     }
 
     @CasePathable
-    public enum InternalAction {
-        case updateStep(OnboardingStep)
-    }
+    public enum InternalAction {}
 
     @CasePathable
-    public enum DelegateAction {
-        case updatedStep
-    }
+    public enum DelegateAction {}
 
     @CasePathable
     public enum ViewAction {
@@ -58,7 +54,7 @@ public struct OnboardingStepperReducer {
                         state.backwardButtonDisabled = false
                         state.forwardButtonDisabled = state.currentStep.rawValue == totalSteps - 1
                     }
-                    return .send(.delegate(.updatedStep))
+                    return .none
 
                 case .onBackwardButtonPress:
                     if state.currentStep.rawValue > 0 {
@@ -66,19 +62,21 @@ public struct OnboardingStepperReducer {
                         state.forwardButtonDisabled = false
                         state.backwardButtonDisabled = state.currentStep.rawValue == 0
                     }
-                    return .send(.delegate(.updatedStep))
+                    return .none
                 }
             case .delegate:
                 return .none
 
-            case let .internal(internalAction):
-                switch internalAction {
-                case let .updateStep(step):
-                    state.currentStep = step
-                    state.forwardButtonDisabled = step.rawValue == totalSteps - 1
-                    state.backwardButtonDisabled = step.rawValue == 0
+                case .internal:
                     return .none
-                }
+            }
+        }
+        .onChange(of: \.currentStep) { oldValue, newValue in
+            Reduce { state, _ in
+                state.currentStep = newValue
+                state.forwardButtonDisabled = newValue.rawValue == totalSteps - 1
+                state.backwardButtonDisabled = newValue.rawValue == 0
+                return .none
             }
         }
     }
@@ -120,7 +118,7 @@ struct OnboardingStepper: View {
             }
             .frame(width: 154, height: 64)
             .background(Color.neutral8)
-            .clipShape(RoundedRectangle(cornerRadius: 16))
+            .clipShape(RoundedRectangle(cornerRadius: 16, style: .circular))
         }
     }
 }
@@ -130,7 +128,7 @@ struct OnboardingStepper: View {
         static var previews: some View {
             OnboardingStepper(
                 store: .init(
-                    initialState: .init(currentStep: .step1),
+                    initialState: .init(currentStep: Shared(.step1)),
                     reducer: { OnboardingStepperReducer(totalSteps: 4) }
                 )
             )
@@ -142,7 +140,7 @@ struct OnboardingStepper: View {
         static var previews: some View {
             OnboardingStepper(
                 store: .init(
-                    initialState: .init(currentStep: .step1),
+                    initialState: .init(currentStep: Shared(.step1)),
                     reducer: { OnboardingStepperReducer(totalSteps: 4) }
                 )
             )
