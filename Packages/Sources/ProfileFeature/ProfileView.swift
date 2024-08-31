@@ -379,9 +379,9 @@ public struct ProfileView: View {
         .transition(.opacity.animation(.easeInOut))
     }
 
+#if os(iOS)
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
-        #if os(iOS)
             ToolbarItem(placement: .topBarTrailing) {
                 Button(
                     action: {
@@ -394,8 +394,8 @@ public struct ProfileView: View {
                     }
                 )
             }
-        #endif
     }
+#endif
 
     @ViewBuilder
     var onSaleView: some View {

@@ -120,7 +120,9 @@ public struct RootView: View {
     var blurView: some View {
         Rectangle()
             .foregroundStyle(.clear)
+#if os(iOS)
             .background(BlurView(style: .extraLight))
+        #endif
             .ignoresSafeArea()
             .onTapGesture {
                 store.send(.hideProfileActionsList, animation: .easeIn(duration: 0.2))
@@ -142,7 +144,7 @@ public struct RootView: View {
         )
     }
 }
-
+#if os(iOS)
 struct BlurView: UIViewRepresentable {
     var style: UIBlurEffect.Style
 
@@ -154,6 +156,8 @@ struct BlurView: UIViewRepresentable {
         uiView.effect = UIBlurEffect(style: style)
     }
 }
+#endif
+
 
 #Preview {
     RootView(

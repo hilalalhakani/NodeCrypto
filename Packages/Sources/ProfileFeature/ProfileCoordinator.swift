@@ -107,7 +107,9 @@ public struct ProfileCoordinatorView: View {
                 switch store.case {
                     case let .editProfile(editProfileStore):
                          EditProfileView(store: editProfileStore)
+#if os(iOS)
                             .toolbar(.hidden, for: .tabBar)
+#endif
                 }
             }
             .frame(maxHeight: .infinity)

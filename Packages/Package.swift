@@ -32,7 +32,7 @@ let package = Package(
         .package(url: "https://github.com/tgrapperon/swift-dependencies-additions", from: "1.1.0"),
         .package(url: "https://github.com/pointfreeco/swift-tagged", branch: "main"),
         .package(url: "https://github.com/oliverfoggin/swift-composable-analytics", branch: "main"),
-        .package(url: "https://github.com/pointfreeco/swiftui-navigation", from: "1.5.4"),
+//        .package(url: "https://github.com/pointfreeco/swiftui-navigation", from: "1.5.4"),
         .package(url: "https://github.com/onevcat/Kingfisher.git", from: "7.12.0"),
     ],
     targets: [
@@ -111,7 +111,7 @@ let package = Package(
             name: "NodeCryptoCore",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-                .product(name: "SwiftUINavigation", package: "swiftui-navigation"),
+//                .product(name: "swiftui-navigation", package: "swiftui-navigation"),
                 .product(name: "Dependencies", package: "swift-dependencies"),
                 .product(name: "DependenciesMacros", package: "swift-dependencies"),
                 .product(name: "DependenciesAdditions", package: "swift-dependencies-additions"),

@@ -6,11 +6,10 @@
 //
 
 import Foundation
-import SwiftUI
 import Kingfisher
+import SwiftUI
 
-public struct AsyncImageView: View
-{
+public struct AsyncImageView: View {
     public let url: URL
 
     public init(url: URL) {
@@ -33,7 +32,15 @@ public struct AsyncImageView: View
                 }
                 .retry(maxCount: .max, interval: .seconds(1))
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color(UIColor.lightGray))
+                .background(background)
         }
+    }
+
+    var background: Color {
+        #if os(iOS)
+            Color(UIColor.lightGray)
+        #elseif os(macOS)
+            Color(NSColor.lightGray)
+        #endif
     }
 }

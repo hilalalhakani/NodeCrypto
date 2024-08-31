@@ -7,7 +7,6 @@
 
 import StyleGuide
 import SwiftUI
-import UIKit
 
 struct ProfileTextField: View {
     let title: String

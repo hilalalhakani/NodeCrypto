@@ -15,7 +15,6 @@ import PhotosUI
 import ResourceProvider
 import SharedModels
 import SwiftUI
-import UIKit
 
 @Reducer
 public struct EditProfileReducer {
@@ -161,7 +160,9 @@ public struct EditProfileView: View {
                 Color.connectWalletGradient1.opacity(0.2)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .ignoresSafeArea(edges: [.bottom])
+#if os(iOS)
                     .cornerRadius(24, corners: [.topLeft, .topRight])
+                #endif
                     .ignoresSafeArea(edges: [.bottom])
                     .overlay {
                         ScrollView {
@@ -195,7 +196,9 @@ public struct EditProfileView: View {
         )
         .focused($focusedField, equals: .name)
         .id(FocusedField.name)
+#if os(iOS)
         .keyboardType(.asciiCapable)
+        #endif
 
         ProfileTextField(
             title: "BIO",
@@ -204,7 +207,9 @@ public struct EditProfileView: View {
         )
         .focused($focusedField, equals: .bio)
         .id(FocusedField.bio)
+#if os(iOS)
         .keyboardType(.asciiCapable)
+#endif
 
         ProfileTextField(
             title: "EMAIL",
@@ -212,7 +217,9 @@ public struct EditProfileView: View {
         )
         .focused($focusedField, equals: .email)
         .id(FocusedField.email)
+#if os(iOS)
         .keyboardType(.emailAddress)
+#endif
 
         ProfileTextField(
             title: "INSTAGRAM",
@@ -312,9 +319,9 @@ public struct EditProfileView: View {
         }
     }
 
+#if os(iOS)
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
-        #if os(iOS)
             ToolbarItem(placement: .topBarLeading) {
                 Button(
                     action: {
@@ -369,10 +376,12 @@ public struct EditProfileView: View {
                     Spacer()
                 }
             }
-        #endif
     }
+#endif
+
 }
 
+#if os(iOS)
 struct KeyboardAwareModifier: ViewModifier {
     @State private var keyboardHeight: CGFloat = 0
 
@@ -407,6 +416,7 @@ extension View {
         self.modifier(KeyboardAwareModifier())
     }
 }
+#endif
 
 #Preview {
     NavigationStack {
