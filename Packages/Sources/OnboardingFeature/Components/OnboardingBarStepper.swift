@@ -14,7 +14,7 @@ struct OnboardingBarStepper: View {
                         currentStep = .init(rawValue: index)!
                     },
                     label: {
-                        RoundedRectangle(cornerRadius: 4)
+                        RoundedRectangle(cornerRadius: 4, style: .circular)
                     }
                 )
                 .animation(.easeIn, value: currentStep)

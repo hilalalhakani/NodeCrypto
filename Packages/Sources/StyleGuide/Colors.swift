@@ -17,6 +17,8 @@ public extension Color {
     static let neutral6 = Color(.neutral6)
     static let neutral7 = Color(.neutral7)
     static let neutral8 = Color(.neutral8)
+    static let glassDark = Color(.glassDark)
+
     // Specials
     static let skipButtonTint = Color(.skipButtonTint)
     static let onboarding1Gradient1 = Color(.onboarding1Gradient1)

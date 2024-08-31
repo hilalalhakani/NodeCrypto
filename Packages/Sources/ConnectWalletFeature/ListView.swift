@@ -18,7 +18,7 @@ public struct ListView: View {
   }
 
   public var body: some View {
-    RoundedRectangle(cornerRadius: 32)
+    RoundedRectangle(cornerRadius: 32, style: .circular)
       .foregroundStyle(Color.neutral8)
       .overlay(
         VStack {

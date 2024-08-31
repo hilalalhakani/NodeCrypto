@@ -8,11 +8,11 @@ public struct OnboardingViewReducer {
 @ObservableState
   public struct State: Equatable {
     public var onboardingStepper: OnboardingStepperReducer.State
-    public var currentStep: OnboardingStep
+    @Shared public var currentStep: OnboardingStep
     public var isGetStartedButtonHidden = true
     public init(currentStep: OnboardingStep = .step1) {
-      self.currentStep = currentStep
-      onboardingStepper = .init(currentStep: currentStep)
+      self._currentStep = Shared(currentStep)
+      onboardingStepper = .init(currentStep: self._currentStep)
       isGetStartedButtonHidden = currentStep.rawValue != OnboardingStep.allCases.count - 1
     }
   }
@@ -27,6 +27,7 @@ public struct OnboardingViewReducer {
   @CasePathable
   public enum InternalAction: BindableAction {
     case binding(BindingAction<State>)
+    case updateStep(OnboardingStep)
   }
 
   @CasePathable
@@ -36,6 +37,7 @@ public struct OnboardingViewReducer {
 
   @CasePathable
   public enum ViewAction {
+    case onAppear
     case onSelectedIndexChange(OnboardingStep)
     case onSkipButtonPressed
     case onGetStartedButtonPressed
@@ -44,71 +46,66 @@ public struct OnboardingViewReducer {
 
   public var body: some Reducer<State, Action> {
 
-    BindingReducer(action: \.internal)
+      CombineReducers {
+          BindingReducer(action: \.internal)
 
-    AnalyticsReducer { _, action in
-      switch action {
-      case let .view(viewAction):
-        switch viewAction {
-        case .onSkipButtonPressed:
-          return .event(name: "onSkipButtonPressed", properties: [:])
+          AnalyticsReducer { _, action in
+              switch action {
+                  case let .view(viewAction):
+                      switch viewAction {
+                          case .onSkipButtonPressed:
+                              return .event(name: "onSkipButtonPressed", properties: [:])
 
-        case .onGetStartedButtonPressed:
-          return .event(name: "onGetStartedButtonPressed", properties: [:])
+                          case .onGetStartedButtonPressed:
+                              return .event(name: "onGetStartedButtonPressed", properties: [:])
 
-        default:
-          return .none
-        }
-      default:
-        return .none
+                          default:
+                              return .none
+                      }
+                  default:
+                      return .none
+              }
+          }
+
+          NestedAction(\.view) { state, viewAction in
+              switch viewAction {
+                  case .onAppear:
+                      let sharedStepStream = state.$currentStep.publisher.values
+                      return .run { send in
+                        for await step in sharedStepStream {
+                            await send(.internal(.updateStep(step)))
+                        }
+                      }
+                  case .onboardingStepper:
+                      return .none
+                  case .onSkipButtonPressed:
+                      guard let lastStep = OnboardingStep.allCases.last else { return .none }
+                      state.currentStep = lastStep
+                      state.isGetStartedButtonHidden = false
+                      state.onboardingStepper.forwardButtonDisabled = true
+                      return .none
+
+                  case let .onSelectedIndexChange(step):
+                      state.currentStep = step
+                      return .none
+
+                  case .onGetStartedButtonPressed:
+                      return .run { send in
+                          await send(.delegate(.onGetStartedButtonPressed))
+                      }
+              }
+          }
+
+          NestedAction(\.internal) { state, action in
+              state.isGetStartedButtonHidden =
+              state.currentStep.rawValue != OnboardingStep.allCases.count - 1
+              return .none
+          }
+
+          Scope(state: \.onboardingStepper, action: \.view.onboardingStepper) {
+              OnboardingStepperReducer(totalSteps: OnboardingStep.allCases.count)
+          }
       }
-    }
-
-    NestedAction(\.view) { state, viewAction in
-      switch viewAction {
-      case .onboardingStepper(.delegate(.updatedStep)):
-        state.currentStep = state.onboardingStepper.currentStep
-        state.isGetStartedButtonHidden =
-          state.currentStep.rawValue != OnboardingStep.allCases.count - 1
-        return .none
-      case .onboardingStepper:
-        return .none
-      case .onSkipButtonPressed:
-        guard let lastStep = OnboardingStep.allCases.last else { return .none }
-        state.currentStep = lastStep
-        state.isGetStartedButtonHidden = false
-        return updateStepper(state: &state)
-
-      case let .onSelectedIndexChange(step):
-        state.currentStep = step
-        state.isGetStartedButtonHidden = step.rawValue != OnboardingStep.allCases.count - 1
-        return updateStepper(state: &state)
-
-      case .onGetStartedButtonPressed:
-        return .run { send in
-          await send(.delegate(.onGetStartedButtonPressed))
-        }
-      }
-
-      func updateStepper(state: inout State) -> Effect<Action> {
-        OnboardingStepperReducer(totalSteps: OnboardingStep.allCases.count)
-          .reduce(into: &state.onboardingStepper, action: .internal(.updateStep(state.currentStep)))
-          .map { Action.view(.onboardingStepper($0)) }
-      }
-
-    }
-
-    NestedAction(\.internal) { state, action in
-      state.isGetStartedButtonHidden =
-        state.currentStep.rawValue != OnboardingStep.allCases.count - 1
-      return OnboardingStepperReducer(totalSteps: OnboardingStep.allCases.count)
-        .reduce(into: &state.onboardingStepper, action: .internal(.updateStep(state.currentStep)))
-        .map { Action.view(.onboardingStepper($0)) }
-    }
-
-    Scope(state: \.onboardingStepper, action: \.view.onboardingStepper) {
-      OnboardingStepperReducer(totalSteps: OnboardingStep.allCases.count)
-    }
   }
 }
 
@@ -128,6 +125,7 @@ public struct OnboardingView: View {
         BackgroundLinearGradient(
           colors: store.currentStep.value().gradientColors
         )
+        .ignoresSafeArea()
 
         VStack {
           HStack {
@@ -195,22 +193,13 @@ public struct OnboardingView: View {
         )
       }
       .transition(.opacity.animation(.easeInOut))
+      .task {
+          store.send(.view(.onAppear))
+      }
     }
   }
 }
 
-struct BackgroundLinearGradient: View {
-  var colors: [Color]
-
-  var body: some View {
-    LinearGradient(
-      stops: [Gradient.Stop(color: colors[0], location: 0.50), Gradient.Stop(color: colors[1], location: 1.00)],
-      startPoint: UnitPoint(x: 1, y: 0),
-      endPoint: UnitPoint(x: 0, y: 1)
-    )
-    .ignoresSafeArea()
-  }
-}
 
 struct BackgroundImage: View {
   let imageResource: ImageResource

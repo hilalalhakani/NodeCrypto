@@ -10,10 +10,10 @@ import NodeCryptoCore
 
 @DependencyClient
 public struct KeychainManager: Sendable {
-    public var set:  @Sendable (_ value: Data, _ key: KeychainKey) async throws -> Void
-    public var delete: @Sendable (_ key: KeychainKey) async throws -> Void
-    public var deleteAll: @Sendable () async throws -> Void
-    public var get: @Sendable (_ key: KeychainKey) async throws -> Data
+    public var set: @Sendable (_ value: Data, _ key: KeychainKey) throws -> Void
+    public var delete: @Sendable (_ key: KeychainKey) throws -> Void
+    public var deleteAll: @Sendable () throws -> Void
+    public var get: @Sendable (_ key: KeychainKey) throws -> Data
     public var contains: @Sendable (_ key: KeychainKey) throws -> Bool
 
     public enum Error: Swift.Error, Equatable {
@@ -43,7 +43,7 @@ public struct KeychainManager: Sendable {
     }
 }
 
-public struct KeychainKey: RawRepresentable {
+public struct KeychainKey: RawRepresentable, Sendable {
     public let rawValue: String
 
     public init(rawValue: String) {

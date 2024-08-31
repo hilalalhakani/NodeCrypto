@@ -33,6 +33,30 @@
             default = "YES">
          </TestPlanReference>
       </TestPlans>
+      <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FED15C272C0E5074000D5A8A"
+               BuildableName = "SnapshotsTests.xctest"
+               BlueprintName = "SnapshotsTests"
+               ReferencedContainer = "container:NodeCrypto.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FED15C342C0E51C6000D5A8A"
+               BuildableName = "NodeCryptoSnapshotsTests.xctest"
+               BlueprintName = "NodeCryptoSnapshotsTests"
+               ReferencedContainer = "container:NodeCrypto.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"

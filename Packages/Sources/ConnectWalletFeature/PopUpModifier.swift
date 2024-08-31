@@ -71,7 +71,7 @@ struct PopUpModifier: ViewModifier {
             .foregroundStyle(Color.neutral2)
             .tint(.clear)
             .overlay(
-                RoundedRectangle(cornerRadius: 90)
+                RoundedRectangle(cornerRadius: 90, style: .circular)
                     .inset(by: 1)
                     .stroke(Color.connectWalletCancelBorder)
             )
@@ -81,7 +81,7 @@ struct PopUpModifier: ViewModifier {
         .padding(32)
         .background(
           Color.connectWalletAlertBackground
-            .clipShape(RoundedRectangle(cornerRadius: 32))
+            .clipShape(RoundedRectangle(cornerRadius: 32, style: .circular))
         )
         .animation(.easeInOut, value: self.isPresented)
         .zIndex(2)

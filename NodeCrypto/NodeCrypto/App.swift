@@ -74,3 +74,25 @@ struct NodeCryptoApp: App {
         }
     }
 }
+
+//     That's how we send an action to the child from the parent
+// func updateStepper(state: inout State) -> Effect<Action> {
+//        OnboardingStepperReducer(totalSteps: OnboardingStep.allCases.count)
+//          .reduce(into: &state.onboardingStepper, action: .internal(.updateStep(state.currentStep)))
+//          .map { Action.view(.onboardingStepper($0)) }
+//      }
+
+/*
+
+ let viewController = UIHostingController(
+     rootView:
+         content
+         .transaction { $0.animation = nil }
+ )
+
+ assertSnapshot(
+     matching: viewController,
+     as: .wait(for: 0.1, on: .iPhoneSe) <----- delay
+ )
+
+ */

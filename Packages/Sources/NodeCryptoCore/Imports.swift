@@ -1,5 +1,6 @@
 @_exported import ComposableArchitecture
 @_exported import Dependencies
+@_exported import SharedViews
 @_exported import DependenciesAdditions
 @_exported import DependenciesMacros
 @_exported import StyleGuide

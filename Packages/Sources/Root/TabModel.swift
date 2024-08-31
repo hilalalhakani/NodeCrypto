@@ -1,26 +1,26 @@
 import Foundation
 import SwiftUI
 
-enum Tab: CaseIterable {
+public enum Tab: CaseIterable {
   case home
   case search
   case notifications
   case profile
 
-  var systemImage: ImageResource {
+    public var systemImage: String {
     switch self {
     case .home:
-      return .homeIcon
+      return "HomeIcon"
     case .search:
-      return .searchIcon
+      return "SearchIcon"
     case .notifications:
-      return .notificationsIcon
+      return "NotificationsIcon"
     case .profile:
-      return .profileIcon
+      return "ProfileIcon"
     }
   }
 
-  var index: Int {
+    public var index: Int {
     Tab.allCases.firstIndex(of: self) ?? 0
   }
 }
