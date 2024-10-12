@@ -14,22 +14,22 @@ import SharedModels
 import SwiftUI
 
 @Reducer
-public struct ProfileCoordinatorReducer {
+public struct ProfileCoordinatorReducer: Sendable {
 
     public init() {}
 
-    @Reducer(state: .equatable)
+    @Reducer(state: .sendable, .equatable, action: .sendable)
     public enum Path {
         case editProfile(EditProfileReducer)
     }
 
     //MARK: State
     @ObservableState
-    public struct State: Equatable {
+    public struct State: Equatable, Sendable {
         public var path = StackState<Path.State>()
         var profile: ProfileReducer.State
         let user: User
-        @Shared(.inMemory("isTabBarVisible")) var isTabBarVisible: Bool = true
+        @Shared(.isTabBarVisible) var isTabBarVisible: Bool = true
 
         public init(user: User) {
             profile = .init()
@@ -39,7 +39,7 @@ public struct ProfileCoordinatorReducer {
 
     //MARK: Action
     @CasePathable
-    public enum Action {
+    public enum Action: Sendable {
         case path(StackActionOf<Path>)
         case profile(ProfileReducer.Action)
         case navigateToEditScreen

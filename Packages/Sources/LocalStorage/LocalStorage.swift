@@ -182,3 +182,5 @@ public enum LocalStorageError: Error, Equatable {
     case invalidSave
     case noItemFound
 }
+
+extension NSManagedObjectContext: @unchecked @retroactive Sendable {}

@@ -17,10 +17,10 @@ import SharedModels
 import SwiftUI
 
 @Reducer
-public struct EditProfileReducer {
+public struct EditProfileReducer: Sendable {
     public init() {}
     @ObservableState
-    public struct State: Equatable {
+    public struct State: Equatable, Sendable {
         @ObservationStateIgnored var user: User
         var profileSubmitted = false
         var userImageData: Data?
@@ -285,18 +285,20 @@ public struct EditProfileView: View {
             selection: $selectedItem,
             matching: .images,
             photoLibrary: .shared()
-        ) {
-            Group {
-                if selectedItem.isNil,
-                    let userProfileImage = userManager.user?.profileImage,
-                   let url = URL(string: userProfileImage)
-                {
-                    AsyncImageView(url: url)
-                }
-                else {
-                    selectedImage?
-                        .resizable()
-                }
+        ) { [selectedItem,  userProfileImage = userManager.user?.profileImage] in
+                Group {
+                    if selectedItem.isNil, let userProfileImage, let url = URL(string: userProfileImage)
+                    {
+                        MainActor.assumeIsolated {
+                            AsyncImageView(url: url)
+                        }
+                    }
+                    else {
+                        MainActor.assumeIsolated {
+                            selectedImage?
+                                .resizable()
+                        }
+                    }
             }
             .scaledToFill()
             .frame(width: 92, height: 92)
@@ -312,7 +314,9 @@ public struct EditProfileView: View {
                             type: Data.self
                         )
                 {
-                    selectedImage = image
+                    await MainActor.run {
+                      selectedImage = image
+                    }
                     store.send(.view(.onImageSelection(imageData)))
                 }
             }

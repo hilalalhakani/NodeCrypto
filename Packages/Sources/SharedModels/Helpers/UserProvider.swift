@@ -7,7 +7,7 @@
 
 import Foundation
 import Dependencies
-import Combine
+@preconcurrency import Combine
 
 public struct UserProvider: Sendable {
     var _get: @Sendable () -> User?

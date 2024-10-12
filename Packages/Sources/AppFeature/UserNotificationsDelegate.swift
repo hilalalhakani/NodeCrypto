@@ -48,7 +48,7 @@ public final class UserNotificationDelegate: NSObject, UNUserNotificationCenterD
     }
 }
 
-extension UserNotificationDelegate: DependencyKey {
+extension UserNotificationDelegate: DependencyKey, @unchecked Sendable {
     public static var liveValue: UserNotificationDelegate {
         UserNotificationDelegate { _, _ in
             .banner

@@ -17,7 +17,7 @@ import XCTest
                         ConnectingWalletViewReducer()
                     },
                     withDependencies: {
-                        $0.analyticsClient = .consoleLogger
+                       // $0.analyticsClient = .consoleLogger
                         $0.device = .current
                         $0.encode = .liveValue
                         $0.apiClient.connectWallet.connectWallet = { _, _ in .mock1 }
@@ -41,7 +41,7 @@ import XCTest
                         ConnectingWalletViewReducer()
                     },
                     withDependencies: {
-                        $0.analyticsClient = .consoleLogger
+                      //  $0.analyticsClient = .consoleLogger
                         $0.device = .current
                         $0.encode = .liveValue
                         $0.apiClient.connectWallet.connectWallet = { _, _ in .mock1 }
@@ -64,7 +64,7 @@ import XCTest
                     ConnectWalletReducer()
                 },
                 withDependencies: {
-                    $0.analyticsClient = .consoleLogger
+                   // $0.analyticsClient = .consoleLogger
                     $0.device = .current
                     $0.encode = .liveValue
                     $0.apiClient.connectWallet.connectWallet = { _, _ in .mock1 }
@@ -90,7 +90,7 @@ import XCTest
                     ConnectWalletReducer()
                 },
                 withDependencies: {
-                    $0.analyticsClient = .consoleLogger
+                   // $0.analyticsClient = .consoleLogger
                     $0.device = .current
                     $0.encode = .liveValue
                     $0.apiClient.connectWallet.connectWallet = { _, _ in .mock1 }
@@ -118,7 +118,7 @@ import XCTest
                         ConnectWalletReducer()
                     },
                     withDependencies: {
-                        $0.analyticsClient = .consoleLogger
+                       // $0.analyticsClient = .consoleLogger
                         $0.device = .current
                         $0.encode = .liveValue
                         $0.apiClient.connectWallet.connectWallet = { _, _ in .mock1 }
@@ -143,7 +143,7 @@ import XCTest
                         ConnectWalletReducer()
                     },
                     withDependencies: {
-                        $0.analyticsClient = .consoleLogger
+                        //$0.analyticsClient = .consoleLogger
                         $0.device = .current
                         $0.encode = .liveValue
                         $0.apiClient.connectWallet.connectWallet = { _, _ in .mock1 }

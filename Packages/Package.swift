@@ -1,4 +1,4 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 6.0
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -12,6 +12,7 @@ let package = Package(
     products: [
         .singleTargetLibrary("AppFeature"),
         .singleTargetLibrary("OnboardingFeature"),
+        .singleTargetLibrary("NotificationsFeature"),
         .singleTargetLibrary("StyleGuide"),
         .singleTargetLibrary("TCAHelpers"),
         .singleTargetLibrary("Keychain"),
@@ -26,14 +27,14 @@ let package = Package(
         .singleTargetLibrary("ResourceProvider"),
     ],
     dependencies: [
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.12.1"),
-        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.3.6"),
-        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.17.3"),
-        .package(url: "https://github.com/tgrapperon/swift-dependencies-additions", from: "1.1.0"),
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.15.0"),
+        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.4.1"),
+        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.17.5"),
+        .package(url: "https://github.com/tgrapperon/swift-dependencies-additions", from: "1.1.1"),
         .package(url: "https://github.com/pointfreeco/swift-tagged", branch: "main"),
         .package(url: "https://github.com/oliverfoggin/swift-composable-analytics", branch: "main"),
 //        .package(url: "https://github.com/pointfreeco/swiftui-navigation", from: "1.5.4"),
-        .package(url: "https://github.com/onevcat/Kingfisher.git", from: "7.12.0"),
+        .package(url: "https://github.com/onevcat/Kingfisher.git", from: "8.0.3"),
     ],
     targets: [
         .target(
@@ -136,7 +137,7 @@ let package = Package(
         ),
         .target(
             name: "Root",
-            dependencies: ["NodeCryptoCore", "ProfileFeature"]
+            dependencies: ["NodeCryptoCore", "ProfileFeature", "NotificationsFeature"]
         ),
         .target(
             name: "TCAHelpers",
@@ -163,6 +164,13 @@ let package = Package(
         ),
         .target(
             name: "ProfileFeature",
+            dependencies: ["NodeCryptoCore", "Keychain"],
+            resources: [
+                .process("./Resources")
+            ]
+        ),
+        .target(
+            name: "NotificationsFeature",
             dependencies: ["NodeCryptoCore", "Keychain"],
             resources: [
                 .process("./Resources")

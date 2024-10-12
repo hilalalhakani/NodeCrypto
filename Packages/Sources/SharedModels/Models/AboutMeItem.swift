@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-public struct AboutMeItem: Identifiable, Equatable, Hashable {
+public struct AboutMeItem: Identifiable, Equatable, Hashable, Sendable {
     public let title: String
     public let count: String
     public let iconName: String

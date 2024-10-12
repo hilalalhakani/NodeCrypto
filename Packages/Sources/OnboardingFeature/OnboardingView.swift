@@ -2,11 +2,11 @@ import NodeCryptoCore
 import SwiftUI
 
 @Reducer
-public struct OnboardingViewReducer {
+public struct OnboardingViewReducer: Sendable {
   public init() {}
 
 @ObservableState
-  public struct State: Equatable {
+    public struct State: Equatable, Sendable {
     public var onboardingStepper: OnboardingStepperReducer.State
     @Shared public var currentStep: OnboardingStep
     public var isGetStartedButtonHidden = true
@@ -70,9 +70,8 @@ public struct OnboardingViewReducer {
           NestedAction(\.view) { state, viewAction in
               switch viewAction {
                   case .onAppear:
-                      let sharedStepStream = state.$currentStep.publisher.values
-                      return .run { send in
-                        for await step in sharedStepStream {
+                      return .run { [state] send in
+                        for await step in state.$currentStep.publisher.values {
                             await send(.internal(.updateStep(step)))
                         }
                       }

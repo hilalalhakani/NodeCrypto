@@ -4,7 +4,7 @@ import SwiftUI
 import CasePaths
 
 @CasePathable
-public enum OnboardingStep: Int, CaseIterable, Comparable, Equatable {
+public enum OnboardingStep: Int, CaseIterable, Comparable, Equatable, Sendable {
     public struct Step {
         let title: String
         let subtitle: String

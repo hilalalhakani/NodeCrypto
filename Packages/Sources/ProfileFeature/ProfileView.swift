@@ -7,20 +7,15 @@ import SharedModels
 import SwiftUI
 
 @Reducer
-public struct ProfileReducer {
+public struct ProfileReducer: Sendable {
     @Dependency(\.openURL) var openURL
     @Dependency(\.apiClient.profile) var profileAPI
     @Dependency(\.userManager) var userManager
     public init() {}
 
-    @Reducer
-    public enum Path {
-        case editProfile(EditProfileReducer)
-    }
-
     //MARK: State
     @ObservableState
-    public struct State: Equatable {
+    public struct State: Equatable, Sendable {
         var nfts: IdentifiedArrayOf<NFT> = []
         var likedNfts: IdentifiedArrayOf<NFT> = []
         var createdNfts: IdentifiedArrayOf<NFT> = []
@@ -46,30 +41,30 @@ public struct ProfileReducer {
 
     //MARK: Action
     @CasePathable
-    public enum Action: TCAFeatureAction {
+    public enum Action: TCAFeatureAction, Sendable {
         case view(ViewAction)
         case `internal`(InternalAction)
         case delegate(DelegateAction)
     }
 
-    //MARK: Internal Actions
+//    //MARK: Internal Actions
     @CasePathable
-    public enum InternalAction {
+    public enum InternalAction: Sendable {
         case onGetNFTResponse(Result<[NFT], Error>)
         case onGetCreatedNFTResponse(Result<[NFT], Error>)
         case onGetLikedNFTResponse(Result<[NFT], Error>)
         case onGetAboutItemsResponse(Result<[AboutMeItem], Error>)
         case onSelectedTitleChange(MenuItem?)
     }
-
+//
     //MARK: Delegate Actions
     @CasePathable
-    public enum DelegateAction {
-        case menuButtonPressed
+    public enum DelegateAction: Sendable {
+         case menuButtonPressed
     }
-
+//
     @CasePathable
-    public enum ViewAction {
+    public enum ViewAction: Sendable {
         case onAppear
         case openURL(SocialAccount)
         case logout
@@ -188,7 +183,7 @@ public struct ProfileReducer {
             }
         }
 
-    }
+     }
 }
 
 //MARK: ProfileView
@@ -299,13 +294,19 @@ public struct ProfileView: View {
     @ViewBuilder
     private var socialButtonsView: some View {
         HStack(spacing: 24) {
-            SocialButton(action: { store.send(.view(.openURL(.twitter))) }, imageResource: .twitter)
+            SocialButton(action: {
+                 store.send(.view(.openURL(.twitter)))
+            }, imageResource: .twitter)
             SocialButton(
-                action: { store.send(.view(.openURL(.instagram))) },
+                action: {
+                  store.send(.view(.openURL(.instagram)))
+                },
                 imageResource: .instagram
             )
             SocialButton(
-                action: { store.send(.view(.openURL(.facebook))) },
+                action: {
+                   store.send(.view(.openURL(.facebook)))
+                },
                 imageResource: .facebook
             )
         }
@@ -385,7 +386,7 @@ public struct ProfileView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 Button(
                     action: {
-                        store.send(.view(.menuButtonPressed), animation: .easeIn(duration: 0.3))
+                     store.send(.view(.menuButtonPressed), animation: .easeIn(duration: 0.3))
                     },
                     label: {
                         Image(systemName: "ellipsis")

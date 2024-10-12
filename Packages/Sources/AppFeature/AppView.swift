@@ -19,7 +19,7 @@ public struct AppViewReducer {
     public init() {}
 
     @ObservableState
-    public struct State: Equatable {
+    public struct State: Equatable, Sendable {
         //        @Shared(.keychain(.user)) var keychainUser: User?
         public var appDelegate = AppDelegateReducer.State()
         @Presents public var destination: Destination.State? = .launchImage
@@ -105,7 +105,7 @@ public struct AppViewReducer {
         //        )
     }
 
-    @Reducer(state: .equatable)
+    @Reducer(state: .equatable, .sendable)
     public enum Destination {
         case onboarding(OnboardingViewReducer)
         case launchImage

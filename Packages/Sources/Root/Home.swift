@@ -2,23 +2,27 @@ import Foundation
 import NodeCryptoCore
 import ProfileFeature
 import SwiftUI
+import NotificationsFeature
 
 @Reducer
-public struct RootViewReducer {
+public struct RootViewReducer: Sendable {
     public init() {}
     @ObservableState
-    public struct State: Equatable {
+    public struct State: Equatable, Sendable {
         var profile: ProfileCoordinatorReducer.State
+        var notifications: NotificationReducer.State
         var showsProfileActionsList = false
 
         public init(user: User, showsProfileActionsList: Bool = false) {
             self.showsProfileActionsList = showsProfileActionsList
             profile = .init(user: user)
+            notifications = .init()
         }
     }
 
-    public enum Action {
+    public enum Action: Sendable {
         case profile(ProfileCoordinatorReducer.Action)
+        case notifications(NotificationReducer.Action)
         case hideProfileActionsList
         case editButtonPressed
         case shareButtonPressed
@@ -28,6 +32,10 @@ public struct RootViewReducer {
     public var body: some ReducerOf<Self> {
         Scope(state: \.profile, action: \.profile) {
             ProfileCoordinatorReducer()
+        }
+
+        Scope(state: \.notifications, action: \.notifications) {
+            NotificationReducer()
         }
 
         Reduce { state, action in
@@ -58,7 +66,7 @@ public struct RootView: View {
     @State private var activeTab: Tab
     @Namespace var animation
     let store: StoreOf<RootViewReducer>
-    @Shared(.inMemory("isTabBarVisible")) var isTabBarVisible = true
+    @Shared(.isTabBarVisible) var isTabBarVisible = true
 
     public init(store: StoreOf<RootViewReducer>, tab: Tab = Tab.home) {
         self.activeTab = tab
@@ -103,7 +111,9 @@ public struct RootView: View {
                 Text("Services", bundle: .module)
                     .isHidden(activeTab != .search)
 
-                Text("Notifications", bundle: .module)
+                NotificationsView(
+                    store: store.scope(state: \.notifications, action: \.notifications)
+                )
                     .isHidden(activeTab != .notifications)
 
                 ProfileCoordinatorView(
