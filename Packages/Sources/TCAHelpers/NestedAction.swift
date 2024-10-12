@@ -1,7 +1,7 @@
 import ComposableArchitecture
 import Foundation
 
-public struct NestedAction<State, Action, ViewAction>: Reducer {
+public struct NestedAction<State: Sendable, Action, ViewAction>: Reducer {
 
     let toChildAction: CaseKeyPath<Action, ViewAction>
     let toEffect: (inout State, ViewAction) -> Effect<Action>

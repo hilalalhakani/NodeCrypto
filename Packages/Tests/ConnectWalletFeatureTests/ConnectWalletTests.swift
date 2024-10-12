@@ -10,7 +10,7 @@ final class ConnectWalletTests: XCTestCase {
     func testOnButtonSelect() async {
         let store = TestStore(
             initialState: ConnectWalletReducer.State(),
-            reducer: { ConnectWalletReducer().dependency(\.analyticsClient, .consoleLogger) }
+            reducer: { ConnectWalletReducer().dependency(\.analyticsClient.sendAnalytics, { _ in } ) }
         )
 
         await store.send(\.view.onButtonSelect.coinbase) {
@@ -23,7 +23,7 @@ final class ConnectWalletTests: XCTestCase {
     func testCancelButtonPressed() async {
         let store = TestStore(
             initialState: ConnectWalletReducer.State(),
-            reducer: { ConnectWalletReducer().dependency(\.analyticsClient, .consoleLogger) }
+            reducer: { ConnectWalletReducer().dependency(\.analyticsClient.sendAnalytics, { _ in } ) }
         )
 
         await store.send(\.view.onButtonSelect.coinbase) {
@@ -40,7 +40,7 @@ final class ConnectWalletTests: XCTestCase {
     func testOpenButtonPressed() async {
         let store = TestStore(
             initialState: ConnectWalletReducer.State(),
-            reducer: { ConnectWalletReducer().dependency(\.analyticsClient, .consoleLogger) }
+            reducer: { ConnectWalletReducer().dependency(\.analyticsClient.sendAnalytics, { _ in } ) }
         )
 
         await store.send(\.view.onButtonSelect.metamask) {
@@ -60,7 +60,7 @@ final class ConnectWalletTests: XCTestCase {
             initialState: ConnectWalletReducer.State(),
             reducer: {
                 ConnectWalletReducer()
-                    .dependency(\.analyticsClient, .consoleLogger)
+                    .dependency(\.analyticsClient.sendAnalytics, { _ in } )
             }
         )
 

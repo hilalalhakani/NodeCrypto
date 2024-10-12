@@ -53,11 +53,11 @@ public protocol AnyOptional {
     var isNil: Bool { get }
 }
 
-extension Optional: AnyOptional {
+extension Optional: AnyOptional, Sendable {
     public var isNil: Bool { self == nil }
 }
 
-public class UserManager {
+public final class UserManager: @unchecked Sendable {
     @Shared(.keychain(.user)) public var user: User? {
         didSet {
             publisher.send(user)

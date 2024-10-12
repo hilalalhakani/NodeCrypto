@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct NFT: Decodable, Equatable, Hashable {
+public struct NFT: Decodable, Equatable, Hashable, Sendable {
     public var isNew: Bool
     public var isVideo: Bool
     public var imageURL: String

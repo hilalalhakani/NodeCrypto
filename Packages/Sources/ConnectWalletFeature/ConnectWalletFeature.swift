@@ -3,11 +3,11 @@ import NodeCryptoCore
 import SwiftUI
 
 @Reducer
-public struct ConnectWalletReducer {
+public struct ConnectWalletReducer: Sendable {
   public init() {}
 
   @ObservableState
-  public struct State: Equatable {
+  public struct State: Equatable, Sendable {
     public var showPopup = false
     public var selectedWallet: WalletType? = .none
     @Presents public var connectWallet: ConnectingWalletViewReducer.State?
@@ -15,22 +15,22 @@ public struct ConnectWalletReducer {
   }
 
   @CasePathable
-  public enum Action: TCAFeatureAction {
+    public enum Action: TCAFeatureAction, Sendable {
     case view(ViewAction)
     case `internal`(InternalAction)
     case delegate(DelegateAction)
   }
 
   @CasePathable
-  public enum InternalAction {
+    public enum InternalAction: Sendable {
     case connectWalletView(PresentationAction<ConnectingWalletViewReducer.Action>)
   }
 
   @CasePathable
-  public enum DelegateAction {}
+    public enum DelegateAction: Sendable {}
 
   @CasePathable
-  public enum ViewAction {
+    public enum ViewAction: Sendable {
     case onButtonSelect(WalletType)
     case cancelButtonPressed
     case openButtonPressed

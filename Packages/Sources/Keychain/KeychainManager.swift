@@ -61,6 +61,6 @@ public extension DependencyValues {
 }
 
 extension KeychainManager: DependencyKey {
-    public static var testValue: KeychainManager = KeychainManager()
+    public static let testValue: KeychainManager = KeychainManager()
     public static var liveValue: KeychainManager { .live(service: "Node-Crypto") }
 }

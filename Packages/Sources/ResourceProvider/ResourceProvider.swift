@@ -103,7 +103,7 @@ extension ImageDataResource: ViewRepresentable {
 }
 
 @Reducer
-struct ResourceModel<Output> {
+struct ResourceModel<Output: Sendable> {
     @ObservableState
     struct State {
         let key: ResourceKey<Output>
@@ -133,7 +133,7 @@ struct ResourceModel<Output> {
     }
 }
 
-public struct ResourceView<Output: ViewRepresentable>: View {
+public struct ResourceView<Output: ViewRepresentable>: View where Output: Sendable {
     let store: StoreOf<ResourceModel<Output>>
     public init(key: ResourceKey<Output>) {
         self.store = .init(

@@ -16,6 +16,7 @@ extension APIClient {
         public var getUserInfo: @Sendable () async throws -> [AboutMeItem]
         public var getCreatedNFT: @Sendable () async throws -> [NFT]
         public var getLikedNFT: @Sendable () async throws -> [NFT]
+        public var getNotifications: @Sendable () async throws -> [SharedModels.Notification]
     }
 }
 
@@ -30,6 +31,8 @@ extension APIClient.Profile {
                 #"@Dependency(\.apiClient).profile.getCreatedNFT"#
             ), getLikedNFT: XCTestDynamicOverlay.unimplemented(
                 #"@Dependency(\.apiClient).profile.getLikedNFT"#
+            ) , getNotifications:  XCTestDynamicOverlay.unimplemented(
+                #"@Dependency(\.apiClient).profile.getNotifications"#
             )
         )
     }
@@ -73,6 +76,12 @@ extension APIClient.Profile {
                 return [
                     .init(isNew: true, isVideo: false, imageURL: "https://i.ibb.co/f2nHqtY/1.jpg", videoURL: "", isLiked: true),
                     .init(isNew: false, isVideo: true, imageURL: "https://i.ibb.co/f2nHqtY/1.jpg", videoURL: "", isLiked: true)
+                ]
+            } , getNotifications: {
+                try await clock.sleep(for: .seconds(1))
+                return [
+                    .init(senderName: "KidEight", senderImageURLString: "https://picsum.photos/200/300", date: "9 Jul 2021, 11:34 PM"),
+                    .init(senderName: "Rotation ahsdjkashdkjashdjksahdjksahdjkashdkj", senderImageURLString: "https://picsum.photos/200/300", date: "19 Jul 2020, 11:34 PM")
                 ]
             }
         )

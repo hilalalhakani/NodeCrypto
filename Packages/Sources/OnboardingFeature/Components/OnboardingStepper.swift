@@ -10,7 +10,7 @@ public struct OnboardingStepperReducer {
     }
 
     @ObservableState
-    public struct State: Equatable {
+    public struct State: Equatable, Sendable {
         @Shared public var currentStep: OnboardingStep
         public var forwardButtonDisabled = false
         public var backwardButtonDisabled = true
@@ -23,20 +23,20 @@ public struct OnboardingStepperReducer {
     }
 
     @CasePathable
-    public enum Action: TCAFeatureAction {
+    public enum Action: TCAFeatureAction, Sendable {
         case view(ViewAction)
         case `internal`(InternalAction)
         case delegate(DelegateAction)
     }
 
     @CasePathable
-    public enum InternalAction {}
+    public enum InternalAction: Sendable {}
 
     @CasePathable
-    public enum DelegateAction {}
+    public enum DelegateAction: Sendable {}
 
     @CasePathable
-    public enum ViewAction {
+    public enum ViewAction: Sendable {
         case onForwardButtonPress
         case onBackwardButtonPress
     }

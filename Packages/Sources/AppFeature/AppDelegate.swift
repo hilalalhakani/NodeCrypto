@@ -10,8 +10,8 @@ import NodeCryptoCore
 import UserNotifications
 
 @Reducer
-public struct AppDelegateReducer {
-    public struct State: Equatable {}
+public struct AppDelegateReducer : Sendable {
+    public struct State: Equatable, Sendable {}
 
     @CasePathable
     public enum Action {

@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import NodeCryptoCore
 
-public enum MenuItem: String, CaseIterable {
+public enum MenuItem: String, CaseIterable, Sendable {
     case onSale = "On sale"
     case created = "Created"
     case aboutMe = "About me"

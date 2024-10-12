@@ -49,12 +49,12 @@ extension Reducer {
 }
 
 @usableFromInline
-enum Operation<Action, Value> {
+enum Operation<Action: Sendable, Value: Sendable>: Sendable {
     case action(action: AnyCasePath<Action, Value>, animation: Animation?)
-    case operation(f: (_ send: Send<Action>, Value) async throws -> Void)
+    case operation(f: @Sendable (_ send: Send<Action>, Value) async throws -> Void)
 }
 
-public struct _SubscribeReducer<Parent: Reducer, TriggerAction, StreamElement, Value>: Reducer {
+public struct _SubscribeReducer<Parent: Reducer, TriggerAction, StreamElement: Sendable, Value: Sendable>: Sendable, Reducer where Parent : Sendable, Parent.Action: Sendable  {
     @usableFromInline
     let parent: Parent
 
@@ -62,13 +62,13 @@ public struct _SubscribeReducer<Parent: Reducer, TriggerAction, StreamElement, V
     let triggerAction: AnyCasePath<Parent.Action, TriggerAction>
 
     @usableFromInline
-    let stream: () async -> AsyncStream<StreamElement>
+    let stream: @Sendable () async -> AsyncStream<StreamElement>
 
     @usableFromInline
     let operation: Operation<Parent.Action, Value>
 
     @usableFromInline
-    let transform: (StreamElement) -> Value
+    let transform: @Sendable (StreamElement) -> Value
 
     init(
         parent: Parent,

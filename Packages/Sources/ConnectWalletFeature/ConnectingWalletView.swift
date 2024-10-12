@@ -14,7 +14,7 @@ import TCAHelpers
 import Keychain
 
 @Reducer
-public struct ConnectingWalletViewReducer {
+public struct ConnectingWalletViewReducer: Sendable {
     @Dependency(\.apiClient.connectWallet.connectWallet) var connectWallet
     @Dependency(\.dismiss) var dismiss
     @Dependency(\.keychainManager) var keychainManager
@@ -24,38 +24,38 @@ public struct ConnectingWalletViewReducer {
     public init() {}
 
   @ObservableState
-  public struct State: Hashable {
+    public struct State: Hashable, Sendable {
     let wallet: WalletType
-     @Presents  public var alert: AlertState<Action.InternalAction.Alert>?
+    @Presents public var alert: AlertState<Action.InternalAction.Alert>?
 
       public init(wallet: WalletType) {
           self.wallet = wallet
       }
   }
   @CasePathable
-  public enum Action: TCAFeatureAction {
+    public enum Action: TCAFeatureAction, Sendable {
     case view(ViewAction)
     case `internal`(InternalAction)
     case delegate(DelegateAction)
   }
 
   @CasePathable
-   public enum InternalAction {
+    public enum InternalAction: Sendable {
     case onConnectWallet(Result<User, Error>)
     case alert(PresentationAction<Alert>)
-      public enum Alert {
+        public enum Alert: Sendable {
         case dismissAlert
       }
   }
 
   @CasePathable
-  public enum DelegateAction {
+    public enum DelegateAction: Sendable {
     case backButtonPressed
     case alertDismissed
   }
 
   @CasePathable
-  public enum ViewAction {
+    public enum ViewAction: Sendable {
     case onAppear
     case backButtonPressed
   }
