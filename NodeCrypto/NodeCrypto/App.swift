@@ -53,7 +53,7 @@ final class AppDelegate: NSObject {
 
 #if os(macOS)
     extension AppDelegate: NSApplicationDelegate {
-        func applicationDidFinishLaunching(_: Notification) {
+        func applicationDidFinishLaunching(_: Foundation.Notification) {
             userNotificationCenter.delegate = userNotificationDelegate
         }
     }
