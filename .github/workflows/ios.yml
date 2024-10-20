@@ -30,7 +30,7 @@ jobs:
 
       # Step to resolve Swift package dependencies
       - name: Resolve Swift Package Dependencies
-        run: xcodebuild -resolvePackageDependencies -project NodeCrypto.xcodeproj
+        run: xcodebuild -resolvePackageDependencies -project NodeCrypto/NodeCrypto.xcodeproj
 
       - name: Enable macros
         run: defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
