@@ -43,6 +43,7 @@ import XCTest
                 ),
                 reducer: {
                     NotificationReducer()
+                        .dependency(\.analyticsClient.sendAnalytics, { _ in })
                 }
             )
 

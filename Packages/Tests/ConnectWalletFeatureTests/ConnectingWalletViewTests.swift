@@ -16,6 +16,7 @@ final class ConnectWalletViewTests: XCTestCase {
                 $0.device = .current
             #endif
             $0.apiClient.connectWallet.connectWallet = { _, _ in .mock1 }
+            $0.analyticsClient.sendAnalytics = { _ in  }
 
         } operation: {
             let store = TestStore(
@@ -38,6 +39,7 @@ final class ConnectWalletViewTests: XCTestCase {
         } withDependencies: {
             $0.keychainManager.set = { @Sendable _, _ in }
             $0.encode = .liveValue
+            $0.analyticsClient.sendAnalytics = { _ in  }
             #if os(iOS)
                 $0.device = .current
             #endif

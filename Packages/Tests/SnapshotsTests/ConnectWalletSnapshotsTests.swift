@@ -68,6 +68,7 @@ import XCTest
                     $0.device = .current
                     $0.encode = .liveValue
                     $0.apiClient.connectWallet.connectWallet = { _, _ in .mock1 }
+                    $0.analyticsClient.sendAnalytics = { _ in  }
                 }
             )
 
@@ -94,6 +95,7 @@ import XCTest
                     $0.device = .current
                     $0.encode = .liveValue
                     $0.apiClient.connectWallet.connectWallet = { _, _ in .mock1 }
+                    $0.analyticsClient.sendAnalytics = { _ in  }
                 }
             )
 
