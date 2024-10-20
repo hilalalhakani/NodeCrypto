@@ -33,8 +33,7 @@ let package = Package(
         .package(url: "https://github.com/tgrapperon/swift-dependencies-additions", from: "1.1.1"),
         .package(url: "https://github.com/pointfreeco/swift-tagged", branch: "main"),
         .package(url: "https://github.com/oliverfoggin/swift-composable-analytics", branch: "main"),
-//        .package(url: "https://github.com/pointfreeco/swiftui-navigation", from: "1.5.4"),
-        .package(url: "https://github.com/onevcat/Kingfisher.git", from: "8.0.3"),
+        .package(url: "https://github.com/onevcat/Kingfisher.git", from: "8.1.0"),
     ],
     targets: [
         .target(
