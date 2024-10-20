@@ -17,7 +17,7 @@ jobs:
           
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
-        
+
       # Restore package cache
       - name: Restore package cache
         uses: actions/cache@v4
@@ -28,6 +28,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-packages-
 
+      # Step to resolve Swift package dependencies
+      - name: Resolve Swift Package Dependencies
+        run: xcodebuild -resolvePackageDependencies -project NodeCrypto.xcodeproj
+
       - name: Enable macros
         run: defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
         
@@ -35,7 +39,7 @@ jobs:
         run: ./build_scripts/test.sh
         env:
           HAS_PACKAGES_CACHE_HIT: ${{ steps.packages-cache.outputs.cache-hit == 'true' }}
-      
+
       # Save package cache after tests
       - name: Save package cache
         uses: actions/cache@v4
