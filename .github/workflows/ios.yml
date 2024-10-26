@@ -27,6 +27,7 @@ jobs:
           key: ${{ runner.os }}-packages-${{ hashFiles('**/Package.resolved') }}
           restore-keys: |
             ${{ runner.os }}-packages-
+          save-always: true
 
       # Step to resolve Swift package dependencies
       - name: Resolve Swift Package Dependencies
