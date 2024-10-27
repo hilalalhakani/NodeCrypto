@@ -1,0 +1,78 @@
+name: iOS Build and Test
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    types: [opened, synchronize, reopened]
+    
+env:
+  DEVELOPER_DIR: /Applications/Xcode.app/Contents/Developer
+  DERIVED_DATA_PATH: derived_data
+  PACKAGES_PATH: packages_cache
+
+jobs:
+  test:
+    name: Build and Test
+    runs-on: macos-latest
+
+    steps:
+      # Set Xcode version
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '15.2'
+          
+      # Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.1
+        with:
+          fetch-depth: 0
+          
+      # Restore package cache
+      - name: Restore package cache
+        uses: actions/cache@v4
+        id: packages-cache
+        with:
+          path: ${{ env.PACKAGES_PATH }}
+          key: ${{ runner.os }}-packages-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-packages-
+          save-always: true
+          
+      # Enable macros
+      - name: Enable macros
+        run: defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
+        
+      # Run tests using the script
+      - name: Run tests
+        run: ./build_scripts/test.sh
+        env:
+          HAS_PACKAGES_CACHE_HIT: ${{ steps.packages-cache.outputs.cache-hit == 'true' }}
+          
+      # Upload test results
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: ${{ env.DERIVED_DATA_PATH }}/Logs/Test
+          
+      # Generate and upload code coverage
+      - name: Generate code coverage report
+        if: success()
+        run: |
+          xcrun xccov view --report --json \
+            $DERIVED_DATA_PATH/Logs/Test/*.xcresult > coverage.json
+          
+      - name: Upload coverage report
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-coverage
+          path: coverage.json
+
+      # Add test summary to PR
+      - name: Add Test Summary
+        if: always()
+        run: |
+          echo "### Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Tests completed" >> $GITHUB_STEP_SUMMARY
