@@ -22,16 +22,19 @@ jobs:
         with:
           fetch-depth: 0
           
+      # Install SwiftLint
+      - name: Install SwiftLint
+        run: brew install swiftlint
+          
       # Restore package cache
       - name: Restore package cache
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         id: packages-cache
         with:
           path: packages_cache
           key: ${{ runner.os }}-packages-${{ hashFiles('**/Package.resolved') }}
           restore-keys: |
             ${{ runner.os }}-packages-
-          save-always: true
           
       # Enable macros
       - name: Enable macros
@@ -42,6 +45,14 @@ jobs:
         run: ./build_scripts/test.sh
         env:
           HAS_PACKAGES_CACHE_HIT: ${{ steps.packages-cache.outputs.cache-hit == 'true' }}
+          
+      # Save package cache
+      - name: Save package cache
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: packages_cache
+          key: ${{ runner.os }}-packages-${{ hashFiles('**/Package.resolved') }}
           
       # Find and upload test results
       - name: Find test results
