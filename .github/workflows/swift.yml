@@ -4,11 +4,6 @@ on:
     branches: [ main, develop ]
   pull_request:
     types: [opened, synchronize, reopened]
-    
-env:
-  DEVELOPER_DIR: /Applications/Xcode.app/Contents/Developer
-  DERIVED_DATA_PATH: derived_data
-  PACKAGES_PATH: packages_cache
 
 jobs:
   test:
@@ -32,7 +27,7 @@ jobs:
         uses: actions/cache@v4
         id: packages-cache
         with:
-          path: ${{ env.PACKAGES_PATH }}
+          path: packages_cache
           key: ${{ runner.os }}-packages-${{ hashFiles('**/Package.resolved') }}
           restore-keys: |
             ${{ runner.os }}-packages-
@@ -48,23 +43,32 @@ jobs:
         env:
           HAS_PACKAGES_CACHE_HIT: ${{ steps.packages-cache.outputs.cache-hit == 'true' }}
           
-      # Upload test results
-      - name: Upload test results
+      # Find and upload test results
+      - name: Find test results
         if: always()
+        run: |
+          TEST_LOGS=$(find ~/Library/Developer/Xcode/DerivedData -type d -name "Logs/Test" | head -n 1)
+          echo "TEST_LOGS_PATH=${TEST_LOGS}" >> $GITHUB_ENV
+          
+      - name: Upload test results
+        if: always() && env.TEST_LOGS_PATH != ''
         uses: actions/upload-artifact@v4
         with:
           name: test-results
-          path: ${{ env.DERIVED_DATA_PATH }}/Logs/Test
+          path: ${{ env.TEST_LOGS_PATH }}
           
-      # Generate and upload code coverage
+      # Find and upload code coverage
       - name: Generate code coverage report
         if: success()
         run: |
-          xcrun xccov view --report --json \
-            $DERIVED_DATA_PATH/Logs/Test/*.xcresult > coverage.json
+          XCRESULT=$(find ~/Library/Developer/Xcode/DerivedData -type d -name "*.xcresult" | head -n 1)
+          if [ -n "$XCRESULT" ]; then
+            xcrun xccov view --report --json "$XCRESULT" > coverage.json
+            echo "COVERAGE_GENERATED=true" >> $GITHUB_ENV
+          fi
           
       - name: Upload coverage report
-        if: success()
+        if: success() && env.COVERAGE_GENERATED == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: code-coverage
