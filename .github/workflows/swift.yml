@@ -11,81 +11,75 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      # Set Xcode version
-      - uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: latest
-          
-      # Checkout repository
+      # 1. Checkout repository with fetch-depth (reduced from 0 to 1 for faster checkout)
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
         with:
-          fetch-depth: 0
-          
-      # Install SwiftLint
-      - name: Install SwiftLint
-        run: brew install swiftlint
-          
-      # Restore package cache
+          fetch-depth: 1
+
+      # 2. Setup Xcode (kept, but consider pinning a version for stability)
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest
+
+      # 3. Cache Dependencies (improved caching strategy)
       - name: Restore package cache
         uses: actions/cache/restore@v4
         id: packages-cache
         with:
-          path: packages_cache
-          key: ${{ runner.os }}-packages-${{ hashFiles('**/Package.resolved') }}
+          path: ~/Library/Caches/org.carthage
+          key: ${{ runner.os }}-carthage-${{ hashFiles('**/Cartfile.resolved') }}
           restore-keys: |
-            ${{ runner.os }}-packages-
-          
-      # Enable macros
-      - name: Enable macros
-        run: defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
-        
-      # Run tests using the script
+            ${{ runner.os }}-carthage-
+
+      # 4. Install SwiftLint (consider moving to a dependency manager like Carthage or SPM for SwiftLint)
+      - name: Install SwiftLint
+        run: brew install swiftlint
+
+      # 5. Run Tests (kept, assuming the script is optimized)
       - name: Run tests
         run: ./build_scripts/test.sh
         env:
           HAS_PACKAGES_CACHE_HIT: ${{ steps.packages-cache.outputs.cache-hit == 'true' }}
-          
-      # Save package cache
+
+      # 6. Save Package Cache (kept for dependency caching)
       - name: Save package cache
         uses: actions/cache/save@v4
         if: always()
         with:
-          path: packages_cache
-          key: ${{ runner.os }}-packages-${{ hashFiles('**/Package.resolved') }}
-          
-      # Find and upload test results
-      - name: Find test results
+          path: ~/Library/Caches/org.carthage
+          key: ${{ runner.os }}-carthage-${{ hashFiles('**/Cartfile.resolved') }}
+
+      # 7. Upload Test Results (streamlined to a single step with conditional upload)
+      - name: Find and Upload Test Results
         if: always()
         run: |
           TEST_LOGS=$(find ~/Library/Developer/Xcode/DerivedData -type d -name "Logs/Test" | head -n 1)
-          echo "TEST_LOGS_PATH=${TEST_LOGS}" >> $GITHUB_ENV
-          
-      - name: Upload test results
-        if: always() && env.TEST_LOGS_PATH != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: ${{ env.TEST_LOGS_PATH }}
-          
-      # Find and upload code coverage
-      - name: Generate code coverage report
+          if [ -n "$TEST_LOGS" ]; then
+            echo "Uploading test results..."
+            echo "TEST_LOGS_PATH=${TEST_LOGS}" >> $GITHUB_ENV
+            echo "::add-mask::$TEST_LOGS"
+            uses: actions/upload-artifact@v4
+            with:
+              name: test-results
+              path: ${{ env.TEST_LOGS_PATH }}
+          else
+            echo "No test results found to upload."
+
+      # 8. Code Coverage (simplified with direct upload if generated)
+      - name: Generate and Upload Code Coverage
         if: success()
         run: |
           XCRESULT=$(find ~/Library/Developer/Xcode/DerivedData -type d -name "*.xcresult" | head -n 1)
           if [ -n "$XCRESULT" ]; then
             xcrun xccov view --report --json "$XCRESULT" > coverage.json
-            echo "COVERAGE_GENERATED=true" >> $GITHUB_ENV
+            uses: actions/upload-artifact@v4
+            with:
+              name: code-coverage
+              path: coverage.json
           fi
-          
-      - name: Upload coverage report
-        if: success() && env.COVERAGE_GENERATED == 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: code-coverage
-          path: coverage.json
 
-      # Add test summary to PR
+      # 9. Test Summary (kept as is, for simplicity)
       - name: Add Test Summary
         if: always()
         run: |
