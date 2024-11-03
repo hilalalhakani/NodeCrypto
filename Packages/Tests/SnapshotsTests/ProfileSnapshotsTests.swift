@@ -29,7 +29,7 @@ import XCTest
 
             assertSnapshot(
                 of: profileView,
-                as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro))
+                as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro), traits: UITraitCollection(displayScale: 3))
             )
 
         }
@@ -53,7 +53,7 @@ import XCTest
 
                 assertSnapshot(
                     of: ProfileView(store: store),
-                    as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro))
+                    as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro), traits: UITraitCollection(displayScale: 3))
                 )
 
             }
@@ -78,7 +78,7 @@ import XCTest
 
                 assertSnapshot(
                     of: ProfileView(store: store),
-                    as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro))
+                    as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro), traits: UITraitCollection(displayScale: 3))
                 )
 
             }
@@ -104,7 +104,7 @@ import XCTest
 
                 assertSnapshot(
                     of: rootView,
-                    as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro))
+                    as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro), traits: UITraitCollection(displayScale: 3))
                 )
             }
 

@@ -31,7 +31,7 @@ import XCTest
 
             assertSnapshot(
                 of: notificationsView,
-                as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro))
+                as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro), traits: UITraitCollection(displayScale: 3))
             )
         }
 
@@ -54,7 +54,7 @@ import XCTest
 
             assertSnapshot(
                 of: notificationsView,
-                as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro))
+                as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro), traits: UITraitCollection(displayScale: 3))
             )
         }
 
@@ -87,7 +87,7 @@ import XCTest
 
             assertSnapshot(
                 of: notificationsView,
-                as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro))
+                as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro), traits: UITraitCollection(displayScale: 3))
             )
         }
 
