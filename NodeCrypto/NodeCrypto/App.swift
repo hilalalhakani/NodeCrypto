@@ -92,7 +92,7 @@ struct NodeCryptoApp: App {
 
  assertSnapshot(
      matching: viewController,
-     as: .wait(for: 0.1, on: .iPhoneSe) <----- delay
+     as: .wait(for: 0.1, on: .iPhone13Pro) <----- delay
  )
 
  */

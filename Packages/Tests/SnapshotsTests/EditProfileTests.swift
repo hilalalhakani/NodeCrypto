@@ -31,7 +31,7 @@ final class EditProfileSnapshotsTests: BaseTestCase {
 
         assertSnapshot(
             of: editProfileView,
-            as: .image(perceptualPrecision: precision, layout: .device(config: .iPhoneSe))
+            as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro))
         )
     }
 }

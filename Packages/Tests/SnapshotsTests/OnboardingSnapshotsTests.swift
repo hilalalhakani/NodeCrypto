@@ -18,7 +18,7 @@ import XCTest
 
       assertSnapshot(
         of: onboardingView,
-        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhoneSe)))
+        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro)))
     }
 
     @MainActor
@@ -30,7 +30,7 @@ import XCTest
       let onboardingView = OnboardingView(store: store).environment(\.colorScheme, .light)
       assertSnapshot(
         of: onboardingView,
-        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhoneSe)))
+        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro)))
     }
 
       @MainActor
@@ -42,7 +42,7 @@ import XCTest
       let onboardingView = OnboardingView(store: store).environment(\.colorScheme, .light)
       assertSnapshot(
         of: onboardingView,
-        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhoneSe)))
+        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro)))
     }
 
       @MainActor
@@ -54,7 +54,7 @@ import XCTest
       let onboardingView = OnboardingView(store: store).environment(\.colorScheme, .light)
       assertSnapshot(
         of: onboardingView,
-        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhoneSe)))
+        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro)))
     }
 
       @MainActor
@@ -68,7 +68,7 @@ import XCTest
 
       assertSnapshot(
         of: onboardingView,
-        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhoneSe)))
+        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro)))
     }
 
     @MainActor
@@ -82,7 +82,7 @@ import XCTest
 
       assertSnapshot(
         of: onboardingView,
-        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhoneSe)))
+        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro)))
     }
       @MainActor
     func testpage3_dark() {
@@ -94,7 +94,7 @@ import XCTest
 
       assertSnapshot(
         of: onboardingView,
-        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhoneSe)))
+        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro)))
     }
       @MainActor
     func testpage4_dark() {
@@ -105,7 +105,7 @@ import XCTest
         .environment(\.colorScheme, .dark)
       assertSnapshot(
         of: onboardingView,
-        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhoneSe)))
+        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro)))
     }
   }
 #endif

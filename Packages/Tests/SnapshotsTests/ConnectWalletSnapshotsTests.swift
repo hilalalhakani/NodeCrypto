@@ -28,7 +28,7 @@ import XCTest
 
             assertSnapshot(
                 of: connectWalletView,
-                as: .image(perceptualPrecision: precision, layout: .device(config: .iPhoneSe))
+                as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro))
             )
         }
 
@@ -52,7 +52,7 @@ import XCTest
 
             assertSnapshot(
                 of: connectWalletView,
-                as: .image(perceptualPrecision: precision, layout: .device(config: .iPhoneSe))
+                as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro))
             )
         }
 
@@ -79,7 +79,7 @@ import XCTest
 
             assertSnapshot(
                 of: connectWalletView,
-                as: .image(perceptualPrecision: precision, layout: .device(config: .iPhoneSe))
+                as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro))
             )
         }
 
@@ -106,7 +106,7 @@ import XCTest
 
             assertSnapshot(
                 of: connectWalletView,
-                as: .image(perceptualPrecision: precision, layout: .device(config: .iPhoneSe))
+                as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro))
             )
         }
 
@@ -131,7 +131,7 @@ import XCTest
 
             assertSnapshot(
                 of: connectWalletView,
-                as: .image(perceptualPrecision: precision, layout: .device(config: .iPhoneSe))
+                as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro))
             )
         }
 
@@ -156,7 +156,7 @@ import XCTest
 
             assertSnapshot(
                 of: connectWalletView,
-                as: .image(perceptualPrecision: precision, layout: .device(config: .iPhoneSe))
+                as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro))
             )
         }
     }
