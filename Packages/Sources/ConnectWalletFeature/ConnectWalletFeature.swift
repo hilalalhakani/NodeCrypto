@@ -118,7 +118,7 @@ public struct ConnectWalletView: View {
 
       ZStack {
 
-        //BackgroundLinearGradient()
+        BackgroundLinearGradient()
 
         VStack(alignment: .center) {
 
@@ -141,15 +141,15 @@ public struct ConnectWalletView: View {
         .frame(maxWidth: .infinity, alignment: .center)
         .padding(.vertical)
       }
-      .popup(
-        isPresented: store.showPopup,
-        confirmAction: {
-          store.send(.view(.openButtonPressed), animation: .easeIn)
-        },
-        cancelAction: {
-          store.send(.view(.cancelButtonPressed), animation: .easeIn)
-        }
-      )
+//      .popup(
+//        isPresented: store.showPopup,
+//        confirmAction: {
+//          store.send(.view(.openButtonPressed), animation: .easeIn)
+//        },
+//        cancelAction: {
+//          store.send(.view(.cancelButtonPressed), animation: .easeIn)
+//        }
+//      )
       .navigationDestinationWrapper(
         item: $store.scope(state: \.connectWallet, action: \.internal.connectWalletView)
       ) { store in
