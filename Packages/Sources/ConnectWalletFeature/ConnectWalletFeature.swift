@@ -118,7 +118,7 @@ public struct ConnectWalletView: View {
 
       ZStack {
 
-        BackgroundLinearGradient()
+        //BackgroundLinearGradient()
 
         VStack(alignment: .center) {
 

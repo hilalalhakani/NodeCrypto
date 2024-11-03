@@ -17,14 +17,16 @@ import XCTest
     @available(macOS, unavailable)
     final class NotificationsSnapshotsTests: XCTestCase {
         @MainActor func test_notifications_loading() {
+            let store: StoreOf<NotificationReducer> = .init(
+                initialState: .init(),
+                reducer: {
+                    NotificationReducer()
+                        .dependency(\.apiClient.profile.getNotifications, { try await Task.never() })
+                }
+            )
+
             let notificationsView = NotificationsView(
-                store: .init(
-                    initialState: .init(),
-                    reducer: {
-                        NotificationReducer()
-                            .dependency(\.apiClient.profile.getNotifications, { try await Task.never() })
-                    }
-                )
+                store: store
             )
 
             assertSnapshot(
