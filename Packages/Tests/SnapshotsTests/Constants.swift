@@ -7,4 +7,4 @@
 
 import Foundation
 
-let precision = Float(0.98)
+let precision = Float(0.7)
