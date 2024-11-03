@@ -22,6 +22,7 @@ import XCTest
                     initialState: .init(),
                     reducer: {
                         NotificationReducer()
+                            .dependency(\.apiClient.profile.getNotifications, { try await Task.never() })
                     }
                 )
             )
