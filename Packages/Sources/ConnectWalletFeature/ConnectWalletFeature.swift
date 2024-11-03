@@ -133,9 +133,9 @@ public struct ConnectWalletView: View {
 
           Spacer()
 
-          ListView(didSelectButton: { store.send(.view(.onButtonSelect($0)), animation: .easeIn) })
-            .frame(height: 350)
-            .padding(.horizontal, 20)
+//          ListView(didSelectButton: { store.send(.view(.onButtonSelect($0)), animation: .easeIn) })
+//            .frame(height: 350)
+//            .padding(.horizontal, 20)
 
         }
         .frame(maxWidth: .infinity, alignment: .center)
