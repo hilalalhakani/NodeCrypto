@@ -150,12 +150,12 @@ public struct ConnectWalletView: View {
 //          store.send(.view(.cancelButtonPressed), animation: .easeIn)
 //        }
 //      )
-      .navigationDestinationWrapper(
-        item: $store.scope(state: \.connectWallet, action: \.internal.connectWalletView)
-      ) { store in
-        ConnectingWalletView(store: store)
-          .navigationBarBackButtonHidden(true)
-      }
+//      .navigationDestinationWrapper(
+//        item: $store.scope(state: \.connectWallet, action: \.internal.connectWalletView)
+//      ) { store in
+//        ConnectingWalletView(store: store)
+//          .navigationBarBackButtonHidden(true)
+//      }
     }
   }
 }
