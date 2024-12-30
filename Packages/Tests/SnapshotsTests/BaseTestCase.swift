@@ -25,7 +25,7 @@ let precision: Float = 0.8
     column: UInt = #column,
     named: String = #function
 ) throws {
-    try #require(UIDevice.modelName == "iPhone 13")
+    try #require(UIDevice.modelName == "iPhone 15")
     let viewController = UIHostingController(rootView: view)
 
     viewController.overrideUserInterfaceStyle = .light
@@ -45,7 +45,7 @@ let precision: Float = 0.8
 
     assertSnapshot(
         of: viewController,
-        as: .image(on: .iPhone13, precision: precision),
+        as: .image(on: ViewImageConfig.iPhone15, precision: precision),
         named: named + "dark",
         fileID: fileID,
         file: filePath,
