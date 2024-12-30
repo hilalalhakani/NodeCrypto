@@ -52,39 +52,3 @@ jobs:
         with:
           path: ~/Library/Caches/org.carthage
           key: ${{ runner.os }}-carthage-${{ hashFiles('**/Cartfile.resolved') }}
-
-      # 7. Upload Test Results (streamlined to a single step with conditional upload)
-      - name: Find and Upload Test Results
-        if: always()
-        run: |
-          TEST_LOGS=$(find ~/Library/Developer/Xcode/DerivedData -type d -name "Logs/Test" | head -n 1)
-          if [ -n "$TEST_LOGS" ]; then
-            echo "Uploading test results..."
-            echo "TEST_LOGS_PATH=${TEST_LOGS}" >> $GITHUB_ENV
-            echo "::add-mask::$TEST_LOGS"
-            uses: actions/upload-artifact@v4
-            with:
-              name: test-results
-              path: ${{ env.TEST_LOGS_PATH }}
-          else
-            echo "No test results found to upload."
-
-      # 8. Code Coverage (simplified with direct upload if generated)
-      - name: Generate and Upload Code Coverage
-        if: success()
-        run: |
-          XCRESULT=$(find ~/Library/Developer/Xcode/DerivedData -type d -name "*.xcresult" | head -n 1)
-          if [ -n "$XCRESULT" ]; then
-            xcrun xccov view --report --json "$XCRESULT" > coverage.json
-            uses: actions/upload-artifact@v4
-            with:
-              name: code-coverage
-              path: coverage.json
-          fi
-
-      # 9. Test Summary (kept as is, for simplicity)
-      - name: Add Test Summary
-        if: always()
-        run: |
-          echo "### Test Results" >> $GITHUB_STEP_SUMMARY
-          echo "✅ Tests completed" >> $GITHUB_STEP_SUMMARY
