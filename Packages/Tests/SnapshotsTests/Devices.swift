@@ -84,19 +84,26 @@ extension UITraitCollection {
         ]
         switch orientation {
             case .landscape:
-                return .init(
-                    traitsFrom: base + [
-                        .init(horizontalSizeClass: .regular),
-                        .init(verticalSizeClass: .compact)
-                    ]
-                )
+                return .init(mutations: {
+                    $0.horizontalSizeClass = .regular
+                    $0.verticalSizeClass = .compact
+
+                    $0.forceTouchCapability = .available
+                    $0.layoutDirection =  .leftToRight
+                    $0.preferredContentSizeCategory =  .medium
+                    $0.userInterfaceIdiom = .phone
+                })
+
             case .portrait:
-                return .init(
-                    traitsFrom: base + [
-                        .init(horizontalSizeClass: .compact),
-                        .init(verticalSizeClass: .regular)
-                    ]
-                )
+                return .init(mutations: {
+                    $0.horizontalSizeClass = .compact
+                    $0.verticalSizeClass = .regular
+
+                    $0.forceTouchCapability = .available
+                    $0.layoutDirection =  .leftToRight
+                    $0.preferredContentSizeCategory =  .medium
+                    $0.userInterfaceIdiom = .phone
+                })
         }
     }
 
@@ -109,69 +116,78 @@ extension UITraitCollection {
         ]
         switch orientation {
             case .landscape:
-                return .init(
-                    traitsFrom: base + [
-                        .init(horizontalSizeClass: .regular),
-                        .init(verticalSizeClass: .compact)
-                    ]
-                )
+                return .init(mutations: {
+                    $0.horizontalSizeClass = .regular
+                    $0.verticalSizeClass = .compact
+
+                    $0.forceTouchCapability = .available
+                    $0.layoutDirection =  .leftToRight
+                    $0.preferredContentSizeCategory =  .medium
+                    $0.userInterfaceIdiom = .phone
+                })
+
             case .portrait:
-                return .init(
-                    traitsFrom: base + [
-                        .init(horizontalSizeClass: .compact),
-                        .init(verticalSizeClass: .regular)
-                    ]
-                )
+                return .init(mutations: {
+                    $0.horizontalSizeClass = .compact
+                    $0.verticalSizeClass = .regular
+
+                    $0.forceTouchCapability = .available
+                    $0.layoutDirection =  .leftToRight
+                    $0.preferredContentSizeCategory =  .medium
+                    $0.userInterfaceIdiom = .phone
+                })
         }
     }
 
     public static func iPhone15Pro(_ orientation: ViewImageConfig.Orientation) -> UITraitCollection {
-        let base: [UITraitCollection] = [
-            .init(forceTouchCapability: .available),
-            .init(layoutDirection: .leftToRight),
-            .init(preferredContentSizeCategory: .medium),
-            .init(userInterfaceIdiom: .phone)
-        ]
         switch orientation {
             case .landscape:
-                return .init(
-                    traitsFrom: base + [
-                        .init(horizontalSizeClass: .regular),
-                        .init(verticalSizeClass: .compact)
-                    ]
-                )
+                return .init(mutations: {
+                    $0.horizontalSizeClass = .regular
+                    $0.verticalSizeClass = .compact
+
+                    $0.forceTouchCapability = .available
+                    $0.layoutDirection =  .leftToRight
+                    $0.preferredContentSizeCategory =  .medium
+                    $0.userInterfaceIdiom = .phone
+                })
+
             case .portrait:
-                return .init(
-                    traitsFrom: base + [
-                        .init(horizontalSizeClass: .compact),
-                        .init(verticalSizeClass: .regular)
-                    ]
-                )
+                return .init(mutations: {
+                    $0.horizontalSizeClass = .compact
+                    $0.verticalSizeClass = .regular
+
+                    $0.forceTouchCapability = .available
+                    $0.layoutDirection =  .leftToRight
+                    $0.preferredContentSizeCategory =  .medium
+                    $0.userInterfaceIdiom = .phone
+                })
         }
     }
 
     public static func iPhone15ProMax(_ orientation: ViewImageConfig.Orientation) -> UITraitCollection {
-        let base: [UITraitCollection] = [
-            .init(forceTouchCapability: .available),
-            .init(layoutDirection: .leftToRight),
-            .init(preferredContentSizeCategory: .medium),
-            .init(userInterfaceIdiom: .phone)
-        ]
         switch orientation {
             case .landscape:
-                return .init(
-                    traitsFrom: base + [
-                        .init(horizontalSizeClass: .regular),
-                        .init(verticalSizeClass: .compact)
-                    ]
-                )
+                return .init(mutations: {
+                    $0.horizontalSizeClass = .regular
+                    $0.verticalSizeClass = .compact
+
+                    $0.forceTouchCapability = .available
+                    $0.layoutDirection =  .leftToRight
+                    $0.preferredContentSizeCategory =  .medium
+                    $0.userInterfaceIdiom = .phone
+                })
+
             case .portrait:
-                return .init(
-                    traitsFrom: base + [
-                        .init(horizontalSizeClass: .compact),
-                        .init(verticalSizeClass: .regular)
-                    ]
-                )
+                return .init(mutations: {
+                    $0.horizontalSizeClass = .compact
+                    $0.verticalSizeClass = .regular
+
+                    $0.forceTouchCapability = .available
+                    $0.layoutDirection =  .leftToRight
+                    $0.preferredContentSizeCategory =  .medium
+                    $0.userInterfaceIdiom = .phone
+                })
         }
     }
 }

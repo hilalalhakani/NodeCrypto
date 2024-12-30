@@ -34,7 +34,6 @@ extension APIClient.Home {
 
     public static func mock() -> Self {
         @Dependency(\.continuousClock) var clock
-        let generate = UUIDGenerator.incrementing
 
         return .init {
             try await clock.sleep(for: .seconds(1))

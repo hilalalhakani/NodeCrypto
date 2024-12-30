@@ -148,7 +148,7 @@ public struct ConnectWalletView: View {
           store.send(.view(.cancelButtonPressed), animation: .easeIn)
         }
       )
-      .navigationDestinationWrapper(
+      .navigationDestination(
         item: $store.scope(state: \.connectWallet, action: \.internal.connectWalletView)
       ) { store in
         ConnectingWalletView(store: store)

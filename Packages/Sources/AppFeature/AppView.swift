@@ -76,7 +76,7 @@ public struct AppViewReducer {
                     case .appDelegate:
                         return .none
                     case .userChanged(let user):
-                        if let user {
+                        if user != nil {
                             state.destination = .rootView(.init())
                         }
                         else {

@@ -101,8 +101,8 @@ public struct Shimmer: ViewModifier {
                     startShimmering()
                 }
             }
-            .onChange(of: isActive) { isActive in
-                if isActive {
+            .onChange(of: isActive) { oldValue, newValue in
+                if newValue {
                     startShimmering()
                 } else {
                     stopShimmering()

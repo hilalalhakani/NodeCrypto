@@ -6,10 +6,10 @@
 //
 
 import AppFeature
+import Firebase
 import NodeCryptoCore
 import OnboardingFeature
 import SwiftUI
-import Firebase
 import XCTestDynamicOverlay
 
 final class AppDelegate: NSObject {
@@ -18,7 +18,7 @@ final class AppDelegate: NSObject {
         reducer: {
             AppViewReducer()
                 .dependency(\.analyticsClient, AnalyticsClient.consoleLogger)
-            //._printChanges()
+            // ._printChanges()
         }
     )
 
@@ -42,7 +42,9 @@ final class AppDelegate: NSObject {
             _: UIApplication,
             didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
         ) {
-            store.send(.internal(.appDelegate(.didRegisterForRemoteNotifications(.success(deviceToken)))))
+            store.send(
+                .internal(.appDelegate(.didRegisterForRemoteNotifications(.success(deviceToken))))
+            )
         }
 
         func application(
@@ -72,8 +74,8 @@ struct NodeCryptoApp: App {
     #endif
 
     var body: some Scene {
-            WindowGroup {
-                if !isTesting {
+        WindowGroup {
+            if !isTesting {
                 AppView(store: appDelegate.store)
             }
         }

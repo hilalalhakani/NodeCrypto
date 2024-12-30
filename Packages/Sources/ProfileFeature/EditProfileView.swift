@@ -306,10 +306,10 @@ public struct EditProfileView: View {
         }
         .frame(width: 92, height: 92)
         .buttonStyle(.plain)
-        .onChange(of: selectedItem) { newItem in
+        .onChange(of: selectedItem) { oldValue, newValue in
             Task {
-                if let image = try? await newItem?.loadTransferable(type: Image.self),
-                    let imageData = try? await newItem?
+                if let image = try? await newValue?.loadTransferable(type: Image.self),
+                    let imageData = try? await newValue?
                         .loadTransferable(
                             type: Data.self
                         )
