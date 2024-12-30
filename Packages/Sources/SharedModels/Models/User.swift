@@ -11,7 +11,7 @@ import Foundation
 //import Dependencies
 
 public struct User: Identifiable, Hashable, Sendable, Codable, Equatable {
-    public var id: UUID
+    public var id: String
     public var email: String
     public var fullName: String
     public var mobileNumber: String
@@ -20,7 +20,7 @@ public struct User: Identifiable, Hashable, Sendable, Codable, Equatable {
     public var profileDescription: String
 
     public init(
-        id: UUID,
+        id: String,
         email: String,
         fullName: String,
         mobileNumber: String,
@@ -41,7 +41,7 @@ public struct User: Identifiable, Hashable, Sendable, Codable, Equatable {
 extension User {
     public static var mock1: User {
         User(
-            id: .init(uuidString: "00000000-0000-0000-0000-000000000001")!,
+            id: "00000000-0000-0000-0000-000000000001",
             email: "bob@gmail.com",
             fullName: "John Doe",
             mobileNumber: "96171123456",

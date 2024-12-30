@@ -6,9 +6,10 @@
 //
 
 import ComposableArchitecture
+import Sharing
 
-extension PersistenceReaderKey where Self == InMemoryKey<Bool> {
+extension SharedKey where Self == InMemoryKey<Bool>.Default {
   public static var isTabBarVisible: Self {
-      .inMemory("isTabBarVisible")
+      Self[.inMemory("isTabBarVisible"), default: true]
   }
 }

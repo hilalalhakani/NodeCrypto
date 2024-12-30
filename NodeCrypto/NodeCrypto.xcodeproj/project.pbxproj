@@ -14,6 +14,7 @@
 		E7AE92E92B2260CA0065A9C2 /* AppFeature in Frameworks */ = {isa = PBXBuildFile; productRef = E7AE92E82B2260CA0065A9C2 /* AppFeature */; };
 		E7DF1BB42B4033D300A776D1 /* fr.xcloc in Resources */ = {isa = PBXBuildFile; fileRef = E7DF1BB22B4033D300A776D1 /* fr.xcloc */; };
 		E7DF1BB52B4033D300A776D1 /* en.xcloc in Resources */ = {isa = PBXBuildFile; fileRef = E7DF1BB32B4033D300A776D1 /* en.xcloc */; };
+		FE868E762D0F038E00E6D9BE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE868E752D0F038E00E6D9BE /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,8 @@
 		E7BC9E862B45C36000C17D3E /* Packages */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Packages; path = ../Packages; sourceTree = "<group>"; };
 		E7DF1BB22B4033D300A776D1 /* fr.xcloc */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = fr.xcloc; sourceTree = "<group>"; };
 		E7DF1BB32B4033D300A776D1 /* en.xcloc */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = en.xcloc; sourceTree = "<group>"; };
+		FE1AD0832D18681400C9AC80 /* NodeCrypto.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NodeCrypto.entitlements; sourceTree = "<group>"; };
+		FE868E752D0F038E00E6D9BE /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +46,8 @@
 		E7340EA82B1794D00037A11D /* NodeCrypto */ = {
 			isa = PBXGroup;
 			children = (
+				FE1AD0832D18681400C9AC80 /* NodeCrypto.entitlements */,
+				FE868E752D0F038E00E6D9BE /* GoogleService-Info.plist */,
 				E7DF1BB12B4033D300A776D1 /* NodeCrypto Localizations */,
 				E77742012B337D8000FB30ED /* Aggregated.xctestplan */,
 				E7059DF62B1C9A4800C1DE4F /* Info.plist */,
@@ -162,6 +167,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7340EAF2B1794D00037A11D /* Preview Assets.xcassets in Resources */,
+				FE868E762D0F038E00E6D9BE /* GoogleService-Info.plist in Resources */,
 				E77742022B337D8000FB30ED /* Aggregated.xctestplan in Resources */,
 				E7340EAD2B1794D00037A11D /* Assets.xcassets in Resources */,
 				E7DF1BB52B4033D300A776D1 /* en.xcloc in Resources */,
@@ -257,7 +263,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -320,7 +326,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -340,7 +346,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_ENTITLEMENTS = NodeCrypto/NodeCrypto.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"NodeCrypto/Preview Content\"";
@@ -352,7 +359,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -379,7 +386,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_ENTITLEMENTS = NodeCrypto/NodeCrypto.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"NodeCrypto/Preview Content\"";
@@ -391,7 +399,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

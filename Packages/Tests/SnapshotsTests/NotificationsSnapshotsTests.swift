@@ -11,12 +11,11 @@ import NotificationsFeature
 import SharedModels
 import SnapshotTesting
 import SwiftUI
-import XCTest
+import Testing
 
-#if os(iOS)
-    @available(macOS, unavailable)
-    final class NotificationsSnapshotsTests: XCTestCase {
-        @MainActor func test_notifications_loading() {
+@MainActor
+    struct NotificationsSnapshotsTests {
+        @Test func test_notifications_loading() throws {
             let store: StoreOf<NotificationReducer> = .init(
                 initialState: .init(),
                 reducer: {
@@ -29,14 +28,11 @@ import XCTest
                 store: store
             )
 
-            assertSnapshot(
-                of: notificationsView,
-                as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro), traits: UITraitCollection(displayScale: 3))
-            )
+            try assert(notificationsView)
         }
 
-        @MainActor
-        func test_notifications_empty() async {
+        @Test
+        func test_notifications_empty() throws {
             let emptyNotifications = [SharedModels.Notification]()
 
             let store = StoreOf<NotificationReducer>(
@@ -52,14 +48,12 @@ import XCTest
 
             let notificationsView = NotificationsView(store: store)
 
-            assertSnapshot(
-                of: notificationsView,
-                as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro), traits: UITraitCollection(displayScale: 3))
-            )
+            try assert(notificationsView)
+
         }
 
-        @MainActor
-        func test_notifications_loaded() async {
+        @Test
+        func test_notifications_loaded() throws {
             let notifications: [SharedModels.Notification] = [
                 .init(
                     senderName: "KidEight",
@@ -85,11 +79,8 @@ import XCTest
 
             let notificationsView = NotificationsView(store: store)
 
-            assertSnapshot(
-                of: notificationsView,
-                as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro), traits: UITraitCollection(displayScale: 3))
-            )
+            try assert(notificationsView)
+
         }
 
     }
-#endif

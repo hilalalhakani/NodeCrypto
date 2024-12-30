@@ -15,9 +15,12 @@ import PhotosUI
 import ResourceProvider
 import SharedModels
 import SwiftUI
+import AuthenticationClient
 
 @Reducer
 public struct EditProfileReducer: Sendable {
+    @Shared(.user) var user
+
     public init() {}
     @ObservableState
     public struct State: Equatable, Sendable {
@@ -77,7 +80,6 @@ public struct EditProfileReducer: Sendable {
 
                     case .submitPressed:
                         return .run { [state] send in
-                            @Dependency(\.userManager) var userManager
                             do {
 
                                 var user = state.user
@@ -88,7 +90,7 @@ public struct EditProfileReducer: Sendable {
                                     user.profileImage = url
                                 }
 
-                                await userManager.$user.withLock { [user] in
+                                 $user.withLock { [user] in
                                     $0 = user
                                 }
                                 await send(.internal(.showCheckMark(true)))
@@ -138,10 +140,10 @@ public struct EditProfileReducer: Sendable {
 }
 
 public struct EditProfileView: View {
-    @Perception.Bindable var store: StoreOf<EditProfileReducer>
+    @Bindable var store: StoreOf<EditProfileReducer>
     @State private var selectedItem: PhotosPickerItem? = nil
     @State private var selectedImage: Image? = nil
-    @Dependency(\.userManager) var userManager
+    @Shared(.user) var user
     @FocusState private var focusedField: FocusedField?
 
     enum FocusedField {
@@ -153,7 +155,6 @@ public struct EditProfileView: View {
     }
 
     public var body: some View {
-        WithPerceptionTracking {
             VStack(alignment: .leading, spacing: 20) {
                 profileHeader
 
@@ -185,7 +186,6 @@ public struct EditProfileView: View {
                 }
                 .navigationBarBackButtonHidden(true)
             #endif
-        }
     }
 
     @ViewBuilder
@@ -285,9 +285,9 @@ public struct EditProfileView: View {
             selection: $selectedItem,
             matching: .images,
             photoLibrary: .shared()
-        ) { [selectedItem,  userProfileImage = userManager.user?.profileImage] in
+        ) { [selectedItem,  userProfileImage = user?.profileImage] in
                 Group {
-                    if selectedItem.isNil, let userProfileImage, let url = URL(string: userProfileImage)
+                    if selectedItem == nil, let userProfileImage, let url = URL(string: userProfileImage)
                     {
                         MainActor.assumeIsolated {
                             AsyncImageView(url: url)

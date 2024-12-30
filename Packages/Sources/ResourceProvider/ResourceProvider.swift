@@ -143,7 +143,6 @@ public struct ResourceView<Output: ViewRepresentable>: View where Output: Sendab
     }
 
     public var body: some View {
-        WithPerceptionTracking {
             if let _ = NSClassFromString("XCTest") {
                 Color.red
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -163,7 +162,6 @@ public struct ResourceView<Output: ViewRepresentable>: View where Output: Sendab
                                 }
                     }
                 }
-            }
         }
     }
 }

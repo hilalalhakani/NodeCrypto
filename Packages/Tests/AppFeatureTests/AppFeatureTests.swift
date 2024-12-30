@@ -1,62 +1,77 @@
 import AppFeature
 import ComposableArchitecture
 import Foundation
+import Keychain
 import NodeCryptoCore
+import Testing
 import XCTest
 
-final class AppFeatureTests: XCTestCase {
+@MainActor
+struct AppFeatureTests {
 
-    @MainActor
+    @Test
     func test_rootView_userDoesntExistSetsOnboardingAsRoot() async {
         let store = TestStore(initialState: AppViewReducer.State()) {
             AppViewReducer()
         } withDependencies: {
-            $0.keychainManager.get = { @Sendable _ in throw NSError(domain: "", code: 0) }
+            $0.keychainManager.get = { @Sendable _ in
+                throw KeychainManager.Error.itemNotFound
+            }
+            $0.mainQueue = .immediate
         }
 
-        await store.send(.view(.onAppear)) {
+        #expect(store.state.destination == .launchImage)
+
+        await store.send(.view(.onAppear))
+            .cancel()
+
+        await store.receive(\.internal.userChanged, nil) {
             $0.destination = .onboarding(.init())
         }
-        .cancel()
-
     }
 
-    @MainActor
+    @Test
     func test_rootView_userExistsSetsHomeAsRoot() async {
 
-        await withDependencies {
-            $0.keychainManager.set = { @Sendable _, _ in  }
-            $0.keychainManager.get = { @Sendable _ in Data() }
-            $0.decode = .liveValue
-        } operation: {
-
-            let store = TestStore(initialState: AppViewReducer.State()) {
-                AppViewReducer()
-            } withDependencies: {
-                $0.userManager.user = .mock1
+        let store = TestStore(initialState: AppViewReducer.State()) {
+            AppViewReducer()
+        } withDependencies: {
+            $0.keychainManager.get = { @Sendable _ in
+                let data = try JSONEncoder().encode(User.mock1)
+                return data
             }
-
-            await store.send(.view(.onAppear)) {
-                $0.destination = .rootView(.init(user: User.mock1))
-            }
-            .cancel()
+            $0.mainQueue = .immediate
         }
 
+        #expect(store.state.destination == .launchImage)
+
+        await store.send(.view(.onAppear)).cancel()
+
+        await store.receive(\.internal.userChanged, .mock1) {
+            $0.destination = .rootView(.init())
+        }
     }
 
-    @MainActor
+    @Test
     func test_getStartButtonPressed_navigatesToHome() async {
 
         let store = TestStore(initialState: AppViewReducer.State()) {
             AppViewReducer()
         } withDependencies: {
-            $0.keychainManager.get = { @Sendable _ in throw NSError(domain: "", code: 0) }
+            $0.keychainManager.get = { @Sendable _ in
+                throw KeychainManager.Error.itemNotFound
+            }
+            $0.mainQueue = .immediate
         }
 
-        await store.send(.view(.onAppear)) {
+        #expect(store.state.destination == .launchImage)
+
+        await store.send(.view(.onAppear))
+            .cancel()
+
+        await store.receive(\.internal.userChanged, nil) {
             $0.destination = .onboarding(.init())
         }
-        .cancel()
 
         await store.send(\.internal.destination.onboarding.delegate.onGetStartedButtonPressed) {
             $0.$destination = .init(wrappedValue: .connectWallet(.init()))

@@ -106,7 +106,7 @@ public struct ConnectWalletReducer: Sendable {
 }
 
 public struct ConnectWalletView: View {
-  @Perception.Bindable var store: StoreOf<ConnectWalletReducer>
+  @Bindable var store: StoreOf<ConnectWalletReducer>
 
   public init(store: StoreOf<ConnectWalletReducer>) {
     self.store = store
@@ -114,11 +114,9 @@ public struct ConnectWalletView: View {
 
   public var body: some View {
 
-    WithPerceptionTracking {
-
       ZStack {
 
-        BackgroundLinearGradient()
+       BackgroundLinearGradient()
 
         VStack(alignment: .center) {
 
@@ -133,30 +131,29 @@ public struct ConnectWalletView: View {
 
           Spacer()
 
-//          ListView(didSelectButton: { store.send(.view(.onButtonSelect($0)), animation: .easeIn) })
-//            .frame(height: 350)
-//            .padding(.horizontal, 20)
+          ListView(didSelectButton: { store.send(.view(.onButtonSelect($0)), animation: .easeIn) })
+            .frame(height: 350)
+            .padding(.horizontal, 20)
 
         }
         .frame(maxWidth: .infinity, alignment: .center)
         .padding(.vertical)
       }
-//      .popup(
-//        isPresented: store.showPopup,
-//        confirmAction: {
-//          store.send(.view(.openButtonPressed), animation: .easeIn)
-//        },
-//        cancelAction: {
-//          store.send(.view(.cancelButtonPressed), animation: .easeIn)
-//        }
-//      )
-//      .navigationDestinationWrapper(
-//        item: $store.scope(state: \.connectWallet, action: \.internal.connectWalletView)
-//      ) { store in
-//        ConnectingWalletView(store: store)
-//          .navigationBarBackButtonHidden(true)
-//      }
-    }
+      .popup(
+        isPresented: store.showPopup,
+        confirmAction: {
+          store.send(.view(.openButtonPressed), animation: .easeIn)
+        },
+        cancelAction: {
+          store.send(.view(.cancelButtonPressed), animation: .easeIn)
+        }
+      )
+      .navigationDestinationWrapper(
+        item: $store.scope(state: \.connectWallet, action: \.internal.connectWalletView)
+      ) { store in
+        ConnectingWalletView(store: store)
+          .navigationBarBackButtonHidden(true)
+      }
   }
 }
 

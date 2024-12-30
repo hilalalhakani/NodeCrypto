@@ -12,6 +12,7 @@ import StyleGuide
 import SwiftUI
 import TCAHelpers
 import Keychain
+import AuthenticationClient
 
 @Reducer
 public struct ConnectingWalletViewReducer: Sendable {
@@ -19,7 +20,8 @@ public struct ConnectingWalletViewReducer: Sendable {
     @Dependency(\.dismiss) var dismiss
     @Dependency(\.keychainManager) var keychainManager
     @Dependency(\.logger) var logger
-    @Dependency(\.userManager) var userManager
+    @Dependency(\.authenticationClient) var authenticationClient
+    @Shared(.user) var user
 
     public init() {}
 
@@ -42,6 +44,7 @@ public struct ConnectingWalletViewReducer: Sendable {
   @CasePathable
     public enum InternalAction: Sendable {
     case onConnectWallet(Result<User, Error>)
+    case onAuthResult(Result<User, Error>)
     case alert(PresentationAction<Alert>)
         public enum Alert: Sendable {
         case dismissAlert
@@ -98,18 +101,27 @@ public struct ConnectingWalletViewReducer: Sendable {
           NestedAction(\.internal) { state, action in
               switch action {
               case .onConnectWallet(.success(let user)):
-                userManager.user = user
-              return .none
+                      return .run { send in
+                          await send(.internal(.onAuthResult(Result {
+                              try await authenticationClient.signIn(user.email, "123456")
+                          })))
+                      }
 
               case .onConnectWallet(.failure):
                   state.alert = .noAccountFound
                   return .none
 
+                  case .onAuthResult(.success(let user)):
+                      $user.withLock({ $0 = user })
+                      return .none
+
+                  case .onAuthResult(.failure(_)):
+                      $user.withLock({ $0 = .mock1 })
+                      return .none
+
               case .alert(.presented(.dismissAlert)):
                   state.alert = nil 
-                  return .run { send in
-                      await send(.delegate(.alertDismissed))
-                  }
+                  return .send(.delegate(.alertDismissed))
 
               case .alert:
                   return .none
@@ -122,14 +134,13 @@ public struct ConnectingWalletViewReducer: Sendable {
 
 public struct ConnectingWalletView: View {
 
- @Perception.Bindable var store: StoreOf<ConnectingWalletViewReducer>
+ @Bindable var store: StoreOf<ConnectingWalletViewReducer>
 
   public init(store: StoreOf<ConnectingWalletViewReducer>) {
     self.store = store
   }
 
   public var body: some View {
-    WithPerceptionTracking {
       ZStack {
         Image(.connectWalletBackground)
           .resizable()
@@ -165,7 +176,6 @@ public struct ConnectingWalletView: View {
       .task {
           store.send(.view(.onAppear))
       }
-    }
   }
 }
 

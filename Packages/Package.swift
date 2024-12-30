@@ -7,11 +7,13 @@ let package = Package(
     name: "Main",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v16), .macOS(.v13),
+        .iOS(.v17), .macOS(.v13),
     ],
     products: [
+        .singleTargetLibrary("AuthenticationClient"),
         .singleTargetLibrary("AppFeature"),
         .singleTargetLibrary("OnboardingFeature"),
+        .singleTargetLibrary("HomeFeature"),
         .singleTargetLibrary("NotificationsFeature"),
         .singleTargetLibrary("StyleGuide"),
         .singleTargetLibrary("TCAHelpers"),
@@ -27,13 +29,15 @@ let package = Package(
         .singleTargetLibrary("ResourceProvider"),
     ],
     dependencies: [
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.15.1"),
-        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.4.1"),
-        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.17.5"),
+        .package(url: "https://github.com/pointfreeco/swift-sharing", from: "1.1.1"),
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.17.0"),
+        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.6.1"),
+        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.17.6"),
         .package(url: "https://github.com/tgrapperon/swift-dependencies-additions", from: "1.1.1"),
         .package(url: "https://github.com/pointfreeco/swift-tagged", branch: "main"),
         .package(url: "https://github.com/oliverfoggin/swift-composable-analytics", branch: "main"),
-        .package(url: "https://github.com/onevcat/Kingfisher.git", from: "8.1.0"),
+        .package(url: "https://github.com/onevcat/Kingfisher.git", from: "8.1.1"),
+        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "11.6.0")
     ],
     targets: [
         .target(
@@ -52,6 +56,12 @@ let package = Package(
             name: "AppFeatureTests",
             dependencies: [
                 "AppFeature"
+            ]
+        ),
+        .target(
+            name: "AuthenticationClient",
+            dependencies: [
+                "NodeCryptoCore", "Keychain"
             ]
         ),
         .target(
@@ -85,6 +95,7 @@ let package = Package(
             name: "ConnectWalletFeature",
             dependencies: [
                 "NodeCryptoCore",
+                "AuthenticationClient",
                 "APIClient",
                 "Keychain",
             ]
@@ -93,6 +104,19 @@ let package = Package(
             name: "ConnectWalletFeatureTests",
             dependencies: [
                 "ConnectWalletFeature"
+            ]
+        ),
+        .target(
+            name: "HomeFeature",
+            dependencies: [
+                "NodeCryptoCore",
+                "APIClient",
+            ]
+        ),
+        .testTarget(
+            name: "HomeTests",
+            dependencies: [
+                "HomeFeature"
             ]
         ),
         .target(
@@ -111,7 +135,6 @@ let package = Package(
             name: "NodeCryptoCore",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-//                .product(name: "swiftui-navigation", package: "swiftui-navigation"),
                 .product(name: "Dependencies", package: "swift-dependencies"),
                 .product(name: "DependenciesMacros", package: "swift-dependencies"),
                 .product(name: "DependenciesAdditions", package: "swift-dependencies-additions"),
@@ -120,7 +143,8 @@ let package = Package(
                 "TCAHelpers",
                 "SharedModels",
                 "ResourceProvider",
-                .product(name: "ComposableAnalytics", package: "swift-composable-analytics")
+                .product(name: "ComposableAnalytics", package: "swift-composable-analytics"),
+                .product(name: "FirebaseAuth", package: "firebase-ios-sdk")
             ]
         ),
         .testTarget(
@@ -136,7 +160,7 @@ let package = Package(
         ),
         .target(
             name: "Root",
-            dependencies: ["NodeCryptoCore", "ProfileFeature", "NotificationsFeature"]
+            dependencies: ["NodeCryptoCore", "ProfileFeature", "NotificationsFeature", "HomeFeature"]
         ),
         .target(
             name: "TCAHelpers",
@@ -163,14 +187,14 @@ let package = Package(
         ),
         .target(
             name: "ProfileFeature",
-            dependencies: ["NodeCryptoCore", "Keychain"],
+            dependencies: ["NodeCryptoCore", "Keychain", "AuthenticationClient"],
             resources: [
                 .process("./Resources")
             ]
         ),
         .target(
             name: "NotificationsFeature",
-            dependencies: ["NodeCryptoCore", "Keychain"],
+            dependencies: ["NodeCryptoCore", "Keychain", "AuthenticationClient"],
             resources: [
                 .process("./Resources")
             ]

@@ -10,7 +10,7 @@ import SwiftUI
 public struct ProfileReducer: Sendable {
     @Dependency(\.openURL) var openURL
     @Dependency(\.apiClient.profile) var profileAPI
-    @Dependency(\.userManager) var userManager
+    @Shared(.user) var user
     public init() {}
 
     //MARK: State
@@ -168,7 +168,7 @@ public struct ProfileReducer: Sendable {
                         }
                     }
                 case .logout:
-                    userManager.user = nil
+                    $user.withLock({ $0 = nil })
                     return .none
                 case .openURL(_):
                     return .run { send in
@@ -188,8 +188,8 @@ public struct ProfileReducer: Sendable {
 
 //MARK: ProfileView
 public struct ProfileView: View {
-    @Perception.Bindable var store: StoreOf<ProfileReducer>
-    @Dependency(\.userManager) var userManager
+    @Bindable var store: StoreOf<ProfileReducer>
+    @Shared(.user) var user
     let gridLayout: [GridItem] = [
         GridItem(.flexible(), spacing: 8), GridItem(.flexible(), spacing: 8),
     ]
@@ -197,8 +197,8 @@ public struct ProfileView: View {
     public init(store: StoreOf<ProfileReducer>) {
         self.store = store
     }
+
     public var body: some View {
-        WithPerceptionTracking {
             ZStack {
                 Image(ImageResource.profileBackground)
                     .resizable()
@@ -230,12 +230,11 @@ public struct ProfileView: View {
                     toolbarContent
                 }
             #endif
-        }
     }
 
     @ViewBuilder
     private var profileImageView: some View {
-        if let profileImage = userManager.user?.profileImage {
+        if let profileImage = user?.profileImage {
             AsyncImageView(url: URL(string: profileImage)!)
                 .frame(width: 100, height: 100)
                 .clipShape(.circle)
@@ -247,9 +246,9 @@ public struct ProfileView: View {
 
     @ViewBuilder
     private var profileDetailsView: some View {
-        if let email = userManager.user?.email,
-            let fullName = userManager.user?.fullName,
-            let description = userManager.user?.profileDescription
+        if let email = user?.email,
+            let fullName = user?.fullName,
+            let description = user?.profileDescription
         {
             VStack(spacing: 12) {
                 Text(fullName)
@@ -276,7 +275,7 @@ public struct ProfileView: View {
 
     @ViewBuilder
     private var walletAddressView: some View {
-        if let walletAddress = userManager.user?.walletAddress {
+        if let walletAddress = user?.walletAddress {
             Text(walletAddress)
                 .font(.custom(FontName.poppinsRegular.rawValue, size: 14))
                 .padding(5)

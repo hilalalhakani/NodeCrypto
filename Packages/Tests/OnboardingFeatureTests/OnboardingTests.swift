@@ -7,67 +7,80 @@
 
 import ComposableArchitecture
 import OnboardingFeature
-import XCTest
+import Testing
 
-final class OnboardingTests: XCTestCase {
+@MainActor
+struct OnboardingTests {
 
-    @MainActor func testForwardButtonAdvancesStep() async {
+    @Test func testForwardButtonAdvancesStep() async {
+        @Shared(.currentStep) var currentStep
+
         let store = TestStore(
-            initialState: OnboardingStepperReducer.State(currentStep: Shared(.step1))
+            initialState: OnboardingStepperReducer.State()
         ) {
-            OnboardingStepperReducer(totalSteps: 3)
+            OnboardingStepperReducer()
         }
 
+        #expect(currentStep == .step1)
+
+        #expect(store.state.backwardButtonDisabled == true)
+        #expect(store.state.forwardButtonDisabled == false)
+
         await store.send(.view(.onForwardButtonPress)) {
-            $0.currentStep = .step2
             $0.backwardButtonDisabled = false
         }
 
+        #expect(currentStep == .step2)
     }
 
-    @MainActor
-    func testNavigationForwardThenBackwardUpdatesSteps() async {
+    @Test func testNavigationForwardThenBackwardUpdatesSteps() async {
+        @Shared(.currentStep) var currentStep
         let store = TestStore(
-            initialState: OnboardingStepperReducer.State(currentStep: Shared(.step1))
+            initialState: OnboardingStepperReducer.State()
         ) {
-            OnboardingStepperReducer(totalSteps: 3)
+            OnboardingStepperReducer()
         }
 
         await store.send(.view(.onForwardButtonPress)) {
-            $0.currentStep = .step2
             $0.backwardButtonDisabled = false
         }
 
+        #expect(currentStep == .step2)
+
         await store.send(.view(.onBackwardButtonPress)) {
-            $0.currentStep = .step1
             $0.backwardButtonDisabled = true
         }
 
+        #expect(currentStep == .step1)
     }
 
-    @MainActor
-    func testForwardButtonReachesLastStepAndDisables() async {
+    @Test func testForwardButtonReachesLastStepAndDisables() async {
+        @Shared(.currentStep) var currentStep
         let store = TestStore(
-            initialState: OnboardingStepperReducer.State(currentStep: Shared(.step1))
+            initialState: OnboardingStepperReducer.State()
         ) {
-            OnboardingStepperReducer(totalSteps: 3)
+            OnboardingStepperReducer()
         }
 
         await store.send(.view(.onForwardButtonPress)) {
-            $0.currentStep = .step2
             $0.backwardButtonDisabled = false
         }
 
+        #expect(currentStep == .step2)
+
+        await store.send(.view(.onForwardButtonPress))
+
+        #expect(currentStep == .step3)
+
         await store.send(.view(.onForwardButtonPress)) {
-            $0.currentStep = .step3
-            $0.backwardButtonDisabled = false
             $0.forwardButtonDisabled = true
         }
 
+        #expect(currentStep == .step4)
     }
 
-    @MainActor
-    func testSkipButtonPressed() async {
+    @Test func testSkipButtonPressed() async {
+        @Shared(.currentStep) var currentStep
         let store = TestStore(initialState: OnboardingViewReducer.State()) {
             OnboardingViewReducer()
         }
@@ -77,17 +90,13 @@ final class OnboardingTests: XCTestCase {
         )
 
         await store.send(\.view.onSkipButtonPressed) {
-            let lastStep = OnboardingStep.allCases.last!
-            $0.currentStep = lastStep
             $0.isGetStartedButtonHidden = false
-            $0.onboardingStepper.currentStep = lastStep
             $0.onboardingStepper.forwardButtonDisabled = true
         }
-
+        #expect(currentStep == .step4)
     }
 
-    @MainActor
-    func testonGetStartedButtonPressed() async {
+    @Test func testonGetStartedButtonPressed() async {
         let store = TestStore(initialState: OnboardingViewReducer.State()) {
             OnboardingViewReducer()
         }
@@ -100,17 +109,14 @@ final class OnboardingTests: XCTestCase {
         await store.receive(\.delegate.onGetStartedButtonPressed)
     }
 
-    @MainActor
-    func test_onboardingStepperChanged() async {
+    @Test func test_onboardingStepperChanged() async {
         let store = TestStore(initialState: OnboardingViewReducer.State()) {
             OnboardingViewReducer()
         }
 
         await store.send(\.view.onboardingStepper.view.onForwardButtonPress) {
-            $0.onboardingStepper.currentStep = .step2
             $0.onboardingStepper.forwardButtonDisabled = false
             $0.onboardingStepper.backwardButtonDisabled = false
-            $0.currentStep = .step2
         }
     }
 }

@@ -28,12 +28,10 @@ public struct ProfileCoordinatorReducer: Sendable {
     public struct State: Equatable, Sendable {
         public var path = StackState<Path.State>()
         var profile: ProfileReducer.State
-        let user: User
-        @Shared(.isTabBarVisible) var isTabBarVisible: Bool = true
+        @Shared(.isTabBarVisible) var isTabBarVisible
 
-        public init(user: User) {
+        public init() {
             profile = .init()
-            self.user = user
         }
     }
 
@@ -57,11 +55,11 @@ public struct ProfileCoordinatorReducer: Sendable {
             Reduce { state, action in
                 switch action {
                     case .navigateToEditScreen:
-                        @Dependency(\.userManager) var userManager
-                        if let user = userManager.user {
+                        @Shared(.user) var user
+                        if let user {
                             state.path.append(.editProfile(.init(user: user)))
                         }
-                        state.isTabBarVisible = false
+                        state.$isTabBarVisible.withLock({ $0 = false })
                         return .none
 
                     case .profile(.delegate(.menuButtonPressed)):
@@ -72,7 +70,7 @@ public struct ProfileCoordinatorReducer: Sendable {
 
                     case .path(.element(id: _, action: .editProfile(.delegate(.backButtonPressed)))):
                         _ = state.path.popLast()
-                        state.isTabBarVisible = true
+                        state.$isTabBarVisible.withLock({ $0 = true })
                         return .none
 
                     case .path:
@@ -92,13 +90,13 @@ public struct ProfileCoordinatorReducer: Sendable {
 
 //MARK: ProfileView
 public struct ProfileCoordinatorView: View {
-    @Perception.Bindable var store: StoreOf<ProfileCoordinatorReducer>
+    @Bindable var store: StoreOf<ProfileCoordinatorReducer>
 
     public init(store: StoreOf<ProfileCoordinatorReducer>) {
         self.store = store
     }
+
     public var body: some View {
-        WithPerceptionTracking {
             NavigationStack(
                 path: $store.scope(state: \.path, action: \.path)
             ) {
@@ -113,6 +111,5 @@ public struct ProfileCoordinatorView: View {
                 }
             }
             .frame(maxHeight: .infinity)
-        }
     }
 }

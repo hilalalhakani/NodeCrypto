@@ -27,7 +27,7 @@ public struct AsyncImageView: View {
                 .fade(duration: 0.25)
                 .placeholder {
                     Rectangle()
-                        .foregroundColor(.gray.opacity(0.3))
+                        .foregroundColor(.gray.opacity(0.1))
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
                 .retry(maxCount: .max, interval: .seconds(1))

@@ -43,14 +43,8 @@ public struct KeychainManager: Sendable {
     }
 }
 
-public struct KeychainKey: RawRepresentable, Sendable {
-    public let rawValue: String
-
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
-    public static let user = KeychainKey(rawValue: "User")
+public enum KeychainKey: String, Sendable {
+    case user
 }
 
 public extension DependencyValues {
@@ -61,6 +55,6 @@ public extension DependencyValues {
 }
 
 extension KeychainManager: DependencyKey {
-    public static let testValue: KeychainManager = KeychainManager()
+    public static let testValue: KeychainManager = .test()
     public static var liveValue: KeychainManager { .live(service: "Node-Crypto") }
 }

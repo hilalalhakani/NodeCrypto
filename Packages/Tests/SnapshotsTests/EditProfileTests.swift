@@ -11,28 +11,24 @@ import ProfileFeature
 import SharedModels
 import SnapshotTesting
 import SwiftUI
-import XCTest
+import Testing
 
-#if os(iOS)
-@available(macOS, unavailable)
-final class EditProfileSnapshotsTests: BaseTestCase {
-    @MainActor
-    func testEditProfileScreen_light() {
+@MainActor
+struct EditProfileSnapshotsTests {
+    @Test
+    func testEditProfileScreen() throws {
         let store: StoreOf<EditProfileReducer> = .init(
             initialState: .init(user: User.mock1)
         ) {
             EditProfileReducer()
+        } withDependencies: {
+            $0.keychainManager.get =  { @Sendable _ in Data() }
         }
 
         let editProfileView = NavigationStack {
             EditProfileView(store: store)
-                .environment(\.colorScheme, .light)
         }
 
-        assertSnapshot(
-            of: editProfileView,
-            as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro), traits: UITraitCollection(displayScale: 3))
-        )
+        try assert(editProfileView)
     }
 }
-#endif

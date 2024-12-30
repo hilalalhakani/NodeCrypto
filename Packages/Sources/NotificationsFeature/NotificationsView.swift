@@ -11,6 +11,7 @@ import APIClient
 import Dependencies
 import Keychain
 import ResourceProvider
+import AuthenticationClient
 
 @Reducer
 public struct NotificationReducer {
@@ -23,7 +24,7 @@ public struct NotificationReducer {
 
     public init() {}
     @Dependency(\.apiClient.profile) var profileAPI
-    @Dependency(\.userManager) var userManager
+    @Shared(.user) var user
 
     //MARK: State
     @ObservableState
@@ -103,14 +104,13 @@ public struct NotificationReducer {
 
 public struct NotificationsView: View {
 
-    @Perception.Bindable var store: StoreOf<NotificationReducer>
+    @Bindable var store: StoreOf<NotificationReducer>
 
     public init(store: StoreOf<NotificationReducer>) {
         self.store = store
     }
 
     public var body: some View {
-        WithPerceptionTracking {
             VStack(alignment: .leading) {
                 Text("Notifications")
                     .foregroundStyle(Color.neutral2)
@@ -128,7 +128,6 @@ public struct NotificationsView: View {
                 }
                 .transition(.opacity.animation(.easeInOut))
                 .frame(maxWidth: .infinity ,maxHeight: .infinity)
-            }
 
             .task {
                 store.send(.view(.onAppear))

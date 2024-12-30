@@ -2,110 +2,57 @@ import ComposableArchitecture
 import Foundation
 import OnboardingFeature
 import SnapshotTesting
-import XCTest
+import Testing
 
-#if os(iOS)
-  @available(macOS, unavailable)
-  final class OnboardingSnapshotsTests: XCTestCase {
-    @MainActor
-    func testpage1_light() {
-        let store: StoreOf<OnboardingViewReducer> = .init(initialState: .init(currentStep: .step2)) {
-          OnboardingViewReducer()
+@MainActor
+struct OnboardingSnapshotsTests {
+    @Test
+    func testpage1() throws {
+        @Shared(.currentStep) var currentStep = .step1
+        let store: StoreOf<OnboardingViewReducer> = .init(initialState: OnboardingViewReducer.State.init()) {
+            OnboardingViewReducer()
         }
 
-      let onboardingView = OnboardingView(store: store)
-        .environment(\.colorScheme, .light)
+        let onboardingView = OnboardingView(store: store)
 
-      assertSnapshot(
-        of: onboardingView,
-        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro), traits: UITraitCollection(displayScale: 3)))
+        try assert(onboardingView)
     }
 
-    @MainActor
-    func testpage2_light() {
-      let store: StoreOf<OnboardingViewReducer> = .init(initialState: .init(currentStep: .step2)) {
-        OnboardingViewReducer()
-      }
+    @Test
+    func testpage2() throws {
+        @Shared(.currentStep) var currentStep = .step2
+        let store: StoreOf<OnboardingViewReducer> = .init(initialState: OnboardingViewReducer.State.init()) {
+            OnboardingViewReducer()
+        }
 
-      let onboardingView = OnboardingView(store: store).environment(\.colorScheme, .light)
-      assertSnapshot(
-        of: onboardingView,
-        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro), traits: UITraitCollection(displayScale: 3)))
+        let onboardingView = OnboardingView(store: store)
+
+        try assert(onboardingView)
     }
 
-      @MainActor
-    func testpage3_light() {
-      let store: StoreOf<OnboardingViewReducer> = .init(initialState: .init(currentStep: .step3)) {
-        OnboardingViewReducer()
-      }
+    @Test
+    func testpage3() throws {
+        @Shared(.currentStep) var currentStep = .step3
+        let store: StoreOf<OnboardingViewReducer> = .init(initialState: OnboardingViewReducer.State.init()) {
+            OnboardingViewReducer()
+        }
 
-      let onboardingView = OnboardingView(store: store).environment(\.colorScheme, .light)
-      assertSnapshot(
-        of: onboardingView,
-        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro), traits: UITraitCollection(displayScale: 3)))
+        let onboardingView = OnboardingView(store: store)
+
+        try assert(onboardingView)
+
     }
 
-      @MainActor
-    func testpage4_light() {
-      let store: StoreOf<OnboardingViewReducer> = .init(initialState: .init(currentStep: .step4)) {
-        OnboardingViewReducer()
-      }
+    @Test
+    func testpage4() throws {
+        @Shared(.currentStep) var currentStep = .step4
+        let store: StoreOf<OnboardingViewReducer> = .init(initialState: OnboardingViewReducer.State.init()) {
+            OnboardingViewReducer()
+        }
 
-      let onboardingView = OnboardingView(store: store).environment(\.colorScheme, .light)
-      assertSnapshot(
-        of: onboardingView,
-        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro), traits: UITraitCollection(displayScale: 3)))
+        let onboardingView = OnboardingView(store: store)
+
+        try assert(onboardingView)
+
     }
-
-      @MainActor
-    func testpage1_dark() {
-      let store: StoreOf<OnboardingViewReducer> = .init(initialState: .init(currentStep: .step1)) {
-        OnboardingViewReducer()
-      }
-
-      let onboardingView = OnboardingView(store: store)
-        .environment(\.colorScheme, .dark)
-
-      assertSnapshot(
-        of: onboardingView,
-        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro), traits: UITraitCollection(displayScale: 3)))
-    }
-
-    @MainActor
-    func testpage2_dark() {
-      let store = StoreOf<OnboardingViewReducer>.init(initialState: .init(currentStep: .step2)) {
-        OnboardingViewReducer()
-      }
-
-      let onboardingView = OnboardingView(store: store)
-        .environment(\.colorScheme, .dark)
-
-      assertSnapshot(
-        of: onboardingView,
-        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro), traits: UITraitCollection(displayScale: 3)))
-    }
-      @MainActor
-    func testpage3_dark() {
-      let store = StoreOf<OnboardingViewReducer>.init(initialState: .init(currentStep: .step3)) {
-        OnboardingViewReducer()
-      }
-      let onboardingView = OnboardingView(store: store)
-        .environment(\.colorScheme, .dark)
-
-      assertSnapshot(
-        of: onboardingView,
-        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro), traits: UITraitCollection(displayScale: 3)))
-    }
-      @MainActor
-    func testpage4_dark() {
-      let store = StoreOf<OnboardingViewReducer>.init(initialState: .init(currentStep: .step4)) {
-        OnboardingViewReducer()
-      }
-      let onboardingView = OnboardingView(store: store)
-        .environment(\.colorScheme, .dark)
-      assertSnapshot(
-        of: onboardingView,
-        as: .image(perceptualPrecision: precision, layout: .device(config: .iPhone13Pro), traits: UITraitCollection(displayScale: 3)))
-    }
-  }
-#endif
+}

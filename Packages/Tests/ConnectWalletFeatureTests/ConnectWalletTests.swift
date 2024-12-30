@@ -2,15 +2,21 @@ import ComposableArchitecture
 import ConnectWalletFeature
 import Foundation
 import SharedModels
+import Testing
 import XCTest
 
-final class ConnectWalletTests: XCTestCase {
+@MainActor
+struct ConnectWalletTests {
 
-    @MainActor
+    @Test
     func testOnButtonSelect() async {
         let store = TestStore(
             initialState: ConnectWalletReducer.State(),
-            reducer: { ConnectWalletReducer().dependency(\.analyticsClient.sendAnalytics, { _ in } ) }
+            reducer: {
+                ConnectWalletReducer()
+                    .dependency(\.analyticsClient.sendAnalytics, { _ in })
+                    .dependency(\.keychainManager.get, { @Sendable _ in  Data() })
+            }
         )
 
         await store.send(\.view.onButtonSelect.coinbase) {
@@ -19,11 +25,15 @@ final class ConnectWalletTests: XCTestCase {
         }
     }
 
-    @MainActor
+    @Test
     func testCancelButtonPressed() async {
         let store = TestStore(
             initialState: ConnectWalletReducer.State(),
-            reducer: { ConnectWalletReducer().dependency(\.analyticsClient.sendAnalytics, { _ in } ) }
+            reducer: {
+                ConnectWalletReducer()
+                    .dependency(\.analyticsClient.sendAnalytics, { _ in })
+                    .dependency(\.keychainManager.get, { @Sendable _ in  Data() })
+            }
         )
 
         await store.send(\.view.onButtonSelect.coinbase) {
@@ -36,11 +46,15 @@ final class ConnectWalletTests: XCTestCase {
         }
     }
 
-    @MainActor
+    @Test
     func testOpenButtonPressed() async {
         let store = TestStore(
             initialState: ConnectWalletReducer.State(),
-            reducer: { ConnectWalletReducer().dependency(\.analyticsClient.sendAnalytics, { _ in } ) }
+            reducer: {
+                ConnectWalletReducer()
+                    .dependency(\.analyticsClient.sendAnalytics, { _ in })
+                    .dependency(\.keychainManager.get, { @Sendable _ in  Data() })
+            }
         )
 
         await store.send(\.view.onButtonSelect.metamask) {
@@ -54,13 +68,14 @@ final class ConnectWalletTests: XCTestCase {
         }
     }
 
-    @MainActor
+    @Test
     func testNavigation() async {
         let store = TestStore(
             initialState: ConnectWalletReducer.State(),
             reducer: {
                 ConnectWalletReducer()
-                    .dependency(\.analyticsClient.sendAnalytics, { _ in } )
+                    .dependency(\.analyticsClient.sendAnalytics, { _ in })
+                    .dependency(\.keychainManager.get, { @Sendable _ in  Data() })
             }
         )
 

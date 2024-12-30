@@ -9,6 +9,8 @@ import AppFeature
 import NodeCryptoCore
 import OnboardingFeature
 import SwiftUI
+import Firebase
+import XCTestDynamicOverlay
 
 final class AppDelegate: NSObject {
     let store = Store(
@@ -16,7 +18,7 @@ final class AppDelegate: NSObject {
         reducer: {
             AppViewReducer()
                 .dependency(\.analyticsClient, AnalyticsClient.consoleLogger)
-                ._printChanges()
+            //._printChanges()
         }
     )
 
@@ -30,6 +32,7 @@ final class AppDelegate: NSObject {
             _: UIApplication,
             didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]? = nil
         ) -> Bool {
+            FirebaseApp.configure()
             userNotificationCenter.delegate = userNotificationDelegate
             store.send(.internal(.appDelegate(.didFinishLaunching)))
             return true
@@ -69,8 +72,10 @@ struct NodeCryptoApp: App {
     #endif
 
     var body: some Scene {
-        WindowGroup {
-            AppView(store: appDelegate.store)
+            WindowGroup {
+                if !isTesting {
+                AppView(store: appDelegate.store)
+            }
         }
     }
 }

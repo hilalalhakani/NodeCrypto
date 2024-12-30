@@ -9,18 +9,14 @@ import SwiftUI
 
 @Reducer
 public struct AppViewReducer {
-    //    @Dependency(\.decode) var decode
     @Dependency(\.logger) var logger
-    //    @Dependency(\.keychainManager) var keychainManager
-    //    @Dependency(\.user) var currentUser
-    @Dependency(\.userManager) var userManager
+    @Shared(.user) var user
     @Dependency(\.mainQueue) var mainQueue
 
     public init() {}
 
     @ObservableState
     public struct State: Equatable, Sendable {
-        //        @Shared(.keychain(.user)) var keychainUser: User?
         public var appDelegate = AppDelegateReducer.State()
         @Presents public var destination: Destination.State? = .launchImage
         public init() {}
@@ -58,15 +54,8 @@ public struct AppViewReducer {
             NestedAction(\.view) { state, viewAction in
                 switch viewAction {
                     case .onAppear:
-                        if let user = userManager.user {
-                            state.destination = .rootView(.init(user: user))
-                        }
-                        else {
-                            state.destination = .onboarding(.init())
-                        }
-
                         return .publisher {
-                            userManager.publisher
+                            $user.publisher
                                 .receive(on: mainQueue)
                                 .map { Action.internal(.userChanged($0)) }
                         }
@@ -88,7 +77,7 @@ public struct AppViewReducer {
                         return .none
                     case .userChanged(let user):
                         if let user {
-                            state.destination = .rootView(.init(user: user))
+                            state.destination = .rootView(.init())
                         }
                         else {
                             state.destination = .onboarding(.init())
@@ -122,44 +111,47 @@ public struct AppView: View {
     }
 
     public var body: some View {
-        WithPerceptionTracking {
-            switch store.state.destination {
-                case .onboarding:
-                    if let onboardingStore = store.scope(
-                        state: \.destination?.onboarding,
-                        action: \.internal.destination.onboarding
-                    ) {
-                        OnboardingView(store: onboardingStore)
-                    }
-                case .launchImage:
-                    LaunchImageView()
-
-                case .connectWallet:
-                    if let connectWalletStore = store.scope(
-                        state: \.destination?.connectWallet,
-                        action: \.internal.destination.connectWallet
-                    ) {
-                        NavigationStack {
-                            ConnectWalletView(store: connectWalletStore)
-                        }
-                        .transition(.opacity.animation(.easeInOut))
-                    }
-
-                case .rootView:
-                    if let rootViewStore = store.scope(
-                        state: \.destination?.rootView,
-                        action: \.internal.destination.rootView
-                    ) {
-                        RootView(store: rootViewStore)
-                            .transition(.opacity.animation(.easeInOut))
-                    }
-
-                default:
-                    EmptyView()
+        destination
+            .task {
+                store.send(.view(.onAppear))
             }
-        }
-        .task {
-            store.send(.view(.onAppear))
+    }
+
+    @ViewBuilder
+    private var destination: some View {
+        switch store.state.destination {
+            case .onboarding:
+                if let onboardingStore = store.scope(
+                    state: \.destination?.onboarding,
+                    action: \.internal.destination.onboarding
+                ) {
+                    OnboardingView(store: onboardingStore)
+                }
+            case .launchImage:
+                LaunchImageView()
+
+            case .connectWallet:
+                if let connectWalletStore = store.scope(
+                    state: \.destination?.connectWallet,
+                    action: \.internal.destination.connectWallet
+                ) {
+                    NavigationStack {
+                        ConnectWalletView(store: connectWalletStore)
+                    }
+                    .transition(.opacity.animation(.easeInOut))
+                }
+
+            case .rootView:
+                if let rootViewStore = store.scope(
+                    state: \.destination?.rootView,
+                    action: \.internal.destination.rootView
+                ) {
+                    RootView(store: rootViewStore)
+                        .transition(.opacity.animation(.easeInOut))
+                }
+
+            default:
+                EmptyView()
         }
     }
 }

@@ -3,6 +3,7 @@ import NodeCryptoCore
 import ProfileFeature
 import SwiftUI
 import NotificationsFeature
+import HomeFeature
 
 @Reducer
 public struct RootViewReducer: Sendable {
@@ -11,18 +12,22 @@ public struct RootViewReducer: Sendable {
     public struct State: Equatable, Sendable {
         var profile: ProfileCoordinatorReducer.State
         var notifications: NotificationReducer.State
+        var home: HomeReducer.State
+
         var showsProfileActionsList = false
 
-        public init(user: User, showsProfileActionsList: Bool = false) {
+        public init(showsProfileActionsList: Bool = false) {
             self.showsProfileActionsList = showsProfileActionsList
-            profile = .init(user: user)
+            profile = .init()
             notifications = .init()
+            home = .init()
         }
     }
 
     public enum Action: Sendable {
         case profile(ProfileCoordinatorReducer.Action)
         case notifications(NotificationReducer.Action)
+        case home(HomeReducer.Action)
         case hideProfileActionsList
         case editButtonPressed
         case shareButtonPressed
@@ -36,6 +41,10 @@ public struct RootViewReducer: Sendable {
 
         Scope(state: \.notifications, action: \.notifications) {
             NotificationReducer()
+        }
+
+        Scope(state: \.home, action: \.home) {
+            HomeReducer()
         }
 
         Reduce { state, action in
@@ -66,7 +75,7 @@ public struct RootView: View {
     @State private var activeTab: Tab
     @Namespace var animation
     let store: StoreOf<RootViewReducer>
-    @Shared(.isTabBarVisible) var isTabBarVisible = true
+    @Shared(.isTabBarVisible) var isTabBarVisible
 
     public init(store: StoreOf<RootViewReducer>, tab: Tab = Tab.home) {
         self.activeTab = tab
@@ -74,7 +83,6 @@ public struct RootView: View {
     }
 
     public var body: some View {
-        WithPerceptionTracking {
             VStack(spacing: 0) {
                 tabBarViews()
                 if isTabBarVisible {
@@ -86,7 +94,6 @@ public struct RootView: View {
                     blurView
                 }
             }
-        }
     }
 
     @ViewBuilder
@@ -105,7 +112,9 @@ public struct RootView: View {
     func tabBarViews() -> some View {
         ZStack {
             Group {
-                Color.red
+                HomeView(
+                    store: store.scope(state: \.home, action: \.home)
+                )
                     .isHidden(activeTab != .home)
 
                 Text("Services", bundle: .module)
@@ -172,7 +181,7 @@ struct BlurView: UIViewRepresentable {
 #Preview {
     RootView(
         store: .init(
-            initialState: .init(user: .mock1),
+            initialState: .init(),
             reducer: { RootViewReducer() }
         )
     )

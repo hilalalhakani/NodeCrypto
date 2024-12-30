@@ -5,7 +5,6 @@
 //  Created by Hilal Hakkani on 09/04/2024.
 //
 
-import Foundation
 import Dependencies
 import Foundation
 import SharedModels
@@ -25,13 +24,17 @@ extension APIClient.Profile {
         .init(
             getSavedNFT: XCTestDynamicOverlay.unimplemented(
                 #"@Dependency(\.apiClient).profile.getSavedNFT"#
-            ), getUserInfo: XCTestDynamicOverlay.unimplemented (
+            ),
+            getUserInfo: XCTestDynamicOverlay.unimplemented(
                 #"@Dependency(\.apiClient).profile.getUserInfo"#
-            ) , getCreatedNFT: XCTestDynamicOverlay.unimplemented(
+            ),
+            getCreatedNFT: XCTestDynamicOverlay.unimplemented(
                 #"@Dependency(\.apiClient).profile.getCreatedNFT"#
-            ), getLikedNFT: XCTestDynamicOverlay.unimplemented(
+            ),
+            getLikedNFT: XCTestDynamicOverlay.unimplemented(
                 #"@Dependency(\.apiClient).profile.getLikedNFT"#
-            ) , getNotifications:  XCTestDynamicOverlay.unimplemented(
+            ),
+            getNotifications: XCTestDynamicOverlay.unimplemented(
                 #"@Dependency(\.apiClient).profile.getNotifications"#
             )
         )
@@ -47,41 +50,121 @@ extension APIClient.Profile {
 
         return .init(
             getSavedNFT: {
-                 try await clock.sleep(for: .seconds(1))
+                try await clock.sleep(for: .seconds(1))
                 return [
-                    .init(isNew: true, isVideo: false, imageURL: "https://i.ibb.co/f2nHqtY/1.jpg", videoURL: ""),
-                    .init(isNew: false, isVideo: true, imageURL: "https://i.ibb.co/ByyHzXW/2.jpg", videoURL: ""),
-                    .init(isNew: false, isVideo: false, imageURL: "https://i.ibb.co/vkWHdyk/3.jpg", videoURL: ""),
-                    .init(isNew: false, isVideo: false, imageURL: "https://i.ibb.co/ZY1z0Q0/4.jpg", videoURL: ""),
-                    .init(isNew: false, isVideo: false, imageURL: "https://i.ibb.co/3zWjm2F/5.jpg", videoURL: ""),
-                    .init(isNew: false, isVideo: false, imageURL: "https://i.ibb.co/yBwKqWV/6.jpg", videoURL: "")
+                    .init(
+                        isNew: true,
+                        isVideo: false,
+                        imageURL: "https://i.ibb.co/f2nHqtY/1.jpg",
+                        videoURL: ""
+                    ),
+                    .init(
+                        isNew: false,
+                        isVideo: true,
+                        imageURL: "https://i.ibb.co/ByyHzXW/2.jpg",
+                        videoURL: ""
+                    ),
+                    .init(
+                        isNew: false,
+                        isVideo: false,
+                        imageURL: "https://i.ibb.co/vkWHdyk/3.jpg",
+                        videoURL: ""
+                    ),
+                    .init(
+                        isNew: false,
+                        isVideo: false,
+                        imageURL: "https://i.ibb.co/ZY1z0Q0/4.jpg",
+                        videoURL: ""
+                    ),
+                    .init(
+                        isNew: false,
+                        isVideo: false,
+                        imageURL: "https://i.ibb.co/3zWjm2F/5.jpg",
+                        videoURL: ""
+                    ),
+                    .init(
+                        isNew: false,
+                        isVideo: false,
+                        imageURL: "https://i.ibb.co/yBwKqWV/6.jpg",
+                        videoURL: ""
+                    ),
                 ]
             },
             getUserInfo: {
-                try await clock.sleep(for: .seconds(1))
+                try await clock.sleep(for: .seconds(5))
                 return [
                     AboutMeItem(title: "Items", count: "24", iconName: "doc", id: generate()),
-                    AboutMeItem(title: "Collection", count: "24", iconName: "magazine", id: generate()),
-                    AboutMeItem(title: "Followers", count: "24", iconName: "person", id: generate()),
-                    AboutMeItem(title: "Following", count: "24", iconName: "person", id: generate())
+                    AboutMeItem(
+                        title: "Collection",
+                        count: "24",
+                        iconName: "magazine",
+                        id: generate()
+                    ),
+                    AboutMeItem(
+                        title: "Followers",
+                        count: "24",
+                        iconName: "person",
+                        id: generate()
+                    ),
+                    AboutMeItem(
+                        title: "Following",
+                        count: "24",
+                        iconName: "person",
+                        id: generate()
+                    ),
                 ]
-            }, getCreatedNFT:  {
-                try await clock.sleep(for: .seconds(1))
+            },
+            getCreatedNFT: {
+                try await clock.sleep(for: .seconds(5))
                 return [
-                    .init(isNew: true, isVideo: false, imageURL: "https://i.ibb.co/f2nHqtY/1.jpg", videoURL: "", isLiked: true),
-                    .init(isNew: true, isVideo: true, imageURL: "https://i.ibb.co/f2nHqtY/1.jpg", videoURL: "", isLiked: false),
+                    .init(
+                        isNew: true,
+                        isVideo: false,
+                        imageURL: "https://i.ibb.co/f2nHqtY/1.jpg",
+                        videoURL: "",
+                        isLiked: true
+                    ),
+                    .init(
+                        isNew: true,
+                        isVideo: true,
+                        imageURL: "https://i.ibb.co/f2nHqtY/1.jpg",
+                        videoURL: "",
+                        isLiked: false
+                    ),
                 ]
-            }, getLikedNFT: {
-                try await clock.sleep(for: .seconds(1))
+            },
+            getLikedNFT: {
+                try await clock.sleep(for: .seconds(5))
                 return [
-                    .init(isNew: true, isVideo: false, imageURL: "https://i.ibb.co/f2nHqtY/1.jpg", videoURL: "", isLiked: true),
-                    .init(isNew: false, isVideo: true, imageURL: "https://i.ibb.co/f2nHqtY/1.jpg", videoURL: "", isLiked: true)
+                    .init(
+                        isNew: true,
+                        isVideo: false,
+                        imageURL: "https://i.ibb.co/f2nHqtY/1.jpg",
+                        videoURL: "",
+                        isLiked: true
+                    ),
+                    .init(
+                        isNew: false,
+                        isVideo: true,
+                        imageURL: "https://i.ibb.co/f2nHqtY/1.jpg",
+                        videoURL: "",
+                        isLiked: true
+                    ),
                 ]
-            } , getNotifications: {
-                try await clock.sleep(for: .seconds(1))
+            },
+            getNotifications: {
+                try await clock.sleep(for: .seconds(5))
                 return [
-                    .init(senderName: "KidEight", senderImageURLString: "https://picsum.photos/200/300", date: "9 Jul 2021, 11:34 PM"),
-                    .init(senderName: "Rotation ahsdjkashdkjashdjksahdjksahdjkashdkj", senderImageURLString: "https://picsum.photos/200/300", date: "19 Jul 2020, 11:34 PM")
+                    .init(
+                        senderName: "KidEight",
+                        senderImageURLString: "https://picsum.photos/200/300",
+                        date: "9 Jul 2021, 11:34 PM"
+                    ),
+                    .init(
+                        senderName: "Rotation ahsdjkashdkjashdjksahdjksahdjkashdkj",
+                        senderImageURLString: "https://picsum.photos/200/300",
+                        date: "19 Jul 2020, 11:34 PM"
+                    ),
                 ]
             }
         )

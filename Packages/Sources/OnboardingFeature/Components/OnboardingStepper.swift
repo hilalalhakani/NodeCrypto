@@ -3,23 +3,14 @@ import SwiftUI
 
 @Reducer
 public struct OnboardingStepperReducer {
-    let totalSteps: Int
-
-    public init(totalSteps: Int) {
-        self.totalSteps = totalSteps
-    }
+    @Shared(.currentStep) var currentStep: OnboardingStep = .step1
+    public init() {}
 
     @ObservableState
     public struct State: Equatable, Sendable {
-        @Shared public var currentStep: OnboardingStep
         public var forwardButtonDisabled = false
         public var backwardButtonDisabled = true
-
-        public init(currentStep: Shared<OnboardingStep>) {
-            self._currentStep = currentStep
-            forwardButtonDisabled = currentStep.wrappedValue.rawValue == OnboardingStep.allCases.count - 1
-            backwardButtonDisabled = currentStep.wrappedValue.rawValue == 0
-        }
+        public init() {}
     }
 
     @CasePathable
@@ -30,7 +21,9 @@ public struct OnboardingStepperReducer {
     }
 
     @CasePathable
-    public enum InternalAction: Sendable {}
+    public enum InternalAction: Sendable {
+        case updateButtons
+    }
 
     @CasePathable
     public enum DelegateAction: Sendable {}
@@ -39,6 +32,7 @@ public struct OnboardingStepperReducer {
     public enum ViewAction: Sendable {
         case onForwardButtonPress
         case onBackwardButtonPress
+        case onAppear
     }
 
     public var body: some Reducer<State, Action> {
@@ -49,41 +43,46 @@ public struct OnboardingStepperReducer {
             case let .view(viewAction):
                 switch viewAction {
                 case .onForwardButtonPress:
-                    if state.currentStep.rawValue < totalSteps - 1 {
-                        state.currentStep.next()
+                        if currentStep.rawValue < OnboardingStep.allCases.count - 1 {
+                        $currentStep.withLock({ $0.next() })
                         state.backwardButtonDisabled = false
-                        state.forwardButtonDisabled = state.currentStep.rawValue == totalSteps - 1
+                        state.forwardButtonDisabled = currentStep.rawValue == OnboardingStep.allCases.count - 1
                     }
                     return .none
 
                 case .onBackwardButtonPress:
-                    if state.currentStep.rawValue > 0 {
-                        state.currentStep.previous()
+                    if currentStep.rawValue > 0 {
+                        $currentStep.withLock({ $0.previous() })
                         state.forwardButtonDisabled = false
-                        state.backwardButtonDisabled = state.currentStep.rawValue == 0
+                        state.backwardButtonDisabled = currentStep.rawValue == 0
                     }
                     return .none
+
+                    case .onAppear:
+                        return .publisher {
+                            $currentStep
+                                .publisher
+                                .dropFirst()
+                                .map{ _ in Action.internal(.updateButtons) }
+                        }
                 }
             case .delegate:
                 return .none
 
-                case .internal:
-                    return .none
-            }
-        }
-        .onChange(of: \.currentStep) { oldValue, newValue in
-            Reduce { state, _ in
-                state.currentStep = newValue
-                state.forwardButtonDisabled = newValue.rawValue == totalSteps - 1
-                state.backwardButtonDisabled = newValue.rawValue == 0
-                return .none
+                case .internal(let action):
+                    switch action {
+                        case .updateButtons:
+                            state.forwardButtonDisabled = currentStep.rawValue == OnboardingStep.allCases.count - 1
+                            state.backwardButtonDisabled = currentStep.rawValue == 0
+                            return .none
+                    }
             }
         }
     }
 }
 
 struct OnboardingStepper: View {
-    @Perception.Bindable var store: StoreOf<OnboardingStepperReducer>
+    @Bindable var store: StoreOf<OnboardingStepperReducer>
     let disabledColor = Color.neutral5
 
     init(store: StoreOf<OnboardingStepperReducer>) {
@@ -91,7 +90,6 @@ struct OnboardingStepper: View {
     }
 
     var body: some View {
-        WithPerceptionTracking {
             HStack {
                 Button(action: {
                     store.send(.view(.onBackwardButtonPress))
@@ -119,7 +117,9 @@ struct OnboardingStepper: View {
             .frame(width: 154, height: 64)
             .background(Color.neutral8)
             .clipShape(RoundedRectangle(cornerRadius: 16, style: .circular))
-        }
+            .task {
+                store.send(.view(.onAppear))
+            }
     }
 }
 
@@ -128,8 +128,8 @@ struct OnboardingStepper: View {
         static var previews: some View {
             OnboardingStepper(
                 store: .init(
-                    initialState: .init(currentStep: Shared(.step1)),
-                    reducer: { OnboardingStepperReducer(totalSteps: 4) }
+                    initialState: .init(),
+                    reducer: { OnboardingStepperReducer() }
                 )
             )
             .preferredColorScheme(.dark)
@@ -140,8 +140,8 @@ struct OnboardingStepper: View {
         static var previews: some View {
             OnboardingStepper(
                 store: .init(
-                    initialState: .init(currentStep: Shared(.step1)),
-                    reducer: { OnboardingStepperReducer(totalSteps: 4) }
+                    initialState: .init(),
+                    reducer: { OnboardingStepperReducer() }
                 )
             )
             .preferredColorScheme(.light)
