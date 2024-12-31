@@ -24,9 +24,6 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           key: ${{ runner.os }}-primes
-          path: |
-            path/to/dependencies
-            some/other/dependencies
 
       # Step to resolve Swift package dependencies
       - name: Resolve Swift Package Dependencies
@@ -47,6 +44,3 @@ jobs:
         uses: actions/cache/save@v4
         with:
           key: ${{ steps.cache-primes-restore.outputs.cache-primary-key }}
-          path: |
-            path/to/dependencies
-            some/other/dependencies
