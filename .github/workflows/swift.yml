@@ -27,13 +27,14 @@ jobs:
 
       # 3. Cache Dependencies (improved caching strategy)
       - name: Restore package cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache@v4
         id: packages-cache
         with:
-          path: ~/Library/Caches/org.carthage
-          key: ${{ runner.os }}-carthage-${{ hashFiles('**/Cartfile.resolved') }}
+          path: packages_cache
+          key: ${{ runner.os }}-packages-${{ hashFiles('**/Package.resolved') }}
           restore-keys: |
-            ${{ runner.os }}-carthage-
+            ${{ runner.os }}-packages-
+          save-always: true
 
       # 4. Install SwiftLint (consider moving to a dependency manager like Carthage or SPM for SwiftLint)
       - name: Install SwiftLint
