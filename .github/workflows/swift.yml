@@ -39,16 +39,15 @@ jobs:
       - name: Install SwiftLint
         run: brew install swiftlint
 
-      # 5. Run Tests (kept, assuming the script is optimized)
       - name: Run tests
         run: ./build_scripts/test.sh
         env:
           HAS_PACKAGES_CACHE_HIT: ${{ steps.packages-cache.outputs.cache-hit == 'true' }}
 
-      # 6. Save Package Cache (kept for dependency caching)
+      # Save package cache after tests
       - name: Save package cache
-        uses: actions/cache/save@v4
-        if: always()
+        uses: actions/cache@v4
         with:
-          path: ~/Library/Caches/org.carthage
-          key: ${{ runner.os }}-carthage-${{ hashFiles('**/Cartfile.resolved') }}
+          path: packages_cache
+          key: ${{ runner.os }}-packages-${{ hashFiles('**/Package.resolved') }}
+          save-always: true
