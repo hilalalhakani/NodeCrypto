@@ -33,7 +33,7 @@ public struct AppViewReducer {
     public enum InternalAction {
         case destination(PresentationAction<Destination.Action>)
         case appDelegate(AppDelegateReducer.Action)
-        case userChanged(User?)
+        case userChanged
     }
 
     @CasePathable
@@ -57,7 +57,9 @@ public struct AppViewReducer {
                         return .publisher {
                             $user.publisher
                                 .receive(on: mainQueue)
-                                .map { Action.internal(.userChanged($0)) }
+                                .map({ $0 == nil })
+                                .removeDuplicates()
+                                .map { _ in Action.internal(.userChanged) }
                         }
                 }
             }
@@ -75,7 +77,8 @@ public struct AppViewReducer {
 
                     case .appDelegate:
                         return .none
-                    case .userChanged(let user):
+                    case .userChanged:
+                        @Shared(.user) var user
                         if user != nil {
                             state.destination = .rootView(.init())
                         }

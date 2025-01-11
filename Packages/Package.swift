@@ -29,8 +29,8 @@ let package = Package(
         .singleTargetLibrary("ResourceProvider"),
     ],
     dependencies: [
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.17.0"),
-        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.6.1"),
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.17.1"),
+        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.6.3"),
         .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.17.6"),
         .package(url: "https://github.com/tgrapperon/swift-dependencies-additions", from: "1.1.1"),
         .package(url: "https://github.com/pointfreeco/swift-tagged", branch: "main"),
@@ -120,7 +120,9 @@ let package = Package(
         ),
         .target(
             name: "SharedViews",
-            dependencies: []
+            dependencies: [
+            .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+            ]
         ),
         .target(
             name: "SharedModels",
@@ -189,6 +191,12 @@ let package = Package(
             dependencies: ["NodeCryptoCore", "Keychain", "AuthenticationClient"],
             resources: [
                 .process("./Resources")
+            ]
+        ),
+        .testTarget(
+            name: "ProfileTests",
+            dependencies: [
+                "ProfileFeature"
             ]
         ),
         .target(

@@ -88,18 +88,3 @@ struct NodeCryptoApp: App {
 //          .reduce(into: &state.onboardingStepper, action: .internal(.updateStep(state.currentStep)))
 //          .map { Action.view(.onboardingStepper($0)) }
 //      }
-
-/*
-
- let viewController = UIHostingController(
-     rootView:
-         content
-         .transaction { $0.animation = nil }
- )
-
- assertSnapshot(
-     matching: viewController,
-     as: .wait(for: 0.1, on: .iPhone13Pro) <----- delay
- )
-
- */

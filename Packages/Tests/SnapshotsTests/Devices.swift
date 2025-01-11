@@ -76,12 +76,6 @@ extension ViewImageConfig {
 
 extension UITraitCollection {
     public static func iPhone15(_ orientation: ViewImageConfig.Orientation) -> UITraitCollection {
-        let base: [UITraitCollection] = [
-            .init(forceTouchCapability: .available),
-            .init(layoutDirection: .leftToRight),
-            .init(preferredContentSizeCategory: .medium),
-            .init(userInterfaceIdiom: .phone)
-        ]
         switch orientation {
             case .landscape:
                 return .init(mutations: {
@@ -108,12 +102,6 @@ extension UITraitCollection {
     }
 
     public static func iPhone15Plus(_ orientation: ViewImageConfig.Orientation) -> UITraitCollection {
-        let base: [UITraitCollection] = [
-            .init(forceTouchCapability: .available),
-            .init(layoutDirection: .leftToRight),
-            .init(preferredContentSizeCategory: .medium),
-            .init(userInterfaceIdiom: .phone)
-        ]
         switch orientation {
             case .landscape:
                 return .init(mutations: {

@@ -86,14 +86,9 @@ func testEditMenuPressed() throws {
         $0.apiClient.profile.getSavedNFT = { try await Task.never() }
     }
 
-    UIView.setAnimationsEnabled(false)
-
     let rootView = RootView(store: store, tab: .profile)
-        .transaction { transaction in
-            transaction.animation = nil
-        }
 
-    try assert(rootView)
+    try assert(rootView, delay: 5)
 
 }
 

@@ -111,12 +111,12 @@ public struct ConnectingWalletViewReducer: Sendable {
                   state.alert = .noAccountFound
                   return .none
 
-                  case .onAuthResult(.success(let user)):
-                      $user.withLock({ $0 = user })
+                  case .onAuthResult(.success(let remoteUser)):
+                       $user.withLock({ $0 = user })
                       return .none
 
                   case .onAuthResult(.failure(_)):
-                      $user.withLock({ $0 = .mock1 })
+                      state.alert = .noAccountFound
                       return .none
 
               case .alert(.presented(.dismissAlert)):

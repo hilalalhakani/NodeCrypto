@@ -25,7 +25,7 @@ struct AppFeatureTests {
         await store.send(.view(.onAppear))
             .cancel()
 
-        await store.receive(\.internal.userChanged, nil) {
+        await store.receive(\.internal.userChanged) {
             $0.destination = .onboarding(.init())
         }
     }
@@ -47,7 +47,7 @@ struct AppFeatureTests {
 
         await store.send(.view(.onAppear)).cancel()
 
-        await store.receive(\.internal.userChanged, .mock1) {
+        await store.receive(\.internal.userChanged) {
             $0.destination = .rootView(.init())
         }
     }
@@ -69,7 +69,7 @@ struct AppFeatureTests {
         await store.send(.view(.onAppear))
             .cancel()
 
-        await store.receive(\.internal.userChanged, nil) {
+        await store.receive(\.internal.userChanged) {
             $0.destination = .onboarding(.init())
         }
 

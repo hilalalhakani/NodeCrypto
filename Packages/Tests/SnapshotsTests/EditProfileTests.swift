@@ -13,14 +13,16 @@ import SnapshotTesting
 import SwiftUI
 import Testing
 
+
 @MainActor
 struct EditProfileSnapshotsTests {
     @Test
     func testEditProfileScreen() throws {
-        let store: StoreOf<EditProfileReducer> = .init(
+        @Shared(.user) var user = .mock1
+        let store: StoreOf<EditProfile> = .init(
             initialState: .init(user: User.mock1)
         ) {
-            EditProfileReducer()
+            EditProfile()
         } withDependencies: {
             $0.keychainManager.get =  { @Sendable _ in Data() }
         }

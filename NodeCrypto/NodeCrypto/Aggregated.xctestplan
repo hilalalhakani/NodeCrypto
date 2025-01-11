@@ -55,6 +55,13 @@
         "identifier" : "SnapshotsTests",
         "name" : "SnapshotsTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/Packages",
+        "identifier" : "ProfileTests",
+        "name" : "ProfileTests"
+      }
     }
   ],
   "version" : 1

@@ -10,17 +10,13 @@ public struct RootViewReducer: Sendable {
     public init() {}
     @ObservableState
     public struct State: Equatable, Sendable {
-        var profile: ProfileCoordinatorReducer.State
-        var notifications: NotificationReducer.State
-        var home: HomeReducer.State
-
+        var profile: ProfileCoordinatorReducer.State = .init()
+        var notifications: NotificationReducer.State = .init()
+        var home: HomeReducer.State = .init()
         var showsProfileActionsList = false
 
         public init(showsProfileActionsList: Bool = false) {
             self.showsProfileActionsList = showsProfileActionsList
-            profile = .init()
-            notifications = .init()
-            home = .init()
         }
     }
 

@@ -16,6 +16,10 @@ public struct AsyncImageView: View {
         self.url = url
     }
 
+    public init(_ string: String) {
+        self.init(url: URL(string: string)!)
+    }
+
     public var body: some View {
         if let _ = NSClassFromString("XCTest") {
             Color.red

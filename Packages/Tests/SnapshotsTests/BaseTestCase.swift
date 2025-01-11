@@ -18,6 +18,7 @@ let precision: Float = 0.8
 
 @MainActor func assert(
     _ view: some View,
+    delay: TimeInterval = 0,
     fileID: StaticString = #fileID,
     file filePath: StaticString = #filePath,
     testName: String = #function,
@@ -26,13 +27,19 @@ let precision: Float = 0.8
     named: String = #function
 ) throws {
     try #require(UIDevice.modelName == "iPhone 15")
-    let viewController = UIHostingController(rootView: view)
+    UIView.setAnimationsEnabled(false)
+    let viewController = UIHostingController(
+        rootView: view.transaction{
+            $0.disablesAnimations = true
+            $0.animation = nil
+        }
+    )
 
     viewController.overrideUserInterfaceStyle = .light
 
     assertSnapshot(
         of: viewController,
-        as: .image(on: .iPhone13, precision: precision),
+        as: .wait(for: delay, on: .image(on: .iPhone15, precision: precision)),
         named: named + "light",
         fileID: fileID,
         file: filePath,
@@ -45,7 +52,7 @@ let precision: Float = 0.8
 
     assertSnapshot(
         of: viewController,
-        as: .image(on: ViewImageConfig.iPhone15, precision: precision),
+        as: .wait(for: delay, on: .image(on: .iPhone15, precision: precision)),
         named: named + "dark",
         fileID: fileID,
         file: filePath,

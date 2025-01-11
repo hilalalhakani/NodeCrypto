@@ -6,6 +6,7 @@
 //
 
 import APIClient
+import AuthenticationClient
 import Combine
 import Dependencies
 import Foundation
@@ -14,56 +15,71 @@ import NodeCryptoCore
 import PhotosUI
 import ResourceProvider
 import SharedModels
+import SharedViews
 import SwiftUI
-import AuthenticationClient
 
 @Reducer
-public struct EditProfileReducer: Sendable {
-    @Shared(.user) var user
-
+public struct EditProfile: Reducer, Sendable {
+    @Dependency(\.imageUploader) var imageUploader
     public init() {}
+
     @ObservableState
     public struct State: Equatable, Sendable {
-        @ObservationStateIgnored var user: User
-        var profileSubmitted = false
-        var userImageData: Data?
+        @ObservationStateIgnored public var user: User
+        public var isProfileSubmitted = false
+        public var userImageData: Data?
+        public var userImage: Image?
+        public var imagePicker = ImagesPicker.State()
+        public var isDisabled = false
+        @Presents public var alert: AlertState<Action.Alert>?
 
         public init(user: User) {
             self.user = user
         }
+
+        @CasePathable
+        public enum Destination: Equatable, Sendable {
+            case alert(AlertState<EditProfile.Action.Alert>)
+        }
     }
 
-    //MARK: Action
-    @CasePathable
-    public enum Action: TCAFeatureAction {
-        case view(ViewAction)
-        case `internal`(InternalAction)
-        case delegate(DelegateAction)
-    }
+    public enum Action: TCAFeatureAction, Sendable {
+        case view(View)
+        case `internal`(Internal)
+        case delegate(Delegate)
 
-    //MARK: Internal Actions
-    @CasePathable
-    public enum InternalAction: BindableAction {
-        case binding(BindingAction<State>)
-        case showCheckMark(Bool)
-        case onNameChanged(String)
-        case onBioChanged(String)
-        case onEmailChanged(String)
-        case onTwitterChanged(String)
-        case onInstagramChanged(String)
-    }
+        @CasePathable
+        public enum View: Sendable, Equatable {
+            case backButtonTapped
+            case submitButtonTapped
+            case removeImageButtonTapped
+        }
 
-    //MARK: Delegate Actions
-    @CasePathable
-    public enum DelegateAction {
-        case backButtonPressed
-    }
+        @CasePathable
+        public enum Internal: BindableAction, Sendable {
+            case binding(BindingAction<State>)
+            case showProfileUpdatedCheckmark(Bool)
+            case imageUploadResponse(Result<String, Error>)
+            case didUpdateName(String)
+            case didUpdateBio(String)
+            case didUpdateEmail(String)
+            case didUpdateTwitter(String)
+            case didUpdateInstagram(String)
+            case imagePicker(ImagesPicker.Action)
+            case alert(PresentationAction<Alert>)
+            case disableList(Bool)
+        }
 
-    @CasePathable
-    public enum ViewAction {
-        case backButtonPressed
-        case submitPressed
-        case onImageSelection(Data)
+        @CasePathable
+        public enum Delegate: Sendable, Equatable {
+            case didTapBack
+        }
+
+        @CasePathable
+        public enum Alert: Equatable, Sendable {
+            case confirmRemoveImage
+            case dismissAlert
+        }
     }
 
     public var body: some ReducerOf<Self> {
@@ -72,137 +88,217 @@ public struct EditProfileReducer: Sendable {
 
             BindingReducer(action: \.internal)
 
-            //MARK: View Action Handler
+            Scope(state: \.imagePicker, action: \.internal.imagePicker) {
+                ImagesPicker()
+            }
+
             NestedAction(\.view) { state, action in
                 switch action {
-                    case .backButtonPressed:
-                        return .send(.delegate(.backButtonPressed))
+                    case .backButtonTapped:
+                        return .send(.delegate(.didTapBack))
 
-                    case .submitPressed:
-                        return .run { [state] send in
-                            do {
+                    case .submitButtonTapped:
+                        guard !state.isDisabled else { return .none }
 
-                                var user = state.user
+                        return .run { [state, imageUploader] send in
 
-                                if let data = state.userImageData {
-                                    @Dependency(\.imageUploader) var imageUploader
-                                    let url = try await imageUploader.uploadImage(data)
-                                    user.profileImage = url
-                                }
+                            // Disable list
+                            await send(.internal(.showProfileUpdatedCheckmark(false)))
+                            await send(.internal(.disableList(true)))
 
-                                 $user.withLock { [user] in
-                                    $0 = user
-                                }
-                                await send(.internal(.showCheckMark(true)))
+                            // First, update user's info
+                              updateProfile(profileUser: state.user)
+
+                            // Then, upload image
+                            if let imageData = state.userImageData {
+                                await send(
+                                    .internal(
+                                        .imageUploadResponse(
+                                            Result {
+                                                try await imageUploader.uploadImage(imageData)
+                                            }
+                                        )
+                                    )
+                                )
                             }
-                            catch {
-                                print(error)
-                            }
+                            // Re-enable list
+                            await send(.internal(.showProfileUpdatedCheckmark(true)))
+                            await send(.internal(.disableList(false)))
                         }
 
-                    case .onImageSelection(let data):
-                        state.userImageData = data
+                    case .removeImageButtonTapped:
+                        state.alert = AlertState {
+                            TextState("Remove Profile Image")
+                        } actions: {
+                            ButtonState(role: .destructive, action: .confirmRemoveImage) {
+                                TextState("Remove")
+                            }
+                            ButtonState(role: .cancel, action: .dismissAlert) {
+                                TextState("Cancel")
+                            }
+                        } message: {
+                            TextState("Are you sure you want to remove your profile image?")
+                        }
                         return .none
                 }
             }
 
-            //MARK: Internal Action Handler
+            // MARK: Internal Action Handler
             NestedAction(\.internal) { state, action in
                 switch action {
                     case .binding:
                         return .none
-                    case .showCheckMark(let value):
-                        state.profileSubmitted = value
-                        return .none
-                    case .onNameChanged(let value):
-                        state.user.fullName = value
+
+                    case let .showProfileUpdatedCheckmark(value):
+                        state.isProfileSubmitted = value
                         return .none
 
-                    case .onBioChanged(let value):
-                        state.user.profileDescription = value
+                    case let .disableList(value):
+                        state.isDisabled = value
                         return .none
 
-                    case .onEmailChanged(let value):
-                        state.user.email = value
+                    case let .imageUploadResponse(.success(url)):
+                        state.user.profileImage = url
+                        updateProfile(profileUser: state.user)
                         return .none
 
-                    case .onTwitterChanged(_):
+                    case let .imageUploadResponse(.failure(error)):
+                        state.alert = AlertState {
+                            TextState("Image Upload Failed")
+                        } actions: {
+                            ButtonState(action: .dismissAlert) {
+                                TextState("OK")
+                            }
+                        } message: {
+                            TextState(error.localizedDescription)
+                        }
                         return .none
 
-                    case .onInstagramChanged(_):
+                    case let .didUpdateName(value):
+                        state.user.fullName = value.trimmingCharacters(in: .whitespacesAndNewlines)
                         return .none
 
+                    case let .didUpdateBio(value):
+                        state.user.profileDescription = value.trimmingCharacters(in: .whitespacesAndNewlines)
+                        return .none
+
+                    case let .didUpdateEmail(value):
+                        state.user.email = value.trimmingCharacters(in: .whitespacesAndNewlines)
+                        return .none
+
+                    case .didUpdateTwitter, .didUpdateInstagram:
+                        return .none
+
+                    case let .imagePicker(.delegate(.loadSingleImage(image, data))):
+                        state.userImage = image
+                        state.userImageData = data
+                        return .none
+
+                    case .alert(let action):
+                        switch action {
+                            case .presented(.confirmRemoveImage):
+                                state.userImage = nil
+                                state.userImageData = nil
+                                state.user.profileImage = User.mock1.profileImage
+                                updateProfile(profileUser: state.user)
+                                return .none
+
+                            case .presented(.dismissAlert):
+                                return .none
+
+                            case .dismiss:
+                                return .none
+                        }
+
+                    default:
+                        return .none
                 }
             }
         }
+        .ifLet(\.$alert, action: \.internal.alert)
+    }
 
+     func updateProfile(profileUser: User) {
+        // API call here
+        // Update local user
+         @Shared(.user) var user
+        $user.withLock { $0 = profileUser }
     }
 }
 
 public struct EditProfileView: View {
-    @Bindable var store: StoreOf<EditProfileReducer>
-    @State private var selectedItem: PhotosPickerItem? = nil
-    @State private var selectedImage: Image? = nil
-    @Shared(.user) var user
+    @Bindable var store: StoreOf<EditProfile>
     @FocusState private var focusedField: FocusedField?
 
     enum FocusedField {
         case name, bio, email, twitter, instagram
     }
 
-    public init(store: StoreOf<EditProfileReducer>) {
+    public init(store: StoreOf<EditProfile>) {
         self.store = store
     }
 
     public var body: some View {
-            VStack(alignment: .leading, spacing: 20) {
-                profileHeader
+        VStack(alignment: .leading, spacing: 20) {
+            profileHeader
 
-                Color.connectWalletGradient1.opacity(0.2)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .ignoresSafeArea(edges: [.bottom])
+            Color.connectWalletGradient1.opacity(0.2)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .ignoresSafeArea(edges: [.bottom])
 #if os(iOS)
-                    .cornerRadius(24, corners: [.topLeft, .topRight])
-                #endif
-                    .ignoresSafeArea(edges: [.bottom])
-                    .overlay {
-                        ScrollView {
-                            VStack(alignment: .leading, spacing: 32) {
-                                HStack(alignment: .top) {
-                                    userImage
-                                    userImageWarningLabelAndButton
-                                }
-                                fields
+                .cornerRadius(24, corners: [.topLeft, .topRight])
+#endif
+                .ignoresSafeArea(edges: [.bottom])
+                .overlay {
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 32) {
+                            HStack(alignment: .top) {
+                                userImage
+                                userImageWarningLabelAndButton
                             }
-                            .padding(20)
+                            fields
                         }
+                        .padding(20)
                     }
-            }
-            .animation(.easeInOut, value: focusedField)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            #if os(iOS)
-                .toolbar {
-                    toolbarContent
                 }
-                .navigationBarBackButtonHidden(true)
-            #endif
+        }
+        .animation(.easeInOut, value: focusedField)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+#if os(iOS)
+        .toolbar {
+            toolbarContent
+        }
+        .navigationBarBackButtonHidden(true)
+#endif
+        .alert(
+            store: store.scope(
+                state: \.$alert,
+                action: \.internal.alert
+            )
+        )
+        .disabled(store.isDisabled)
+        .overlay {
+            if store.isDisabled {
+                ProgressView()
+            }
+        }
     }
 
     @ViewBuilder
     private var fields: some View {
         ProfileTextField(
             title: "DISPLAY NAME",
-            text: $store.user.fullName.sending(\.internal.onNameChanged)
+            text: $store.user.fullName.sending(\.internal.didUpdateName)
         )
         .focused($focusedField, equals: .name)
         .id(FocusedField.name)
 #if os(iOS)
         .keyboardType(.asciiCapable)
-        #endif
+#endif
 
         ProfileTextField(
             title: "BIO",
-            text: $store.user.profileDescription.sending(\.internal.onBioChanged),
+            text: $store.user.profileDescription.sending(\.internal.didUpdateBio),
             textFieldHeight: 72
         )
         .focused($focusedField, equals: .bio)
@@ -213,7 +309,7 @@ public struct EditProfileView: View {
 
         ProfileTextField(
             title: "EMAIL",
-            text: $store.user.email.sending(\.internal.onEmailChanged)
+            text: $store.user.email.sending(\.internal.didUpdateEmail)
         )
         .focused($focusedField, equals: .email)
         .id(FocusedField.email)
@@ -246,7 +342,7 @@ public struct EditProfileView: View {
                 .foregroundStyle(Color.neutral4)
                 .font(.custom(FontName.poppinsRegular.rawValue, size: 14))
             Button(
-                action: {},
+                action: { store.send(.view(.removeImageButtonTapped)) },
                 label: {
                     Text("Remove")
                         .foregroundStyle(Color.neutral2)
@@ -274,160 +370,108 @@ public struct EditProfileView: View {
                 .foregroundStyle(Color.neutral3)
                 .font(.custom(FontName.poppinsRegular.rawValue, size: 12))
         }
-        .opacity(store.profileSubmitted ? 1 : 0)
-        .animation(.easeIn, value: store.profileSubmitted)
+        .opacity(store.isProfileSubmitted ? 1 : 0)
+        .animation(.easeIn, value: store.isProfileSubmitted)
         .padding(.horizontal, 30)
     }
 
     @ViewBuilder
     private var userImage: some View {
-        PhotosPicker(
-            selection: $selectedItem,
-            matching: .images,
-            photoLibrary: .shared()
-        ) { [selectedItem,  userProfileImage = user?.profileImage] in
+        ImagePickerView(
+            store: store.scope(
+                state: \.imagePicker,
+                action: \.internal.imagePicker
+            ),
+            label: {
                 Group {
-                    if selectedItem == nil, let userProfileImage, let url = URL(string: userProfileImage)
-                    {
-                        MainActor.assumeIsolated {
-                            AsyncImageView(url: url)
-                        }
-                    }
-                    else {
-                        MainActor.assumeIsolated {
-                            selectedImage?
+                    switch store.userImage {
+                        case .none:
+                            if let imageURL = URL(string: store.user.profileImage) {
+                                AsyncImageView(url: imageURL)
+                            }
+                            else {
+                                Circle()
+                            }
+                        case .some(let image):
+                            image
                                 .resizable()
-                        }
                     }
-            }
-            .scaledToFill()
-            .frame(width: 92, height: 92)
-            .clipShape(.circle)
-        }
-        .frame(width: 92, height: 92)
-        .buttonStyle(.plain)
-        .onChange(of: selectedItem) { oldValue, newValue in
-            Task {
-                if let image = try? await newValue?.loadTransferable(type: Image.self),
-                    let imageData = try? await newValue?
-                        .loadTransferable(
-                            type: Data.self
-                        )
-                {
-                    await MainActor.run {
-                      selectedImage = image
-                    }
-                    store.send(.view(.onImageSelection(imageData)))
                 }
+                .scaledToFill()
+                .clipShape(.circle)
+                .frame(width: 92, height: 92)
             }
-        }
+        )
     }
 
 #if os(iOS)
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
-            ToolbarItem(placement: .topBarLeading) {
-                Button(
-                    action: {
-                        store.send(.view(.backButtonPressed))
-                    },
-                    label: {
-                        HStack(spacing: 16) {
-                            Circle()
-                                .foregroundColor(Color.neutral6)
-                                .frame(width: 32, height: 32)
-                                .overlay {
-                                    Image(systemName: "chevron.backward")
-                                        .resizable()
-                                        .foregroundStyle(Color.neutral2)
-                                        .frame(width: 7, height: 12)
-                                        .font(.headline)
-                                }
+        ToolbarItem(placement: .topBarLeading) {
+            Button(
+                action: {
+                    store.send(.view(.backButtonTapped))
+                },
+                label: {
+                    HStack(spacing: 16) {
+                        Circle()
+                            .foregroundColor(Color.neutral6)
+                            .frame(width: 32, height: 32)
+                            .overlay {
+                                Image(systemName: "chevron.backward")
+                                    .resizable()
+                                    .foregroundStyle(Color.neutral2)
+                                    .frame(width: 7, height: 12)
+                                    .font(.headline)
+                            }
 
-                            Text("Edit Profile")
-                                .font(.custom(FontName.poppinsBold.rawValue, size: 24))
-                                .foregroundStyle(Color.neutral2)
-                        }
+                        Text("Edit Profile")
+                            .font(.custom(FontName.poppinsBold.rawValue, size: 24))
+                            .foregroundStyle(Color.neutral2)
                     }
-                )
-            }
-
-            ToolbarItem(placement: .topBarTrailing) {
-                Button(
-                    action: {
-                        store.send(.view(.submitPressed))
-                    },
-                    label: {
-                        Text("Done")
-                            .font(.custom(FontName.poppinsBold.rawValue, size: 12))
-                            .foregroundStyle(Color.neutral8)
-                            .padding(12)
-                            .background(
-                                Color.primary1
-                                    .clipShape(.capsule)
-                            )
-                    }
-                )
-            }
-
-            ToolbarItem(placement: .keyboard) {
-                HStack {
-                    Button("Done") {
-                        withAnimation {
-                            focusedField = nil
-                        }
-                    }
-                    Spacer()
                 }
-            }
-    }
-#endif
-
-}
-
-#if os(iOS)
-struct KeyboardAwareModifier: ViewModifier {
-    @State private var keyboardHeight: CGFloat = 0
-
-    var keyboardHeightPublisher: AnyPublisher<CGFloat, Never> {
-        Publishers
-            .Merge(
-                NotificationCenter
-                    .default
-                    .publisher(for: UIResponder.keyboardWillShowNotification)
-                    .compactMap {
-                        $0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
-                    }
-                    .map { $0.cgRectValue.height },
-                NotificationCenter
-                    .default
-                    .publisher(for: UIResponder.keyboardWillHideNotification)
-                    .map { _ in 0 }
             )
-            .eraseToAnyPublisher()
-    }
-    func body(content: Content) -> some View {
-        content
-            .padding(.bottom, keyboardHeight)
-            .onReceive(keyboardHeightPublisher) { height in
-                withAnimation { self.keyboardHeight = height }
-            }
-    }
-}
+        }
 
-extension View {
-    func adaptsKeyboard() -> some View {
-        self.modifier(KeyboardAwareModifier())
+        ToolbarItem(placement: .topBarTrailing) {
+            Button(
+                action: {
+                    store.send(.view(.submitButtonTapped))
+                },
+                label: {
+                    Text("Done")
+                        .font(.custom(FontName.poppinsBold.rawValue, size: 12))
+                        .foregroundStyle(Color.neutral8)
+                        .padding(12)
+                        .background(
+                            Color.primary1
+                                .clipShape(.capsule)
+                        )
+                }
+            )
+        }
+
+        ToolbarItem(placement: .keyboard) {
+            HStack {
+                Button("Done") {
+                    withAnimation {
+                        focusedField = nil
+                    }
+                }
+                Spacer()
+            }
+        }
     }
-}
 #endif
+
+}
 
 #Preview {
     NavigationStack {
         EditProfileView(
             store: .init(
                 initialState: .init(user: .mock1),
-                reducer: { EditProfileReducer() }
+                reducer: { EditProfile() }
             )
         )
     }

@@ -23,30 +23,64 @@ public struct SharedKeychainKey<Value: Codable & Sendable & Equatable>: SharedKe
         self.key = key
     }
 
-    public func save(_ value: Value, immediately: Bool) {
+    public func subscribe(
+      context _: LoadContext<Value>, subscriber _: SharedSubscriber<Value>
+    ) -> SharedSubscription {
+      SharedSubscription {}
+    }
+
+    public func load(context _: LoadContext<Value>, continuation: LoadContinuation<Value>) {
+        guard let data = try? keychainManager.get(key), !data.isEmpty else {
+            continuation.resumeReturningInitialValue()
+            return
+        }
+        if let value = try? JSONDecoder().decode(Value.self, from: data) {
+            continuation.resume(returning: value)
+        } else {
+            continuation.resumeReturningInitialValue()
+        }
+    }
+
+    public func save(_ value: Value, context: SaveContext, continuation: SaveContinuation) {
         func isNil<T>(_ value: T) -> Bool {
             let mirror = Mirror(reflecting: value)
             return mirror.displayStyle == .optional && mirror.children.isEmpty
         }
+
         if isNil(value) {
             try? keychainManager.delete(key: key)
         } else {
             guard let data = try? JSONEncoder().encode(value) else { return }
             try? keychainManager.set(data, key)
         }
+        continuation.resume()
     }
 
-    public func load(initialValue: Value?) -> Value? {
-        guard let data = try? keychainManager.get(key) else { return nil }
-        return try? JSONDecoder().decode(Value.self, from: data)
-    }
 
-    public func subscribe(
-        initialValue: Value?,
-        didSet receiveValue: @escaping (Value?) -> Void
-    ) -> SharedSubscription {
-        SharedSubscription {}
-    }
+//    public func save(_ value: Value, immediately: Bool) {
+//        func isNil<T>(_ value: T) -> Bool {
+//            let mirror = Mirror(reflecting: value)
+//            return mirror.displayStyle == .optional && mirror.children.isEmpty
+//        }
+//        if isNil(value) {
+//            try? keychainManager.delete(key: key)
+//        } else {
+//            guard let data = try? JSONEncoder().encode(value) else { return }
+//            try? keychainManager.set(data, key)
+//        }
+//    }
+//
+//    public func load(initialValue: Value?) -> Value? {
+//        guard let data = try? keychainManager.get(key) else { return nil }
+//        return try? JSONDecoder().decode(Value.self, from: data)
+//    }
+//
+//    public func subscribe(
+//        initialValue: Value?,
+//        didSet receiveValue: @escaping (Value?) -> Void
+//    ) -> SharedSubscription {
+//        SharedSubscription {}
+//    }
 }
 
 extension SharedKeychainKey: Hashable, Sendable {
