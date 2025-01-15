@@ -1,9 +1,9 @@
-//import ComposableArchitecture
-//import Testing
-//import Keychain
-//import NodeCryptoCore
-//import XCTest
-//
+import ComposableArchitecture
+import Testing
+import Keychain
+import NodeCryptoCore
+import XCTest
+
 
 //This is crashing since keychain sharing is turned off
 

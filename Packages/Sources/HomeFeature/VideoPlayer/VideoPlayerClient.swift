@@ -9,23 +9,23 @@ import NodeCryptoCore
 import Foundation
 import AVFoundation
 
-struct VideoPlayerClient {
-    var setup: @Sendable (String) -> Void
-    var play: @Sendable () -> Void
-    var pause: @Sendable () -> Void
-    var totalDuration: @Sendable () async throws -> Double
-    var seek: @Sendable (CMTime) -> Void
-    var player: @Sendable () -> AVPlayer
-    var isPlaying: @Sendable () -> Bool
-    var currentTime: @Sendable () -> CMTime
-    var destroy: @Sendable () -> Void
+public struct VideoPlayerClient: Sendable {
+    public var setup: @Sendable (String) -> Void
+    public var play: @Sendable () -> Void
+    public var pause: @Sendable () -> Void
+    public var totalDuration: @Sendable () async throws -> Double
+    public var seek: @Sendable (CMTime) -> Void
+    public var player: @Sendable () -> AVPlayer
+    public var isPlaying: @Sendable () -> Bool
+    public var currentTime: @Sendable () -> CMTime
+    public var destroy: @Sendable () -> Void
 }
 
-private enum VideoPlayerKey: DependencyKey {
+public enum VideoPlayerKey: DependencyKey {
     public static var liveValue: VideoPlayerClient { .live }
 }
 extension DependencyValues {
-    var videoPlayer: VideoPlayerClient {
+    public var videoPlayer: VideoPlayerClient {
         get { self[VideoPlayerKey.self] }
         set { self[VideoPlayerKey.self] = newValue }
     }

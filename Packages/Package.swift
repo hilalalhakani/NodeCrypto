@@ -36,7 +36,8 @@ let package = Package(
         .package(url: "https://github.com/pointfreeco/swift-tagged", branch: "main"),
         .package(url: "https://github.com/oliverfoggin/swift-composable-analytics", branch: "main"),
         .package(url: "https://github.com/onevcat/Kingfisher.git", from: "8.1.1"),
-        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "11.6.0")
+        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "11.6.0"),
+        .package(url: "https://github.com/krzysztofzablocki/Inject.git", from: "1.5.2")
     ],
     targets: [
         .target(
@@ -145,7 +146,8 @@ let package = Package(
                 "SharedModels",
                 "ResourceProvider",
                 .product(name: "ComposableAnalytics", package: "swift-composable-analytics"),
-                .product(name: "FirebaseAuth", package: "firebase-ios-sdk")
+                .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
+                .product(name: "Inject", package: "Inject"),
             ]
         ),
         .testTarget(

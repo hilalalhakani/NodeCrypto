@@ -25,7 +25,7 @@ public struct PlayerViewReducer {
         var nft: NFTItem
         var sliderState = CustomSliderReducer.State()
 
-        init(nft: NFTItem) {
+        public init(nft: NFTItem) {
             @Dependency(\.videoPlayer) var player
             self.nft = nft
             player.setup(nft.videoURL)

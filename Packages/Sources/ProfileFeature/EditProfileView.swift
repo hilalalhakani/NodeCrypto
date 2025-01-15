@@ -382,12 +382,14 @@ public struct EditProfileView: View {
                 state: \.imagePicker,
                 action: \.internal.imagePicker
             ),
-            label: {
+            label: { [userImage = store.userImage, profileImageURL = store.user.profileImage] in
                 Group {
-                    switch store.userImage {
+                    switch userImage {
                         case .none:
-                            if let imageURL = URL(string: store.user.profileImage) {
-                                AsyncImageView(url: imageURL)
+                            if let imageURL = URL(string: profileImageURL) {
+                                MainActor.assumeIsolated {
+                                    AsyncImageView(url: imageURL)
+                                }
                             }
                             else {
                                 Circle()

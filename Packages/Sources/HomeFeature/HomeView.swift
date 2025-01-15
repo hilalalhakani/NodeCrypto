@@ -14,60 +14,95 @@ public struct HomeReducer: Sendable {
 
     @ObservableState
     public struct State: Equatable, Sendable {
-        @Presents var playerViewReducerState: PlayerViewReducer.State? = nil
-        var nfts: IdentifiedArrayOf<NFTItem> = IdentifiedArrayOf(uniqueElements: NFTItem.samples())
-        var creators: IdentifiedArrayOf<Creator> = IdentifiedArrayOf(uniqueElements:  Creator.samples())
-        var isLoading = true
+        @Presents public var playerViewReducerState: PlayerViewReducer.State? = nil
+        public var nfts: IdentifiedArrayOf<NFTItem> = IdentifiedArrayOf(
+            uniqueElements: NFTItem.samples()
+        )
+        public var creators: IdentifiedArrayOf<Creator> = IdentifiedArrayOf(
+            uniqueElements: Creator.samples()
+        )
+        public var isLoading = true
         public init() {}
+        public init(playerViewReducerState: PlayerViewReducer.State) {
+            self.playerViewReducerState = playerViewReducerState
+        }
     }
 
-    public enum Action: Sendable {
+    @CasePathable
+    public enum Action: Sendable, TCAFeatureAction {
+        case view(ViewAction)
+        case `internal`(InternalAction)
+        case delegate(DelegateAction)
+    }
+
+    @CasePathable
+    public enum ViewAction: Sendable {
         case onAppear
         case tappedNFT(NFTItem)
-        case playerViewAction(PresentationAction<PlayerViewReducer.Action>)
+    }
+
+    @CasePathable
+    public enum InternalAction: Sendable {
         case onCreatorsResponse([Creator])
         case onNFTSResponse([NFTItem])
         case removePlaceHolder
+        case playerViewAction(PresentationAction<PlayerViewReducer.Action>)
     }
 
+    @CasePathable
+    public enum DelegateAction: Sendable {}
+
     public var body: some Reducer<State, Action> {
-        Reduce { state, action in
-            switch action {
 
-                case .tappedNFT(let nFTItem):
-                    state.playerViewReducerState = .init(nft: nFTItem)
-                    return .none
+        CombineReducers {
 
-                case .playerViewAction(.presented(.stopPlayer)):
-                    state.playerViewReducerState = nil
-                    return .none
+            //MARK: Internal Actions
 
-                case .playerViewAction:
-                    return .none
+            NestedAction(\.internal) { state, action in
 
-                case .onAppear:
-                    return .run { send in
-                        async let creators = try api.getCreators()
-                        async let nfts = try api.getNFTS()
-                        try await send(.onCreatorsResponse(creators))
-                        try await send(.onNFTSResponse(nfts))
-                        await send(.removePlaceHolder)
-                    }
+                switch action {
+                    case .playerViewAction(.presented(.stopPlayer)):
+                        state.playerViewReducerState = nil
+                        return .none
 
-                case .removePlaceHolder:
-                    state.isLoading = false
-                    return .none
+                    case .playerViewAction:
+                        return .none
 
-                case .onCreatorsResponse(let items):
-                    state.creators = .init(uniqueElements: items)
-                    return .none
+                    case .removePlaceHolder:
+                        state.isLoading = false
+                        return .none
 
-                case .onNFTSResponse(let items):
-                    state.nfts = .init(uniqueElements: items)
-                    return .none
+                    case .onCreatorsResponse(let items):
+                        state.creators = .init(uniqueElements: items)
+                        return .none
+
+                    case .onNFTSResponse(let items):
+                        state.nfts = .init(uniqueElements: items)
+                        return .none
+                }
+            }
+
+            //MARK: View Actions
+            NestedAction(\.view) { state, action in
+
+                switch action {
+
+                    case .tappedNFT(let nFTItem):
+                        state.playerViewReducerState = .init(nft: nFTItem)
+                        return .none
+
+                    case .onAppear:
+                        return .run { send in
+                            async let creators = try api.getCreators()
+                            async let nfts = try api.getNFTS()
+                            try await send(.internal(.onCreatorsResponse(creators)))
+                            try await send(.internal(.onNFTSResponse(nfts)))
+                            await send(.internal(.removePlaceHolder))
+                        }
+                }
             }
         }
-        .ifLet(\.$playerViewReducerState, action: \.playerViewAction) {
+        .ifLet(\.$playerViewReducerState, action: \.internal.playerViewAction) {
             PlayerViewReducer()
         }
 
@@ -91,12 +126,12 @@ public struct HomeView: View {
         .disabled(store.isLoading)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .fullScreenCover(
-            item: $store.scope(state: \.playerViewReducerState, action: \.playerViewAction)
+            item: $store.scope(state: \.playerViewReducerState, action: \.internal.playerViewAction)
         ) { store in
             PlayerView(store: store)
         }
         .task {
-            store.send(.onAppear)
+            store.send(.view(.onAppear))
         }
     }
 
@@ -133,7 +168,7 @@ public struct HomeView: View {
                 ForEach(store.nfts) { nft in
                     FeaturedItem(nft: nft)
                         .onTapGesture {
-                            store.send(.tappedNFT(nft))
+                            store.send(.view(.tappedNFT(nft)))
                         }
                 }
             }

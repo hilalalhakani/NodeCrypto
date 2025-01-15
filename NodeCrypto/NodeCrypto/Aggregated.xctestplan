@@ -21,8 +21,22 @@
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:..\/Packages",
-        "identifier" : "AppFeatureTests",
-        "name" : "AppFeatureTests"
+        "identifier" : "OnboardingFeatureTests",
+        "name" : "OnboardingFeatureTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/Packages",
+        "identifier" : "LocalStorageTests",
+        "name" : "LocalStorageTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/Packages",
+        "identifier" : "HomeTests",
+        "name" : "HomeTests"
       }
     },
     {
@@ -31,6 +45,13 @@
         "containerPath" : "container:..\/Packages",
         "identifier" : "ConnectWalletFeatureTests",
         "name" : "ConnectWalletFeatureTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/Packages",
+        "identifier" : "ProfileTests",
+        "name" : "ProfileTests"
       }
     },
     {
@@ -45,8 +66,8 @@
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:..\/Packages",
-        "identifier" : "OnboardingFeatureTests",
-        "name" : "OnboardingFeatureTests"
+        "identifier" : "AppFeatureTests",
+        "name" : "AppFeatureTests"
       }
     },
     {
@@ -54,13 +75,6 @@
         "containerPath" : "container:..\/Packages",
         "identifier" : "SnapshotsTests",
         "name" : "SnapshotsTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:..\/Packages",
-        "identifier" : "ProfileTests",
-        "name" : "ProfileTests"
       }
     }
   ],

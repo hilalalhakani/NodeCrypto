@@ -16,13 +16,13 @@ public struct ProfileReducer: Sendable {
     //MARK: State
     @ObservableState
     public struct State: Equatable, Sendable {
-        var nfts: IdentifiedArrayOf<NFT> = []
-        var likedNfts: IdentifiedArrayOf<NFT> = []
-        var createdNfts: IdentifiedArrayOf<NFT> = []
-        var aboutMeItems: IdentifiedArrayOf<AboutMeItem> = []
-        var isLoading = true
-        var selectedTitle: MenuItem? = MenuItem.allCases.first
-        var titles = MenuItem.allCases.map { $0 }
+        public var nfts: IdentifiedArrayOf<NFT> = []
+        public var likedNfts: IdentifiedArrayOf<NFT> = []
+        public var createdNfts: IdentifiedArrayOf<NFT> = []
+        public var aboutMeItems: IdentifiedArrayOf<AboutMeItem> = []
+        public var isLoading = true
+        public var selectedTitle: MenuItem? = MenuItem.allCases.first
+        public var titles = MenuItem.allCases.map { $0 }
         public init() {}
 
         public init(

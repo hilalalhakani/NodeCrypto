@@ -112,7 +112,7 @@ public struct ConnectingWalletViewReducer: Sendable {
                   return .none
 
                   case .onAuthResult(.success(let remoteUser)):
-                       $user.withLock({ $0 = user })
+                       $user.withLock({ $0 = remoteUser })
                       return .none
 
                   case .onAuthResult(.failure(_)):

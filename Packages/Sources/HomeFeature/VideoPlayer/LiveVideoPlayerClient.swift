@@ -49,4 +49,32 @@ extension VideoPlayerClient {
             }
         )
     }()
+
+    static public let noop =  {
+        return Self(
+            setup: { url in
+
+            },
+            play: {
+
+            }, pause:  {
+
+            },
+            totalDuration: {
+                0
+            },
+            seek: { seekTime in
+
+            }, player: {
+                AVPlayer()
+            } , isPlaying: {
+                false
+            }, currentTime: {
+                CMTime(seconds: 0, preferredTimescale: 1)
+            } , destroy: {
+
+            }
+        )
+    }()
+
 }

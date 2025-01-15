@@ -103,31 +103,31 @@ public struct ImagesPicker {
     }
 }
 
- public struct ImagePickerView<Label: View>: View {
-    @Bindable var store: StoreOf<ImagesPicker>
-    var label: () -> Label
+public struct ImagePickerView<Label: View>: View {
+   @Bindable var store: StoreOf<ImagesPicker>
+   var label: @Sendable () -> Label
 
-    public init(store: StoreOf<ImagesPicker>, @ViewBuilder label: @escaping () -> Label) {
-        self.store = store
-        self.label = label
-    }
+    public init(store: StoreOf<ImagesPicker>, @ViewBuilder label:@escaping  @Sendable () -> Label) {
+       self.store = store
+       self.label = label
+   }
 
-    public var body: some View {
-        switch store.state.pickerMode {
-            case .single:
-                PhotosPicker(
-                    selection: $store.pickerItem.sending(\.selectedSinglePhoto),
-                    matching: .images,
-                    photoLibrary: .shared(),
-                    label: label
-                )
-            case .multiple:
-                PhotosPicker(
-                    selection: $store.pickerItems.sending(\.selectedMultiplePhotos),
-                    matching: .images,
-                    photoLibrary: .shared(),
-                    label: label
-                )
-        }
-    }
+   public var body: some View {
+       switch store.state.pickerMode {
+           case .single:
+               PhotosPicker(
+                   selection: $store.pickerItem.sending(\.selectedSinglePhoto),
+                   matching: .images,
+                   photoLibrary: .shared(),
+                   label: label
+               )
+           case .multiple:
+               PhotosPicker(
+                   selection: $store.pickerItems.sending(\.selectedMultiplePhotos),
+                   matching: .images,
+                   photoLibrary: .shared(),
+                   label: label
+               )
+       }
+   }
 }
