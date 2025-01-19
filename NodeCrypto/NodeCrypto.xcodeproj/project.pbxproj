@@ -378,8 +378,7 @@
 					"-Xlinker",
 					"-interposable",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = home.iOS;
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = home.test.iOS;
+				PRODUCT_BUNDLE_IDENTIFIER = home.test.iOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
@@ -422,8 +421,7 @@
 					"-Xlinker",
 					"-interposable",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = home.iOS;
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = home.test.iOS;
+				PRODUCT_BUNDLE_IDENTIFIER = home.test.iOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";

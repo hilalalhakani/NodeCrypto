@@ -10,19 +10,21 @@ import Foundation
 import AVFoundation
 
 public struct VideoPlayerClient: Sendable {
-    public var setup: @Sendable (String) -> Void
-    public var play: @Sendable () -> Void
-    public var pause: @Sendable () -> Void
-    public var totalDuration: @Sendable () async throws -> Double
-    public var seek: @Sendable (CMTime) -> Void
-    public var player: @Sendable () -> AVPlayer
-    public var isPlaying: @Sendable () -> Bool
-    public var currentTime: @Sendable () -> CMTime
-    public var destroy: @Sendable () -> Void
+    public var play: @Sendable () async -> Void
+    public var pause: @Sendable () async -> Void
+    public var seek: @Sendable (CMTime) async -> Void
+    public var load: @Sendable (String) async throws -> Void
+    public var player: @Sendable () async -> AVPlayer
+    var timeControlStatus: @Sendable () async -> AsyncStream<AVPlayer.TimeControlStatus>
+    var currentTime: @Sendable () async -> AsyncStream<CMTime>
+    var duration: @Sendable () async -> AsyncStream<CMTime>
+    var isPlaying: @Sendable () -> Bool
+    var destroy: @Sendable () -> Void
+    var setupObservers: @Sendable () -> Void
 }
 
 public enum VideoPlayerKey: DependencyKey {
-    public static var liveValue: VideoPlayerClient { .live }
+    public static var liveValue: VideoPlayerClient { .liveValue }
 }
 extension DependencyValues {
     public var videoPlayer: VideoPlayerClient {

@@ -26,9 +26,9 @@ public struct PlayerViewReducer {
         var sliderState = CustomSliderReducer.State()
 
         public init(nft: NFTItem) {
-            @Dependency(\.videoPlayer) var player
             self.nft = nft
-            player.setup(nft.videoURL)
+            @Dependency(\.videoPlayer) var player
+            player.setupObservers()
         }
     }
 
@@ -39,6 +39,8 @@ public struct PlayerViewReducer {
         case stopPlayer
         case binding(BindingAction<State>)
         case slider(CustomSliderReducer.Action)
+        case onAppear
+        case updatePlayPauseIcon(isPlaying: Bool)
     }
 
     public var body: some ReducerOf<Self> {
@@ -53,8 +55,14 @@ public struct PlayerViewReducer {
                     state.areControlsHidden = false
                     return .none
                 case .togglePlayPause:
-                    player.isPlaying() ? player.pause() : player.play()
-                    state.isPlaying = player.isPlaying()
+                    return .run { [player, state]send in
+                        let isPlaying = player.isPlaying()
+                        await isPlaying ? player.pause() : player.play()
+                        await send(.updatePlayPauseIcon(isPlaying: !state.isPlaying))
+                    }
+
+                case .updatePlayPauseIcon(isPlaying: let isPlaying):
+                    state.isPlaying = isPlaying
                     return .none
                 case .stopPlayer:
                     player.destroy()
@@ -63,6 +71,10 @@ public struct PlayerViewReducer {
                     return .none
                 case .slider(_):
                     return .none
+                case .onAppear:
+                    return .run { [state, player] send in
+                        try await player.load(state.nft.videoURL)
+                    }
             }
         }
 
@@ -139,6 +151,9 @@ public struct PlayerView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .opacity(store.areControlsHidden ? 0 : 1)
+                .task {
+                    store.send(.onAppear)
+                }
             }
     }
 }
