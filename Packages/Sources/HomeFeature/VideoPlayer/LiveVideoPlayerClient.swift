@@ -8,12 +8,11 @@ import SwiftUICore
 extension VideoPlayerClient: DependencyKey {
     public static let liveValue: Self = {
         let manager = VideoPlayerManager()
-
         return Self(
             play: { manager.play()  },
             pause: { manager.pause() },
             seek: { manager.seek(to: $0) },
-            load: { try await manager.load(url: $0) },
+            load: { manager.load(url: $0) },
             player: { manager.player },
             timeControlStatus: { manager.timeControlStatusStream },
             currentTime: { manager.currentTimeStream },
@@ -23,10 +22,26 @@ extension VideoPlayerClient: DependencyKey {
             setupObservers: { manager.setupObservers() }
         )
     }()
+
+    public static let noop: Self = {
+        return Self(
+            play: {   },
+            pause: { },
+            seek: { _ in   },
+            load: { _ in   },
+            player: { AVPlayer() },
+            timeControlStatus: { .init(unfolding: { nil }) },
+            currentTime: { .init(unfolding: { nil }) },
+            duration: { .init(unfolding: { nil }) },
+            isPlaying : { false },
+            destroy: {   },
+            setupObservers: { }
+        )
+    }()
 }
 
 private actor VideoPlayerManager {
-    nonisolated(unsafe) var player: AVPlayer = .init()
+    nonisolated(unsafe) private(set) var player: AVPlayer = .init()
     nonisolated(unsafe) private var periodicTimeObserver: Any?
     nonisolated(unsafe) private var statusObservation: NSKeyValueObservation?
     nonisolated(unsafe) private var durationObservation: NSKeyValueObservation?
@@ -92,6 +107,12 @@ private actor VideoPlayerManager {
             guard let self else { return }
             self.currentTimeContinuation?.yield(time)
         }
+
+        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: .main) { [weak self] _ in
+            guard let self else { return }
+            self.player.seek(to: .zero)
+            self.player.play()
+        }
     }
 
     nonisolated func cleanup() {
@@ -118,27 +139,25 @@ private actor VideoPlayerManager {
         try await player.currentItem?.asset.load(.duration).seconds ?? 0
     }
 
-    @MainActor
-    func play() {
+    nonisolated func play() {
         player.play()
     }
 
-    @MainActor
-    func pause() {
+    nonisolated func pause() {
         player.pause()
     }
     
-    @MainActor
-    func seek(to time: CMTime) {
+    nonisolated func seek(to time: CMTime) {
         player.seek(to: time, toleranceBefore: .zero, toleranceAfter: .zero)
     }
 
-    @MainActor
-    func load(url: String) async throws {
+    nonisolated func load(url: String) {
         guard let url = URL(string: url) else { return }
-        let asset = AVAsset(url: url)
-        let item = AVPlayerItem(asset: asset)
-        player.replaceCurrentItem(with: item)
-        player.play()
+        Task { @MainActor in
+            let asset = AVAsset(url: url)
+            let item = AVPlayerItem(asset: asset)
+            player.replaceCurrentItem(with: item)
+            player.play()
+        }
     }
 }

@@ -30,11 +30,9 @@ class PlayerUIView: UIView {
     }
 
     private func initializePlayer() {
-        Task {
-            playerLayer.player = await videoPlayer.player()
-            playerLayer.videoGravity = .resize
-            playerLayer.player?.play()
-        }
+        playerLayer.player = videoPlayer.player()
+        playerLayer.videoGravity = .resize
+        playerLayer.player?.play()
     }
 
     override func layoutSubviews() {

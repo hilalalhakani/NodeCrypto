@@ -15,77 +15,101 @@ import SwiftUI
 public struct PlayerViewReducer {
     @Dependency(\.videoPlayer) var player
 
-    init() {
-    }
-
     @ObservableState
     public struct State: Equatable, Sendable {
-        var isPlaying = true
-        var areControlsHidden: Bool = false
+        var isPlaying: Bool
+        var areControlsHidden: Bool
         var nft: NFTItem
-        var sliderState = CustomSliderReducer.State()
+        var sliderState: CustomSliderReducer.State
 
-        public init(nft: NFTItem) {
+        public init(
+            isPlaying: Bool = true,
+            areControlsHidden: Bool = false,
+            nft: NFTItem,
+            sliderState: CustomSliderReducer.State = .init()
+        ) {
+            self.isPlaying = isPlaying
+            self.areControlsHidden = areControlsHidden
             self.nft = nft
-            @Dependency(\.videoPlayer) var player
-            player.setupObservers()
+            self.sliderState = sliderState
         }
     }
 
-    public enum Action: BindableAction, Sendable {
+    @CasePathable
+    public enum Action: TCAFeatureAction, Sendable {
+        case view(ViewAction)
+        case `internal`(InternalAction)
+        case delegate(DelegateAction)
+    }
+
+    @CasePathable
+    public enum ViewAction: Sendable {
+        case onAppear
         case hideControls
         case showControls
         case togglePlayPause
         case stopPlayer
+    }
+
+    @CasePathable
+    public enum InternalAction: BindableAction, Sendable {
         case binding(BindingAction<State>)
         case slider(CustomSliderReducer.Action)
-        case onAppear
-        case updatePlayPauseIcon(isPlaying: Bool)
+    }
+
+    @CasePathable
+    public enum DelegateAction: Sendable {
+        case playerStopped
     }
 
     public var body: some ReducerOf<Self> {
-        BindingReducer()
 
-        Reduce { state, action in
+        BindingReducer(action: \.internal)
+
+        NestedAction(\.view) { state, action in
             switch action {
+                case .onAppear:
+                    player.setupObservers()
+                    player.load(state.nft.videoURL)
+                    return .none
+
                 case .hideControls:
                     state.areControlsHidden = true
                     return .none
+
                 case .showControls:
                     state.areControlsHidden = false
                     return .none
-                case .togglePlayPause:
-                    return .run { [player, state]send in
-                        let isPlaying = player.isPlaying()
-                        await isPlaying ? player.pause() : player.play()
-                        await send(.updatePlayPauseIcon(isPlaying: !state.isPlaying))
-                    }
 
-                case .updatePlayPauseIcon(isPlaying: let isPlaying):
-                    state.isPlaying = isPlaying
+                case .togglePlayPause:
+                    let isPlaying = player.isPlaying()
+                    isPlaying ? player.pause() : player.play()
+                    state.isPlaying = !isPlaying
                     return .none
+
                 case .stopPlayer:
                     player.destroy()
-                    return .none
-                case .binding:
-                    return .none
-                case .slider(_):
-                    return .none
-                case .onAppear:
-                    return .run { [state, player] send in
-                        try await player.load(state.nft.videoURL)
-                    }
+                    return .send(.delegate(.playerStopped))
             }
         }
 
-        Scope(state: \.sliderState, action: \.slider) {
+        NestedAction(\.internal) { state, action in
+            switch action {
+                case .binding:
+                    return .none
+
+                case .slider:
+                    return .none
+            }
+        }
+
+        Scope(state: \.sliderState, action: \.internal.slider) {
             CustomSliderReducer()
         }
     }
 }
 
 public struct PlayerView: View {
-
     @Bindable public var store: StoreOf<PlayerViewReducer>
 
     public init(store: StoreOf<PlayerViewReducer>) {
@@ -100,12 +124,12 @@ public struct PlayerView: View {
                     .ignoresSafeArea()
             }
             .onTapGesture {
-                store.send(.showControls)
+                store.send(.view(.showControls))
             }
             .safeAreaInset(edge: .bottom) {
                 VStack {
                     Button(action: {
-                        store.send(.stopPlayer)
+                        store.send(.view(.stopPlayer))
                     }) {
                         Image(systemName: "xmark.circle.fill")
                             .font(.system(size: 30))
@@ -120,17 +144,20 @@ public struct PlayerView: View {
                         ItemDetails()
 
                         HStack {
-                            Button(action: { store.send(.togglePlayPause) }) {
+                            Button(action: { store.send(.view(.togglePlayPause)) }) {
                                 Image(systemName: store.isPlaying ? "pause.fill" : "play.fill")
                                     .frame(width: 20, height: 20)
                                     .foregroundStyle(Color.neutral2)
                             }
 
                             CustomSlider(
-                                store: store.scope(state: \.sliderState, action: \.slider)
+                                store: store.scope(
+                                    state: \.sliderState,
+                                    action: \.internal.slider
+                                )
                             )
 
-                            Button(action: { store.send(.hideControls) }) {
+                            Button(action: { store.send(.view(.hideControls)) }) {
                                 Image(systemName: "arrow.down.right.and.arrow.up.left")
                                     .frame(width: 20, height: 20)
                                     .foregroundStyle(Color.neutral2)
@@ -142,17 +169,15 @@ public struct PlayerView: View {
                         .frame(height: 44)
                         .background(.white)
                         .clipShape(.capsule)
-
                     }
                     .padding(.vertical, 40)
                     .padding(.horizontal, 16)
                     .frame(maxWidth: .infinity)
-
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .opacity(store.areControlsHidden ? 0 : 1)
                 .task {
-                    store.send(.onAppear)
+                    store.send(.view(.onAppear))
                 }
             }
     }

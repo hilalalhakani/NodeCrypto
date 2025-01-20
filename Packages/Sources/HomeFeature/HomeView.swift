@@ -61,7 +61,7 @@ public struct HomeReducer: Sendable {
             NestedAction(\.internal) { state, action in
 
                 switch action {
-                    case .playerViewAction(.presented(.stopPlayer)):
+                    case .playerViewAction(.presented(.delegate(.playerStopped))):
                         state.playerViewReducerState = nil
                         return .none
 

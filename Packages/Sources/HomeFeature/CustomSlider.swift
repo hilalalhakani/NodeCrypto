@@ -13,77 +13,94 @@ import SwiftUI
 public struct CustomSliderReducer: Sendable {
     @Dependency(\.videoPlayer) var player
 
+    private enum CancelID { 
+        case timeUpdates
+    }
+
     @ObservableState
     public struct State: Equatable, Sendable {
-        var totalDuration: Double
+        var duration: Double
         var currentTime: Double
-        var playbackRange: ClosedRange<Double>?
+        var isDragging: Bool
         
         public init(
-            totalDuration: Double = 0,
+            duration: Double = 0,
             currentTime: Double = 0,
-            playbackRange: ClosedRange<Double>? = nil
+            isDragging: Bool = false
         ) {
-            self.totalDuration = totalDuration
+            self.duration = duration
             self.currentTime = currentTime
-            self.playbackRange = playbackRange
+            self.isDragging = isDragging
+        }
+
+        var progress: Double {
+            guard duration > 0 else { return 0 }
+            return currentTime / duration
         }
     }
 
     public enum Action: Sendable {
         case onAppear
-        case sliderPositionChanged(position: CGPoint, containerSize: CGSize)
-        case sliderDragEnded
+        case gestureStarted
+        case gestureChanged(CGPoint, size: CGSize)
+        case gestureEnded
         case videoAssetLoaded(duration: Double)
         case playbackTimeUpdated(CMTime)
+        case startTimeUpdates
     }
-
-    public init() {}
 
     public func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case .onAppear:
-                return .run { [player] send in
-
-                    await withThrowingTaskGroup(of: Void.self) { group in
-                        group.addTask {
-                            for await duration in await player.duration() where duration.isValid {
-                                await send(.videoAssetLoaded(duration: duration.seconds))
-                            }
-                        }
-
-                        group.addTask {
-                            for await time in await player.currentTime() where time.isValid {
-                                await send(.playbackTimeUpdated(time))
-                            }
+            return .run { [player] send in
+                await withThrowingTaskGroup(of: Void.self) { group in
+                    group.addTask {
+                        for await duration in await player.duration() where duration.isValid {
+                            await send(.videoAssetLoaded(duration: duration.seconds))
                         }
                     }
-                }
 
-        case let .sliderPositionChanged(position, size):
-            guard let range = state.playbackRange else { return .none }
-            
-            let progress = position.x / size.width
-            let newTime = range.lowerBound + progress * (range.upperBound - range.lowerBound)
-            let clampedTime = newTime.clamped(to: range)
-            state.currentTime = clampedTime
-            
-            return .run { _ in
-                let targetTime = CMTime(seconds: clampedTime, preferredTimescale: 600)
-                await player.seek(targetTime)
+                    group.addTask {
+                        await send(.startTimeUpdates)
+                    }
+                }
             }
 
-        case .sliderDragEnded:
+        case .startTimeUpdates:
+            return .run { [player] send in
+                for await time in await player.currentTime() where time.isValid {
+                    await send(.playbackTimeUpdated(time))
+                }
+            }
+            .cancellable(id: CancelID.timeUpdates)
+
+        case .gestureStarted:
+            state.isDragging = true
+            return .cancel(id: CancelID.timeUpdates)
+
+        case let .gestureChanged(point, size):
+            guard state.duration > 0 else { return .none }
+            
+            let progress = point.x / size.width
+            let newTime = progress * state.duration
+            let clampedTime = newTime.clamped(to: 0...state.duration)
+            state.currentTime = clampedTime
+            let targetTime = CMTime(seconds: clampedTime, preferredTimescale: 600)
+            player.seek(targetTime)
             return .none
 
-        case .playbackTimeUpdated(let time):
-            print("sec \(time.seconds)")
+        case .gestureEnded:
+            state.isDragging = false
+            return .send(.startTimeUpdates)
+
+        case let .playbackTimeUpdated(time):
+            guard !state.isDragging else { return .none }
             state.currentTime = time.seconds
             return .none
 
-        case .videoAssetLoaded(let duration):
-            state.totalDuration = duration
-            state.playbackRange = 0...duration
+        case let .videoAssetLoaded(duration):
+            guard duration > 0 else { return .none }
+            state.duration = duration
             return .none
         }
     }
@@ -103,16 +120,15 @@ struct CustomSlider: View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
                 sliderTrack(in: geometry)
-                if let range = store.playbackRange {
-                    progressBar(in: geometry, range: range)
-                }
+                progressBar(in: geometry)
             }
-            .task { store.send(.onAppear) }
+            .task { 
+                store.send(.onAppear)
+            }
         }
         .frame(height: trackHeight)
     }
-
-    @ViewBuilder
+    
     private func sliderTrack(in geometry: GeometryProxy) -> some View {
         Capsule()
             .foregroundStyle(.gray)
@@ -123,28 +139,29 @@ struct CustomSlider: View {
             .gesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged { gesture in
+                        if !store.isDragging {
+                            store.send(.gestureStarted)
+                        }
                         handleSliderInteraction(at: gesture.location, in: geometry)
                     }
                     .onEnded { _ in
-                        store.send(.sliderDragEnded)
+                        store.send(.gestureEnded)
                     }
             )
             .contentShape(.rect)
     }
-
-    @ViewBuilder
-    private func progressBar(in geometry: GeometryProxy, range: ClosedRange<Double>) -> some View {
-        let progress = (store.currentTime - range.lowerBound) / (range.upperBound - range.lowerBound)
+    
+    private func progressBar(in geometry: GeometryProxy) -> some View {
         Capsule()
             .foregroundStyle(Color.primary1)
             .frame(
-                width: CGFloat(progress) * geometry.size.width,
+                width: CGFloat(store.progress) * geometry.size.width,
                 height: trackHeight
             )
     }
     
     private func handleSliderInteraction(at point: CGPoint, in geometry: GeometryProxy) {
-        store.send(.sliderPositionChanged(position: point, containerSize: geometry.size))
+        store.send(.gestureChanged(point, size: geometry.size))
     }
 }
 

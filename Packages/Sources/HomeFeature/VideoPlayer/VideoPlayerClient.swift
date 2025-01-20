@@ -10,11 +10,11 @@ import Foundation
 import AVFoundation
 
 public struct VideoPlayerClient: Sendable {
-    public var play: @Sendable () async -> Void
-    public var pause: @Sendable () async -> Void
-    public var seek: @Sendable (CMTime) async -> Void
-    public var load: @Sendable (String) async throws -> Void
-    public var player: @Sendable () async -> AVPlayer
+    public var play: @Sendable () -> Void
+    public var pause: @Sendable () -> Void
+    public var seek: @Sendable (CMTime) -> Void
+    public var load: @Sendable (String) -> Void
+    public var player: @Sendable () -> AVPlayer
     var timeControlStatus: @Sendable () async -> AsyncStream<AVPlayer.TimeControlStatus>
     var currentTime: @Sendable () async -> AsyncStream<CMTime>
     var duration: @Sendable () async -> AsyncStream<CMTime>
