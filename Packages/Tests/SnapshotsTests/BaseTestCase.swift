@@ -26,7 +26,7 @@ let precision: Float = 0.8
     column: UInt = #column,
     named: String = #function
 ) throws {
-    try #require(UIDevice.modelName == "iPhone 15")
+    try #require(UIDevice.modelName == "iPhone 16")
     UIView.setAnimationsEnabled(false)
     let viewController = UIHostingController(
         rootView: view.transaction{
