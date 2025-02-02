@@ -116,7 +116,7 @@ public struct PlayerView: View {
     }
 
     public var body: some View {
-        VideoPlayerView()
+    VideoPlayerView()
             .ignoresSafeArea()
             .background {
                 Color.black
