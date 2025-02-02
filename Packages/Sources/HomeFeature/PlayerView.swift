@@ -122,7 +122,7 @@ public struct PlayerView: View {
                 Color.black
                     .ignoresSafeArea()
             }
-            .onTapGesture {
+                                                    .onTapGesture {
                 store.send(.view(.showControls))
             }
             .safeAreaInset(edge: .bottom) {
