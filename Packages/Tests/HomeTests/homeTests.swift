@@ -53,7 +53,7 @@ struct HomeReduHowcerTests {
             $0.videoPlayer = .noop
         }
 
-        await store.send(\.internal.playerViewAction, .presented(.delegate(.playerStopped))) {
+        await store.send(\.internal.playerViewAction, .presented(.delegate(.playerClosed))) {
             $0.playerViewReducerState = nil
         }
     }

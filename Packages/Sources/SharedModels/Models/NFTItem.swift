@@ -61,24 +61,26 @@ public struct NFTItem: Identifiable, Equatable, Sendable {
     }
 }
 
-public struct Creator: Identifiable, Equatable, Sendable {
+public struct Creator: Identifiable, Equatable, Sendable, Hashable {
     public var id : String {
         image + name + price
     }
     public let image: String
     public let name: String
     public let price: String
+    public let isFollowing: Bool
 
-    public init(image: String, name: String, price: String) {
+    public init(image: String, name: String, price: String, isFollowing: Bool = true) {
         self.image = image
         self.name = name
         self.price = price
+        self.isFollowing = isFollowing
     }
 
     public static func samples() -> [Creator] {
         [
-            Self(image: "https://dummyimage.com/600x400/000/fff", name: "1", price: "Dummy text 2"),
-            Self(image: "https://dummyimage.com/600x400/000/fff", name: "2", price: "Dummy text 2"),
+            Self(image: "https://dummyimage.com/600x400/000/fff", name: "1", price: "Dummy text 2", isFollowing: true),
+            Self(image: "https://dummyimage.com/600x400/000/fff", name: "2", price: "Dummy text 2", isFollowing: false)
         ]
     }
 }

@@ -18,8 +18,7 @@ extension VideoPlayerClient: DependencyKey {
             currentTime: { manager.currentTimeStream },
             duration: { manager.durationStream },
             isPlaying : { manager.isPlaying() },
-            destroy: { manager.cleanup() },
-            setupObservers: { manager.setupObservers() }
+            destroy: { manager.cleanup() }
         )
     }()
 
@@ -34,30 +33,56 @@ extension VideoPlayerClient: DependencyKey {
             currentTime: { .init(unfolding: { nil }) },
             duration: { .init(unfolding: { nil }) },
             isPlaying : { false },
-            destroy: {   },
-            setupObservers: { }
+            destroy: {   }
         )
     }()
 }
 
 private actor VideoPlayerManager {
     nonisolated(unsafe) private(set) var player: AVPlayer = .init()
-    nonisolated(unsafe) private var periodicTimeObserver: Any?
-    nonisolated(unsafe) private var statusObservation: NSKeyValueObservation?
-    nonisolated(unsafe) private var durationObservation: NSKeyValueObservation?
-
-    nonisolated(unsafe) private var timeControlStatusContinuation: AsyncStream<AVPlayer.TimeControlStatus>.Continuation?
-    nonisolated(unsafe) private var currentTimeContinuation: AsyncStream<CMTime>.Continuation?
-    nonisolated(unsafe) private var durationContinuation: AsyncStream<CMTime>.Continuation?
+    
+    private final class TimeObserverToken: @unchecked Sendable {
+        let token: Any
+        init(token: Any) { self.token = token }
+    }
 
     nonisolated var timeControlStatusStream: AsyncStream<AVPlayer.TimeControlStatus> {
         AsyncStream { [player] continuation in
-            self.timeControlStatusContinuation = continuation
             continuation.yield(player.timeControlStatus)
+            let observation = player.observe(\.timeControlStatus) { player, _ in
+                continuation.yield(player.timeControlStatus)
+            }
+            continuation.onTermination = { _ in
+                observation.invalidate()
+            }
+        }
+    }
 
-            continuation.onTermination = { [weak self] _ in
-                guard let self else { return }
-                self.timeControlStatusContinuation = nil
+    nonisolated var currentTimeStream: AsyncStream<CMTime> {
+        AsyncStream { continuation in
+            let interval = CMTime(seconds: 0.2, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+            let rawToken = player.addPeriodicTimeObserver(forInterval: interval, queue: .global()) { time in
+                continuation.yield(time)
+            }
+            let token = TimeObserverToken(token: rawToken)
+            continuation.onTermination = { [player] _ in
+                player.removeTimeObserver(token.token)
+            }
+        }
+    }
+
+    nonisolated var durationStream: AsyncStream<CMTime> {
+        AsyncStream { continuation in
+            let observation = player.observe(\.status) { player, _ in
+                if let currentItem = player.currentItem, player.status == .readyToPlay {
+                    Task {
+                        let duration = try await currentItem.asset.load(.duration)
+                        continuation.yield(duration)
+                    }
+                }
+            }
+            continuation.onTermination = { _ in
+                observation.invalidate()
             }
         }
     }
@@ -66,72 +91,10 @@ private actor VideoPlayerManager {
         player.rate != 0
     }
 
-    nonisolated var currentTimeStream: AsyncStream<CMTime> {
-        AsyncStream { continuation in
-            self.currentTimeContinuation = continuation
-
-            continuation.onTermination = { [weak self] _ in
-                guard let self else { return }
-                self.currentTimeContinuation = nil
-            }
-        }
-    }
-
-    nonisolated var durationStream: AsyncStream<CMTime> {
-        AsyncStream { continuation in
-            self.durationContinuation = continuation
-
-            continuation.onTermination = { [weak self] _ in
-                guard let self else { return }
-                self.durationContinuation = nil
-            }
-        }
-    }
-
-    nonisolated func setupObservers() {
-        statusObservation = player.observe(\.timeControlStatus) { [weak self] player, _ in
-            guard let self else { return }
-            self.timeControlStatusContinuation?.yield(player.timeControlStatus)
-        }
-
-        durationObservation = player.observe(\.status) { [weak self] player, _ in
-            guard let self, let currentItem = player.currentItem, player.status == .readyToPlay else { return }
-            Task {
-                let duration = try await currentItem.asset.load(.duration)
-                self.durationContinuation?.yield(duration)
-            }
-        }
-
-        let interval = CMTime(seconds: 0.2, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-        periodicTimeObserver = player.addPeriodicTimeObserver(forInterval: interval, queue: .global()) { [weak self] time in
-            guard let self else { return }
-            self.currentTimeContinuation?.yield(time)
-        }
-
-        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: .main) { [weak self] _ in
-            guard let self else { return }
-            self.player.seek(to: .zero)
-            self.player.play()
-        }
-    }
-
     nonisolated func cleanup() {
-        if let periodicTimeObserver {
-            player.removeTimeObserver(periodicTimeObserver)
-        }
-        statusObservation?.invalidate()
-        durationObservation?.invalidate()
-
-        timeControlStatusContinuation?.finish()
-        currentTimeContinuation?.finish()
-        durationContinuation?.finish()
-
-        self.timeControlStatusContinuation = nil
-        self.currentTimeContinuation = nil
-        self.timeControlStatusContinuation = nil
-        self.player.pause()
-        self.player.replaceCurrentItem(with: nil)
-        self.player = .init()
+        player.pause()
+        player.replaceCurrentItem(with: nil)
+        player = .init()
     }
 
     @MainActor

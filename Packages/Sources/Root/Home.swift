@@ -12,7 +12,7 @@ public struct RootViewReducer: Sendable {
     public struct State: Equatable, Sendable {
         var profile: ProfileCoordinatorReducer.State = .init()
         var notifications: NotificationReducer.State = .init()
-        var home: HomeReducer.State = .init()
+        var home: HomeCoordinatorReducer.State = .init()
         var showsProfileActionsList = false
 
         public init(showsProfileActionsList: Bool = false) {
@@ -23,7 +23,7 @@ public struct RootViewReducer: Sendable {
     public enum Action: Sendable {
         case profile(ProfileCoordinatorReducer.Action)
         case notifications(NotificationReducer.Action)
-        case home(HomeReducer.Action)
+        case home(HomeCoordinatorReducer.Action)
         case hideProfileActionsList
         case editButtonPressed
         case shareButtonPressed
@@ -40,7 +40,7 @@ public struct RootViewReducer: Sendable {
         }
 
         Scope(state: \.home, action: \.home) {
-            HomeReducer()
+            HomeCoordinatorReducer()
         }
 
         Reduce { state, action in
@@ -108,7 +108,7 @@ public struct RootView: View {
     func tabBarViews() -> some View {
         ZStack {
             Group {
-                HomeView(
+                HomeCoordinatorView(
                     store: store.scope(state: \.home, action: \.home)
                 )
                     .isHidden(activeTab != .home)

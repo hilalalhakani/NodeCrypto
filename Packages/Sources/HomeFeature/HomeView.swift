@@ -39,6 +39,7 @@ public struct HomeReducer: Sendable {
     public enum ViewAction: Sendable {
         case onAppear
         case tappedNFT(NFTItem)
+        case navigateToAllCreatorsButtonPressed
     }
 
     @CasePathable
@@ -50,7 +51,9 @@ public struct HomeReducer: Sendable {
     }
 
     @CasePathable
-    public enum DelegateAction: Sendable {}
+    public enum DelegateAction: Sendable {
+        case navigateToAllCreators(creators: [Creator])
+    }
 
     public var body: some Reducer<State, Action> {
 
@@ -61,7 +64,7 @@ public struct HomeReducer: Sendable {
             NestedAction(\.internal) { state, action in
 
                 switch action {
-                    case .playerViewAction(.presented(.delegate(.playerStopped))):
+                    case .playerViewAction(.presented(.delegate(.playerClosed))):
                         state.playerViewReducerState = nil
                         return .none
 
@@ -99,6 +102,9 @@ public struct HomeReducer: Sendable {
                             try await send(.internal(.onNFTSResponse(nfts)))
                             await send(.internal(.removePlaceHolder))
                         }
+
+                    case .navigateToAllCreatorsButtonPressed:
+                        return .send(.delegate(.navigateToAllCreators(creators: state.creators.elements)))
                 }
             }
         }
@@ -142,7 +148,9 @@ public struct HomeView: View {
                 .font(.system(size: 32, weight: .bold))
                 .frame(maxWidth: .infinity, alignment: .leading)
 
-            Button(action: {}) {
+            Button(action: {
+                store.send(.view(.navigateToAllCreatorsButtonPressed))
+            }) {
                 Image(systemName: "arrow.right")
                     .foregroundColor(.gray)
             }

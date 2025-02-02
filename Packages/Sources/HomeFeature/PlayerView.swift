@@ -59,7 +59,7 @@ public struct PlayerViewReducer {
 
     @CasePathable
     public enum DelegateAction: Sendable {
-        case playerStopped
+        case playerClosed
     }
 
     public var body: some ReducerOf<Self> {
@@ -69,7 +69,6 @@ public struct PlayerViewReducer {
         NestedAction(\.view) { state, action in
             switch action {
                 case .onAppear:
-                    player.setupObservers()
                     player.load(state.nft.videoURL)
                     return .none
 
@@ -89,7 +88,7 @@ public struct PlayerViewReducer {
 
                 case .stopPlayer:
                     player.destroy()
-                    return .send(.delegate(.playerStopped))
+                    return .send(.delegate(.playerClosed))
             }
         }
 

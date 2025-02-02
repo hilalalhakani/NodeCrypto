@@ -20,7 +20,6 @@ public struct VideoPlayerClient: Sendable {
     var duration: @Sendable () async -> AsyncStream<CMTime>
     var isPlaying: @Sendable () -> Bool
     var destroy: @Sendable () -> Void
-    var setupObservers: @Sendable () -> Void
 }
 
 public enum VideoPlayerKey: DependencyKey {
