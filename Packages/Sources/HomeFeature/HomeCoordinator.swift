@@ -7,7 +7,6 @@
 
 import Dependencies
 import Foundation
-import Keychain
 import NodeCryptoCore
 import ResourceProvider
 import SharedModels
@@ -45,15 +44,15 @@ public struct HomeCoordinatorReducer: Sendable {
             HomeReducer()
         }
 
-        Reduce { state, action in
+            Reduce { state, action in
             switch action {
-                case .path(.popFrom(let id)):
+                case .path(.popFrom(let _)): // fix later
                     if state.path.count == 1 {
                         state.$isTabBarVisible.withLock({ $0 = true })
                     }
                     return .none
 
-                case .home(.delegate(.navigateToAllCreators(let creators))):
+                 case .home(.delegate(.navigateToAllCreators(let creators))):
                     state.path.append(.allCreators(.init(creators: creators)))
                     state.$isTabBarVisible.withLock({ $0 = false })
                     return .none
