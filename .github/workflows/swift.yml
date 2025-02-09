@@ -14,8 +14,9 @@ jobs:
       # 1. Checkout repository with fetch-depth (reduced from 0 to 1 for faster checkout)
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
-        with:
-          fetch-depth: 1
+        
+      - name: List available simulators
+        run: xcrun simctl list devices
 
       # 2. Setup Xcode (kept, but consider pinning a version for stability)
       - uses: maxim-lobanov/setup-xcode@v1

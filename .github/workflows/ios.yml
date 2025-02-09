@@ -18,6 +18,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
 
+      - name: List available simulators
+        run: xcrun simctl list devices
+
       # Restore package cache
       - name: Restore cached Primes
         id: cache-primes-restore
