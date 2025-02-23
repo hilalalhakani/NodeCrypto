@@ -47,7 +47,7 @@ public struct HomeCoordinatorReducer: Sendable {
 
             Reduce { state, action in
             switch action {
-                case .path(.popFrom(let _)): // fix later
+                case .path(.popFrom): // fix later
                     if state.path.count == 1 {
                         state.$isTabBarVisible.withLock({ $0 = true })
                     }
