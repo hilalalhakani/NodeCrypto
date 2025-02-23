@@ -1,4 +1,4 @@
-name: Build and run tests
+name: Build and Run Tests
 
 on:
   push:
@@ -6,46 +6,75 @@ on:
   pull_request:
     types: [opened, synchronize]
 
+env:
+  XCODE_VERSION: "latest" # Specify a specific Xcode version
+  IOS_SIMULATOR: "iPhone 15" # Choose a simulator
+  IOS_VERSION: "latest" # Use latest available iOS version for the simulator
+  SCHEME: "NodeCrypto"       # Replace with your Xcode Scheme name
+  CONFIGURATION: "Debug"   # Or "Release" depending on your test setup
+
 jobs:
   test:
     name: Test
     runs-on: macos-latest
+
     steps:
-      - uses: maxim-lobanov/setup-xcode@v1
+      - name: Set up Xcode
+        uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: latest
-          
+          xcode-version: ${{ env.XCODE_VERSION }}
+
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
 
-      - name: List available simulators
+      - name: List available simulators (for debugging)
         run: xcrun simctl list devices
 
       # Restore package cache
-      - name: Restore cached Primes
-        id: cache-primes-restore
+      - name: Restore Swift Packages Cache
+        id: cache-packages-restore
         uses: actions/cache/restore@v4
         with:
-          key: ${{ runner.os }}-primes
+          key: ${{ runner.os }}-swift-packages-xcode-${{ env.XCODE_VERSION }}-swift-${{ env.SWIFT_VERSION }}-${{ hashFiles('**/Package.resolved') }} # More robust key
           path: packages
+          restore-keys: |
+            ${{ runner.os }}-swift-packages-xcode-${{ env.XCODE_VERSION }}-swift-${{ env.SWIFT_VERSION }}-
+            ${{ runner.os }}-swift-packages-xcode-${{ env.XCODE_VERSION }}-
+            ${{ runner.os }}-swift-packages-xcode-
+            ${{ runner.os }}-swift-packages-
 
-      # Step to resolve Swift package dependencies
+      # Resolve Swift Package Dependencies
       - name: Resolve Swift Package Dependencies
-        run: xcodebuild -resolvePackageDependencies -project NodeCrypto/NodeCrypto.xcodeproj
+        run: xcodebuild -resolvePackageDependencies -project NodeCrypto/NodeCrypto.xcodeproj -quiet
 
-      - name: Enable macros
+      - name: Enable macros (if needed)
         run: defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
-        
-      - name: Run tests
-        run: ./build_scripts/test.sh
-        env:
-          HAS_PACKAGES_CACHE_HIT: ${{ steps.packages-cache.outputs.cache-hit == 'true' }}
 
-      # Save package cache after tests
-      - name: Always Save Primes
-        id: cache-primes-save
-        if: always() && steps.cache-primes-restore.outputs.cache-hit != 'true'
+      - name: Run Tests
+        run: |
+          echo "----------------------------------------"
+          echo "Running Tests:"
+          echo "  Scheme:        ${{ env.SCHEME }}"
+          echo "  Configuration: ${{ env.CONFIGURATION }}"
+          echo "  Simulator:     ${{ env.IOS_SIMULATOR }}"
+          echo "  iOS Version:   ${{ env.IOS_VERSION }}"
+          echo "----------------------------------------"
+
+          xcrun xcodebuild test \
+            -project NodeCrypto/NodeCrypto.xcodeproj \
+            -scheme "${{ env.SCHEME }}" \
+            -configuration "${{ env.CONFIGURATION }}" \
+            -destination "platform=iOS Simulator,OS=${{ env.IOS_VERSION }},name=${{ env.IOS_SIMULATOR }}" \
+            CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+
+          echo "----------------------------------------"
+          echo "Tests Finished"
+          echo "----------------------------------------"
+
+      # Save package cache
+      - name: Save Swift Packages Cache
+        id: cache-packages-save
         uses: actions/cache/save@v4
         with:
-          key: ${{ steps.cache-primes-restore.outputs.cache-primary-key }}
+          key: ${{ steps.cache-packages-restore.outputs.cache-primary-key }}
           path: packages
