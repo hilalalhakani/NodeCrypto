@@ -19,38 +19,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
 
-      - name: Get Package.resolved hash
-        id: package-hash
-        run: |
-          PACKAGE_RESOLVED_PATH="NodeCrypto/NodeCrypto.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
-          if [ -f "$PACKAGE_RESOLVED_PATH" ]; then
-            HASH=$(sha256sum "$PACKAGE_RESOLVED_PATH" | cut -d ' ' -f 1)
-            echo "hash=$HASH" >> $GITHUB_OUTPUT
-          else
-            echo "Package.resolved not found"
-            exit 1
-          fi
-
-      - name: Restore cached packages
-        id: cache-packages-restore
-        uses: actions/cache/restore@v4
-        with:
-          key: ${{ runner.os }}-packages-${{ steps.package-hash.outputs.hash }}
-          path: packages
-
-      - name: Resolve Swift Package Dependencies
-        if: steps.cache-packages-restore.outputs.cache-hit != 'true'
-        run: xcodebuild -resolvePackageDependencies -project NodeCrypto/NodeCrypto.xcodeproj
-
-      - name: Save packages cache
-        if: steps.cache-packages-restore.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v4
-        with:
-          key: ${{ runner.os }}-packages-${{ steps.package-hash.outputs.hash }}
-          path: packages
-
-      - name: Enable macros
-        run: defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
+      - name: List available simulators
+        run: xcrun simctl list devices
 
       - name: Run tests
-        run: xcodebuild test -project NodeCrypto/NodeCrypto.xcodeproj -scheme NodeCrypto -destination 'platform=iOS Simulator,name=iPhone 14'
+        run: xcodebuild test -project NodeCrypto/NodeCrypto.xcodeproj -scheme NodeCrypto -destination 'platform=iOS Simulator,name=iPhone 15,OS='18.2''
