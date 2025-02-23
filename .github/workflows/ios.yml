@@ -9,7 +9,7 @@ on:
 env:
   XCODE_VERSION: "latest" # Specify a specific Xcode version
   IOS_SIMULATOR: "iPhone 15 Pro" # Choose a simulator
-  IOS_VERSION: "latest" # Use latest available iOS version for the simulator
+  IOS_VERSION: "18.1" # Use latest available iOS version for the simulator
   SCHEME: "NodeCrypto"       # Replace with your Xcode Scheme name
   CONFIGURATION: "Debug"   # Or "Release" depending on your test setup
 
