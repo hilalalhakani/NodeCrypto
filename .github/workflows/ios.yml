@@ -43,8 +43,6 @@ jobs:
 
       - name: Run tests
         run: ./build_scripts/test.sh
-        env:
-          HAS_PACKAGES_CACHE_HIT: ${{ steps.packages-cache.outputs.cache-hit == 'true' }}
 
       # Save package cache after tests
       - name: Save package cache
