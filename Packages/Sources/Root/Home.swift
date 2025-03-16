@@ -4,6 +4,7 @@ import ProfileFeature
 import SwiftUI
 import NotificationsFeature
 import HomeFeature
+import SearchFeature
 
 @Reducer
 public struct RootViewReducer: Sendable {
@@ -13,6 +14,7 @@ public struct RootViewReducer: Sendable {
         var profile: ProfileCoordinatorReducer.State = .init()
         var notifications: NotificationReducer.State = .init()
         var home: HomeCoordinatorReducer.State = .init()
+        var search: SearchReducer.State = .init()
         var showsProfileActionsList = false
 
         public init(showsProfileActionsList: Bool = false) {
@@ -23,6 +25,7 @@ public struct RootViewReducer: Sendable {
     public enum Action: Sendable {
         case profile(ProfileCoordinatorReducer.Action)
         case notifications(NotificationReducer.Action)
+        case search(SearchReducer.Action)
         case home(HomeCoordinatorReducer.Action)
         case hideProfileActionsList
         case editButtonPressed
@@ -33,6 +36,10 @@ public struct RootViewReducer: Sendable {
     public var body: some ReducerOf<Self> {
         Scope(state: \.profile, action: \.profile) {
             ProfileCoordinatorReducer()
+        }
+
+        Scope(state: \.search, action: \.search) {
+            SearchReducer()
         }
 
         Scope(state: \.notifications, action: \.notifications) {
@@ -85,6 +92,7 @@ public struct RootView: View {
                     customTabBar()
                 }
             }
+        .ignoresSafeArea(.keyboard)
             .overlay {
                 if store.showsProfileActionsList {
                     blurView
@@ -113,7 +121,11 @@ public struct RootView: View {
                 )
                     .isHidden(activeTab != .home)
 
-                Text("Services", bundle: .module)
+                NavigationStack {
+                    SearchView(
+                        store: store.scope(state: \.search, action: \.search)
+                    )
+                }
                     .isHidden(activeTab != .search)
 
                 NotificationsView(
