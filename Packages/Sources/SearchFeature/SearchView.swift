@@ -5,6 +5,7 @@
 //  Created by Hilal Hakkani on 23/02/2025.
 //
 
+import ComposableArchitecture
 import NodeCryptoCore
 import SwiftUI
 
@@ -12,38 +13,88 @@ import SwiftUI
 public struct SearchReducer {
     public init() {}
 
+    public enum SearchDestination: Equatable, Sendable {
+        case bestArtist
+        case recentUploaded
+        case videos
+        case modeling
+    }
+
     @ObservableState
     public struct State: Equatable, Sendable {
         var searchBar: SearchBarReducer.State = .init()
+        var searchResults: [String] = []
+        var searchHistory: [String] = []
+        var isSearching: Bool = false
+        var selectedDestination: SearchDestination? = nil
 
-        public init(searchBar: SearchBarReducer.State = .init()) {
+        public init(
+            searchBar: SearchBarReducer.State = .init(),
+            searchResults: [String] = [],
+            searchHistory: [String] = [],
+            isSearching: Bool = false
+        ) {
             self.searchBar = searchBar
+            self.searchResults = searchResults
+            self.searchHistory = searchHistory
+            self.isSearching = isSearching
         }
     }
 
     public enum Action: Sendable {
         case searchBar(SearchBarReducer.Action)
+        case searchResultTapped(String)
+        case historyItemTapped(String)
+        case destinationSelected(SearchDestination)
+        case clearSearchHistory
     }
 
     public var body: some ReducerOf<Self> {
         Scope(state: \.searchBar, action: \.searchBar) {
             SearchBarReducer()
         }
+
+        Reduce { state, action in
+            switch action {
+            case .searchBar(_ ):
+                // Update search results based on search text
+                state.isSearching = !state.searchBar.searchText.isEmpty
+                // You would typically perform a search here and update searchResults
+                return .none
+
+            case .searchResultTapped(let result):
+                // Add to search history if not already present
+                if !state.searchHistory.contains(result) {
+                    state.searchHistory.insert(result, at: 0)
+                    // Optionally limit history size
+                    if state.searchHistory.count > 10 {
+                        state.searchHistory.removeLast()
+                    }
+                }
+                return .none
+
+            case .historyItemTapped(let item):
+                state.searchBar.searchText = item
+                state.isSearching = true
+                return .none
+
+            case .destinationSelected(let destination):
+                state.selectedDestination = destination
+                return .none
+
+            case .clearSearchHistory:
+                state.searchHistory = []
+                return .none
+            }
+        }
     }
 }
 
 public struct SearchView: View {
-    let store: StoreOf<SearchReducer>
+    @Bindable var store: StoreOf<SearchReducer>
 
     public init(store: StoreOf<SearchReducer>) {
         self.store = store
-    }
-
-    enum SearchDestination {
-        case bestArtist
-        case recentUploaded
-        case videos
-        case modeling
     }
 
     public var body: some View {
@@ -56,115 +107,137 @@ public struct SearchView: View {
             )
             .padding(.horizontal, 25)
 
-            if !store.searchBar.searchText.isEmpty {
-                List {
-                    ForEach(0..<5) { _ in
-                        HStack {
-                            Image(systemName: "tag.fill")
-                                .foregroundColor(.blue)
-                            Text("#" + store.searchBar.searchText)
-                                .font(.headline)
-                            Spacer()
-                            Text("256 posts")
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
-                        }
-                    }
-                }
-                .listStyle(.plain)
-                .transition(.opacity)
+            if store.isSearching {
+                searchResultsList
+                    .transition(.opacity)
             } else {
-                Form {
-                    Section("Suggestions") {
-                        NavigationLink(value: SearchDestination.bestArtist) {
-                            HStack {
-                                Image(systemName: "star.fill")
-                                    .foregroundColor(.yellow)
-                                VStack(alignment: .leading) {
-                                    Text("Best artist")
-                                        .font(.headline)
-                                    Text("Top 50 artist of the month")
-                                        .font(.subheadline)
-                                        .foregroundColor(.gray)
-                                }
-                            }
-                        }
-
-                        NavigationLink(value: SearchDestination.recentUploaded) {
-                            HStack {
-                                Image(systemName: "square.and.arrow.up.fill")
-                                    .foregroundColor(.green)
-                                VStack(alignment: .leading) {
-                                    Text("Recent uploaded")
-                                        .font(.headline)
-                                    Text("Top 50 artist of the month")
-                                        .font(.subheadline)
-                                        .foregroundColor(.gray)
-                                }
-                            }
-                        }
-
-                        NavigationLink(value: SearchDestination.videos) {
-                            HStack {
-                                Image(systemName: "play.circle.fill")
-                                    .foregroundColor(.red)
-                                VStack(alignment: .leading) {
-                                    Text("Videos")
-                                        .font(.headline)
-                                    Text("Top 50 artist of the month")
-                                        .font(.subheadline)
-                                        .foregroundColor(.gray)
-                                }
-                            }
-                        }
-                    }
-
-                    Section("Search history") {
-                        NavigationLink(value: SearchDestination.modeling) {
-                            HStack {
-                                Image(systemName: "cube.fill")
-                                    .foregroundColor(.gray)
-                                VStack(alignment: .leading) {
-                                    Text("3D modeling")
-                                        .font(.headline)
-                                    Text("256 results")
-                                        .font(.subheadline)
-                                        .foregroundColor(.gray)
-                                }
-                            }
-                        }
-
-                        NavigationLink(value: SearchDestination.videos) {
-                            HStack {
-                                Image(systemName: "play.circle.fill")
-                                    .foregroundColor(.gray)
-                                VStack(alignment: .leading) {
-                                    Text("Videos")
-                                        .font(.headline)
-                                    Text("Top 50 artist of the month")
-                                        .font(.subheadline)
-                                        .foregroundColor(.gray)
-                                }
-                            }
-                        }
-                    }
-                }
-                .navigationDestination(for: SearchDestination.self) { destination in
-                    switch destination {
-                    case .bestArtist:
-                        Text("Best Artist View")
-                    case .recentUploaded:
-                        Text("Recent Uploaded View")
-                    case .videos:
-                        Text("Videos View")
-                    case .modeling:
-                        Text("3D Modeling View")
-                    }
-                }
-                .scrollContentBackground(.hidden)
+                suggestionsForm
             }
         }
         .ignoresSafeArea(.keyboard)
+    }
+
+    private var searchResultsList: some View {
+        List {
+            ForEach(0..<5) { _ in
+                Button {
+                    store.send(.searchResultTapped(store.searchBar.searchText))
+                } label: {
+                    HStack {
+                        Image(systemName: "tag.fill")
+                            .foregroundColor(.blue)
+                        Text("#" + store.searchBar.searchText)
+                            .font(.headline)
+                        Spacer()
+                        Text("256 posts")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                    }
+                }
+            }
+        }
+        .listStyle(.plain)
+    }
+
+    private var suggestionsForm: some View {
+        Form {
+            suggestionsSection
+            searchHistorySection
+        }
+//        .navigationDestination(
+//            unwrapping: store.selectedDestination,
+//            destination: { $destination in
+//                switch destination {
+//                case .bestArtist:
+//                    Text("Best Artist View")
+//                case .recentUploaded:
+//                    Text("Recent Uploaded View")
+//                case .videos:
+//                    Text("Videos View")
+//                case .modeling:
+//                    Text("3D Modeling View")
+//                }
+//            }
+//        )
+        .scrollContentBackground(.hidden)
+    }
+
+    private var suggestionsSection: some View {
+        Section("Suggestions") {
+            suggestionLink(
+                .bestArtist,
+                icon: "star.fill",
+                color: .yellow,
+                title: "Best artist",
+                subtitle: "Top 50 artist of the month"
+            )
+
+            suggestionLink(
+                .recentUploaded,
+                icon: "square.and.arrow.up.fill",
+                color: .green,
+                title: "Recent uploaded",
+                subtitle: "Top 50 artist of the month"
+            )
+
+            suggestionLink(
+                .videos,
+                icon: "play.circle.fill",
+                color: .red,
+                title: "Videos",
+                subtitle: "Top 50 artist of the month")
+        }
+    }
+
+    private var searchHistorySection: some View {
+        Section("Search history") {
+            suggestionLink(
+                .modeling,
+                icon: "cube.fill",
+                color: .gray,
+                title: "3D modeling",
+                subtitle: "256 results"
+            )
+
+            suggestionLink(
+                .videos,
+                icon: "play.circle.fill",
+                color: .gray,
+                title: "Videos",
+                subtitle: "Top 50 artist of the month"
+            )
+
+            if !store.searchHistory.isEmpty {
+                Button("Clear History") {
+                    store.send(.clearSearchHistory)
+                }
+                .foregroundColor(.red)
+            }
+        }
+    }
+
+    private func suggestionLink(
+        _ destination: SearchReducer.SearchDestination,
+        icon: String,
+        color: Color,
+        title: String,
+        subtitle: String
+    ) -> some View {
+        Button {
+            store.send(.destinationSelected(destination))
+        } label: {
+            HStack {
+                Image(systemName: icon)
+                    .foregroundColor(color)
+                VStack(alignment: .leading) {
+                    Text(title)
+                        .font(.headline)
+                    Text(subtitle)
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                }
+            }
+        }
     }
 }
 
@@ -180,7 +253,10 @@ public struct SearchView: View {
         // Filled state
         SearchView(
             store: Store(
-                initialState: SearchReducer.State(searchBar: .init(searchText: "Bitcoin"))
+                initialState: SearchReducer.State(
+                    searchBar: .init(searchText: "Bitcoin"),
+                    isSearching: true
+                )
             ) {
                 SearchReducer()
             }
