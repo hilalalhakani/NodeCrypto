@@ -25,6 +25,7 @@ public struct SearchBarReducer {
         case binding(BindingAction<State>)
         case searchTextChanged(String)
         case clearSearchText
+        case searchButtonPressed
     }
     
     public var body: some ReducerOf<Self> {
@@ -38,6 +39,8 @@ public struct SearchBarReducer {
                 return .none
             case .clearSearchText:
                 state.searchText = ""
+                return .none
+            default:
                 return .none
             }
         }
@@ -59,7 +62,11 @@ public struct SearchBar: View {
                         text: $store.searchText.sending(\.searchTextChanged)
                     )
                     .textFieldStyle(.plain)
-                    
+                    .submitLabel(.search)
+                    .onSubmit {
+                        store.send(.searchButtonPressed)
+                    }
+
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.gray)
                 }

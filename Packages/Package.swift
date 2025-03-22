@@ -123,7 +123,8 @@ let package = Package(
         .target(
             name: "SharedViews",
             dependencies: [
-            .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+            .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+            "StyleGuide"
             ]
         ),
         .target(

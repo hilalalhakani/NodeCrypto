@@ -5,6 +5,7 @@ import NodeCryptoCore
 import ResourceProvider
 import SharedModels
 import SwiftUI
+import SharedViews
 
 @Reducer
 public struct ProfileReducer: Sendable {
@@ -21,15 +22,15 @@ public struct ProfileReducer: Sendable {
         public var createdNfts: IdentifiedArrayOf<NFT> = []
         public var aboutMeItems: IdentifiedArrayOf<AboutMeItem> = []
         public var isLoading = true
-        public var selectedTitle: MenuItem? = MenuItem.allCases.first
-        public var titles = MenuItem.allCases.map { $0 }
+        public var selectedTitle: String = "On sale"
+        public var titles = ["On sale", "Created", "About me", "Liked"]
         public init() {}
 
         public init(
             nfts: [NFT],
             aboutMeItems: [AboutMeItem],
             isLoading: Bool,
-            selectedTitle: MenuItem
+            selectedTitle: String
         ) {
             self.isLoading = isLoading
             self.nfts = .init(uniqueElements: nfts)
@@ -47,22 +48,21 @@ public struct ProfileReducer: Sendable {
         case delegate(DelegateAction)
     }
 
-//    //MARK: Internal Actions
+    //MARK: Internal Actions
     @CasePathable
     public enum InternalAction: Sendable {
         case onGetNFTResponse(Result<[NFT], Error>)
         case onGetCreatedNFTResponse(Result<[NFT], Error>)
         case onGetLikedNFTResponse(Result<[NFT], Error>)
         case onGetAboutItemsResponse(Result<[AboutMeItem], Error>)
-        case onSelectedTitleChange(MenuItem?)
+        case onSelectedTitleChange(String)
     }
-//
+
     //MARK: Delegate Actions
     @CasePathable
     public enum DelegateAction: Sendable {
          case menuButtonPressed
     }
-//
     @CasePathable
     public enum ViewAction: Sendable {
         case onAppear
@@ -214,7 +214,7 @@ public struct ProfileView: View {
                 .padding(.horizontal, 24)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
 
-                MenuButton(
+                ExpandingMenuButton(
                     selectedTitle: $store.selectedTitle.sending(
                         \.internal.onSelectedTitleChange
                     ),
@@ -315,15 +315,15 @@ public struct ProfileView: View {
     private var selectedView: some View {
         Group {
             switch store.selectedTitle {
-                case .onSale:
+                case "On sale":
                     onSaleView
-                case .aboutMe:
+                case "About me":
                     aboutMeView
-                case .created:
+                case "Created":
                     createdView
-                case .liked:
+                case "Liked":
                     likedView
-                case .none:
+                default:
                     EmptyView()
             }
         }

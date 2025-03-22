@@ -36,7 +36,7 @@ extension APIClient.Home {
         @Dependency(\.continuousClock) var clock
 
         return .init {
-            try await clock.sleep(for: .seconds(1))
+            try await clock.sleep(for: .seconds(0.2))
             return [
                 .init(
                     image: "https://dummyimage.com/600x400/000/fff",
@@ -65,7 +65,7 @@ extension APIClient.Home {
                 ),
             ]
         } getNFTS: {
-            try await clock.sleep(for: .seconds(1))
+            try await clock.sleep(for: .seconds(0.2))
             return [
                 .init(
                     image: "https://i.ibb.co/7R31jGw/feature-work.jpg",

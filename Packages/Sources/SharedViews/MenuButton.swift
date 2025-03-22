@@ -1,33 +1,23 @@
-//
-//  File.swift
-//  
-//
-//  Created by Hilal Hakkani on 10/04/2024.
-//
-
-import Foundation
 import SwiftUI
-import NodeCryptoCore
+import StyleGuide
 
-public enum MenuItem: String, CaseIterable, Sendable {
-    case onSale = "On sale"
-    case created = "Created"
-    case aboutMe = "About me"
-    case liked = "Liked"
-}
+public struct ExpandingMenuButton: View {
+    @State public var isExpanded = false
+    @Binding public var selectedTitle: String
+    public var titles: [String]
 
-struct MenuButton: View {
-    @State var isExpanded = false
-    @Binding var selectedTitle: MenuItem?
-    var titles: [MenuItem]
+    public init(selectedTitle: Binding<String>, titles: [String]) {
+        self._selectedTitle = selectedTitle
+        self.titles = titles
+    }
 
-    var body: some View {
+    public var body: some View {
         VStack(spacing: 16) {
-            ForEach(isExpanded ? titles : selectedTitle.map { [$0] } ?? [], id: \.self) { menuItem in
-                Cell(title: menuItem.rawValue, isSelected: selectedTitle == menuItem)
+            ForEach(isExpanded ? titles : [selectedTitle], id: \.self) { menuItem in
+                Cell(title: menuItem, isSelected: selectedTitle == menuItem)
                     .contentShape(.rect)
                     .onTapGesture {
-                        if isExpanded, let selected = selectedTitle, selected == menuItem {
+                        if isExpanded, selectedTitle == menuItem {
                             isExpanded = false
                         } else {
                             selectedTitle = menuItem
@@ -69,9 +59,3 @@ struct MenuButton: View {
         }
     }
 }
-
-//#Preview {
-//    MenuButton()
-//}
-
-
