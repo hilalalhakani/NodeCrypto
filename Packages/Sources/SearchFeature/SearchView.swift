@@ -66,6 +66,7 @@ public struct SearchReducer {
     public enum InternalAction: Sendable {
         case onSelectedTitleChange(String)
         case onGetNFTResponse(Result<[NFT], Error>)
+        case onSelectedDestinationChange(SearchDestination?)
     }
 
     @CasePathable
@@ -85,47 +86,74 @@ public struct SearchReducer {
             SearchBarReducer()
         }
 
-        Reduce { state, action in
-            switch action {
-            case .view(.onAppear):
-                return .run { send in
-                    @Dependency(\.apiClient.profile) var profileAPI
-                    await send(
-                        .internal(
-                            .onGetNFTResponse(
-                                .init(catching: {
-                                    try await profileAPI.getSavedNFT()
-                                })
+        CombineReducers {
+            NestedAction(\.view) { state, action in
+                switch action {
+                case .onAppear:
+                    return .run { send in
+                        @Dependency(\.apiClient.profile) var profileAPI
+                        await send(
+                            .internal(
+                                .onGetNFTResponse(
+                                    .init(catching: {
+                                        try await profileAPI.getSavedNFT()
+                                    })
+                                )
                             )
                         )
-                    )
-                }
+                    }
 
-            case .view(.clearSearchHistory):
-                state.searchHistory.removeAll()
-                return .none
-
-            case let .internal(.onGetNFTResponse(result)):
-                switch result {
-                case .success(let nfts):
-                    state.searchResults = .init(uniqueElements: nfts)
-                    state.isLoading = false
-                case .failure:
-                    state.isLoading = false
+                case .clearSearchHistory:
+                    state.searchHistory.removeAll()
+                    return .none
+                case .destinationSelected(let selectedDestination):
+                    state.selectedDestination = selectedDestination
+                    return .none
+                default:
+                    return .none
                 }
-                return .none
-            case let .searchBar(.searchTextChanged(text)):
+            }
+
+            NestedAction(\.internal) { state, action in
+                switch action {
+                case let .onGetNFTResponse(result):
+                    switch result {
+                    case .success(let nfts):
+                        state.searchResults = .init(uniqueElements: nfts)
+                        state.isLoading = false
+                    case .failure:
+                        state.isLoading = false
+                    }
+                    return .none
+                default:
+                    return .none
+                }
+            }
+        }
+
+        NestedAction(\.searchBar) { state, action in
+            switch action {
+            case let .searchTextChanged(text):
                 state.isSearching = !text.isEmpty
                 return .none
 
-            case .searchBar(.clearSearchText):
+            case .clearSearchText:
                 state.isSearching = false
                 return .none
 
-            case .searchBar(.searchButtonPressed):
+            case .searchButtonPressed:
                 state.searchHistory.append(state.searchBar.searchText)
                 return .none
+            default:
+                return .none
+            }
+        }
 
+        Reduce { state, action in
+            switch action {
+            case let .internal(.onSelectedTitleChange(title)):
+                state.selectedTitle = title
+                return .none
             default:
                 return .none
             }
@@ -177,8 +205,21 @@ public struct SearchView: View {
             }
             .transition(.opacity)
         }
+        .animation(.easeInOut, value: store.isSearching)
         .task {
             store.send(.view(.onAppear))
+        }
+        .navigationDestination(item: $store.selectedDestination.sending(\.internal.onSelectedDestinationChange)) {
+            switch $0 {
+                case .bestArtist:
+                    Text("Artist")
+                case .modeling:
+                    Text("Modeling")
+                case .recentUploaded:
+                    Text("Recent Uploaded")
+                case .videos:
+                    Text("Videos")
+            }
         }
     }
 
