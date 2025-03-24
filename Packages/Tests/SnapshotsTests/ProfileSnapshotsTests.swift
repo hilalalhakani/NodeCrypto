@@ -43,7 +43,7 @@ struct ProfileSnapshotsTests {
                 nfts: nfts,
                 aboutMeItems: aboutmeItems,
                 isLoading: false,
-                selectedTitle: MenuItem.onSale
+                selectedTitle: "on Sale"
             )
         ) {
             ProfileReducer()
@@ -62,7 +62,7 @@ struct ProfileSnapshotsTests {
                 nfts: nfts,
                 aboutMeItems: aboutmeItems,
                 isLoading: false,
-                selectedTitle: MenuItem.aboutMe
+                selectedTitle: "about Me"
             )
         ) {
             ProfileReducer()

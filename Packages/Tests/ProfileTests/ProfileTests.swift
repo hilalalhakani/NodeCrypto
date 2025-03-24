@@ -19,8 +19,8 @@ struct ProfileReducerTests {
         #expect(store.state.createdNfts == [])
         #expect(store.state.aboutMeItems == [])
         #expect(store.state.isLoading == true)
-        let selectedItem = store.state.selectedTitle!
-        let expectedTitle = MenuItem.onSale
+        let selectedItem = store.state.selectedTitle
+        let expectedTitle = "on Sale"
         #expect(selectedItem == expectedTitle)
     }
 
@@ -71,8 +71,8 @@ struct ProfileReducerTests {
             ProfileReducer()
         }
 
-        await store.send(.internal(.onSelectedTitleChange(.aboutMe))) {
-            $0.selectedTitle = .aboutMe
+        await store.send(.internal(.onSelectedTitleChange("about Me"))) {
+            $0.selectedTitle = "about Me"
         }
     }
 }

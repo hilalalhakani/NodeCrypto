@@ -9,4 +9,3 @@
 @_exported import XCTestDynamicOverlay
 @_exported import SharedModels
 @_exported import ComposableAnalytics
-@_exported import Inject

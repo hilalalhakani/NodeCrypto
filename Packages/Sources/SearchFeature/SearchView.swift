@@ -6,13 +6,16 @@
 //
 
 import APIClient
-import ComposableArchitecture
 import NodeCryptoCore
 import ResourceProvider
 import SwiftUI
+import SharedViews // For ExpandingMenuButton
+import StyleGuide // For FontName
 
 @Reducer
-public struct SearchReducer {
+public struct SearchReducer: Sendable {
+    @Dependency(\.apiClient.profile) var profileAPI
+    
     public init() {}
 
     public enum SearchDestination: Equatable, Sendable {
@@ -91,7 +94,6 @@ public struct SearchReducer {
                 switch action {
                 case .onAppear:
                     return .run { send in
-                        @Dependency(\.apiClient.profile) var profileAPI
                         await send(
                             .internal(
                                 .onGetNFTResponse(
@@ -125,6 +127,9 @@ public struct SearchReducer {
                         state.isLoading = false
                     }
                     return .none
+                case .onSelectedTitleChange(let title):
+                    state.selectedTitle = title
+                    return .none
                 default:
                     return .none
                 }
@@ -143,16 +148,6 @@ public struct SearchReducer {
 
             case .searchButtonPressed:
                 state.searchHistory.append(state.searchBar.searchText)
-                return .none
-            default:
-                return .none
-            }
-        }
-
-        Reduce { state, action in
-            switch action {
-            case let .internal(.onSelectedTitleChange(title)):
-                state.selectedTitle = title
                 return .none
             default:
                 return .none
@@ -261,7 +256,10 @@ public struct SearchView: View {
                             }
                             .overlay(alignment: .center) {
                                 if nft.isVideo {
-                                    Image(ImageResource.circleButton)
+                                    Image(systemName: "play.circle.fill")
+                                        .resizable()
+                                        .frame(width: 44, height: 44)
+                                        .foregroundColor(.white)
                                 }
                             }
                     }

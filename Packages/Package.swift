@@ -30,15 +30,14 @@ let package = Package(
         .singleTargetLibrary("SearchFeature"),
     ],
     dependencies: [
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.17.1"),
-        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.6.3"),
-        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.17.6"),
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.18.0"),
+        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.8.1"),
+        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.18.1"),
         .package(url: "https://github.com/tgrapperon/swift-dependencies-additions", from: "1.1.1"),
         .package(url: "https://github.com/pointfreeco/swift-tagged", branch: "main"),
         .package(url: "https://github.com/oliverfoggin/swift-composable-analytics", branch: "main"),
-        .package(url: "https://github.com/onevcat/Kingfisher.git", from: "8.1.1"),
-        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "11.6.0"),
-        .package(url: "https://github.com/krzysztofzablocki/Inject.git", from: "1.5.2")
+        .package(url: "https://github.com/onevcat/Kingfisher.git", from: "8.3.1"),
+        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "11.10.0"),
     ],
     targets: [
         .target(
@@ -149,7 +148,6 @@ let package = Package(
                 "ResourceProvider",
                 .product(name: "ComposableAnalytics", package: "swift-composable-analytics"),
                 .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
-                .product(name: "Inject", package: "Inject"),
             ]
         ),
         .testTarget(
@@ -160,6 +158,7 @@ let package = Package(
                 "OnboardingFeature",
                 "ProfileFeature",
                 "Root",
+                "SearchFeature",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
