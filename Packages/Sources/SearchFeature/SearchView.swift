@@ -222,6 +222,7 @@ public struct SearchView: View {
         if store.searchResults.isEmpty {
             Text("No results found for '\(store.searchBar.searchText)'")
                 .foregroundColor(.gray)
+                .frame(maxHeight: .infinity, alignment: .center)
         } else {
             ScrollView {
                 LazyVGrid(columns: gridLayout, spacing: 20) {

@@ -20,7 +20,7 @@ struct ProfileReducerTests {
         #expect(store.state.aboutMeItems == [])
         #expect(store.state.isLoading == true)
         let selectedItem = store.state.selectedTitle
-        let expectedTitle = "on Sale"
+        let expectedTitle = "On sale"
         #expect(selectedItem == expectedTitle)
     }
 
