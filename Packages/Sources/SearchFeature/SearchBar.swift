@@ -7,41 +7,75 @@
 
 import NodeCryptoCore
 import SwiftUI
+import ComposableArchitecture // Ensure this is imported
 
 @Reducer
 public struct SearchBarReducer {
     public init() {}
-    
+
     @ObservableState
     public struct State: Equatable, Sendable {
         var searchText: String = ""
-        
+
         public init(searchText: String = "") {
             self.searchText = searchText
         }
     }
-    
-    public enum Action: BindableAction, Sendable {
-        case binding(BindingAction<State>)
-        case searchTextChanged(String)
-        case clearSearchText
-        case searchButtonPressed
+
+    @CasePathable
+    public enum Action: TCAFeatureAction, Sendable {
+        case view(ViewAction)
+        case `internal`(InternalAction)
+        case delegate(DelegateAction)
     }
-    
-    public var body: some ReducerOf<Self> {
-        BindingReducer()
-        Reduce { state, action in
-            switch action {
-            case .binding:
-                return .none
-            case let .searchTextChanged(text):
-                state.searchText = text
-                return .none
-            case .clearSearchText:
-                state.searchText = ""
-                return .none
-            default:
-                return .none
+
+    @CasePathable
+    public enum ViewAction: Sendable {
+        case clearSearchTextTapped
+        case searchButtonTapped
+    }
+
+    @CasePathable
+    public enum InternalAction: Sendable, Equatable {
+        case queryChanged(String)
+    }
+
+    @CasePathable
+    public enum DelegateAction: Sendable, Equatable {
+        case searchSubmitted(query: String)
+        case searchTextDidChange(newText: String) // To inform parent about text changes
+        case searchDidClear // To inform parent that text was cleared
+    }
+
+    public var body: some Reducer<State, Action> {
+        CombineReducers {
+            NestedAction(\.view) { state, viewAction in
+                switch viewAction {
+                case .clearSearchTextTapped:
+                    state.searchText = ""
+                    // Send delegate action when text is cleared
+                    return .run { send in await send(.delegate(.searchDidClear)) }
+                case .searchButtonTapped:
+                    let query = state.searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+                    return .run { send in
+                        await send(.delegate(.searchSubmitted(query: query)))
+                    }
+                }
+            }
+
+            NestedAction(\.internal) { state, internalAction in
+                switch internalAction {
+                case let .queryChanged(newQuery):
+                    let oldQuery = state.searchText
+                    state.searchText = newQuery
+                    // Send delegate action when text changes, if it actually changed
+                    if oldQuery != newQuery {
+                        return .run { send in
+                            await send(.delegate(.searchTextDidChange(newText: newQuery)))
+                        }
+                    }
+                    return .none
+                }
             }
         }
     }
@@ -49,22 +83,22 @@ public struct SearchBarReducer {
 
 public struct SearchBar: View {
     @Bindable var store: StoreOf<SearchBarReducer>
-    
+
     public init(store: StoreOf<SearchBarReducer>) {
         self.store = store
     }
-    
+
     public var body: some View {
             HStack(spacing: 8) {
                 HStack {
                     TextField(
                         "Search anything",
-                        text: $store.searchText.sending(\.searchTextChanged)
+                        text: $store.searchText.sending(\.internal.queryChanged)
                     )
                     .textFieldStyle(.plain)
                     .submitLabel(.search)
                     .onSubmit {
-                        store.send(.searchButtonPressed)
+                        store.send(.view(.searchButtonTapped))
                     }
 
                     Image(systemName: "magnifyingglass")
@@ -76,10 +110,10 @@ public struct SearchBar: View {
                         .stroke(store.searchText.isEmpty ? Color.neutral6 : Color.primary1, lineWidth: 2)
                 )
                 .animation(.easeInOut(duration: 0.25), value: store.searchText)
-                
+
                 if !store.searchText.isEmpty {
                     Button(action: {
-                        store.send(.clearSearchText)
+                        store.send(.view(.clearSearchTextTapped))
                     }) {
                         Text("Cancel")
                             .foregroundStyle(Color.neutral2)
@@ -103,7 +137,7 @@ public struct SearchBar: View {
                 SearchBarReducer()
             }
         )
-        
+
         // Filled state
         SearchBar(
             store: Store(

@@ -9,8 +9,8 @@ import APIClient
 import NodeCryptoCore
 import ResourceProvider
 import SwiftUI
-import SharedViews // For ExpandingMenuButton
-import StyleGuide // For FontName
+import SharedViews
+import StyleGuide
 
 @Reducer
 public struct SearchReducer: Sendable {
@@ -138,20 +138,24 @@ public struct SearchReducer: Sendable {
 
         NestedAction(\.searchBar) { state, action in
             switch action {
-            case let .searchTextChanged(text):
-                state.isSearching = !text.isEmpty
-                return .none
+                case .delegate(let delegateAction):
+                    switch delegateAction {
+                        case let .searchTextDidChange(text):
+                            state.isSearching = !text.isEmpty
+                            return .none
 
-            case .clearSearchText:
-                state.isSearching = false
-                return .none
+                        case .searchDidClear:
+                            state.isSearching = false
+                            return .none
 
-            case .searchButtonPressed:
-                state.searchHistory.append(state.searchBar.searchText)
-                return .none
-            default:
-                return .none
+                        case .searchSubmitted:
+                            state.searchHistory.append(state.searchBar.searchText)
+                            return .none
+                    }
+                default:
+                    return .none
             }
+
         }
     }
 }

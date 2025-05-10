@@ -6,19 +6,21 @@
 //
 
 import AppFeature
+@preconcurrency import ComposableAnalytics
+import ComposableArchitecture
 import Firebase
 import NodeCryptoCore
 import OnboardingFeature
 import SwiftUI
 import XCTestDynamicOverlay
 
+@MainActor
 final class AppDelegate: NSObject {
     let store = Store(
-        initialState: .init(),
+        initialState: AppViewReducer.State(),
         reducer: {
             AppViewReducer()
-                .dependency(\.analyticsClient, AnalyticsClient.consoleLogger)
-            // ._printChanges()
+                .dependency(\.analyticsClient, .consoleLogger)
         }
     )
 
@@ -30,11 +32,16 @@ final class AppDelegate: NSObject {
     extension AppDelegate: UIApplicationDelegate {
         func application(
             _: UIApplication,
-            didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]? = nil
+            didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey:
+                Any]? = nil
         ) -> Bool {
             FirebaseApp.configure()
             userNotificationCenter.delegate = userNotificationDelegate
-            store.send(.internal(.appDelegate(.didFinishLaunching)))
+            store.send(
+                AppViewReducer.Action.internal(
+                    .appDelegate(.didFinishLaunching)
+                )
+            )
             return true
         }
 
@@ -43,7 +50,13 @@ final class AppDelegate: NSObject {
             didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
         ) {
             store.send(
-                .internal(.appDelegate(.didRegisterForRemoteNotifications(.success(deviceToken))))
+                AppViewReducer.Action.internal(
+                    .appDelegate(
+                        .didRegisterForRemoteNotifications(
+                            .success(deviceToken)
+                        )
+                    )
+                )
             )
         }
 
@@ -51,7 +64,13 @@ final class AppDelegate: NSObject {
             _: UIApplication,
             didFailToRegisterForRemoteNotificationsWithError error: Error
         ) {
-            store.send(.internal(.appDelegate(.didRegisterForRemoteNotifications(.failure(error)))))
+            store.send(
+                AppViewReducer.Action.internal(
+                    .appDelegate(
+                        .didRegisterForRemoteNotifications(.failure(error))
+                    )
+                )
+            )
         }
     }
 #endif
