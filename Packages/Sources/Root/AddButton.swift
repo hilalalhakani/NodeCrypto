@@ -16,7 +16,7 @@ struct AddButton: View {
           )
       }
     )
-    .frame(maxWidth: .infinity)
+    .frame(width: 48, height: 48)
   }
 }
 

@@ -28,16 +28,16 @@ public struct AsyncImageView: View {
         else {
             KFImage(url)
                 .resizable()
-                .fade(duration: 0.25)
+                .fade(duration: 4)
                 .placeholder {
                     Rectangle()
-                        .foregroundColor(.gray.opacity(0.1))
+                        .foregroundColor(background)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                        .transition(.opacity)
                 }
                 .retry(maxCount: .max, interval: .seconds(1))
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(background)
-        }
+         }
     }
 
     var background: Color {

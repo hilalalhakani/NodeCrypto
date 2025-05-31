@@ -30,9 +30,9 @@ let package = Package(
         .singleTargetLibrary("SearchFeature"),
     ],
     dependencies: [
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.19.1"),
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.20.2"),
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.9.2"),
-        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.18.3"),
+        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.18.4"),
         .package(url: "https://github.com/tgrapperon/swift-dependencies-additions", from: "1.1.1"),
         .package(url: "https://github.com/pointfreeco/swift-tagged", branch: "main"),
         .package(url: "https://github.com/oliverfoggin/swift-composable-analytics", branch: "main"),
