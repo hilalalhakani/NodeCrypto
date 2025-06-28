@@ -14,18 +14,24 @@ public struct HomeReducer: Sendable {
 
     @ObservableState
     public struct State: Equatable, Sendable {
-        @Presents public var playerViewReducerState: PlayerViewReducer.State? = nil
+        @Presents public var playerViewReducerState: PlayerViewReducer.State? =
+            nil
         public var nfts: IdentifiedArrayOf<NFTItem> = IdentifiedArrayOf(
-            uniqueElements: NFTItem.samples()
-        )
+            uniqueElements: [])
         public var creators: IdentifiedArrayOf<Creator> = IdentifiedArrayOf(
-            uniqueElements: Creator.samples()
-        )
+            uniqueElements: [])
         public var isLoading = true
         public init() {}
         public init(playerViewReducerState: PlayerViewReducer.State) {
             self.playerViewReducerState = playerViewReducerState
         }
+
+        public init(nfts: [NFTItem], creators: [Creator], isLoading: Bool) {
+            self.nfts = .init(uniqueElements: nfts)
+            self.creators = .init(uniqueElements: creators)
+            self.isLoading = isLoading
+        }
+
     }
 
     @CasePathable
@@ -64,24 +70,24 @@ public struct HomeReducer: Sendable {
             NestedAction(\.internal) { state, action in
 
                 switch action {
-                    case .playerViewAction(.presented(.delegate(.playerClosed))):
-                        state.playerViewReducerState = nil
-                        return .none
+                case .playerViewAction(.presented(.delegate(.playerClosed))):
+                    state.playerViewReducerState = nil
+                    return .none
 
-                    case .playerViewAction:
-                        return .none
+                case .playerViewAction:
+                    return .none
 
-                    case .removePlaceHolder:
-                        state.isLoading = false
-                        return .none
+                case .removePlaceHolder:
+                    state.isLoading = false
+                    return .none
 
-                    case .onCreatorsResponse(let items):
-                        state.creators = .init(uniqueElements: items)
-                        return .none
+                case .onCreatorsResponse(let items):
+                    state.creators = .init(uniqueElements: items)
+                    return .none
 
-                    case .onNFTSResponse(let items):
-                        state.nfts = .init(uniqueElements: items)
-                        return .none
+                case .onNFTSResponse(let items):
+                    state.nfts = .init(uniqueElements: items)
+                    return .none
                 }
             }
 
@@ -90,21 +96,27 @@ public struct HomeReducer: Sendable {
 
                 switch action {
 
-                    case .tappedNFT(let nFTItem):
-                        state.playerViewReducerState = .init(nft: nFTItem)
-                        return .none
+                case .tappedNFT(let nFTItem):
+                    state.playerViewReducerState = .init(nft: nFTItem)
+                    return .none
 
-                    case .onAppear:
-                        return .run { send in
-                            async let creators = try api.getCreators()
-                            async let nfts = try api.getNFTS()
-                            try await send(.internal(.onCreatorsResponse(creators)))
-                            try await send(.internal(.onNFTSResponse(nfts)))
-                            await send(.internal(.removePlaceHolder))
-                        }
+                case .onAppear:
+                    return .run(priority: .background) { send in
+                        async let creators = try api.getCreators()
+                        async let nfts = try api.getNFTS()
+                        try? await send(.internal(.onCreatorsResponse(creators)))
+                        try? await send(.internal(.onNFTSResponse(nfts)))
+                        await send(.internal(.removePlaceHolder))
+                    }
 
-                    case .navigateToAllCreatorsButtonPressed:
-                        return .send(.delegate(.navigateToAllCreators(creators: state.creators.elements)))
+                case .navigateToAllCreatorsButtonPressed:
+                    return .send(
+                        .delegate(
+                            .navigateToAllCreators(
+                                creators: state.creators.elements
+                            )
+                        )
+                    )
                 }
             }
         }
@@ -128,11 +140,12 @@ public struct HomeView: View {
             bestSellersScrollView
             featuredItemsScrollView
         }
-        .redacted(reason: store.isLoading ? .placeholder : [])
-        .disabled(store.isLoading)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .fullScreenCover(
-            item: $store.scope(state: \.playerViewReducerState, action: \.internal.playerViewAction)
+            item: $store.scope(
+                state: \.playerViewReducerState,
+                action: \.internal.playerViewAction
+            )
         ) { store in
             PlayerView(store: store)
         }
@@ -145,7 +158,8 @@ public struct HomeView: View {
     private var headerView: some View {
         HStack {
             Text("Best sellers")
-                .font(.system(size: 32, weight: .bold))
+                .font(Font(FontName.dmSansBold, size: 32))
+                .foregroundStyle(Color.neutral2)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             Button(action: {
@@ -156,60 +170,92 @@ public struct HomeView: View {
             }
         }
         .padding(.horizontal, 24)
+        .redacted(reason: store.isLoading ? .placeholder : [])
     }
 
     private var bestSellersScrollView: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 20) {
-                ForEach(store.creators) { creator in
-                    SellerItemView(creator: creator)
-                        .frame(width: 200)
+                if !store.isLoading {
+                    ForEach(store.creators) { creator in
+                        SellerItemView(creator: creator)
+                    }
+                    .transition(.opacity)
+                } else {
+                    ForEach(0...10, id: \.self) { _ in
+                        HStack(spacing: 10) {
+                            Circle()
+                                .foregroundStyle(.gray.opacity(0.2))
+                                .frame(width: 56, height: 56)
+
+                            VStack(alignment: .leading) {
+                                Rectangle()
+                                    .foregroundStyle(.gray.opacity(0.2))
+                                    .frame(width: 80, height: 12)
+
+                                Rectangle()
+                                    .foregroundStyle(.gray.opacity(0.2))
+                                    .frame(width: 50, height: 12)
+
+                            }
+
+                        }
+                    }
+                    .transition(.opacity)
                 }
             }
-            .safeAreaPadding(24)
+            .padding(.horizontal, 24)
+            .animation(.easeInOut(duration: 0.4), value: store.isLoading)
         }
     }
 
     private var featuredItemsScrollView: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            LazyVStack(spacing: 0) {
-                ForEach(store.nfts) { nft in
-                    FeaturedItem(nft: nft)
-                        .onTapGesture {
-                            store.send(.view(.tappedNFT(nft)))
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 0) {
+                Group {
+                    if !store.isLoading {
+                        ForEach(store.nfts) { nft in
+                            FeaturedItem(nft: nft)
+                                .onTapGesture {
+                                    store.send(.view(.tappedNFT(nft)))
+                                }
                         }
+                    } else {
+                        ForEach(0...10, id: \.self) { _ in
+                            RoundedRectangle(cornerRadius: 24)
+                                .foregroundStyle(.gray.opacity(0.2))
+                        }
+                    }
                 }
+                .padding(.horizontal, 24)
+                .frame(maxWidth: .infinity)
+                .containerRelativeFrame(.horizontal)
+                .transition(.opacity)
             }
+            .frame(maxWidth: .infinity)
+            .scrollTargetLayout()
         }
         .scrollTargetBehavior(.paging)
-        .padding(.horizontal, 24)
+        .padding(.vertical)
     }
 
     struct FeaturedItem: View {
         let nft: NFTItem
         var body: some View {
-            Group {
-                if let url = URL(string: nft.image) {
-                    AsyncImageView(url: url)
-                        .clipShape(RoundedRectangle(cornerRadius: 24))
-                }
-                else {
-                    RoundedRectangle(cornerRadius: 24)
-                        .foregroundStyle(.gray)
-                }
+            if let url = URL(string: nft.image) {
+                AsyncImageView(url: url)
+                    .clipShape(RoundedRectangle(cornerRadius: 24))
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .overlay(alignment: .top) {
+                        VStack(spacing: 0) {
+                            itemInfoView
+                            Spacer()
+                            playButton
+                            Spacer()
+                            placeBidButton
+                        }
+                    }
             }
-            .overlay(alignment: .top) {
-                VStack(spacing: 0) {
-                    itemInfoView
-                    Spacer()
-                    playButton
-                    Spacer()
-                    placeBidButton
-                }
-            }
-            .padding(.vertical)
-            .frame(maxWidth: .infinity)
-            .containerRelativeFrame(.vertical)
         }
 
         private var itemInfoView: some View {
@@ -229,17 +275,12 @@ public struct HomeView: View {
                         }
 
                         HStack {
-                            Group {
-                                if let url = URL(string: nft.creatorImage) {
-                                    AsyncImageView(url: url)
-                                        .clipShape(Circle())
-                                }
-                                else {
-                                    Circle()
-                                        .foregroundStyle(.gray)
-                                }
+                            if let url = URL(string: nft.creatorImage) {
+                                AsyncImageView(url: url)
+                                    .aspectRatio(contentMode: .fill)
+                                    .clipShape(Circle())
+                                    .frame(width: 20, height: 20)
                             }
-                            .frame(width: 20, height: 20)
 
                             Text(nft.cryptoPrice)
                                 .font(.system(size: 12, weight: .bold))
@@ -281,5 +322,4 @@ public struct HomeView: View {
         }
 
     }
-
 }

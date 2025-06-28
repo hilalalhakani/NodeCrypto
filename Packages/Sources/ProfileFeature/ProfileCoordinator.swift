@@ -84,6 +84,7 @@ public struct ProfileCoordinatorReducer: Sendable {
 //MARK: ProfileView
 public struct ProfileCoordinatorView: View {
     @Bindable var store: StoreOf<ProfileCoordinatorReducer>
+    @Shared(.isTabBarVisible) var isTabBarVisible
 
     public init(store: StoreOf<ProfileCoordinatorReducer>) {
         self.store = store
@@ -93,7 +94,8 @@ public struct ProfileCoordinatorView: View {
         NavigationStack(
             path: $store.scope(state: \.path, action: \.path)
         ) {
-         ProfileView(store: store.scope(state: \.profile, action: \.profile))
+            ProfileView(store: store.scope(state: \.profile, action: \.profile))
+                .toolbar(isTabBarVisible ? .visible : .hidden, for: .tabBar)
         } destination: { store in
             switch store.case {
                 case let .editProfile(editProfileStore):

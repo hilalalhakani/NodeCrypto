@@ -22,10 +22,10 @@ struct ProfileSnapshotsTests {
         @Shared(.user) var user = .mock1
         let store: StoreOf<ProfileReducer> = .init(initialState: .init()) {
             ProfileReducer()
-        } withDependencies: {
-            $0.apiClient.profile.getUserInfo = { try await Task.never() }
-            $0.apiClient.profile.getSavedNFT = { try await Task.never() }
-        }
+        }// withDependencies: {
+         //   $0.apiClient.profile.getUserInfo = { try await Task.never() }
+         //   $0.apiClient.profile.getSavedNFT = { try await Task.never() }
+      //  }
 
         let profileView = ProfileView(store: store)
 
@@ -86,9 +86,9 @@ func testEditMenuPressed() throws {
         $0.apiClient.profile.getSavedNFT = { try await Task.never() }
     }
 
-    let rootView = RootView(store: store, tab: .profile)
+    let rootView = RootView(store: store)
 
-    try assert(rootView, delay: 5)
+    try assert(rootView)
 
 }
 

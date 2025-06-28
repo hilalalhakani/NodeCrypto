@@ -35,30 +35,6 @@ public struct NFTItem: Identifiable, Equatable, Sendable {
         self.cryptoPrice = cryptoPrice
         self.videoURL = videoURL
     }
-
-    public static func samples() -> [NFTItem] {
-        [
-            Self(
-                image: "https://dummyimage.com/600x400/000/fff",
-                name: "Dummy text 1",
-                creator: "Dummy text 1",
-                creatorImage: "https://dummyimage.com/600x400/000/fff",
-                price: "Dummy text 1",
-                cryptoPrice: "Dummy text 1",
-                videoURL: "Dummy text 1"
-            ),
-
-            Self(
-                image: "https://dummyimage.com/600x400/000/fff",
-                name: "Dummy text 2",
-                creator: "Dummy text 2",
-                creatorImage: "https://dummyimage.com/600x400/000/fff",
-                price: "Dummy text 2",
-                cryptoPrice: "Dummy text 2",
-                videoURL: "Dummy text 2"
-            ),
-        ]
-    }
 }
 
 public struct Creator: Identifiable, Equatable, Sendable, Hashable {
@@ -75,12 +51,5 @@ public struct Creator: Identifiable, Equatable, Sendable, Hashable {
         self.name = name
         self.price = price
         self.isFollowing = isFollowing
-    }
-
-    public static func samples() -> [Creator] {
-        [
-            Self(image: "https://dummyimage.com/600x400/000/fff", name: "1", price: "Dummy text 2", isFollowing: true),
-            Self(image: "https://dummyimage.com/600x400/000/fff", name: "2", price: "Dummy text 2", isFollowing: false)
-        ]
     }
 }

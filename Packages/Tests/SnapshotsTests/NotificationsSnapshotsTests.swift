@@ -20,7 +20,7 @@ import Testing
                 initialState: .init(),
                 reducer: {
                     NotificationReducer()
-                        .dependency(\.apiClient.profile.getNotifications, { try await Task.never() })
+                       // .dependency(\.apiClient.profile.getNotifications, { try await Task.never() })
                 }
             )
 

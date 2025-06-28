@@ -102,7 +102,7 @@ public struct AppViewReducer {
         case onboarding(OnboardingViewReducer)
         case launchImage
         case connectWallet(ConnectWalletReducer)
-        case rootView(RootViewReducer)
+        case rootView(RootCoordinatorReducer)
     }
 }
 
@@ -149,7 +149,7 @@ public struct AppView: View {
                     state: \.destination?.rootView,
                     action: \.internal.destination.rootView
                 ) {
-                    RootView(store: rootViewStore)
+                    RootCoordinatorView(store: rootViewStore)
                         .transition(.opacity.animation(.easeInOut))
                 }
 

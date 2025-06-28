@@ -5,7 +5,6 @@ import SharedModels
 import Testing
 import XCTest
 
-@Suite(.serialized)
 @MainActor
 struct ConnectWalletTests {
 

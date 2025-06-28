@@ -234,8 +234,9 @@ public struct ProfileView: View {
 
     @ViewBuilder
     private var profileImageView: some View {
-        if let profileImage = user?.profileImage {
-            AsyncImageView(url: URL(string: profileImage)!)
+        if let profileImage = user?.profileImage,
+           let url = URL(string: profileImage) {
+            AsyncImageView(url: url)
                 .frame(width: 100, height: 100)
                 .clipShape(.circle)
                 .onTapGesture {
@@ -334,7 +335,7 @@ public struct ProfileView: View {
     private var createdView: some View {
         ScrollView {
             LazyVStack(spacing: 20) {
-                ForEach(store.likedNfts) { nft in
+                ForEach(store.createdNfts) { nft in
                         NFTItemView(nft: nft)
                     }
             }
@@ -368,7 +369,7 @@ public struct ProfileView: View {
                     index,
                     aboutMeItem in
                     AboutMeItemView(
-                        color: aboutMeColors[index],
+                        color: aboutMeColors[safe: index] ?? .primary1,
                         iconName: aboutMeItem.iconName,
                         title: aboutMeItem.title,
                         count: aboutMeItem.count
@@ -403,28 +404,30 @@ public struct ProfileView: View {
             LazyVGrid(columns: gridLayout) {
                 if !store.isLoading {
                     ForEach(store.nfts) { nft in
-                        AsyncImageView(url:URL(string: nft.imageURL)!)
-                        .frame(height: 168)
-                        .cornerRadius(8)
-                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .circular))
-                        .transition(.opacity)
-                        .overlay(alignment: .topLeading) {
-                            if nft.isNew {
-                                Text("New")
-                                    .padding(8)
-                                    .foregroundStyle(Color.neutral8)
-                                    .font(.custom(FontName.dmSansBold.rawValue, size: 14))
-                                    .background(
-                                        Color.primary4
-                                    )
-                                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .circular))
-                                    .padding(8)
-                            }
-                        }
-                        .overlay(alignment: .center) {
-                            if nft.isVideo {
-                                Image(ImageResource.circleButton)
-                            }
+                        if let url = URL(string: nft.imageURL) {
+                            AsyncImageView(url: url)
+                                .frame(height: 168)
+                                .cornerRadius(8)
+                                .clipShape(RoundedRectangle(cornerRadius: 16, style: .circular))
+                                .transition(.opacity)
+                                .overlay(alignment: .topLeading) {
+                                    if nft.isNew {
+                                        Text("New")
+                                            .padding(8)
+                                            .foregroundStyle(Color.neutral8)
+                                            .font(.custom(FontName.dmSansBold.rawValue, size: 14))
+                                            .background(
+                                                Color.primary4
+                                            )
+                                            .clipShape(RoundedRectangle(cornerRadius: 16, style: .circular))
+                                            .padding(8)
+                                    }
+                                }
+                                .overlay(alignment: .center) {
+                                    if nft.isVideo {
+                                        Image(ImageResource.circleButton)
+                                    }
+                                }
                         }
                     }
                 }
@@ -439,6 +442,12 @@ public struct ProfileView: View {
             }
         }
         .transition(.opacity.animation(.easeInOut))
+    }
+}
+
+extension Array {
+    subscript(safe index: Index) -> Element? {
+        return indices.contains(index) ? self[index] : nil
     }
 }
 

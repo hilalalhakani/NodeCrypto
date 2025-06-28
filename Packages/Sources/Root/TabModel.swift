@@ -1,9 +1,10 @@
 import Foundation
 import SwiftUI
 
-public enum Tab: CaseIterable {
+public enum Tab: CaseIterable, Sendable {
   case home
   case search
+  case add
   case notifications
   case profile
 
@@ -13,6 +14,8 @@ public enum Tab: CaseIterable {
       return "HomeIcon"
     case .search:
       return "SearchIcon"
+    case .add:
+      return "plus"
     case .notifications:
       return "NotificationsIcon"
     case .profile:
