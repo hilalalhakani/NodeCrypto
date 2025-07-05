@@ -28,6 +28,7 @@ let package = Package(
         .singleTargetLibrary("LocalStorage"),
         .singleTargetLibrary("ResourceProvider"),
         .singleTargetLibrary("SearchFeature"),
+        .singleTargetLibrary("CreateFeature"),
     ],
     dependencies: [
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.20.2"),
@@ -164,7 +165,7 @@ let package = Package(
         ),
         .target(
             name: "Root",
-            dependencies: ["NodeCryptoCore", "ProfileFeature", "NotificationsFeature", "HomeFeature", "SearchFeature"]
+            dependencies: ["NodeCryptoCore", "ProfileFeature", "NotificationsFeature", "HomeFeature", "SearchFeature", "CreateFeature"]
         ),
         .target(
             name: "TCAHelpers",
@@ -248,6 +249,19 @@ let package = Package(
                 "LocalStorage",
                 "ResourceProvider",
                 "SharedModels",
+            ]
+        ),
+        .target(
+            name: "CreateFeature",
+            dependencies: ["NodeCryptoCore"],
+            resources: [
+              .process("./Resources")
+            ]
+        ),
+        .testTarget(
+            name: "CreateFeatureTests",
+            dependencies: [
+                "CreateFeature"
             ]
         ),
     ]

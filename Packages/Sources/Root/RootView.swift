@@ -1,3 +1,4 @@
+import CreateFeature
 import Foundation
 import HomeFeature
 import NodeCryptoCore
@@ -16,12 +17,14 @@ public struct RootViewReducer: Sendable {
         var notifications: NotificationReducer.State = .init()
         var home: HomeCoordinatorReducer.State = .init()
         var search: SearchReducer.State = .init()
+        @Presents var create: CreateFeature.State?
         var showsProfileActionsList = false
         var showsWobbleMenu = false
         var selectedTab: Tab = .home
 
         public init(showsProfileActionsList: Bool = false) {
             self.showsProfileActionsList = showsProfileActionsList
+            create = .init(pickerMode: .single)
         }
     }
 
@@ -35,6 +38,7 @@ public struct RootViewReducer: Sendable {
     @CasePathable
     public enum InternalAction: BindableAction, Sendable {
         case binding(BindingAction<State>)
+        case create(PresentationAction<CreateFeature.Action>)
         case profile(ProfileCoordinatorReducer.Action)
         case notifications(NotificationReducer.Action)
         case search(SearchReducer.Action)
@@ -53,67 +57,87 @@ public struct RootViewReducer: Sendable {
         case tabSelected(Tab)
         case addButtonPressed
         case hideWobbleMenu
+        case createButtonTapped
+        case createSingleButtonTapped
+        case createMultipleButtonTapped
     }
 
     public var body: some ReducerOf<Self> {
-        BindingReducer(action: \.internal)
 
-        Scope(state: \.profile, action: \.internal.profile) {
-            ProfileCoordinatorReducer()
-        }
+        CombineReducers {
+            BindingReducer(action: \.internal)
 
-        Scope(state: \.search, action: \.internal.search) {
-            SearchReducer()
-        }
+            Scope(state: \.profile, action: \.internal.profile) {
+                ProfileCoordinatorReducer()
+            }
 
-        Scope(state: \.notifications, action: \.internal.notifications) {
-            NotificationReducer()
-        }
+            Scope(state: \.search, action: \.internal.search) {
+                SearchReducer()
+            }
 
-        Scope(state: \.home, action: \.internal.home) {
-            HomeCoordinatorReducer()
-        }
+            Scope(state: \.notifications, action: \.internal.notifications) {
+                NotificationReducer()
+            }
 
-        NestedAction(\.view) { state, viewAction in
-            switch viewAction {
-            case .hideProfileActionsList:
-                state.showsProfileActionsList = false
-                return .none
+            Scope(state: \.home, action: \.internal.home) {
+                HomeCoordinatorReducer()
+            }
 
-            case .editButtonPressed:
-                state.showsProfileActionsList = false
-                return navigateToEditProfile(state: &state)
+            NestedAction(\.view) { state, viewAction in
+                switch viewAction {
+                    case .hideProfileActionsList:
+                        state.showsProfileActionsList = false
+                        return .none
 
-            case .tabSelected(let tab):
-                // Prevent the add tab from being selected, trigger add action instead
-                if tab == .add {
-                    return .send(.view(.addButtonPressed))
+                    case .editButtonPressed:
+                        state.showsProfileActionsList = false
+                        return navigateToEditProfile(state: &state)
+
+                    case .tabSelected(let tab):
+                        // Prevent the add tab from being selected, trigger add action instead
+                        if tab == .add {
+                            return .send(.view(.addButtonPressed))
+                        }
+                        state.selectedTab = tab
+                        return .none
+
+                    case .addButtonPressed:
+                        state.showsWobbleMenu.toggle()
+                        return .none
+
+                    case .createSingleButtonTapped:
+                        state.create = .init(pickerMode: .single)
+                        state.showsWobbleMenu = false
+                        return .none
+
+                    case .createMultipleButtonTapped:
+                        state.create = .init(pickerMode: .multiple)
+                        state.showsWobbleMenu = false
+                        return .none
+
+                    case .hideWobbleMenu:
+                        state.showsWobbleMenu = false
+                        return .none
+
+                    default:
+                        return .none
                 }
-                state.selectedTab = tab
-                return .none
-
-            case .addButtonPressed:
-                state.showsWobbleMenu.toggle()
-                return .none
-
-            case .hideWobbleMenu:
-                state.showsWobbleMenu = false
-                return .none
-
-            default:
-                return .none
             }
+
+            NestedAction(\.internal) { state, internalAction in
+                switch internalAction {
+                    case .profile(.menuButtonPressed):
+                        state.showsProfileActionsList = true
+                        return .none
+
+                    default:
+                        return .none
+                }
+            }
+
         }
-
-        NestedAction(\.internal) { state, internalAction in
-            switch internalAction {
-            case .profile(.menuButtonPressed):
-                state.showsProfileActionsList = true
-                return .none
-
-            default:
-                return .none
-            }
+        .ifLet(\.$create, action: \.internal.create) {
+            CreateFeature()
         }
     }
 
@@ -217,10 +241,13 @@ public struct RootView: View {
             if store.showsWobbleMenu {
                 Color.clear
                     .contentShape(Rectangle())
-                    .onTapGesture {
-                        store.send(.view(.hideWobbleMenu))
-                    }
+//                    .onTapGesture {
+//                        store.send(.view(.hideWobbleMenu))
+//                    }
             }
+        }
+        .sheet(item: $store.scope(state: \.create, action: \.internal.create)) { store in
+            CreateView(store: store)
         }
     }
 
@@ -263,23 +290,25 @@ public struct RootView: View {
             .overlay {
                 VStack(spacing: 30) {
                     Button(action: {
-                        store.send(.view(.hideWobbleMenu))
+                        store.send(.view(.createSingleButtonTapped))
                     }) {
                         Text("Single")
                             .foregroundStyle(Color.white)
                             .font(.system(size: 16, weight: .bold))
                     }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
 
                     Divider()
                         .background(Color.white.opacity(0.3))
 
                     Button(action: {
-                        store.send(.view(.hideWobbleMenu))
+                        store.send(.view(.createMultipleButtonTapped))
                     }) {
                         Text("Multiple")
                             .foregroundStyle(Color.white)
                             .font(.system(size: 16, weight: .bold))
                     }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
                 .padding(.bottom, 30)
                 .padding(.horizontal, 20)
