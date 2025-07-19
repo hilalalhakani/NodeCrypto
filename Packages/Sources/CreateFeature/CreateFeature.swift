@@ -9,6 +9,7 @@ import UIKit
 @Reducer
 public struct CreateFeature: Sendable {
     @Dependency(\.photoLibraryClient) var photoLibraryClient
+    @Dependency(\.dismiss) var dismiss
 
     public init() {}
 
@@ -16,6 +17,7 @@ public struct CreateFeature: Sendable {
     public struct State: Equatable, Sendable {
         var galleryImages: [Image] = []
         var picker: ImagesPicker.State
+        var isNextButtonEnabled = false
 
         public init(pickerMode: ImagesPicker.PickerMode) {
             self.picker = ImagesPicker.State(pickerMode: pickerMode)
@@ -33,6 +35,7 @@ public struct CreateFeature: Sendable {
     public enum ViewAction: Sendable {
         case nextButtonTapped
         case onAppear
+        case backButtonTapped
     }
 
     @CasePathable
@@ -68,6 +71,10 @@ public struct CreateFeature: Sendable {
                             )
                         )
                     )
+                }
+            case .view(.backButtonTapped):
+                return .run { _ in
+                    await self.dismiss()
                 }
 
 //            case let .internal(

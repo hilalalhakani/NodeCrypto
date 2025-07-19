@@ -24,7 +24,6 @@ public struct RootViewReducer: Sendable {
 
         public init(showsProfileActionsList: Bool = false) {
             self.showsProfileActionsList = showsProfileActionsList
-            create = .init(pickerMode: .single)
         }
     }
 
@@ -218,6 +217,15 @@ public struct RootView: View {
                 .toolbarBackground(.white, for: .tabBar)
             }
 
+            if store.showsWobbleMenu {
+                Color.clear
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        store.send(.view(.hideWobbleMenu))
+                    }
+                    .ignoresSafeArea()
+            }
+
             if isTabBarVisible {
                 VStack {
                     if store.showsWobbleMenu {
@@ -237,16 +245,7 @@ public struct RootView: View {
                 blurView
             }
         }
-        .overlay {
-            if store.showsWobbleMenu {
-                Color.clear
-                    .contentShape(Rectangle())
-//                    .onTapGesture {
-//                        store.send(.view(.hideWobbleMenu))
-//                    }
-            }
-        }
-        .sheet(item: $store.scope(state: \.create, action: \.internal.create)) { store in
+        .fullScreenCover(item: $store.scope(state: \.create, action: \.internal.create)) { store in
             CreateView(store: store)
         }
     }
