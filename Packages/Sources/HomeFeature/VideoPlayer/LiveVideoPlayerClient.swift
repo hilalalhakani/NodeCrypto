@@ -3,7 +3,7 @@ import Combine
 import Dependencies
 import DependenciesMacros
 import Foundation
-import SwiftUICore
+import SwiftUI
 
 extension VideoPlayerClient: DependencyKey {
     public static let liveValue: Self = {

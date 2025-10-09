@@ -7,7 +7,6 @@
 
 import NodeCryptoCore
 import SwiftUI
-import ComposableArchitecture // Ensure this is imported
 
 @Reducer
 public struct SearchBarReducer {
@@ -43,8 +42,8 @@ public struct SearchBarReducer {
     @CasePathable
     public enum DelegateAction: Sendable, Equatable {
         case searchSubmitted(query: String)
-        case searchTextDidChange(newText: String) // To inform parent about text changes
-        case searchDidClear // To inform parent that text was cleared
+        case searchTextDidChange(newText: String)
+        case searchDidClear
     }
 
     public var body: some Reducer<State, Action> {
@@ -53,8 +52,9 @@ public struct SearchBarReducer {
                 switch viewAction {
                 case .clearSearchTextTapped:
                     state.searchText = ""
-                    // Send delegate action when text is cleared
-                    return .run { send in await send(.delegate(.searchDidClear)) }
+                        return .run { send in
+                            await send(.delegate(.searchDidClear))
+                        }
                 case .searchButtonTapped:
                     let query = state.searchText.trimmingCharacters(in: .whitespacesAndNewlines)
                     return .run { send in
@@ -65,16 +65,15 @@ public struct SearchBarReducer {
 
             NestedAction(\.internal) { state, internalAction in
                 switch internalAction {
-                case let .queryChanged(newQuery):
-                    let oldQuery = state.searchText
-                    state.searchText = newQuery
-                    // Send delegate action when text changes, if it actually changed
-                    if oldQuery != newQuery {
-                        return .run { send in
-                            await send(.delegate(.searchTextDidChange(newText: newQuery)))
+                    case let .queryChanged(newQuery):
+                        let oldQuery = state.searchText
+                        state.searchText = newQuery
+                        if oldQuery != newQuery {
+                            return .run { send in
+                                await send(.delegate(.searchTextDidChange(newText: newQuery)))
+                            }
                         }
-                    }
-                    return .none
+                        return .none
                 }
             }
         }

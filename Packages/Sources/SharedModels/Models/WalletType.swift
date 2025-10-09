@@ -1,5 +1,5 @@
 import Foundation
-import CasePaths
+import ComposableArchitecture
 
 @CasePathable
 public enum WalletType: String, Sendable {

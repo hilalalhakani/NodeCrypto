@@ -31,14 +31,14 @@ let package = Package(
         .singleTargetLibrary("CreateFeature"),
     ],
     dependencies: [
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.20.2"),
-        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.9.2"),
-        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.18.4"),
-        .package(url: "https://github.com/tgrapperon/swift-dependencies-additions", from: "1.1.1"),
-        .package(url: "https://github.com/pointfreeco/swift-tagged", branch: "main"),
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.22.3"),
+        .package(url: "https://github.com/pointfreeco/swift-navigation", from: "2.5.1"),
+        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.10.0"),
+        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.18.7"),
         .package(url: "https://github.com/oliverfoggin/swift-composable-analytics", branch: "main"),
-        .package(url: "https://github.com/onevcat/Kingfisher.git", from: "8.3.1"),
-        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "11.10.0"),
+        .package(url: "https://github.com/onevcat/Kingfisher.git", from: "8.6.0"),
+        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "12.4.0"),
+        .package(url: "https://github.com/tgrapperon/swift-dependencies-additions", branch: "xcode26")
     ],
     targets: [
         .target(
@@ -132,7 +132,6 @@ let package = Package(
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 .product(name: "Dependencies", package: "swift-dependencies"),
-                .product(name: "DependenciesAdditions", package: "swift-dependencies-additions"),
             ]
         ),
         .target(
@@ -142,7 +141,6 @@ let package = Package(
                 .product(name: "Dependencies", package: "swift-dependencies"),
                 .product(name: "DependenciesMacros", package: "swift-dependencies"),
                 .product(name: "DependenciesAdditions", package: "swift-dependencies-additions"),
-                .product(name: "Tagged", package: "swift-tagged"),
                 "StyleGuide",
                 "TCAHelpers",
                 "SharedModels",
@@ -222,7 +220,6 @@ let package = Package(
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 .product(name: "Dependencies", package: "swift-dependencies"),
-                .product(name: "DependenciesAdditions", package: "swift-dependencies-additions"),
                 "SharedModels",
             ],
             resources: [
@@ -234,7 +231,6 @@ let package = Package(
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 .product(name: "Dependencies", package: "swift-dependencies"),
-                .product(name: "DependenciesAdditions", package: "swift-dependencies-additions"),
                 "APIClient",
                 "StyleGuide",
                 "LocalStorage",
@@ -269,7 +265,7 @@ let package = Package(
 
 //// Inject base plugins into each target
 package.targets = package.targets.map { target in
-    var plugins = target.plugins ?? []
+    let plugins = target.plugins ?? []
     target.plugins = plugins
     return target
 }

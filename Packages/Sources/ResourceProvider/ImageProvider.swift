@@ -33,7 +33,6 @@ public struct AsyncImageView: View {
                     Rectangle()
                         .foregroundColor(background)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                        .transition(.opacity)
                 }
                 .retry(maxCount: .max, interval: .seconds(1))
                 .frame(maxWidth: .infinity, maxHeight: .infinity)

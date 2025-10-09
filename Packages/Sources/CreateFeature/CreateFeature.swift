@@ -13,8 +13,14 @@ public struct CreateFeature: Sendable {
 
     public init() {}
 
+    @Reducer(state: .sendable, .equatable, action: .sendable)
+    public enum Path {
+        case empty(EmptyReducer)
+    }
+
     @ObservableState
     public struct State: Equatable, Sendable {
+        var path = StackState<Path.State>()
         var galleryImages: [Image] = []
         var picker: ImagesPicker.State
         var isNextButtonEnabled = false
@@ -29,6 +35,7 @@ public struct CreateFeature: Sendable {
         case view(ViewAction)
         case `internal`(InternalAction)
         case delegate(DelegateAction)
+        case path(StackAction<Path.State, Path.Action>)
     }
 
     @CasePathable
@@ -36,6 +43,7 @@ public struct CreateFeature: Sendable {
         case nextButtonTapped
         case onAppear
         case backButtonTapped
+        case galleryImageTapped
     }
 
     @CasePathable
@@ -77,21 +85,9 @@ public struct CreateFeature: Sendable {
                     await self.dismiss()
                 }
 
-//            case let .internal(
-//                .picker(.singleImagePicker(.delegate(.loadSingleImage(image))))
-//            ):
-//                return .none
-//
-//            case let .internal(
-//                .picker(
-//                    .multipleImagePicker(.delegate(.loadMultipleImages(images)))
-//                )
-//            ):
-//                if let firstImage = images.first?.0 {
-//                    state.selectedMainImage = firstImage
-//                }
-//                state.galleryImages = images.map { $0.0 }
-//                return .none
+            case .view(.galleryImageTapped):
+                state.path.append(.empty(.init()))
+                return .none
 
             case let .internal(.initialGalleryImagesLoaded(.success(images))):
                 state.galleryImages.insert(
@@ -104,12 +100,24 @@ public struct CreateFeature: Sendable {
                 print("Failed to load initial gallery images: \(error)")
                 return .none
 
-            case .internal:
-                return .none
-                    
-            case .delegate:
+            case .internal, .delegate, .path:
                 return .none
             }
+        }
+        .forEach(\.path, action: \.path)
+    }
+}
+
+@Reducer
+public struct EmptyReducer: Reducer {
+    public struct State: Equatable {
+        public init() {}
+    }
+    public enum Action: Sendable {}
+
+    public var body: some ReducerOf<Self> {
+        Reduce { _, _ in
+            .none
         }
     }
 }

@@ -4,7 +4,7 @@
 @_exported import DependenciesAdditions
 @_exported import DependenciesMacros
 @_exported import StyleGuide
-@_exported import Tagged
+//@_exported import Tagged
 @_exported import TCAHelpers
 @_exported import XCTestDynamicOverlay
 @_exported import SharedModels
