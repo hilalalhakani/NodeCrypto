@@ -8,7 +8,6 @@
 import Dependencies
 import Foundation
 import NodeCryptoCore
-import ResourceProvider
 import SharedModels
 import SwiftUI
 

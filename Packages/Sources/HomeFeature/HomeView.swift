@@ -3,7 +3,6 @@ import AVFoundation
 import AVKit
 import Dependencies
 import NodeCryptoCore
-import ResourceProvider
 import SwiftUI
 
 @Reducer

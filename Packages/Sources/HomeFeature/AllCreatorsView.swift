@@ -5,11 +5,11 @@
 //
 
 import SwiftUI
-import ResourceProvider
 import SharedModels
 import ComposableArchitecture
 import TCAHelpers
 import StyleGuide
+import SharedViews
 
 @Reducer
 public struct AllCreatorsReducer {

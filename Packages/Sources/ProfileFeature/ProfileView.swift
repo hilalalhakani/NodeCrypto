@@ -2,7 +2,6 @@ import APIClient
 import Dependencies
 import Keychain
 import NodeCryptoCore
-import ResourceProvider
 import SharedModels
 import SwiftUI
 import SharedViews

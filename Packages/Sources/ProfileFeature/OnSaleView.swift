@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 import NodeCryptoCore
-import ResourceProvider
 
 //struct OnSaleView: View {
 //    let store: StoreOf<ProfileReducer>

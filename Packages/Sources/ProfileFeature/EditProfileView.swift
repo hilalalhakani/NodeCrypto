@@ -13,7 +13,6 @@ import Foundation
 import Keychain
 import NodeCryptoCore
 import PhotosUI
-import ResourceProvider
 import SharedModels
 import SharedViews
 import SwiftUI

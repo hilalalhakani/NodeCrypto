@@ -7,7 +7,6 @@
 
 import APIClient
 import NodeCryptoCore
-import ResourceProvider
 import SwiftUI
 import SharedViews
 import StyleGuide

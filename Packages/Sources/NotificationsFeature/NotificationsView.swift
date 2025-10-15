@@ -10,7 +10,6 @@ import NodeCryptoCore
 import APIClient
 import Dependencies
 import Keychain
-import ResourceProvider
 import AuthenticationClient
 
 @Reducer

@@ -25,13 +25,11 @@ let package = Package(
         .singleTargetLibrary("SharedModels"),
         .singleTargetLibrary("ProfileFeature"),
         .singleTargetLibrary("SharedViews"),
-        .singleTargetLibrary("LocalStorage"),
-        .singleTargetLibrary("ResourceProvider"),
         .singleTargetLibrary("SearchFeature"),
         .singleTargetLibrary("CreateFeature"),
     ],
     dependencies: [
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.22.3"),
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.23.0"),
         .package(url: "https://github.com/pointfreeco/swift-navigation", from: "2.5.1"),
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.10.0"),
         .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.18.7"),
@@ -144,7 +142,6 @@ let package = Package(
                 "StyleGuide",
                 "TCAHelpers",
                 "SharedModels",
-                "ResourceProvider",
                 .product(name: "ComposableAnalytics", package: "swift-composable-analytics"),
                 .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
             ]
@@ -213,38 +210,6 @@ let package = Package(
             dependencies: ["NodeCryptoCore"],
             resources: [
                 .process("./Resources")
-            ]
-        ),
-        .target(
-            name: "LocalStorage",
-            dependencies: [
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-                .product(name: "Dependencies", package: "swift-dependencies"),
-                "SharedModels",
-            ],
-            resources: [
-                .process("Model.xcdatamodeld")
-            ]
-        ),
-        .target(
-            name: "ResourceProvider",
-            dependencies: [
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-                .product(name: "Dependencies", package: "swift-dependencies"),
-                "APIClient",
-                "StyleGuide",
-                "LocalStorage",
-                "SharedModels",
-                "SharedViews",
-                "Kingfisher"
-            ]
-        ),
-        .testTarget(
-            name: "LocalStorageTests",
-            dependencies: [
-                "LocalStorage",
-                "ResourceProvider",
-                "SharedModels",
             ]
         ),
         .target(

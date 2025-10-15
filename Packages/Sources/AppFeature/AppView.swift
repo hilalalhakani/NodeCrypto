@@ -90,11 +90,6 @@ public struct AppViewReducer {
             }
         }
         .ifLet(\.$destination, action: \.internal.destination)
-        //        .subscribe(
-        //            to: currentUser._stream,
-        //            on: \.view.onAppear,
-        //            with: \.internal.userChanged
-        //        )
     }
 
     @Reducer(state: .equatable, .sendable)
@@ -105,6 +100,8 @@ public struct AppViewReducer {
         case rootView(RootCoordinatorReducer)
     }
 }
+
+//extension  AppViewReducer.Destination: Equatable {}
 
 public struct AppView: View {
     public let store: StoreOf<AppViewReducer>

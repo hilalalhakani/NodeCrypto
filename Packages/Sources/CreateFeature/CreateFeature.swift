@@ -117,7 +117,7 @@ public struct EmptyReducer: Reducer {
 
     public var body: some ReducerOf<Self> {
         Reduce { _, _ in
-            .none
+            return .none
         }
     }
 }

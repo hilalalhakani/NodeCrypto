@@ -9,7 +9,6 @@ import Dependencies
 import Foundation
 import Keychain
 import NodeCryptoCore
-import ResourceProvider
 import SharedModels
 import SwiftUI
 

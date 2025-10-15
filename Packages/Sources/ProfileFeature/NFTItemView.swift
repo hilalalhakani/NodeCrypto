@@ -6,10 +6,10 @@
 //
 
 import Foundation
-import ResourceProvider
 import SharedModels
 import StyleGuide
 import SwiftUI
+import SharedViews
 
 struct NFTItemView: View {
     let nft: NFT

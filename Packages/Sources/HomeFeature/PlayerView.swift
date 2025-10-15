@@ -7,7 +7,6 @@
 
 import AVFoundation
 import NodeCryptoCore
-import ResourceProvider
 import StyleGuide
 import SwiftUI
 

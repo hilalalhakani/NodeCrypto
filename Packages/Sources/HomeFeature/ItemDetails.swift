@@ -7,7 +7,7 @@
 
 import SwiftUI
 import StyleGuide
-import ResourceProvider
+import NodeCryptoCore
 
 struct ItemDetails: View {
     var body: some View {
