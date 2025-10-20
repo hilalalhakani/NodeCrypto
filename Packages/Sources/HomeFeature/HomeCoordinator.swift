@@ -26,7 +26,6 @@ public struct HomeCoordinatorReducer: Sendable {
     public struct State: Equatable, Sendable {
         public var path = StackState<Path.State>()
         var home: HomeReducer.State = .init()
-        @Shared(.isTabBarVisible) var isTabBarVisible
         public init() {}
     }
 
@@ -46,14 +45,10 @@ public struct HomeCoordinatorReducer: Sendable {
         Reduce { state, action in
             switch action {
             case .path(.popFrom):
-                if state.path.count == 1 {
-                    state.$isTabBarVisible.withLock({ $0 = true })
-                }
                 return .none
 
             case .home(.delegate(.navigateToAllCreators(let creators))):
                 state.path.append(.allCreators(.init(creators: creators)))
-                state.$isTabBarVisible.withLock({ $0 = false })
                 return .none
 
             case .home:
@@ -70,7 +65,6 @@ public struct HomeCoordinatorReducer: Sendable {
 //MARK: HomeView
 public struct HomeCoordinatorView: View {
     @Bindable var store: StoreOf<HomeCoordinatorReducer>
-    @Shared(.isTabBarVisible) var isTabBarVisible
 
     public init(store: StoreOf<HomeCoordinatorReducer>) {
         self.store = store
@@ -81,7 +75,6 @@ public struct HomeCoordinatorView: View {
             path: $store.scope(state: \.path, action: \.path)
         ) {
             HomeView(store: store.scope(state: \.home, action: \.home))
-                .toolbar(isTabBarVisible ? .visible : .hidden, for: .tabBar)
         } destination: { store in
             switch store.case {
             case let .allCreators(allCreatorsStore):

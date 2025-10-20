@@ -21,7 +21,8 @@ let package = Package(
         .singleTargetLibrary("ConnectWalletFeature"),
         .singleTargetLibrary("NodeCryptoCore"),
         .singleTargetLibrary("Root"),
-        .singleTargetLibrary("APIClient"),
+//        .singleTargetLibrary("APIClient"),
+        .singleTargetLibrary("APIClientLive"),
         .singleTargetLibrary("SharedModels"),
         .singleTargetLibrary("ProfileFeature"),
         .singleTargetLibrary("SharedViews"),
@@ -30,11 +31,9 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.23.0"),
-        .package(url: "https://github.com/pointfreeco/swift-navigation", from: "2.5.1"),
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.10.0"),
         .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.18.7"),
         .package(url: "https://github.com/oliverfoggin/swift-composable-analytics", branch: "main"),
-        .package(url: "https://github.com/onevcat/Kingfisher.git", from: "8.6.0"),
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "12.4.0"),
         .package(url: "https://github.com/tgrapperon/swift-dependencies-additions", branch: "xcode26")
     ],
@@ -183,6 +182,14 @@ let package = Package(
             dependencies: [
                 .product(name: "Dependencies", package: "swift-dependencies"),
                 "SharedModels",
+            ]
+        ),
+        .target(
+            name: "APIClientLive",
+            dependencies: [
+                "APIClient",
+//                "SharedModels",
+//                .product(name: "Dependencies", package: "swift-dependencies"),
             ]
         ),
         .target(

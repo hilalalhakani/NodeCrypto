@@ -19,7 +19,7 @@ import SwiftUI
 
 @Reducer
 public struct EditProfile: Reducer, Sendable {
-    @Dependency(\.imageUploader) var imageUploader
+    @Dependency(\.apiClient.imageUploader) var imageUploader
     public init() {}
 
     @ObservableState

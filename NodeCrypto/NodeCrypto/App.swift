@@ -8,11 +8,11 @@
 import AppFeature
 @preconcurrency import ComposableAnalytics
 import ComposableArchitecture
-import Firebase
 import NodeCryptoCore
 import OnboardingFeature
 import SwiftUI
 import XCTestDynamicOverlay
+import APIClientLive
 
 @MainActor
 final class AppDelegate: NSObject {
@@ -21,6 +21,7 @@ final class AppDelegate: NSObject {
         reducer: {
             AppViewReducer()
                 .dependency(\.analyticsClient, .consoleLogger)
+                .dependency(\.apiClient, APIClient.liveValue)
         }
     )
 
@@ -35,7 +36,6 @@ final class AppDelegate: NSObject {
             didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey:
                 Any]? = nil
         ) -> Bool {
-            FirebaseApp.configure()
             userNotificationCenter.delegate = userNotificationDelegate
             store.send(
                 AppViewReducer.Action.internal(

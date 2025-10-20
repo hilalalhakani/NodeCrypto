@@ -149,7 +149,6 @@ public struct RootViewReducer: Sendable {
 
 public struct RootView: View {
     @Bindable var store: StoreOf<RootViewReducer>
-    @Shared(.isTabBarVisible) var isTabBarVisible
 
     public init(store: StoreOf<RootViewReducer>) {
         self.store = store
@@ -226,7 +225,6 @@ public struct RootView: View {
                     .ignoresSafeArea()
             }
 
-            if isTabBarVisible {
                 VStack {
                     if store.showsWobbleMenu {
                         wobbleMenuView
@@ -238,7 +236,6 @@ public struct RootView: View {
 
                 }
                 .frame(maxHeight: .infinity, alignment: .bottom)
-            }
         }
         .overlay {
             if store.showsProfileActionsList {

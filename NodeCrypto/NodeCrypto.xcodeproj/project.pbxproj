@@ -15,6 +15,7 @@
 		E7DF1BB42B4033D300A776D1 /* fr.xcloc in Resources */ = {isa = PBXBuildFile; fileRef = E7DF1BB22B4033D300A776D1 /* fr.xcloc */; };
 		E7DF1BB52B4033D300A776D1 /* en.xcloc in Resources */ = {isa = PBXBuildFile; fileRef = E7DF1BB32B4033D300A776D1 /* en.xcloc */; };
 		FE868E762D0F038E00E6D9BE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE868E752D0F038E00E6D9BE /* GoogleService-Info.plist */; };
+		FEB631182EA518D400DEF10A /* APIClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = FEB631172EA518D400DEF10A /* APIClientLive */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FEB631182EA518D400DEF10A /* APIClientLive in Frameworks */,
 				E7AE92E92B2260CA0065A9C2 /* AppFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -119,6 +121,7 @@
 			name = NodeCrypto;
 			packageProductDependencies = (
 				E7AE92E82B2260CA0065A9C2 /* AppFeature */,
+				FEB631172EA518D400DEF10A /* APIClientLive */,
 			);
 			productName = iOS;
 			productReference = E75E1A542B0A8E750053C9E9 /* NodeCrypto.app */;
@@ -428,6 +431,10 @@
 		E7AE92E82B2260CA0065A9C2 /* AppFeature */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AppFeature;
+		};
+		FEB631172EA518D400DEF10A /* APIClientLive */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = APIClientLive;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

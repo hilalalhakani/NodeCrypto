@@ -27,7 +27,6 @@ public struct ProfileCoordinatorReducer: Sendable {
     public struct State: Equatable, Sendable {
         public var path = StackState<Path.State>()
         var profile: ProfileReducer.State = .init()
-        @Shared(.isTabBarVisible) var isTabBarVisible
         public init() {}
     }
 
@@ -53,7 +52,7 @@ public struct ProfileCoordinatorReducer: Sendable {
                     if let user {
                         state.path.append(.editProfile(.init(user: user)))
                     }
-                    state.$isTabBarVisible.withLock({ $0 = false })
+                //    state.$isTabBarVisible.withLock({ $0 = false })
                     return .none
 
                 case .profile(.delegate(.menuButtonPressed)):
@@ -64,7 +63,6 @@ public struct ProfileCoordinatorReducer: Sendable {
 
                 case .path(.element(id: _, action: .editProfile(.delegate(.didTapBack)))):
                     _ = state.path.popLast()
-                    state.$isTabBarVisible.withLock({ $0 = true })
                     return .none
 
                 case .path:
@@ -83,7 +81,6 @@ public struct ProfileCoordinatorReducer: Sendable {
 //MARK: ProfileView
 public struct ProfileCoordinatorView: View {
     @Bindable var store: StoreOf<ProfileCoordinatorReducer>
-    @Shared(.isTabBarVisible) var isTabBarVisible
 
     public init(store: StoreOf<ProfileCoordinatorReducer>) {
         self.store = store
@@ -94,11 +91,11 @@ public struct ProfileCoordinatorView: View {
             path: $store.scope(state: \.path, action: \.path)
         ) {
             ProfileView(store: store.scope(state: \.profile, action: \.profile))
-                .toolbar(isTabBarVisible ? .visible : .hidden, for: .tabBar)
         } destination: { store in
             switch store.case {
                 case let .editProfile(editProfileStore):
                     EditProfileView(store: editProfileStore)
+                        .toolbar(.hidden, for: .tabBar)
             }
         }
         .frame(maxHeight: .infinity)
