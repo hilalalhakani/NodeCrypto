@@ -15,7 +15,7 @@ public struct RootViewReducer: Sendable {
     public struct State: Equatable, Sendable {
         var profile: ProfileCoordinatorReducer.State = .init()
         var notifications: NotificationReducer.State = .init()
-        var home: HomeCoordinatorReducer.State = .init()
+        var home: HomeReducer.State = .init()
         var search: SearchReducer.State = .init()
         @Presents var create: CreateFeature.State?
         var showsProfileActionsList = false
@@ -41,7 +41,7 @@ public struct RootViewReducer: Sendable {
         case profile(ProfileCoordinatorReducer.Action)
         case notifications(NotificationReducer.Action)
         case search(SearchReducer.Action)
-        case home(HomeCoordinatorReducer.Action)
+        case home(HomeReducer.Action)
     }
 
     @CasePathable
@@ -63,8 +63,6 @@ public struct RootViewReducer: Sendable {
 
     public var body: some ReducerOf<Self> {
 
-        CombineReducers {
-            BindingReducer(action: \.internal)
 
             Scope(state: \.profile, action: \.internal.profile) {
                 ProfileCoordinatorReducer()
@@ -79,8 +77,12 @@ public struct RootViewReducer: Sendable {
             }
 
             Scope(state: \.home, action: \.internal.home) {
-                HomeCoordinatorReducer()
+                HomeReducer()
             }
+
+        CombineReducers {
+
+            BindingReducer(action: \.internal)
 
             NestedAction(\.view) { state, viewAction in
                 switch viewAction {
@@ -93,7 +95,6 @@ public struct RootViewReducer: Sendable {
                         return navigateToEditProfile(state: &state)
 
                     case .tabSelected(let tab):
-                        // Prevent the add tab from being selected, trigger add action instead
                         if tab == .add {
                             return .send(.view(.addButtonPressed))
                         }
@@ -149,6 +150,7 @@ public struct RootViewReducer: Sendable {
 
 public struct RootView: View {
     @Bindable var store: StoreOf<RootViewReducer>
+    @State var isVisible = true
 
     public init(store: StoreOf<RootViewReducer>) {
         self.store = store
@@ -157,7 +159,7 @@ public struct RootView: View {
     public var body: some View {
         ZStack {
             TabView(selection: $store.selectedTab.sending(\.view.tabSelected)) {
-                HomeCoordinatorView(
+                HomeView(
                     store: store.scope(state: \.home, action: \.internal.home)
                 )
                 .tabItem {
@@ -230,8 +232,10 @@ public struct RootView: View {
                         wobbleMenuView
                     }
 
-                    AddButton {
-                        store.send(.view(.addButtonPressed))
+                    if isVisible {
+                        AddButton {
+                            store.send(.view(.addButtonPressed))
+                        }
                     }
 
                 }
