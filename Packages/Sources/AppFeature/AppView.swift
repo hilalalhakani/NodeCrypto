@@ -112,6 +112,7 @@ public struct AppView: View {
 
     public var body: some View {
         destination
+            .transition(.opacity.animation(.easeInOut))
             .task {
                 store.send(.view(.onAppear))
             }
@@ -138,7 +139,6 @@ public struct AppView: View {
                     NavigationStack {
                         ConnectWalletView(store: connectWalletStore)
                     }
-                    .transition(.opacity.animation(.easeInOut))
                 }
 
             case .rootView:
@@ -147,7 +147,6 @@ public struct AppView: View {
                     action: \.internal.destination.rootView
                 ) {
                     RootView(store: rootViewStore)
-                        .transition(.opacity.animation(.easeInOut))
                 }
 
             default:

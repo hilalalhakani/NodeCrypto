@@ -13,6 +13,7 @@ import OnboardingFeature
 import SwiftUI
 import XCTestDynamicOverlay
 import APIClientLive
+import Firebase
 
 @MainActor
 final class AppDelegate: NSObject {
@@ -42,6 +43,7 @@ final class AppDelegate: NSObject {
                     .appDelegate(.didFinishLaunching)
                 )
             )
+            FirebaseApp.configure()
             return true
         }
 

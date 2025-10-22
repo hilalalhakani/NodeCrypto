@@ -150,7 +150,7 @@ public struct RootViewReducer: Sendable {
 
 public struct RootView: View {
     @Bindable var store: StoreOf<RootViewReducer>
-    @State var isVisible = true
+    @SharedReader(.inMemory("addButtonVisibility")) var addButtonVisibility: Bool = true
 
     public init(store: StoreOf<RootViewReducer>) {
         self.store = store
@@ -159,9 +159,12 @@ public struct RootView: View {
     public var body: some View {
         ZStack {
             TabView(selection: $store.selectedTab.sending(\.view.tabSelected)) {
-                HomeView(
-                    store: store.scope(state: \.home, action: \.internal.home)
-                )
+                NavigationStack {
+                    HomeView(
+                        store: store.scope(state: \.home, action: \.internal.home)
+                    )
+                    .setupAddButtonVisibility()
+                }
                 .tabItem {
                     Image(Tab.home.systemImage, bundle: .module)
                         .renderingMode(.template)
@@ -232,7 +235,7 @@ public struct RootView: View {
                         wobbleMenuView
                     }
 
-                    if isVisible {
+                    if addButtonVisibility {
                         AddButton {
                             store.send(.view(.addButtonPressed))
                         }
@@ -333,6 +336,21 @@ public struct RootView: View {
         }
     }
 #endif
+
+
+extension View {
+    func setupAddButtonVisibility() -> some View {
+        @Shared(.inMemory("addButtonVisibility")) var addButtonVisibility: Bool = true
+
+        return self
+            .onAppear {
+                $addButtonVisibility.withLock { $0 = true }
+            }
+            .onDisappear {
+                $addButtonVisibility.withLock { $0 = false }
+            }
+    }
+}
 
 #Preview {
     RootView(

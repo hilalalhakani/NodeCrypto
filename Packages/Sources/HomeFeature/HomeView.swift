@@ -156,7 +156,6 @@ public struct HomeView: View {
     }
 
     public var body: some View {
-        NavigationStack {
             ZStack {
                 if let errorMessage = store.errorMessage {
                     errorView(message: errorMessage)
@@ -180,7 +179,6 @@ public struct HomeView: View {
             ) { store in
                 AllCreatorsView(store: store)
             }
-        }
         .task {
             store.send(.view(.onAppear))
         }
