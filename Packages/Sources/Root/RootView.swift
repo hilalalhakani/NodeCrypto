@@ -11,9 +11,11 @@ import SwiftUI
 public struct RootViewReducer: Sendable {
     public init() {}
 
+    @Shared(.inMemory("addButtonVisibility")) var addButtonVisibility: Bool = true
+
     @ObservableState
     public struct State: Equatable, Sendable {
-        var profile: ProfileCoordinatorReducer.State = .init()
+        var profile: ProfileReducer.State = .init()
         var notifications: NotificationReducer.State = .init()
         var home: HomeReducer.State = .init()
         var search: SearchReducer.State = .init()
@@ -38,7 +40,7 @@ public struct RootViewReducer: Sendable {
     public enum InternalAction: BindableAction, Sendable {
         case binding(BindingAction<State>)
         case create(PresentationAction<CreateFeature.Action>)
-        case profile(ProfileCoordinatorReducer.Action)
+        case profile(ProfileReducer.Action)
         case notifications(NotificationReducer.Action)
         case search(SearchReducer.Action)
         case home(HomeReducer.Action)
@@ -65,7 +67,7 @@ public struct RootViewReducer: Sendable {
 
 
             Scope(state: \.profile, action: \.internal.profile) {
-                ProfileCoordinatorReducer()
+                ProfileReducer()
             }
 
             Scope(state: \.search, action: \.internal.search) {
@@ -92,6 +94,7 @@ public struct RootViewReducer: Sendable {
 
                     case .editButtonPressed:
                         state.showsProfileActionsList = false
+                        $addButtonVisibility.withLock{ $0 = false }
                         return navigateToEditProfile(state: &state)
 
                     case .tabSelected(let tab):
@@ -126,7 +129,7 @@ public struct RootViewReducer: Sendable {
 
             NestedAction(\.internal) { state, internalAction in
                 switch internalAction {
-                    case .profile(.menuButtonPressed):
+                    case .profile(.delegate(.menuButtonPressed)):
                         state.showsProfileActionsList = true
                         return .none
 
@@ -142,9 +145,7 @@ public struct RootViewReducer: Sendable {
     }
 
     private func navigateToEditProfile(state: inout State) -> Effect<Action> {
-        ProfileCoordinatorReducer()
-            .reduce(into: &state.profile, action: .navigateToEditScreen)
-            .map { _ in Action.view(.editButtonPressed) }
+        return .send(.internal(.profile(.view(.navigateToEditProfile))))
     }
 }
 
@@ -163,7 +164,6 @@ public struct RootView: View {
                     HomeView(
                         store: store.scope(state: \.home, action: \.internal.home)
                     )
-                    .setupAddButtonVisibility()
                 }
                 .tabItem {
                     Image(Tab.home.systemImage, bundle: .module)
@@ -207,12 +207,14 @@ public struct RootView: View {
                 .tag(Tab.notifications)
                 .toolbarBackground(.white, for: .tabBar)
 
-                ProfileCoordinatorView(
-                    store: store.scope(
-                        state: \.profile,
-                        action: \.internal.profile
+                NavigationStack {
+                    ProfileView(
+                        store: store.scope(
+                            state: \.profile,
+                            action: \.internal.profile
+                        )
                     )
-                )
+                }
                 .tabItem {
                     Image(Tab.profile.systemImage, bundle: .module)
                         .renderingMode(.template)
@@ -243,6 +245,7 @@ public struct RootView: View {
 
                 }
                 .frame(maxHeight: .infinity, alignment: .bottom)
+                .ignoresSafeArea(.keyboard)
         }
         .overlay {
             if store.showsProfileActionsList {
@@ -336,21 +339,6 @@ public struct RootView: View {
         }
     }
 #endif
-
-
-extension View {
-    func setupAddButtonVisibility() -> some View {
-        @Shared(.inMemory("addButtonVisibility")) var addButtonVisibility: Bool = true
-
-        return self
-            .onAppear {
-                $addButtonVisibility.withLock { $0 = true }
-            }
-            .onDisappear {
-                $addButtonVisibility.withLock { $0 = false }
-            }
-    }
-}
 
 #Preview {
     RootView(

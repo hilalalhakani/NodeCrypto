@@ -18,32 +18,24 @@ extension VideoPlayerClient: DependencyKey {
             currentTime: { manager.currentTimeStream },
             duration: { manager.durationStream },
             isPlaying : { manager.isPlaying() },
-            destroy: { manager.cleanup() }
-        )
-    }()
-
-    public static let noop: Self = {
-        return Self(
-            play: {   },
-            pause: { },
-            seek: { _ in   },
-            load: { _ in   },
-            player: { AVPlayer() },
-            timeControlStatus: { .init(unfolding: { nil }) },
-            currentTime: { .init(unfolding: { nil }) },
-            duration: { .init(unfolding: { nil }) },
-            isPlaying : { false },
-            destroy: {   }
+            destroy: { manager.cleanup() },
+            setVolume: { manager.setVolume(volume: $0) }
         )
     }()
 }
 
 private actor VideoPlayerManager {
-    nonisolated(unsafe) private(set) var player: AVPlayer = .init()
-    
+    nonisolated(unsafe) private(set) var player: AVPlayer  = {
+        let player = AVPlayer()
+        player.volume = 0.5
+        return player
+    }()
+
     private final class TimeObserverToken: @unchecked Sendable {
         let token: Any
-        init(token: Any) { self.token = token }
+        init(token: Any) {
+            self.token = token
+        }
     }
 
     nonisolated var timeControlStatusStream: AsyncStream<AVPlayer.TimeControlStatus> {
@@ -97,21 +89,34 @@ private actor VideoPlayerManager {
         player = .init()
     }
 
-    @MainActor
-    func totalDuration() async throws -> Double {
-        try await player.currentItem?.asset.load(.duration).seconds ?? 0
+    nonisolated func totalDuration() async throws -> Double {
+        try await Task { @MainActor in
+            try await player.currentItem?.asset.load(.duration).seconds ?? 0
+        }.value
     }
 
     nonisolated func play() {
-        player.play()
+        Task { @MainActor in
+            player.play()
+        }
     }
 
     nonisolated func pause() {
-        player.pause()
+        Task { @MainActor in
+            player.pause()
+        }
     }
     
     nonisolated func seek(to time: CMTime) {
-        player.seek(to: time, toleranceBefore: .zero, toleranceAfter: .zero)
+        Task { @MainActor in
+            player.seek(to: time, toleranceBefore: .zero, toleranceAfter: .zero)
+        }
+    }
+
+    nonisolated func setVolume(volume: Float) {
+        Task { @MainActor in
+            player.volume = volume
+        }
     }
 
     nonisolated func load(url: String) {

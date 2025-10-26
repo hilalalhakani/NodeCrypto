@@ -113,6 +113,7 @@ public struct HomeReducer: Sendable {
                     return .none
 
                 case .onAppear:
+                    guard state.nfts.isEmpty && state.creators.isEmpty else { return .none }
                     state.errorMessage = nil
                     state.isLoading = true
                     return .run(priority: .background) { send in
@@ -156,13 +157,13 @@ public struct HomeView: View {
     }
 
     public var body: some View {
-            ZStack {
-                if let errorMessage = store.errorMessage {
-                    errorView(message: errorMessage)
-                } else {
-                    mainContentView
-                }
+         Group {
+            if let errorMessage = store.errorMessage {
+                errorView(message: errorMessage)
+            } else {
+                mainContentView
             }
+        }
             .transition(.opacity)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .animation(.easeInOut(duration: 0.3), value: store.errorMessage)
@@ -175,13 +176,12 @@ public struct HomeView: View {
                 PlayerView(store: store)
             }
             .navigationDestination(
-                item: $store.scope(state: \.allCreatorsState, action: \.internal.allCreatorsAction)
-            ) { store in
-                AllCreatorsView(store: store)
+                item: $store.scope(state: \.allCreatorsState, action: \.internal.allCreatorsAction),
+                destination: AllCreatorsView.init
+            )
+            .task {
+                store.send(.view(.onAppear))
             }
-        .task {
-            store.send(.view(.onAppear))
-        }
     }
 
     private var mainContentView: some View {

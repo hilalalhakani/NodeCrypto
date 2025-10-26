@@ -20,6 +20,7 @@ public struct PlayerViewReducer {
         var areControlsHidden: Bool
         var nft: NFTItem
         var sliderState: CustomSliderReducer.State
+        var volume: Double = 0.4
 
         public init(
             isPlaying: Bool = true,
@@ -54,6 +55,7 @@ public struct PlayerViewReducer {
     public enum InternalAction: BindableAction, Sendable {
         case binding(BindingAction<State>)
         case slider(CustomSliderReducer.Action)
+        case updateVolume(Double)
     }
 
     @CasePathable
@@ -64,6 +66,10 @@ public struct PlayerViewReducer {
     public var body: some ReducerOf<Self> {
 
         BindingReducer(action: \.internal)
+
+        Scope(state: \.sliderState, action: \.internal.slider) {
+            CustomSliderReducer()
+        }
 
         NestedAction(\.view) { state, action in
             switch action {
@@ -98,11 +104,12 @@ public struct PlayerViewReducer {
 
                 case .slider:
                     return .none
-            }
-        }
 
-        Scope(state: \.sliderState, action: \.internal.slider) {
-            CustomSliderReducer()
+                case .updateVolume(let volume):
+                    state.volume = volume
+                    player.setVolume(Float(volume))
+                    return .none
+            }
         }
     }
 }
@@ -115,13 +122,13 @@ public struct PlayerView: View {
     }
 
     public var body: some View {
-    VideoPlayerView()
+        VideoPlayerView()
             .ignoresSafeArea()
             .background {
                 Color.black
                     .ignoresSafeArea()
             }
-                    .onTapGesture {
+            .onTapGesture {
                 store.send(.view(.showControls))
             }
             .safeAreaInset(edge: .bottom) {
@@ -141,6 +148,7 @@ public struct PlayerView: View {
                     VStack(spacing: 7) {
                         ItemDetails()
 
+                        VStack(spacing: 10) {
                         HStack {
                             Button(action: { store.send(.view(.togglePlayPause)) }) {
                                 Image(systemName: store.isPlaying ? "pause.fill" : "play.fill")
@@ -161,12 +169,16 @@ public struct PlayerView: View {
                                     .foregroundStyle(Color.neutral2)
                             }
                         }
+                        .frame(height: 44)
+
+                        volumeIndicator
+                        }
                         .padding(.horizontal, 16)
                         .padding(.vertical, 8)
                         .frame(maxWidth: .infinity)
-                        .frame(height: 44)
                         .background(.white)
-                        .clipShape(.capsule)
+                        .cornerRadius(20)
+
                     }
                     .padding(.vertical, 40)
                     .padding(.horizontal, 16)
@@ -178,6 +190,18 @@ public struct PlayerView: View {
                     store.send(.view(.onAppear))
                 }
             }
+    }
+
+
+    @ViewBuilder
+    private var volumeIndicator: some View {
+        HStack {
+            Image(systemName: "speaker.fill")
+            Slider(
+                value: $store.volume.sending(\.internal.updateVolume), in: 0...1
+            )
+            Image(systemName: "speaker.wave.3.fill")
+        }
     }
 }
 

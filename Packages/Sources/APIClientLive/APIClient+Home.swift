@@ -51,7 +51,7 @@ extension APIClient.Home {
                     price: "1$",
                     cryptoPrice: "5 Eth",
                     videoURL:
-                        "https://flipfit-cdn.akamaized.net/flip_hls/6656423247ffe600199e8363-15125d/video_h1.m3u8"
+                        "https://diceyk6a7voy4.cloudfront.net/e78752a1-2e83-43fa-85ae-3d508be29366/hls/fitfest-sample-1_Ott_Hls_Ts_Avc_Aac_16x9_1280x720p_30Hz_6.0Mbps_qvbr.m3u8"
                 ),
                 .init(
                     image: "https://i.ibb.co/7R31jGw/feature-work.jpg",
@@ -60,9 +60,7 @@ extension APIClient.Home {
                     creatorImage: "https://i.ibb.co/7R31jGw/feature-work.jpg",
                     price: "2$",
                     cryptoPrice: "1 Eth",
-                    videoURL:
-                        "http://content.jwplatform.com/manifests/vM7nH0Kl.m3u8"
-
+                    videoURL: "https://assets.afcdn.com/video49/20210722/v_645516.m3u8"
                 ),
             ]
         }

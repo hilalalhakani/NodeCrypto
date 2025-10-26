@@ -11,6 +11,8 @@ public struct ProfileReducer: Sendable {
     @Dependency(\.openURL) var openURL
     @Dependency(\.apiClient.profile) var profileAPI
     @Shared(.user) var user
+    @Shared(.inMemory("addButtonVisibility")) var addButtonVisibility: Bool = true
+
     public init() {}
 
     //MARK: State
@@ -23,6 +25,7 @@ public struct ProfileReducer: Sendable {
         public var isLoading = true
         public var selectedTitle: String = "On sale"
         public var titles = ["On sale", "Created", "About me", "Liked"]
+        @Presents var editProfile: EditProfile.State? = nil
         public init() {}
 
         public init(
@@ -55,6 +58,8 @@ public struct ProfileReducer: Sendable {
         case onGetLikedNFTResponse(Result<[NFT], Error>)
         case onGetAboutItemsResponse(Result<[AboutMeItem], Error>)
         case onSelectedTitleChange(String)
+        case editProfile(PresentationAction<EditProfile.Action>)
+        case dismissEditProfile
     }
 
     //MARK: Delegate Actions
@@ -68,121 +73,141 @@ public struct ProfileReducer: Sendable {
         case openURL(SocialAccount)
         case logout
         case menuButtonPressed
+        case navigateToEditProfile
     }
 
     public var body: some ReducerOf<Self> {
-
-        //MARK: Internal Action Handler
-        NestedAction(\.internal) { state, action in
-            switch action {
-                case .onGetNFTResponse(.success(let nfts)):
-                    state.nfts = .init(uniqueElements: nfts)
-                    state.isLoading = false
-                    return .none
-
-                case .onGetNFTResponse(.failure):
-                    state.isLoading = false
-                    return .none
-
-                case .onGetAboutItemsResponse(.success(let items)):
-                    state.aboutMeItems = .init(uniqueElements: items)
-                    return .none
-
-                case .onGetLikedNFTResponse(.success(let items)):
-                    state.likedNfts = .init(uniqueElements: items)
-                    return .none
-
-                case .onGetCreatedNFTResponse(.success(let items)):
-                    state.createdNfts = .init(uniqueElements: items)
-                    return .none
-
-                case .onGetAboutItemsResponse(.failure):
-                    return .none
-
-                case .onGetLikedNFTResponse(.failure):
-                    return .none
-
-                case .onGetCreatedNFTResponse(.failure):
-                    return .none
-
-                case .onSelectedTitleChange(let newValue):
-                    state.selectedTitle = newValue
-                    return .none
+        CombineReducers {
+            //MARK: Internal Action Handler
+            NestedAction(\.internal) { state, action in
+                switch action {
+                    case .onGetNFTResponse(.success(let nfts)):
+                        state.nfts = .init(uniqueElements: nfts)
+                        state.isLoading = false
+                        return .none
+                        
+                    case .onGetNFTResponse(.failure):
+                        state.isLoading = false
+                        return .none
+                        
+                    case .onGetAboutItemsResponse(.success(let items)):
+                        state.aboutMeItems = .init(uniqueElements: items)
+                        return .none
+                        
+                    case .onGetLikedNFTResponse(.success(let items)):
+                        state.likedNfts = .init(uniqueElements: items)
+                        return .none
+                        
+                    case .onGetCreatedNFTResponse(.success(let items)):
+                        state.createdNfts = .init(uniqueElements: items)
+                        return .none
+                        
+                    case .onGetAboutItemsResponse(.failure):
+                        return .none
+                        
+                    case .onGetLikedNFTResponse(.failure):
+                        return .none
+                        
+                    case .onGetCreatedNFTResponse(.failure):
+                        return .none
+                        
+                    case .onSelectedTitleChange(let newValue):
+                        state.selectedTitle = newValue
+                        return .none
+                        
+                    case .dismissEditProfile:
+                        $addButtonVisibility.withLock { $0 = true}
+                        state.editProfile = nil
+                        return .none
+                        
+                    case .editProfile(.presented(.delegate(.didTapBack))):
+                        return .send(.internal(.dismissEditProfile))
+                        
+                    case .editProfile:
+                        return .none
+                }
             }
-        }
 
-        //MARK: View Action Handler
-        NestedAction(\.view) { state, action in
-            switch action {
-                case .onAppear:
-                    return .run { send in
-
-                        await withThrowingTaskGroup(of: Void.self) { group in
-                            group.addTask {
-                                await send(
-                                    .internal(
-                                        .onGetNFTResponse(
-                                            .init(catching: {
-                                                try await profileAPI.getSavedNFT()
-                                            })
+            //MARK: View Action Handler
+            NestedAction(\.view) { state, action in
+                switch action {
+                    case .onAppear:
+                        return .run { send in
+                            
+                            await withThrowingTaskGroup(of: Void.self) { group in
+                                group.addTask {
+                                    await send(
+                                        .internal(
+                                            .onGetNFTResponse(
+                                                .init(catching: {
+                                                    try await profileAPI.getSavedNFT()
+                                                })
+                                            )
                                         )
                                     )
-                                )
-                            }
-                            group.addTask {
-                                await send(
-                                    .internal(
-                                        .onGetAboutItemsResponse(
-                                            .init(catching: {
-                                                try await profileAPI.getUserInfo()
-                                            })
+                                }
+                                group.addTask {
+                                    await send(
+                                        .internal(
+                                            .onGetAboutItemsResponse(
+                                                .init(catching: {
+                                                    try await profileAPI.getUserInfo()
+                                                })
+                                            )
                                         )
                                     )
-                                )
-                            }
-
-                            group.addTask {
-                                await send(
-                                    .internal(
-                                        .onGetLikedNFTResponse(
-                                            .init(catching: {
-                                                try await profileAPI.getLikedNFT()
-                                            })
+                                }
+                                
+                                group.addTask {
+                                    await send(
+                                        .internal(
+                                            .onGetLikedNFTResponse(
+                                                .init(catching: {
+                                                    try await profileAPI.getLikedNFT()
+                                                })
+                                            )
                                         )
                                     )
-                                )
-                            }
-
-                            group.addTask {
-                                await send(
-                                    .internal(
-                                        .onGetCreatedNFTResponse(
-                                            .init(catching: {
-                                                try await profileAPI.getCreatedNFT()
-                                            })
+                                }
+                                
+                                group.addTask {
+                                    await send(
+                                        .internal(
+                                            .onGetCreatedNFTResponse(
+                                                .init(catching: {
+                                                    try await profileAPI.getCreatedNFT()
+                                                })
+                                            )
                                         )
                                     )
-                                )
+                                }
                             }
                         }
-                    }
-                case .logout:
-                    $user.withLock({ $0 = nil })
-                    return .none
-                case .openURL(_):
-                    return .run { send in
-                        if let url = URL(string: "https://google.com") {
-                            await self.openURL(url)
+                    case .logout:
+                        $user.withLock({ $0 = nil })
+                        return .none
+                    case .openURL(_):
+                        return .run { send in
+                            if let url = URL(string: "https://google.com") {
+                                await self.openURL(url)
+                            }
                         }
-                    }
-
-                case .menuButtonPressed:
-                    return .send(.delegate(.menuButtonPressed))
-
+                        
+                    case .menuButtonPressed:
+                        return .send(.delegate(.menuButtonPressed))
+                        
+                    case .navigateToEditProfile:
+                        if let user = user {
+                            state.editProfile = .init(user: user)
+                        }
+                        return .none
+                }
             }
         }
-
-     }
+        .ifLet(\.$editProfile, action: \.internal.editProfile) {
+            EditProfile()
+        }
+    }
 }
 
 //MARK: ProfileView
@@ -214,9 +239,7 @@ public struct ProfileView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
 
                 ExpandingMenuButton(
-                    selectedTitle: $store.selectedTitle.sending(
-                        \.internal.onSelectedTitleChange
-                    ),
+                    selectedTitle: $store.selectedTitle.sending(\.internal.onSelectedTitleChange),
                     titles: store.titles
                 )
             }
@@ -229,6 +252,12 @@ public struct ProfileView: View {
                     toolbarContent
                 }
             #endif
+                .navigationDestination(
+                    item: $store.scope(state: \.editProfile, action: \.internal.editProfile)
+                ) { store in
+                    EditProfileView(store: store)
+                        .toolbar(.hidden, for: .tabBar)
+                }
     }
 
     @ViewBuilder

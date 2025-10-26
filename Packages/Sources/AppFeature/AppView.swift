@@ -104,7 +104,7 @@ public struct AppViewReducer {
 //extension  AppViewReducer.Destination: Equatable {}
 
 public struct AppView: View {
-    public let store: StoreOf<AppViewReducer>
+    @State public var store: StoreOf<AppViewReducer>
 
     public init(store: StoreOf<AppViewReducer>) {
         self.store = store
