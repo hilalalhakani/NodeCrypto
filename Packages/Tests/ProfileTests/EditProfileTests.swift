@@ -6,6 +6,7 @@ import SharedModels
 import Testing
 import Foundation
 import SwiftUI
+import APIClient
 
 @MainActor
 struct EditProfileTests {
@@ -23,7 +24,7 @@ struct EditProfileTests {
         ) {
           EditProfile()
         } withDependencies: {
-          $0.imageUploader.uploadImage = { (data: Data) async throws -> String in
+            $0.apiClient.imageUploader.uploadImage = { (data: Data) async throws -> String in
               try await withCheckedThrowingContinuation { cont in
                   lockIsolated.withValue({ $0 = cont })
               }
@@ -81,7 +82,7 @@ struct EditProfileTests {
         ) {
           EditProfile()
         } withDependencies: {
-          $0.imageUploader.uploadImage = { (data: Data) async throws -> String in
+            $0.apiClient.imageUploader.uploadImage = { (data: Data) async throws -> String in
               try await withCheckedThrowingContinuation { cont in
                   lockIsolated.withValue({ $0 = cont })
               }

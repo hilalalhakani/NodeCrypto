@@ -4,6 +4,7 @@ import Foundation
 import Keychain
 import Testing
 import XCTest
+import SharedModels
 
 @MainActor
 struct AppFeatureTests {

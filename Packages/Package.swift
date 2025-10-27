@@ -117,7 +117,8 @@ let package = Package(
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 "StyleGuide",
                 "APIClient",
-                "TCAHelpers"
+                "TCAHelpers",
+                "SharedViews"
             ],
             resources: [.process("Resources")]
         ),
@@ -158,6 +159,8 @@ let package = Package(
                 "AuthenticationClient",
                 "APIClient",
                 "TCAHelpers",
+                "StyleGuide",
+                "SharedViews",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 .product(name: "Dependencies", package: "swift-dependencies")
             ],
@@ -170,6 +173,9 @@ let package = Package(
                 "APIClient",
                 "AuthenticationClient",
                 "Keychain",
+                .product(name: "ComposableAnalytics", package: "swift-composable-analytics"),
+                "StyleGuide",
+                "TCAHelpers",
                 .product(name: "DependenciesAdditions", package: "swift-dependencies-additions")
             ]
         ),
@@ -258,6 +264,8 @@ let package = Package(
                 "ProfileFeature",
                 "Root",
                 "SearchFeature",
+                "APIClient",
+                "APIClientLive"
             ]
         ),
     ]

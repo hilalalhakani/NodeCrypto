@@ -14,6 +14,7 @@ import SnapshotTesting
 import Testing
 import UIKit
 import SwiftUI
+import APIClientLive
 
 @MainActor
 struct ProfileSnapshotsTests {

@@ -13,14 +13,8 @@ public struct CreateFeature: Sendable {
 
     public init() {}
 
-    @Reducer//(state: .sendable, .equatable, action: .sendable)
-    public enum Path {
-        case empty(EmptyReducer)
-    }
-
     @ObservableState
     public struct State: Equatable, Sendable {
-        var path = StackState<Path.State>()
         var galleryImages: [Image] = []
         var picker: ImagesPicker.State
         var isNextButtonEnabled = false
@@ -35,7 +29,6 @@ public struct CreateFeature: Sendable {
         case view(ViewAction)
         case `internal`(InternalAction)
         case delegate(DelegateAction)
-        case path(StackAction<Path.State, Path.Action>)
     }
 
     @CasePathable
@@ -86,7 +79,6 @@ public struct CreateFeature: Sendable {
                 }
 
             case .view(.galleryImageTapped):
-                state.path.append(.empty(.init()))
                 return .none
 
             case let .internal(.initialGalleryImagesLoaded(.success(images))):
@@ -100,27 +92,9 @@ public struct CreateFeature: Sendable {
                 print("Failed to load initial gallery images: \(error)")
                 return .none
 
-            case .internal, .delegate, .path:
+            case .internal, .delegate:
                 return .none
             }
-        }
-        .forEach(\.path, action: \.path)
-    }
-}
-
-extension CreateFeature.Path.State: Sendable, Equatable {}
-extension CreateFeature.Path.Action: Sendable {}
-
-@Reducer
-public struct EmptyReducer {
-    public struct State: Equatable, Sendable {
-        public init() {}
-    }
-    public enum Action: Sendable {}
-
-    public var body: some ReducerOf<Self> {
-        Reduce { _, _ in
-            .none
         }
     }
 }
