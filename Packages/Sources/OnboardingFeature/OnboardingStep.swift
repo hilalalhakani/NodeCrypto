@@ -1,7 +1,7 @@
 import Foundation
 import StyleGuide
 import SwiftUI
-import CasePaths
+import ComposableArchitecture
 
 @CasePathable
 public enum OnboardingStep: Int, CaseIterable, Comparable, Equatable, Sendable {

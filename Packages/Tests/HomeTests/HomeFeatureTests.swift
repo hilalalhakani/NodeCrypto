@@ -67,8 +67,8 @@ struct HomeFeatureTests {
         let nftItem = nfts.first!
         let store = TestStore(initialState: HomeReducer.State()) {
             HomeReducer()
-        } withDependencies: {
-            $0.videoPlayer = .noop
+        } withDependencies: { _ in
+           // $0.videoPlayer = .noop
         }
 
         await store.send(\.view.tappedNFT, nftItem) {
@@ -79,8 +79,8 @@ struct HomeFeatureTests {
     @Test func playerViewAction_stopPlayer() async {
         let store = TestStore(initialState: HomeReducer.State(playerViewReducerState: .init(nft: nfts.first!))) {
             HomeReducer()
-        } withDependencies: {
-            $0.videoPlayer = .noop
+        } withDependencies: {  _ in
+          //  $0.videoPlayer = .noop
         }
 
         await store.send(\.internal.playerViewAction, .presented(.delegate(.playerClosed))) {

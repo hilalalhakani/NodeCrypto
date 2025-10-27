@@ -7,13 +7,14 @@
 
 import FirebaseAuth
 import Foundation
-import NodeCryptoCore
+import SharedModels
+import Dependencies
+import ComposableArchitecture
 
 public struct VoidResponse: Equatable, Sendable {
     public init() {}
 }
 
-@CasePathable
 public enum AuthenticationState: Equatable, Sendable {
     case signedIn(user: SharedModels.User)
     case signedOut

@@ -7,7 +7,7 @@
 
 import SwiftUI
 import StyleGuide
-import NodeCryptoCore
+import SharedViews
 
 struct ItemDetails: View {
     var body: some View {

@@ -9,7 +9,6 @@ import ComposableArchitecture
 import SharedModels
 import Dependencies
 import Keychain
-import NodeCryptoCore
 
 
 extension SharedKey where Self == SharedKeychainKey<User?> {

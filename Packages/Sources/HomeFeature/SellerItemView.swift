@@ -7,7 +7,7 @@
 
 import SwiftUI
 import SharedModels
-import NodeCryptoCore
+import SharedViews
 
 struct SellerItemView: View {
 

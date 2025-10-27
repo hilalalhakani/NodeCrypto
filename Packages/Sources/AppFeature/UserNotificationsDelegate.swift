@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import NodeCryptoCore
 import UserNotifications
+import Dependencies
 
 public final class UserNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     public var willPresent:
@@ -56,17 +56,6 @@ extension UserNotificationDelegate: DependencyKey, @unchecked Sendable {
 
         } openSettingsFor: { _, _ in
         }
-    }
-
-    public static var testValue: UserNotificationDelegate {
-        UserNotificationDelegate(
-            willPresent: unimplemented(
-                #"@Dependency(\.userNotificationDelegate).willPresent"#, placeholder: []
-            ),
-            didReceive: unimplemented(#"@Dependency(\.userNotificationDelegate).didReceive"#),
-            openSettingsFor: unimplemented(
-                #"@Dependency(\.userNotificationDelegate).openSettingsFor"#)
-        )
     }
 
     public static var previewValue: UserNotificationDelegate {

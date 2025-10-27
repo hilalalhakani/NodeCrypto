@@ -1,6 +1,10 @@
 import Foundation
-import NodeCryptoCore
+import StyleGuide
 import SwiftUI
+import ComposableArchitecture
+import TCAHelpers
+import SharedModels
+import ComposableAnalytics
 
 @Reducer
 public struct ConnectWalletReducer: Sendable {

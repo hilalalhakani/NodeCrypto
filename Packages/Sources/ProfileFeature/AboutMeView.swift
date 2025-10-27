@@ -6,7 +6,6 @@
 //
 
 import ComposableArchitecture
-import NodeCryptoCore
 import SharedModels
 import StyleGuide
 import SwiftUI

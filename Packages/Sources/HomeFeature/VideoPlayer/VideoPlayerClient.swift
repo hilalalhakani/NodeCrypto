@@ -5,9 +5,10 @@
 //  Created by Hilal Hakkani on 04/12/2024.
 //
 
-import NodeCryptoCore
 import Foundation
 import AVFoundation
+import DependenciesMacros
+import Dependencies
 
 @DependencyClient
 public struct VideoPlayerClient: Sendable {

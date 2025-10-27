@@ -8,7 +8,6 @@
 import AppFeature
 @preconcurrency import ComposableAnalytics
 import ComposableArchitecture
-import NodeCryptoCore
 import OnboardingFeature
 import SwiftUI
 import XCTestDynamicOverlay

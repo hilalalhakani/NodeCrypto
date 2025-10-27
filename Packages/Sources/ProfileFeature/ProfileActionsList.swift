@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import NodeCryptoCore
 import SwiftUI
+import StyleGuide
 
 public struct ProfileActionsList: View {
     let editButtonPressed: () -> Void

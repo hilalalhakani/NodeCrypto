@@ -1,5 +1,5 @@
-import NodeCryptoCore
 import SwiftUI
+import StyleGuide
 
 struct OnboardingBarStepper: View {
     let numberOfSteps: Int

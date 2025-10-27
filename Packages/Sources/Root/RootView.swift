@@ -1,11 +1,12 @@
 import CreateFeature
 import Foundation
 import HomeFeature
-import NodeCryptoCore
 import NotificationsFeature
 import ProfileFeature
 import SearchFeature
 import SwiftUI
+import ComposableArchitecture
+import TCAHelpers
 
 @Reducer
 public struct RootViewReducer: Sendable {

@@ -13,6 +13,7 @@ import SwiftUI
 import TCAHelpers
 import Keychain
 import AuthenticationClient
+import DependenciesAdditions
 
 @Reducer
 public struct ConnectingWalletViewReducer: Sendable {

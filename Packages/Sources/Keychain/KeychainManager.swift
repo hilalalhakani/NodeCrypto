@@ -6,7 +6,8 @@
 //
 
 import Foundation
-import NodeCryptoCore
+import ComposableArchitecture
+import Dependencies
 
 @DependencyClient
 public struct KeychainManager: Sendable {

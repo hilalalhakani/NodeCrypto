@@ -1,10 +1,12 @@
 import APIClient
 import Dependencies
 import Keychain
-import NodeCryptoCore
 import SharedModels
 import SwiftUI
 import SharedViews
+import ComposableArchitecture
+import TCAHelpers
+import StyleGuide
 
 @Reducer
 public struct ProfileReducer: Sendable {
@@ -215,7 +217,7 @@ public struct ProfileView: View {
     @Bindable var store: StoreOf<ProfileReducer>
     @Shared(.user) var user
     let gridLayout: [GridItem] = [
-        GridItem(.flexible(), spacing: 8), GridItem(.flexible(), spacing: 8),
+        GridItem(.flexible(), spacing: 8), GridItem(.flexible(), spacing: 8)
     ]
 
     public init(store: StoreOf<ProfileReducer>) {

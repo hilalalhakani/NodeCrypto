@@ -1,6 +1,5 @@
 import Foundation
 import SwiftUI
-import NodeCryptoCore
 
 public struct AddButton: View {
     let action: () -> Void

@@ -11,14 +11,16 @@ import Combine
 import Dependencies
 import Foundation
 import Keychain
-import NodeCryptoCore
 import PhotosUI
 import SharedModels
 import SharedViews
 import SwiftUI
+import ComposableArchitecture
+import TCAHelpers
+import StyleGuide
 
 @Reducer
-public struct EditProfile: Reducer, Sendable {
+public struct EditProfile: Sendable {
     @Dependency(\.apiClient.imageUploader) var imageUploader
     public init() {}
 

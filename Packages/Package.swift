@@ -7,27 +7,34 @@ let package = Package(
     name: "Main",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v17), .macOS(.v13),
+        .iOS(.v17),
+        .macOS(.v13),
     ],
     products: [
-        .singleTargetLibrary("AuthenticationClient"),
-        .singleTargetLibrary("AppFeature"),
-        .singleTargetLibrary("OnboardingFeature"),
-        .singleTargetLibrary("HomeFeature"),
-        .singleTargetLibrary("NotificationsFeature"),
-        .singleTargetLibrary("StyleGuide"),
-        .singleTargetLibrary("TCAHelpers"),
-        .singleTargetLibrary("Keychain"),
-        .singleTargetLibrary("ConnectWalletFeature"),
-        .singleTargetLibrary("NodeCryptoCore"),
-        .singleTargetLibrary("Root"),
-//        .singleTargetLibrary("APIClient"),
-        .singleTargetLibrary("APIClientLive"),
-        .singleTargetLibrary("SharedModels"),
-        .singleTargetLibrary("ProfileFeature"),
-        .singleTargetLibrary("SharedViews"),
-        .singleTargetLibrary("SearchFeature"),
-        .singleTargetLibrary("CreateFeature"),
+        // Core Infrastructure
+        .library(name: "AppFeature", targets: ["AppFeature"]),
+        .library(name: "Root", targets: ["Root"]),
+
+        // Features
+        .library(name: "OnboardingFeature", targets: ["OnboardingFeature"]),
+        .library(name: "HomeFeature", targets: ["HomeFeature"]),
+        .library(name: "ProfileFeature", targets: ["ProfileFeature"]),
+        .library(name: "SearchFeature", targets: ["SearchFeature"]),
+        .library(name: "CreateFeature", targets: ["CreateFeature"]),
+        .library(name: "NotificationsFeature", targets: ["NotificationsFeature"]),
+        .library(name: "ConnectWalletFeature", targets: ["ConnectWalletFeature"]),
+
+        // Shared Utilities
+        .library(name: "SharedModels", targets: ["SharedModels"]),
+        .library(name: "SharedViews", targets: ["SharedViews"]),
+        .library(name: "StyleGuide", targets: ["StyleGuide"]),
+        .library(name: "TCAHelpers", targets: ["TCAHelpers"]),
+
+        // Clients & Services
+        .library(name: "APIClient", targets: ["APIClient"]),
+        .library(name: "APIClientLive", targets: ["APIClientLive"]),
+        .library(name: "AuthenticationClient", targets: ["AuthenticationClient"]),
+        .library(name: "Keychain", targets: ["Keychain"]),
     ],
     dependencies: [
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.23.0"),
@@ -35,95 +42,144 @@ let package = Package(
         .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.18.7"),
         .package(url: "https://github.com/oliverfoggin/swift-composable-analytics", branch: "main"),
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "12.4.0"),
-        .package(url: "https://github.com/tgrapperon/swift-dependencies-additions", branch: "xcode26")
+        .package(url: "https://github.com/tgrapperon/swift-dependencies-additions", branch: "xcode26"),
     ],
     targets: [
+        // MARK: - Core Infrastructure
+
         .target(
             name: "AppFeature",
             dependencies: [
+                "Root",
+                "OnboardingFeature",
+                "ConnectWalletFeature",
                 "SharedViews",
                 "SharedModels",
-                "NodeCryptoCore",
-                "OnboardingFeature",
                 "Keychain",
-                "ConnectWalletFeature",
-                "Root",
             ]
         ),
         .testTarget(
             name: "AppFeatureTests",
-            dependencies: [
-                "AppFeature"
-            ]
+            dependencies: ["AppFeature"]
         ),
+
         .target(
-            name: "AuthenticationClient",
+            name: "Root",
             dependencies: [
-                "NodeCryptoCore", "Keychain"
+                "HomeFeature",
+                "ProfileFeature",
+                "NotificationsFeature",
+                "SearchFeature",
+                "CreateFeature",
             ]
         ),
-        .target(
-            name: "Keychain",
-            dependencies: [
-                "NodeCryptoCore"
-            ]
-        ),
-        .testTarget(
-            name: "KeychainTests",
-            dependencies: [
-                "Keychain"
-            ]
-        ),
+
+        // MARK: - Features
+
         .target(
             name: "OnboardingFeature",
             dependencies: [
-                "NodeCryptoCore"
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                "TCAHelpers",
+                "StyleGuide",
+                .product(name: "ComposableAnalytics", package: "swift-composable-analytics"),
+                "SharedViews"
             ],
-            resources: [
-                .process("./Resources")
-            ]
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "OnboardingFeatureTests",
-            dependencies: [
-                "OnboardingFeature"
-            ]
+            dependencies: ["OnboardingFeature"]
         ),
-        .target(
-            name: "ConnectWalletFeature",
-            dependencies: [
-                "NodeCryptoCore",
-                "AuthenticationClient",
-                "APIClient",
-                "Keychain",
-            ]
-        ),
-        .testTarget(
-            name: "ConnectWalletFeatureTests",
-            dependencies: [
-                "ConnectWalletFeature"
-            ]
-        ),
+
         .target(
             name: "HomeFeature",
             dependencies: [
-                "NodeCryptoCore",
                 "APIClient",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                "TCAHelpers",
+                .product(name: "Dependencies", package: "swift-dependencies"),
+                "SharedModels",
+                "SharedViews",
+                "StyleGuide"
             ]
         ),
         .testTarget(
             name: "HomeTests",
-            dependencies: [
-                "HomeFeature"
-            ]
+            dependencies: ["HomeFeature"]
         ),
+
         .target(
-            name: "SharedViews",
+            name: "ProfileFeature",
             dependencies: [
-            .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-            "StyleGuide"
+                "Keychain",
+                "AuthenticationClient",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                "StyleGuide",
+                "APIClient",
+                "TCAHelpers"
+            ],
+            resources: [.process("Resources")]
+        ),
+        .testTarget(
+            name: "ProfileTests",
+            dependencies: ["ProfileFeature"]
+        ),
+
+        .target(
+            name: "SearchFeature",
+            dependencies: [
+                "APIClient",
+                "SharedViews",
+                "StyleGuide",
+                "TCAHelpers"
+            ],
+            resources: [.process("Resources")]
+        ),
+
+        .target(
+            name: "CreateFeature",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                "SharedViews",
+                "TCAHelpers"
+            ],
+            resources: [.process("Resources")]
+        ),
+        .testTarget(
+            name: "CreateFeatureTests",
+            dependencies: ["CreateFeature"]
+        ),
+
+        .target(
+            name: "NotificationsFeature",
+            dependencies: [
+                "Keychain",
+                "AuthenticationClient",
+                "APIClient",
+                "TCAHelpers",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                .product(name: "Dependencies", package: "swift-dependencies")
+            ],
+            resources: [.process("Resources")]
+        ),
+
+        .target(
+            name: "ConnectWalletFeature",
+            dependencies: [
+                "APIClient",
+                "AuthenticationClient",
+                "Keychain",
+                .product(name: "DependenciesAdditions", package: "swift-dependencies-additions")
             ]
         ),
+        .testTarget(
+            name: "ConnectWalletFeatureTests",
+            dependencies: ["ConnectWalletFeature"]
+        ),
+
+        // MARK: - Shared Utilities
+
         .target(
             name: "SharedModels",
             dependencies: [
@@ -131,52 +187,30 @@ let package = Package(
                 .product(name: "Dependencies", package: "swift-dependencies"),
             ]
         ),
+
         .target(
-            name: "NodeCryptoCore",
+            name: "SharedViews",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-                .product(name: "Dependencies", package: "swift-dependencies"),
-                .product(name: "DependenciesMacros", package: "swift-dependencies"),
-                .product(name: "DependenciesAdditions", package: "swift-dependencies-additions"),
                 "StyleGuide",
-                "TCAHelpers",
-                "SharedModels",
-                .product(name: "ComposableAnalytics", package: "swift-composable-analytics"),
-                .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
             ]
         ),
-        .testTarget(
-            name: "SnapshotsTests",
-            dependencies: [
-                .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
-                "ConnectWalletFeature",
-                "OnboardingFeature",
-                "ProfileFeature",
-                "Root",
-                "SearchFeature",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
-            ]
-        ),
+
         .target(
-            name: "Root",
-            dependencies: ["NodeCryptoCore", "ProfileFeature", "NotificationsFeature", "HomeFeature", "SearchFeature", "CreateFeature"]
+            name: "StyleGuide",
+            dependencies: [],
+            resources: [.process("Fonts")]
         ),
+
         .target(
             name: "TCAHelpers",
             dependencies: [
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
         ),
-        .target(
-            name: "StyleGuide",
-            dependencies: [
-                // "SharedResources"
-            ],
-            resources: [
-                // .process("./Media.xcassets"),
-                .process("./Fonts")
-            ]
-        ),
+
+        // MARK: - Clients & Services
+
         .target(
             name: "APIClient",
             dependencies: [
@@ -184,66 +218,47 @@ let package = Package(
                 "SharedModels",
             ]
         ),
+
         .target(
             name: "APIClientLive",
+            dependencies: ["APIClient"]
+        ),
+
+        .target(
+            name: "AuthenticationClient",
             dependencies: [
-                "APIClient",
-//                "SharedModels",
-//                .product(name: "Dependencies", package: "swift-dependencies"),
+                "Keychain",
+                .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
+                "SharedModels",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
+
         .target(
-            name: "ProfileFeature",
-            dependencies: ["NodeCryptoCore", "Keychain", "AuthenticationClient"],
-            resources: [
-                .process("./Resources")
+            name: "Keychain",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                .product(name: "Dependencies", package: "swift-dependencies")
             ]
         ),
         .testTarget(
-            name: "ProfileTests",
-            dependencies: [
-                "ProfileFeature"
-            ]
+            name: "KeychainTests",
+            dependencies: ["Keychain"]
         ),
-        .target(
-            name: "NotificationsFeature",
-            dependencies: ["NodeCryptoCore", "Keychain", "AuthenticationClient"],
-            resources: [
-                .process("./Resources")
-            ]
-        ),
-        .target(
-            name: "SearchFeature",
-            dependencies: ["NodeCryptoCore"],
-            resources: [
-                .process("./Resources")
-            ]
-        ),
-        .target(
-            name: "CreateFeature",
-            dependencies: ["NodeCryptoCore"],
-            resources: [
-              .process("./Resources")
-            ]
-        ),
+
+        // MARK: - Testing
+
         .testTarget(
-            name: "CreateFeatureTests",
+            name: "SnapshotsTests",
             dependencies: [
-                "CreateFeature"
+                .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                "ConnectWalletFeature",
+                "OnboardingFeature",
+                "ProfileFeature",
+                "Root",
+                "SearchFeature",
             ]
         ),
     ]
 )
-
-//// Inject base plugins into each target
-package.targets = package.targets.map { target in
-    let plugins = target.plugins ?? []
-    target.plugins = plugins
-    return target
-}
-
-extension Product {
-    static func singleTargetLibrary(_ name: String) -> Product {
-        .library(name: name, targets: [name])
-    }
-}
