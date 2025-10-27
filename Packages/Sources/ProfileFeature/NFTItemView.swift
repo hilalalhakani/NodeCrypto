@@ -11,9 +11,9 @@ import StyleGuide
 import SwiftUI
 import SharedViews
 
-struct NFTItemView: View {
+public struct NFTItemView: View {
     let nft: NFT
-    var body: some View {
+    public var body: some View {
         HStack(spacing: 20) {
             AsyncImageView(url: .init(string: nft.imageURL)!)
             .clipShape(RoundedRectangle(cornerRadius: 16))
