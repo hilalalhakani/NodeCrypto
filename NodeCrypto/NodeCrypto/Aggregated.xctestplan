@@ -28,13 +28,6 @@
     {
       "target" : {
         "containerPath" : "container:..\/Packages",
-        "identifier" : "LocalStorageTests",
-        "name" : "LocalStorageTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:..\/Packages",
         "identifier" : "HomeTests",
         "name" : "HomeTests"
       }
