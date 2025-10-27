@@ -93,16 +93,17 @@ public struct AppViewReducer {
         .ifLet(\.$destination, action: \.internal.destination)
     }
 
-    @Reducer(state: .equatable, .sendable)
+    @Reducer
     public enum Destination {
         case onboarding(OnboardingViewReducer)
         case launchImage
         case connectWallet(ConnectWalletReducer)
         case rootView(RootViewReducer)
     }
+
 }
 
-//extension  AppViewReducer.Destination: Equatable {}
+extension AppViewReducer.Destination.State: Sendable, Equatable {}
 
 public struct AppView: View {
     @State public var store: StoreOf<AppViewReducer>

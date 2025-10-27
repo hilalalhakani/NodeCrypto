@@ -13,7 +13,7 @@ public struct CreateFeature: Sendable {
 
     public init() {}
 
-    @Reducer(state: .sendable, .equatable, action: .sendable)
+    @Reducer//(state: .sendable, .equatable, action: .sendable)
     public enum Path {
         case empty(EmptyReducer)
     }
@@ -108,16 +108,19 @@ public struct CreateFeature: Sendable {
     }
 }
 
+extension CreateFeature.Path.State: Sendable, Equatable {}
+extension CreateFeature.Path.Action: Sendable {}
+
 @Reducer
-public struct EmptyReducer: Reducer {
-    public struct State: Equatable {
+public struct EmptyReducer {
+    public struct State: Equatable, Sendable {
         public init() {}
     }
     public enum Action: Sendable {}
 
     public var body: some ReducerOf<Self> {
         Reduce { _, _ in
-            return .none
+            .none
         }
     }
 }
