@@ -389,7 +389,7 @@ public struct EditProfileView: View {
                         case .none:
                             if let imageURL = URL(string: profileImageURL) {
                                 MainActor.assumeIsolated {
-                                    AsyncImageView(url: imageURL)
+                                    SharedViews.AsyncImageView(url: imageURL)
                                 }
                             }
                             else {
