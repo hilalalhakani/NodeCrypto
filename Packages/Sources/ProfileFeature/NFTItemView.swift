@@ -15,7 +15,7 @@ public struct NFTItemView: View {
     let nft: NFT
     public var body: some View {
         HStack(spacing: 20) {
-            RemoteImageView(url: URL(string: nft.imageURL)!)
+            SharedViews.RemoteImageView(url: URL(string: nft.imageURL)!)
             .clipShape(RoundedRectangle(cornerRadius: 16))
             .frame(width: 144, height: 112)
 

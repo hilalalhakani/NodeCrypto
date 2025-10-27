@@ -266,7 +266,7 @@ public struct ProfileView: View {
     private var profileImageView: some View {
         if let profileImage = user?.profileImage,
            let url = URL(string: profileImage) {
-            RemoteImageView(url: url)
+            SharedViews.RemoteImageView(url: url)
                 .frame(width: 100, height: 100)
                 .clipShape(.circle)
                 .onTapGesture {
@@ -435,7 +435,7 @@ public struct ProfileView: View {
                 if !store.isLoading {
                     ForEach(store.nfts) { nft in
                         if let url = URL(string: nft.imageURL) {
-                            RemoteImageView(url: url)
+                            SharedViews.RemoteImageView(url: url)
                                 .frame(height: 168)
                                 .cornerRadius(8)
                                 .clipShape(RoundedRectangle(cornerRadius: 16, style: .circular))

@@ -164,7 +164,7 @@ public struct NotificationsView: View {
                             .foregroundStyle(Color.primary1)
                             .frame(width: 8, height: 8)
 
-                        RemoteImageView(url: .init(string: notification.senderImageURLString)!)
+                        SharedViews.RemoteImageView(url: .init(string: notification.senderImageURLString)!)
                             .clipShape(.circle)
                             .frame(width: 42, height: 42)
 
