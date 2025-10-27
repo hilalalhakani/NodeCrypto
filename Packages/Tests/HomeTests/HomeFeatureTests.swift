@@ -98,6 +98,12 @@ struct HomeFeatureTests {
 
         await store.send(\.view.onAppear)
 
+        await store.receive(\.internal.onCreatorsError) {
+            $0.errorMessage = "Failed to load items"
+        }
+
+        await store.receive(\.internal.onNFTSError)
+
         await store.receive(\.internal.removePlaceHolder) {
             $0.isLoading = false
         }

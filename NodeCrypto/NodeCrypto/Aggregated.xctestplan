@@ -18,7 +18,27 @@
   },
   "testTargets" : [
     {
-      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:..\/Packages",
+        "identifier" : "ProfileTests",
+        "name" : "ProfileTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/Packages",
+        "identifier" : "SnapshotsTests",
+        "name" : "SnapshotsTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/Packages",
+        "identifier" : "CreateFeatureTests",
+        "name" : "CreateFeatureTests"
+      }
+    },
+    {
       "target" : {
         "containerPath" : "container:..\/Packages",
         "identifier" : "OnboardingFeatureTests",
@@ -28,12 +48,11 @@
     {
       "target" : {
         "containerPath" : "container:..\/Packages",
-        "identifier" : "HomeTests",
-        "name" : "HomeTests"
+        "identifier" : "KeychainTests",
+        "name" : "KeychainTests"
       }
     },
     {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:..\/Packages",
         "identifier" : "ConnectWalletFeatureTests",
@@ -43,22 +62,6 @@
     {
       "target" : {
         "containerPath" : "container:..\/Packages",
-        "identifier" : "ProfileTests",
-        "name" : "ProfileTests"
-      }
-    },
-    {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:..\/Packages",
-        "identifier" : "KeychainTests",
-        "name" : "KeychainTests"
-      }
-    },
-    {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:..\/Packages",
         "identifier" : "AppFeatureTests",
         "name" : "AppFeatureTests"
       }
@@ -66,8 +69,8 @@
     {
       "target" : {
         "containerPath" : "container:..\/Packages",
-        "identifier" : "SnapshotsTests",
-        "name" : "SnapshotsTests"
+        "identifier" : "HomeTests",
+        "name" : "HomeTests"
       }
     }
   ],
