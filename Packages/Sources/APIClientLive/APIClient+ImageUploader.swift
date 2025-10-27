@@ -5,7 +5,7 @@
 //  Created by Hilal Hakkani on 19/10/2025.
 //
 
-@_exported import APIClient
+import APIClient
 import Foundation
 import Dependencies
 

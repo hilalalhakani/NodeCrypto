@@ -6,7 +6,8 @@
 //
 
 import Dependencies
-@_exported import APIClient
+import APIClient
+import Foundation
 
 extension APIClient.Profile {
     public static func mock() -> Self {
@@ -138,5 +139,17 @@ extension APIClient.Profile {
                 ]
             }
         )
+    }
+}
+
+public struct UUIDGenerator {
+    static var incrementing: @Sendable () -> UUID {
+        let counter = LockIsolated(0)
+        return {
+            counter.withValue({ $0 += 1 })
+            // Create a deterministic UUID based on the counter
+            let uuidString = String(format: "%016d", counter.value)
+            return UUID(uuidString: uuidString.prefix(8) + "-0000-0000-0000-000000000000") ?? UUID()
+        }
     }
 }

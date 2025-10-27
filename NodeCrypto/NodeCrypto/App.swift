@@ -13,6 +13,7 @@ import SwiftUI
 import XCTestDynamicOverlay
 import APIClientLive
 import Firebase
+import APIClient
 
 @MainActor
 final class AppDelegate: NSObject {
