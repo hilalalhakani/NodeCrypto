@@ -232,7 +232,7 @@ public struct SearchView: View {
             ScrollView {
                 LazyVGrid(columns: gridLayout, spacing: 20) {
                     ForEach(store.searchResults) { nft in
-                        AsyncImageView(url: URL(string: nft.imageURL)!)
+                        SharedViews.AsyncImageView(url: URL(string: nft.imageURL)!)
                             .frame(height: 168)
                             .cornerRadius(8)
                             .clipShape(
