@@ -133,7 +133,8 @@ let package = Package(
                 "APIClient",
                 "SharedViews",
                 "StyleGuide",
-                "TCAHelpers"
+                "TCAHelpers",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ],
             resources: [.process("Resources")]
         ),

@@ -11,6 +11,7 @@ import SharedViews
 import StyleGuide
 import ComposableArchitecture
 import TCAHelpers
+import Dependencies
 
 @Reducer
 public struct SearchReducer: Sendable {
