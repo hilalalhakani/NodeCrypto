@@ -16,7 +16,7 @@ struct SellerItemView: View {
     var body: some View {
         HStack(spacing: 10) {
             if let url = URL(string: creator.image) {
-                AsyncImageView(url: url)
+                RemoteImageView(url: url)
                     .clipShape(Circle())
                     .frame(width: 56, height: 56)
 
