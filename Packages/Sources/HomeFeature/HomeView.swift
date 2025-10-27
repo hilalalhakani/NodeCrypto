@@ -322,7 +322,7 @@ public struct HomeView: View {
         var body: some View {
             ZStack {
                 if let url = URL(string: nft.image) {
-                    AsyncImageView(url: url)
+                    RemoteImageView(url: url)
                         .clipShape(RoundedRectangle(cornerRadius: 24))
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .accessibilityLabel("NFT image: \(nft.name)")
@@ -364,7 +364,7 @@ public struct HomeView: View {
 
                         HStack {
                             if let url = URL(string: nft.creatorImage) {
-                                AsyncImageView(url: url)
+                                RemoteImageView(url: url)
                                     .aspectRatio(contentMode: .fill)
                                     .clipShape(Circle())
                                     .frame(width: 20, height: 20)

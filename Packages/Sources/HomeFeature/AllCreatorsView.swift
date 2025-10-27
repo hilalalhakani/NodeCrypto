@@ -97,7 +97,7 @@ struct CreatorCardView: View {
         HStack(spacing: 12) {
             Group {
                 if let url = URL(string: creator.image) {
-                    AsyncImageView(url: url)
+                    RemoteImageView(url: url)
                         .clipShape(Circle())
                         .overlay(alignment: .topTrailing) {
                             if index < 3 {

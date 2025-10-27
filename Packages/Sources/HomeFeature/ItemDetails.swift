@@ -19,7 +19,7 @@ struct ItemDetails: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             HStack {
-                AsyncImageView(url: URL(string: "https://dummyimage.com/600x400/000/fff")!)
+                RemoteImageView(url: URL(string: "https://dummyimage.com/600x400/000/fff")!)
                     .frame(width: 20, height: 20)
                     .clipShape(Circle())
 
