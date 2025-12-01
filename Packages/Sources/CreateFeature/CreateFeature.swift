@@ -62,17 +62,8 @@ public struct CreateFeature: Sendable {
                 return .none
 
             case .view(.onAppear):
-                return .run { send in
-                    await send(
-                        .internal(
-                            .initialGalleryImagesLoaded(
-                                Result {
-                                    try await photoLibraryClient.fetchImages(7)
-                                }
-                            )
-                        )
-                    )
-                }
+                return .none
+                    
             case .view(.backButtonTapped):
                 return .run { _ in
                     await self.dismiss()

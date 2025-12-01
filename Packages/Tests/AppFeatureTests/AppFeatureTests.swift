@@ -22,8 +22,7 @@ struct AppFeatureTests {
 
         #expect(store.state.destination == .launchImage)
 
-        await store.send(.view(.onAppear))
-            .cancel()
+        await store.send(.view(.onAppear)).cancel()
 
         await store.receive(\.internal.userChanged) {
             $0.destination = .onboarding(.init())

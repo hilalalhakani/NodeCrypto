@@ -13,12 +13,11 @@ import ComposableArchitecture
 
 @DependencyClient
 public struct PhotoLibraryClient: Sendable {
-    public var fetchImages: @Sendable (Int) async throws -> [(Image, Data)]
+    public var fetchImages: @Sendable () async throws -> [(Image, Data)]
 }
 
 extension PhotoLibraryClient: DependencyKey {
     public static let liveValue = Self {
-        count in
         var images: [(Image, Data)] = []
 
         let fetchOptions = PHFetchOptions()
@@ -30,7 +29,7 @@ extension PhotoLibraryClient: DependencyKey {
         requestOptions.isSynchronous = true
         requestOptions.deliveryMode = .highQualityFormat
 
-        for i in 0..<min(count, allPhotos.count) {
+        for i in 0..<allPhotos.count {
             let asset = allPhotos.object(at: i)
             await withCheckedContinuation { continuation in
                 imageManager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: requestOptions) {
