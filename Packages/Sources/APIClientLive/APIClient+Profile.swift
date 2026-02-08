@@ -11,12 +11,10 @@ import Foundation
 
 extension APIClient.Profile {
     public static func mock() -> Self {
-        @Dependency(\.continuousClock) var clock
-        let generate  = UUIDGenerator.incrementing
+        let generate = UUIDGenerator.incrementing
         return .init(
             getSavedNFT: {
-                try await clock.sleep(for: .seconds(1))
-                return [
+                try await APIClient.mimic([
                     .init(
                         isNew: true,
                         isVideo: false,
@@ -53,11 +51,10 @@ extension APIClient.Profile {
                         imageURL: "https://i.ibb.co/yBwKqWV/6.jpg",
                         videoURL: ""
                     ),
-                ]
+                ])
             },
             getUserInfo: {
-                try await clock.sleep(for: .seconds(5))
-                return [
+                try await APIClient.mimic([
                     AboutMeItem(
                         title: "Items",
                         count: "24",
@@ -82,11 +79,10 @@ extension APIClient.Profile {
                         iconName: "person",
                         id: generate()
                     )
-                ]
+                ])
             },
             getCreatedNFT: {
-                try await clock.sleep(for: .seconds(5))
-                return [
+                try await APIClient.mimic([
                     .init(
                         isNew: true,
                         isVideo: false,
@@ -101,11 +97,10 @@ extension APIClient.Profile {
                         videoURL: "",
                         isLiked: false
                     ),
-                ]
+                ])
             },
             getLikedNFT: {
-                try await clock.sleep(for: .seconds(5))
-                return [
+                try await APIClient.mimic([
                     .init(
                         isNew: true,
                         isVideo: false,
@@ -120,11 +115,10 @@ extension APIClient.Profile {
                         videoURL: "",
                         isLiked: true
                     ),
-                ]
+                ])
             },
             getNotifications: {
-                try await clock.sleep(for: .seconds(5))
-                return [
+                try await APIClient.mimic([
                     .init(
                         senderName: "KidEight",
                         senderImageURLString: "https://picsum.photos/200/300",
@@ -135,7 +129,7 @@ extension APIClient.Profile {
                         senderImageURLString: "https://picsum.photos/200/300",
                         date: "19 Jul 2020, 11:34 PM"
                     ),
-                ]
+                ])
             }
         )
     }

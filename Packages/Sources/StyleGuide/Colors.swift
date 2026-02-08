@@ -35,4 +35,3 @@ public extension Color {
     static let connectWalletAlertBackground = Color(.connectWalletAlertBackground)
     static let connectWalletCancelBorder = Color(.connectWalletCancelBorder)
 }
-

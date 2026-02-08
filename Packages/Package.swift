@@ -8,7 +8,7 @@ let package = Package(
     defaultLocalization: "en",
     platforms: [
         .iOS(.v17),
-        .macOS(.v13),
+        .macOS(.v14),
     ],
     products: [
         // Core Infrastructure
@@ -37,8 +37,8 @@ let package = Package(
         .library(name: "Keychain", targets: ["Keychain"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.23.0"),
-        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.10.0"),
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.23.1"),
+        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.10.1"),
         .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.18.7"),
         .package(url: "https://github.com/oliverfoggin/swift-composable-analytics", branch: "main"),
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "12.4.0"),
@@ -56,7 +56,8 @@ let package = Package(
                 "SharedViews",
                 "SharedModels",
                 "Keychain",
-            ]
+            ],
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "AppFeatureTests",
@@ -71,7 +72,8 @@ let package = Package(
                 "NotificationsFeature",
                 "SearchFeature",
                 "CreateFeature",
-            ]
+            ],
+            resources: [.process("Media.xcassets")]
         ),
 
         // MARK: - Features
@@ -178,7 +180,8 @@ let package = Package(
                 "StyleGuide",
                 "TCAHelpers",
                 .product(name: "DependenciesAdditions", package: "swift-dependencies-additions")
-            ]
+            ],
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "ConnectWalletFeatureTests",
@@ -206,7 +209,10 @@ let package = Package(
         .target(
             name: "StyleGuide",
             dependencies: [],
-            resources: [.process("Fonts")]
+            resources: [
+                .process("Fonts"),
+                .process("Media.xcassets")
+            ]
         ),
 
         .target(
@@ -237,7 +243,8 @@ let package = Package(
                 "Keychain",
                 .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
                 "SharedModels",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                .product(name: "Dependencies", package: "swift-dependencies")
             ]
         ),
 

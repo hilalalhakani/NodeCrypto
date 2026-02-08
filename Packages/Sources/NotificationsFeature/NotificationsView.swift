@@ -17,7 +17,7 @@ import StyleGuide
 import SharedViews
 
 @Reducer
-public struct NotificationReducer {
+public struct NotificationFeature {
 
     public enum ItemsState: Equatable, Sendable {
         case empty
@@ -107,9 +107,9 @@ public struct NotificationReducer {
 
 public struct NotificationsView: View {
 
-    @Bindable var store: StoreOf<NotificationReducer>
+    @Bindable var store: StoreOf<NotificationFeature>
 
-    public init(store: StoreOf<NotificationReducer>) {
+    public init(store: StoreOf<NotificationFeature>) {
         self.store = store
     }
 
@@ -210,6 +210,6 @@ public struct NotificationsView: View {
 
 #Preview {
     NotificationsView(
-        store: .init(initialState: .init(), reducer: { NotificationReducer() })
+        store: .init(initialState: .init(), reducer: { NotificationFeature() })
     )
 }

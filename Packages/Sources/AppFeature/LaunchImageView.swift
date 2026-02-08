@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LaunchImageView: View {
     var body: some View {
-        Image("SplashScreen", bundle: .module)
+        Image(.splashScreen)
             .resizable()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .ignoresSafeArea()

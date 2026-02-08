@@ -18,9 +18,9 @@ import APIClient
 @MainActor
 final class AppDelegate: NSObject {
     let store = Store(
-        initialState: AppViewReducer.State(),
+        initialState: AppFeature.State(),
         reducer: {
-            AppViewReducer()
+            AppFeature()
                 .dependency(\.analyticsClient, .consoleLogger)
                 .dependency(\.apiClient, APIClient.liveValue)
         }
@@ -39,8 +39,8 @@ final class AppDelegate: NSObject {
         ) -> Bool {
             userNotificationCenter.delegate = userNotificationDelegate
             store.send(
-                AppViewReducer.Action.internal(
-                    .appDelegate(.didFinishLaunching)
+                AppFeature.Action.internal(
+                    .appDelegate(.appDelegateDidFinishLaunching)
                 )
             )
             FirebaseApp.configure()
@@ -52,7 +52,7 @@ final class AppDelegate: NSObject {
             didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
         ) {
             store.send(
-                AppViewReducer.Action.internal(
+                AppFeature.Action.internal(
                     .appDelegate(
                         .didRegisterForRemoteNotifications(
                             .success(deviceToken)
@@ -67,7 +67,7 @@ final class AppDelegate: NSObject {
             didFailToRegisterForRemoteNotificationsWithError error: Error
         ) {
             store.send(
-                AppViewReducer.Action.internal(
+                AppFeature.Action.internal(
                     .appDelegate(
                         .didRegisterForRemoteNotifications(.failure(error))
                     )
@@ -102,10 +102,3 @@ struct NodeCryptoApp: App {
         }
     }
 }
-
-//     That's how we send an action to the child from the parent
-// func updateStepper(state: inout State) -> Effect<Action> {
-//        OnboardingStepperReducer(totalSteps: OnboardingStep.allCases.count)
-//          .reduce(into: &state.onboardingStepper, action: .internal(.updateStep(state.currentStep)))
-//          .map { Action.view(.onboardingStepper($0)) }
-//      }

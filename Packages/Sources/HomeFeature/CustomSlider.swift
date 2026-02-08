@@ -12,6 +12,7 @@ import SwiftUI
 @Reducer
 public struct CustomSliderReducer: Sendable {
     @Dependency(\.videoPlayer) var player
+    @Dependency(\.haptics) var haptics
 
     private enum CancelID { 
         case timeUpdates
@@ -76,6 +77,7 @@ public struct CustomSliderReducer: Sendable {
 
         case .gestureStarted:
             state.isDragging = true
+            haptics.impactOccurred(.light)
             return .cancel(id: CancelID.timeUpdates)
 
         case let .gestureChanged(point, size):

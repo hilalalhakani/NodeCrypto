@@ -11,8 +11,8 @@ struct AppFeatureTests {
 
     @Test
     func test_rootView_userDoesntExistSetsOnboardingAsRoot() async {
-        let store = TestStore(initialState: AppViewReducer.State()) {
-            AppViewReducer()
+        let store = TestStore(initialState: AppFeature.State()) {
+            AppFeature()
         } withDependencies: {
             $0.keychainManager.get = { @Sendable _ in
                 throw KeychainManager.Error.itemNotFound
@@ -32,8 +32,8 @@ struct AppFeatureTests {
     @Test
     func test_rootView_userExistsSetsHomeAsRoot() async {
 
-        let store = TestStore(initialState: AppViewReducer.State()) {
-            AppViewReducer()
+        let store = TestStore(initialState: AppFeature.State()) {
+            AppFeature()
         } withDependencies: {
             $0.keychainManager.get = { @Sendable _ in
                 let data = try JSONEncoder().encode(User.mock1)
@@ -54,8 +54,8 @@ struct AppFeatureTests {
     @Test
     func test_getStartButtonPressed_navigatesToHome() async {
 
-        let store = TestStore(initialState: AppViewReducer.State()) {
-            AppViewReducer()
+        let store = TestStore(initialState: AppFeature.State()) {
+            AppFeature()
         } withDependencies: {
             $0.keychainManager.get = { @Sendable _ in
                 throw KeychainManager.Error.itemNotFound

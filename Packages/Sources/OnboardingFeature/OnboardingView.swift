@@ -6,13 +6,13 @@ import ComposableAnalytics
 import StyleGuide
 
 @Reducer
-public struct OnboardingViewReducer: Sendable {
+public struct OnboardingFeature: Sendable {
     public init() {}
     @Shared(.currentStep) public var currentStep
 
     @ObservableState
     public struct State: Equatable, Sendable {
-        public var onboardingStepper: OnboardingStepperReducer.State = .init()
+        public var onboardingStepper: OnboardingStepperFeature.State = .init()
         public var isGetStartedButtonHidden = true
         public init() {}
     }
@@ -41,7 +41,7 @@ public struct OnboardingViewReducer: Sendable {
         case onSelectedIndexChange(OnboardingStep)
         case onSkipButtonPressed
         case onGetStartedButtonPressed
-        case onboardingStepper(OnboardingStepperReducer.Action)
+        case onboardingStepper(OnboardingStepperFeature.Action)
     }
 
     public var body: some Reducer<State, Action> {
@@ -102,18 +102,18 @@ public struct OnboardingViewReducer: Sendable {
             }
 
             Scope(state: \.onboardingStepper, action: \.view.onboardingStepper) {
-                OnboardingStepperReducer()
+                OnboardingStepperFeature()
             }
         }
     }
 }
 
 public struct OnboardingView: View {
-    @Bindable var store: StoreOf<OnboardingViewReducer>
+    @Bindable var store: StoreOf<OnboardingFeature>
     @Shared(.currentStep) var currentStep
     public init(
-        store: StoreOf<OnboardingViewReducer> = .init(initialState: .init()) {
-            OnboardingViewReducer()
+        store: StoreOf<OnboardingFeature> = .init(initialState: .init()) {
+            OnboardingFeature()
         }
     ) {
         self.store = store
@@ -142,7 +142,7 @@ public struct OnboardingView: View {
                 .frame(maxWidth: .infinity)
 
                 BackgroundImage(
-                    imageResource: currentStep.value().imageName
+                    imageName: currentStep.value().imageName
                 )
 
                 OnboardingLabels(
@@ -200,10 +200,10 @@ public struct OnboardingView: View {
 }
 
 struct BackgroundImage: View {
-    let imageResource: ImageResource
+    let imageName: ImageResource
 
     var body: some View {
-        Image(imageResource)
+        Image(imageName)
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(maxWidth: .infinity, alignment: .center)

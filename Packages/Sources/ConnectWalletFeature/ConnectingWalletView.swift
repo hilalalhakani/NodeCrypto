@@ -150,7 +150,7 @@ public struct ConnectingWalletView: View {
           .ignoresSafeArea()
 
         VStack(spacing: 32) {
-          Image("\(store.state.wallet.rawValue)", bundle: .module)
+          Image(store.state.wallet.imageResource)
             .resizable()
             .frame(width: 80, height: 80)
 
@@ -210,4 +210,13 @@ extension AlertState where Action == ConnectingWalletViewReducer.Action.Internal
       TextState("Cancel")
     }
   }
+}
+extension WalletType {
+    var imageResource: ImageResource {
+        switch self {
+        case .metamask: return .metamask
+        case .coinbase: return .coinbase
+        case .rainbow: return .rainbow
+        }
+    }
 }

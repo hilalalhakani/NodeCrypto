@@ -9,7 +9,7 @@ import TCAHelpers
 import StyleGuide
 
 @Reducer
-public struct ProfileReducer: Sendable {
+public struct ProfileFeatureReducer: Sendable {
     @Dependency(\.openURL) var openURL
     @Dependency(\.apiClient.profile) var profileAPI
     @Shared(.user) var user
@@ -27,7 +27,7 @@ public struct ProfileReducer: Sendable {
         public var isLoading = true
         public var selectedTitle: String = "On sale"
         public var titles = ["On sale", "Created", "About me", "Liked"]
-        @Presents var editProfile: EditProfile.State? = nil
+        @Presents var editProfile: EditProfileFeature.State? = nil
         public init() {}
 
         public init(
@@ -60,7 +60,7 @@ public struct ProfileReducer: Sendable {
         case onGetLikedNFTResponse(Result<[NFT], Error>)
         case onGetAboutItemsResponse(Result<[AboutMeItem], Error>)
         case onSelectedTitleChange(String)
-        case editProfile(PresentationAction<EditProfile.Action>)
+        case editProfile(PresentationAction<EditProfileFeature.Action>)
         case dismissEditProfile
     }
 
@@ -207,20 +207,20 @@ public struct ProfileReducer: Sendable {
             }
         }
         .ifLet(\.$editProfile, action: \.internal.editProfile) {
-            EditProfile()
+            EditProfileFeature()
         }
     }
 }
 
 //MARK: ProfileView
 public struct ProfileView: View {
-    @Bindable var store: StoreOf<ProfileReducer>
+    @Bindable var store: StoreOf<ProfileFeatureReducer>
     @Shared(.user) var user
     let gridLayout: [GridItem] = [
         GridItem(.flexible(), spacing: 8), GridItem(.flexible(), spacing: 8)
     ]
 
-    public init(store: StoreOf<ProfileReducer>) {
+    public init(store: StoreOf<ProfileFeatureReducer>) {
         self.store = store
     }
 
@@ -483,6 +483,6 @@ extension Array {
 
 #Preview {
     NavigationStack {
-        ProfileView(store: .init(initialState: .init(), reducer: { ProfileReducer() }))
+        ProfileView(store: .init(initialState: .init(), reducer: { ProfileFeatureReducer() }))
     }
 }

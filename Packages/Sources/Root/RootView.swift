@@ -9,17 +9,17 @@ import ComposableArchitecture
 import TCAHelpers
 
 @Reducer
-public struct RootViewReducer: Sendable {
+public struct RootFeature: Sendable {
     public init() {}
 
     @Shared(.inMemory("addButtonVisibility")) var addButtonVisibility: Bool = true
 
     @ObservableState
     public struct State: Equatable, Sendable {
-        var profile: ProfileReducer.State = .init()
-        var notifications: NotificationReducer.State = .init()
-        var home: HomeReducer.State = .init()
-        var search: SearchReducer.State = .init()
+        var profile: ProfileFeatureReducer.State = .init()
+        var notifications: NotificationFeature.State = .init()
+        var home: HomeFeature.State = .init()
+        var search: SearchFeatureReducer.State = .init()
         @Presents var create: CreateFeature.State?
         var showsProfileActionsList = false
         var showsWobbleMenu = false
@@ -41,10 +41,10 @@ public struct RootViewReducer: Sendable {
     public enum InternalAction: BindableAction, Sendable {
         case binding(BindingAction<State>)
         case create(PresentationAction<CreateFeature.Action>)
-        case profile(ProfileReducer.Action)
-        case notifications(NotificationReducer.Action)
-        case search(SearchReducer.Action)
-        case home(HomeReducer.Action)
+        case profile(ProfileFeatureReducer.Action)
+        case notifications(NotificationFeature.Action)
+        case search(SearchFeatureReducer.Action)
+        case home(HomeFeature.Action)
     }
 
     @CasePathable
@@ -68,19 +68,19 @@ public struct RootViewReducer: Sendable {
 
 
             Scope(state: \.profile, action: \.internal.profile) {
-                ProfileReducer()
+                ProfileFeatureReducer()
             }
 
             Scope(state: \.search, action: \.internal.search) {
-                SearchReducer()
+                SearchFeatureReducer()
             }
 
             Scope(state: \.notifications, action: \.internal.notifications) {
-                NotificationReducer()
+                NotificationFeature()
             }
 
             Scope(state: \.home, action: \.internal.home) {
-                HomeReducer()
+                HomeFeature()
             }
 
         CombineReducers {
@@ -151,10 +151,10 @@ public struct RootViewReducer: Sendable {
 }
 
 public struct RootView: View {
-    @Bindable var store: StoreOf<RootViewReducer>
+    @Bindable var store: StoreOf<RootFeature>
     @SharedReader(.inMemory("addButtonVisibility")) var addButtonVisibility: Bool = true
 
-    public init(store: StoreOf<RootViewReducer>) {
+    public init(store: StoreOf<RootFeature>) {
         self.store = store
     }
 
@@ -345,7 +345,7 @@ public struct RootView: View {
     RootView(
         store: .init(
             initialState: .init(),
-            reducer: { RootViewReducer() }
+            reducer: { RootFeature() }
         )
     )
 }

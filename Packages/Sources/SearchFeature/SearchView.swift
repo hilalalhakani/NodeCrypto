@@ -14,7 +14,7 @@ import TCAHelpers
 import Dependencies
 
 @Reducer
-public struct SearchReducer: Sendable {
+public struct SearchFeatureReducer: Sendable {
     @Dependency(\.apiClient.profile) var profileAPI
     
     public init() {}
@@ -162,13 +162,13 @@ public struct SearchReducer: Sendable {
 }
 
 public struct SearchView: View {
-    @Bindable var store: StoreOf<SearchReducer>
+    @Bindable var store: StoreOf<SearchFeatureReducer>
     let gridLayout: [GridItem] = [
         GridItem(.flexible(), spacing: 8),
         GridItem(.flexible(), spacing: 8),
     ]
 
-    public init(store: StoreOf<SearchReducer>) {
+    public init(store: StoreOf<SearchFeatureReducer>) {
         self.store = store
     }
 
@@ -349,7 +349,7 @@ public struct SearchView: View {
     }
 
     private func suggestionLink(
-        _ destination: SearchReducer.SearchDestination,
+        _ destination: SearchFeatureReducer.SearchDestination,
         icon: String,
         color: Color,
         title: String,
@@ -369,6 +369,7 @@ public struct SearchView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(title)
                         .font(.headline)
+                        .foregroundStyle(Color.neutral2)
                     Text(subtitle)
                         .foregroundColor(.gray)
                 }
@@ -378,8 +379,8 @@ public struct SearchView: View {
                 Image(systemName: "chevron.right")
                     .foregroundColor(.gray)
             }
-            .contentShape(Rectangle())
         }
+        .contentShape(Rectangle())
         .buttonStyle(.plain)
         .padding(.vertical, 4)
     }
@@ -388,11 +389,11 @@ public struct SearchView: View {
 #Preview {
     SearchView(
         store: Store(
-            initialState: SearchReducer.State(
+            initialState: SearchFeatureReducer.State(
                 searchHistory: ["Ethereum", "NFT", "DeFi"]
             )
         ) {
-            SearchReducer()
+            SearchFeatureReducer()
         }
     )
 }
@@ -400,14 +401,14 @@ public struct SearchView: View {
 #Preview {
     SearchView(
         store: Store(
-            initialState: SearchReducer.State(
+            initialState: SearchFeatureReducer.State(
                 searchBar: .init(searchText: "Bitcoin"),
                 searchHistory: ["Ethereum", "NFT", "DeFi", "Web3"],
                 isSearching: true,
                 searchResults: []
             )
         ) {
-            SearchReducer()
+            SearchFeatureReducer()
         }
     )
 }

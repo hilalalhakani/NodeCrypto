@@ -25,13 +25,19 @@ public struct RemoteImageView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         else {
-            AsyncImage(url: url) { image in
-                image
-                    .resizable()
-            } placeholder: {
-                Rectangle()
-                    .foregroundColor(background)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            AsyncImage(url: url, transaction: Transaction(animation: .default)) { phase in
+                switch phase {
+                case .success(let image):
+                    image
+                        .resizable()
+                        .transition(.opacity)
+                case .failure(_), .empty:
+                    Rectangle()
+                        .foregroundColor(background)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                @unknown default:
+                    EmptyView()
+                }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }

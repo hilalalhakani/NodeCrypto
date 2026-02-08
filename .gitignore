@@ -42,3 +42,12 @@ iOSInjectionProject/
 .idea/
 *.xcworkspace/xcuserdata
 *.xcuserstate
+
+# Tuist
+.tuist-bin/
+.tuist-version
+Derived/
+*.xcodeproj
+*.xcworkspace
+!*.xcodeproj/project.pbxproj
+!*.xcworkspace/contents.xcworkspacedata

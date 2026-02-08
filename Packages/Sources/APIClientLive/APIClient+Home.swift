@@ -10,10 +10,8 @@ import Dependencies
 
 extension APIClient.Home {
     public static func mock() -> Self {
-        @Dependency(\.continuousClock) var clock
         return .init {
-            try await clock.sleep(for: .seconds(5))
-            return [
+            try await APIClient.mimic([
                 .init(
                     image: "https://dummyimage.com/600x400/000/fff",
                     name: "Creator 1",
@@ -39,10 +37,9 @@ extension APIClient.Home {
                     name: "Creator 5",
                     price: "111$"
                 ),
-            ]
+            ])
         } _: {
-            try await clock.sleep(for: .seconds(5))
-            return [
+            try await APIClient.mimic([
                 .init(
                     image: "https://i.ibb.co/7R31jGw/feature-work.jpg",
                     name: "Element 1",
@@ -62,9 +59,8 @@ extension APIClient.Home {
                     cryptoPrice: "1 Eth",
                     videoURL: "https://assets.afcdn.com/video49/20210722/v_645516.m3u8"
                 ),
-            ]
+            ])
         }
-
     }
 
 }

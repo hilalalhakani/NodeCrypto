@@ -9,7 +9,7 @@ import ComposableArchitecture
 import TCAHelpers
 
 @Reducer
-public struct AppViewReducer {
+public struct AppFeature {
     @Dependency(\.logger) var logger
     @Shared(.user) var user
     @Dependency(\.mainQueue) var mainQueue
@@ -18,7 +18,7 @@ public struct AppViewReducer {
 
     @ObservableState
     public struct State: Equatable, Sendable {
-        public var appDelegate = AppDelegateReducer.State()
+        public var appDelegate = AppDelegateFeature.State()
         @Presents public var destination: Destination.State? = .launchImage
         public init() {}
     }
@@ -32,8 +32,8 @@ public struct AppViewReducer {
 
     @CasePathable
     public enum InternalAction {
+        case appDelegate(AppDelegateFeature.Action)
         case destination(PresentationAction<Destination.Action>)
-        case appDelegate(AppDelegateReducer.Action)
         case userChanged
     }
 
@@ -46,113 +46,91 @@ public struct AppViewReducer {
     }
 
     public var body: some ReducerOf<Self> {
-        CombineReducers {
-
-            Scope(state: \.appDelegate, action: \.internal.appDelegate) {
-                AppDelegateReducer()
-            }
-
-            NestedAction(\.view) { state, viewAction in
-                switch viewAction {
-                    case .onAppear:
-                        return .publisher {
-                            $user.publisher
-                                .receive(on: mainQueue)
-                                .map({ $0 == nil })
-                                .removeDuplicates()
-                                .map { _ in Action.internal(.userChanged) }
-                        }
-                }
-            }
-
-            NestedAction(\.internal) { state, internalAction in
-                switch internalAction {
-                    case .destination(
-                        .presented(.onboarding(.delegate(.onGetStartedButtonPressed)))
-                    ):
-                        state.destination = .connectWallet(.init())
-                        return .none
-
-                    case .destination:
-                        return .none
-
-                    case .appDelegate:
-                        return .none
-                    case .userChanged:
-                        @Shared(.user) var user
-                        if user != nil {
-                            state.destination = .rootView(.init())
-                        }
-                        else {
-                            state.destination = .onboarding(.init())
-                        }
-                        return .none
-                }
-            }
+        Scope(state: \.appDelegate, action: \.internal.appDelegate) {
+            AppDelegateFeature()
         }
         .ifLet(\.$destination, action: \.internal.destination)
+
+        Reduce { state, action in
+            switch action {
+            case let .view(viewAction):
+                switch viewAction {
+                case .onAppear:
+                    return .run { [user = $user] send in
+                        for await _ in user.publisher.map({ $0 == nil }).removeDuplicates().values {
+                            await send(.internal(.userChanged))
+                        }
+                    }
+                }
+
+            case let .internal(internalAction):
+                switch internalAction {
+                case let .destination(.presented(destinationAction)):
+                    switch destinationAction {
+                    case .onboarding(.delegate(.onGetStartedButtonPressed)):
+                        state.destination = .connectWallet(.init())
+                        return .none
+                    default:
+                        return .none
+                    }
+
+                case .destination:
+                    return .none
+
+                case .appDelegate:
+                    return .none
+
+                case .userChanged:
+                    @Shared(.user) var user
+                    state.destination = user != nil ? .rootView(.init()) : .onboarding(.init())
+                    return .none
+                }
+
+            case .delegate:
+                return .none
+            }
+        }
     }
 
     @Reducer
     public enum Destination {
-        case onboarding(OnboardingViewReducer)
+        case connectWallet(ConnectWalletFeature)
         case launchImage
-        case connectWallet(ConnectWalletReducer)
-        case rootView(RootViewReducer)
+        case onboarding(OnboardingFeature)
+        case rootView(RootFeature)
     }
-
 }
 
-extension AppViewReducer.Destination.State: Sendable, Equatable {}
+extension AppFeature.Destination.State: Sendable, Equatable {}
 
 public struct AppView: View {
-    @State public var store: StoreOf<AppViewReducer>
+    @Bindable var store: StoreOf<AppFeature>
 
-    public init(store: StoreOf<AppViewReducer>) {
+    public init(store: StoreOf<AppFeature>) {
         self.store = store
     }
 
     public var body: some View {
-        destination
-            .transition(.opacity.animation(.easeInOut))
-            .task {
-                store.send(.view(.onAppear))
+        Group {
+            if let destinationStore = store.scope(
+                state: \.destination,
+                action: \.internal.destination.presented
+            ) {
+                switch destinationStore.case {
+                    case let .onboarding(childStore):
+                        OnboardingView(store: childStore)
+                    case let .connectWallet(childStore):
+                        ConnectWalletView(store: childStore)
+                    case let .rootView(childStore):
+                        RootView(store: childStore)
+                    case .launchImage:
+                        LaunchImageView()
+                }
             }
-    }
-
-    @ViewBuilder
-    private var destination: some View {
-        switch store.state.destination {
-            case .onboarding:
-                if let onboardingStore = store.scope(
-                    state: \.destination?.onboarding,
-                    action: \.internal.destination.onboarding
-                ) {
-                    OnboardingView(store: onboardingStore)
-                }
-            case .launchImage:
-                LaunchImageView()
-
-            case .connectWallet:
-                if let connectWalletStore = store.scope(
-                    state: \.destination?.connectWallet,
-                    action: \.internal.destination.connectWallet
-                ) {
-                    NavigationStack {
-                        ConnectWalletView(store: connectWalletStore)
-                    }
-                }
-
-            case .rootView:
-                if let rootViewStore = store.scope(
-                    state: \.destination?.rootView,
-                    action: \.internal.destination.rootView
-                ) {
-                    RootView(store: rootViewStore)
-                }
-
-            default:
-                EmptyView()
+        }
+        .transition(.opacity.animation(.easeInOut))
+        .task {
+            store.send(.view(.onAppear))
         }
     }
 }

@@ -10,7 +10,7 @@ import TCAHelpers
 import SharedViews
 
 @Reducer
-public struct HomeReducer: Sendable {
+public struct HomeFeature: Sendable {
     @Dependency(\.apiClient.home) var api
 
     public init() {}
@@ -154,9 +154,9 @@ public struct HomeReducer: Sendable {
 }
 
 public struct HomeView: View {
-    @Bindable var store: StoreOf<HomeReducer>
+    @Bindable var store: StoreOf<HomeFeature>
 
-    public init(store: StoreOf<HomeReducer>) {
+    public init(store: StoreOf<HomeFeature>) {
         self.store = store
     }
 

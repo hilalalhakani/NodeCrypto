@@ -7,7 +7,7 @@ import SharedModels
 import ComposableAnalytics
 
 @Reducer
-public struct ConnectWalletReducer: Sendable {
+public struct ConnectWalletFeature: Sendable {
   public init() {}
 
   @ObservableState
@@ -110,14 +110,14 @@ public struct ConnectWalletReducer: Sendable {
 }
 
 public struct ConnectWalletView: View {
-  @Bindable var store: StoreOf<ConnectWalletReducer>
+  @Bindable var store: StoreOf<ConnectWalletFeature>
 
-  public init(store: StoreOf<ConnectWalletReducer>) {
+  public init(store: StoreOf<ConnectWalletFeature>) {
     self.store = store
   }
 
   public var body: some View {
-
+    NavigationStack {
       ZStack {
 
        BackgroundLinearGradient()
@@ -143,21 +143,22 @@ public struct ConnectWalletView: View {
         .frame(maxWidth: .infinity, alignment: .center)
         .padding(.vertical)
       }
-      .popup(
-        isPresented: store.showPopup,
-        confirmAction: {
-          store.send(.view(.openButtonPressed), animation: .easeIn)
-        },
-        cancelAction: {
-          store.send(.view(.cancelButtonPressed), animation: .easeIn)
-        }
-      )
       .navigationDestination(
         item: $store.scope(state: \.connectWallet, action: \.internal.connectWalletView)
       ) { store in
         ConnectingWalletView(store: store)
           .navigationBarBackButtonHidden(true)
       }
+    }
+    .popup(
+      isPresented: store.showPopup,
+      confirmAction: {
+        store.send(.view(.openButtonPressed), animation: .easeIn)
+      },
+      cancelAction: {
+        store.send(.view(.cancelButtonPressed), animation: .easeIn)
+      }
+    )
   }
 }
 
@@ -165,7 +166,7 @@ public struct ConnectWalletView: View {
   ConnectWalletView(
     store: .init(
       initialState: .init(),
-      reducer: { ConnectWalletReducer() }
+      reducer: { ConnectWalletFeature() }
     )
   )
 }

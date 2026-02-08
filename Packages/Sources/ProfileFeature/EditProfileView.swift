@@ -20,7 +20,7 @@ import TCAHelpers
 import StyleGuide
 
 @Reducer
-public struct EditProfile: Sendable {
+public struct EditProfileFeature: Sendable {
     @Dependency(\.apiClient.imageUploader) var imageUploader
     public init() {}
 
@@ -40,7 +40,7 @@ public struct EditProfile: Sendable {
 
         @CasePathable
         public enum Destination: Equatable, Sendable {
-            case alert(AlertState<EditProfile.Action.Alert>)
+            case alert(AlertState<EditProfileFeature.Action.Alert>)
         }
     }
 
@@ -228,14 +228,14 @@ public struct EditProfile: Sendable {
 }
 
 public struct EditProfileView: View {
-    @Bindable var store: StoreOf<EditProfile>
+    @Bindable var store: StoreOf<EditProfileFeature>
     @FocusState private var focusedField: FocusedField?
 
     enum FocusedField {
         case name, bio, email, twitter, instagram
     }
 
-    public init(store: StoreOf<EditProfile>) {
+    public init(store: StoreOf<EditProfileFeature>) {
         self.store = store
     }
 
@@ -473,8 +473,8 @@ public struct EditProfileView: View {
     NavigationStack {
         EditProfileView(
             store: .init(
-                initialState: .init(user: .mock1),
-                reducer: { EditProfile() }
+                initialState: .init(user: User.mock1),
+                reducer: { EditProfileFeature() }
             )
         )
     }

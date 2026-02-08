@@ -4,7 +4,7 @@ import TCAHelpers
 import SwiftUI
 
 @Reducer
-public struct OnboardingStepperReducer {
+public struct OnboardingStepperFeature {
     @Shared(.currentStep) var currentStep: OnboardingStep = .step1
     public init() {}
 
@@ -84,10 +84,10 @@ public struct OnboardingStepperReducer {
 }
 
 struct OnboardingStepper: View {
-    @Bindable var store: StoreOf<OnboardingStepperReducer>
+    @Bindable var store: StoreOf<OnboardingStepperFeature>
     let disabledColor = Color.neutral5
 
-    init(store: StoreOf<OnboardingStepperReducer>) {
+    init(store: StoreOf<OnboardingStepperFeature>) {
         self.store = store
     }
 
@@ -131,7 +131,7 @@ struct OnboardingStepper: View {
             OnboardingStepper(
                 store: .init(
                     initialState: .init(),
-                    reducer: { OnboardingStepperReducer() }
+                    reducer: { OnboardingStepperFeature() }
                 )
             )
             .preferredColorScheme(.dark)
@@ -143,7 +143,7 @@ struct OnboardingStepper: View {
             OnboardingStepper(
                 store: .init(
                     initialState: .init(),
-                    reducer: { OnboardingStepperReducer() }
+                    reducer: { OnboardingStepperFeature() }
                 )
             )
             .preferredColorScheme(.light)
