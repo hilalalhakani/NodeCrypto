@@ -26,7 +26,6 @@ let precision: Float = 0.8
     column: UInt = #column,
     named: String = #function
 ) throws {
-    //try #require(UIDevice.modelName == "iPhone 15")
     UIView.setAnimationsEnabled(false)
     let viewController = UIHostingController(
         rootView: view.transaction{
@@ -37,9 +36,13 @@ let precision: Float = 0.8
 
     viewController.overrideUserInterfaceStyle = .light
 
+    let strategy: Snapshotting<UIViewController, UIImage> = delay > 0
+        ? .wait(for: delay, on: .image(on: .iPhone13Pro, precision: precision))
+        : .image(on: .iPhone13Pro, precision: precision)
+
     assertSnapshot(
         of: viewController,
-        as: .wait(for: delay, on: .image(on: .iPhone15, precision: precision)),
+        as: strategy,
         named: named + "light",
         fileID: fileID,
         file: filePath,
@@ -52,7 +55,7 @@ let precision: Float = 0.8
 
     assertSnapshot(
         of: viewController,
-        as: .wait(for: delay, on: .image(on: .iPhone15, precision: precision)),
+        as: strategy,
         named: named + "dark",
         fileID: fileID,
         file: filePath,

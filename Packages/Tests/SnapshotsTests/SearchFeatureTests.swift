@@ -13,6 +13,9 @@ import SnapshotTesting
 import Testing
 import SwiftUI
 
+@Suite(.dependencies {
+    $0.defaultInMemoryStorage = .init()
+})
 @MainActor
 struct SearchSnapshotsTests {
 
@@ -60,13 +63,13 @@ struct SearchSnapshotsTests {
                     NFT(
                         isNew: true,
                         isVideo: false,
-                        imageURL: "https://i.ibb.co/f2nHqtY/1.jpg",
+                        imageURL: "app://placeholder",
                         videoURL: ""
                     ),
                     NFT(
                         isNew: false,
                         isVideo: true,
-                        imageURL: "https://i.ibb.co/ByyHzXW/2.jpg",
+                        imageURL: "app://placeholder",
                         videoURL: ""
                     ),
                 ])

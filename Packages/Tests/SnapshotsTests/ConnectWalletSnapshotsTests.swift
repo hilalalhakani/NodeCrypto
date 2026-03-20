@@ -7,11 +7,13 @@ import SwiftUI
 import Testing
 
 @Suite(.dependencies {
+    $0.continuousClock = .immediate
     $0.analyticsClient.sendAnalytics = { _ in }
     $0.apiClient.connectWallet.connectWallet = { _, _ in .mock1 }
     $0.device = .current
     $0.encode = .liveValue
     $0.keychainManager.get = { @Sendable _ in Data() }
+    $0.defaultInMemoryStorage = .init()
 })
 @MainActor
 struct ConnectWalletSnapshotsTests {

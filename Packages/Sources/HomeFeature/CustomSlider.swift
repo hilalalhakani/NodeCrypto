@@ -50,60 +50,62 @@ public struct CustomSliderReducer: Sendable {
         case startTimeUpdates
     }
 
-    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
-        switch action {
-        case .onAppear:
-            return .run { [player] send in
-                await withThrowingTaskGroup(of: Void.self) { group in
-                    group.addTask {
-                        for await duration in await player.duration() where duration.isValid {
-                            await send(.videoAssetLoaded(duration: duration.seconds))
+    public var body: some ReducerOf<Self> {
+        Reduce { state, action in
+            switch action {
+            case .onAppear:
+                return .run { [player] send in
+                    await withThrowingTaskGroup(of: Void.self) { group in
+                        group.addTask {
+                            for await duration in await player.duration() where duration.isValid {
+                                await send(.videoAssetLoaded(duration: duration.seconds))
+                            }
+                        }
+
+                        group.addTask {
+                            await send(.startTimeUpdates)
                         }
                     }
+                }
 
-                    group.addTask {
-                        await send(.startTimeUpdates)
+            case .startTimeUpdates:
+                return .run { [player] send in
+                    for await time in await player.currentTime() where time.isValid {
+                        await send(.playbackTimeUpdated(time))
                     }
                 }
+                .cancellable(id: CancelID.timeUpdates)
+
+            case .gestureStarted:
+                state.isDragging = true
+                haptics.impactOccurred(.light)
+                return .cancel(id: CancelID.timeUpdates)
+
+            case let .gestureChanged(point, size):
+                guard state.duration > 0 else { return .none }
+                
+                let progress = point.x / size.width
+                let newTime = progress * state.duration
+                let clampedTime = newTime.clamped(to: 0...state.duration)
+                state.currentTime = clampedTime
+                let targetTime = CMTime(seconds: clampedTime, preferredTimescale: 600)
+                player.seek(targetTime)
+                return .none
+
+            case .gestureEnded:
+                state.isDragging = false
+                return .send(.startTimeUpdates)
+
+            case let .playbackTimeUpdated(time):
+                guard !state.isDragging else { return .none }
+                state.currentTime = time.seconds
+                return .none
+
+            case let .videoAssetLoaded(duration):
+                guard duration > 0 else { return .none }
+                state.duration = duration
+                return .none
             }
-
-        case .startTimeUpdates:
-            return .run { [player] send in
-                for await time in await player.currentTime() where time.isValid {
-                    await send(.playbackTimeUpdated(time))
-                }
-            }
-            .cancellable(id: CancelID.timeUpdates)
-
-        case .gestureStarted:
-            state.isDragging = true
-            haptics.impactOccurred(.light)
-            return .cancel(id: CancelID.timeUpdates)
-
-        case let .gestureChanged(point, size):
-            guard state.duration > 0 else { return .none }
-            
-            let progress = point.x / size.width
-            let newTime = progress * state.duration
-            let clampedTime = newTime.clamped(to: 0...state.duration)
-            state.currentTime = clampedTime
-            let targetTime = CMTime(seconds: clampedTime, preferredTimescale: 600)
-            player.seek(targetTime)
-            return .none
-
-        case .gestureEnded:
-            state.isDragging = false
-            return .send(.startTimeUpdates)
-
-        case let .playbackTimeUpdated(time):
-            guard !state.isDragging else { return .none }
-            state.currentTime = time.seconds
-            return .none
-
-        case let .videoAssetLoaded(duration):
-            guard duration > 0 else { return .none }
-            state.duration = duration
-            return .none
         }
     }
 }

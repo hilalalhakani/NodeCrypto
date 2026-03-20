@@ -263,8 +263,8 @@ public struct EditProfileView: View {
         .navigationBarBackButtonHidden(true)
 #endif
         .alert(
-            store: store.scope(
-                state: \.$alert,
+            $store.scope(
+                state: \.alert,
                 action: \.internal.alert
             )
         )

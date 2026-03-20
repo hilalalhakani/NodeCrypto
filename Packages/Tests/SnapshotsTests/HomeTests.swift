@@ -14,6 +14,9 @@ import SwiftUI
 import Testing
 import UIKit
 
+@Suite(.dependencies {
+    $0.defaultInMemoryStorage = .init()
+})
 @MainActor
 struct HomeSnapshotsTests {
     @Test func test_initialLoadingState() throws {

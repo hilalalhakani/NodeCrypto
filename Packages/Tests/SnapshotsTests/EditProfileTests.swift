@@ -14,6 +14,9 @@ import SwiftUI
 import Testing
 
 
+@Suite(.dependencies {
+    $0.defaultInMemoryStorage = .init()
+})
 @MainActor
 struct EditProfileSnapshotsTests {
     @Test

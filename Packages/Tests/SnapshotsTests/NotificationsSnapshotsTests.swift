@@ -16,6 +16,7 @@ import Testing
 
 @Suite(.dependencies {
     $0.analyticsClient.sendAnalytics = { _ in }
+    $0.defaultInMemoryStorage = .init()
 })
 @MainActor
 struct NotificationsSnapshotsTests {
@@ -59,12 +60,12 @@ struct NotificationsSnapshotsTests {
         let notifications: [SharedModels.Notification] = [
             .init(
                 senderName: "KidEight",
-                senderImageURLString: "https://picsum.photos/200/300",
+                senderImageURLString: "app://placeholder",
                 date: "9 Jul 2021, 11:34 PM"
             ),
             .init(
                 senderName: "Rotation ahsdjkashdkjashdjksahdjksahdjkashdkj",
-                senderImageURLString: "https://picsum.photos/200/300",
+                senderImageURLString: "app://placeholder",
                 date: "19 Jul 2020, 11:34 PM"
             ),
         ]

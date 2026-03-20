@@ -18,6 +18,7 @@ import Testing
 import UIKit
 
 @Suite(.dependencies {
+    $0.continuousClock = .immediate
     $0.apiClient.profile = .mock()
     $0.apiClient.profile.getUserInfo = { try await Task.never() }
     $0.apiClient.profile.getSavedNFT = { try await Task.never() }
@@ -95,13 +96,13 @@ let nfts = [
     NFT(
         isNew: true,
         isVideo: false,
-        imageURL: "https://i.ibb.co/f2nHqtY/1.jpg",
+        imageURL: "app://placeholder",
         videoURL: ""
     ),
     NFT(
         isNew: false,
         isVideo: true,
-        imageURL: "https://i.ibb.co/ByyHzXW/2.jpg",
+        imageURL: "app://placeholder",
         videoURL: ""
     ),
 ]
