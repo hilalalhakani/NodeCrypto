@@ -41,8 +41,8 @@ struct HomeFeatureTests {
     ]
 
     @Test func onAppear_loadsDataSuccessfully() async {
-        let store = TestStore(initialState: HomeReducer.State()) {
-            HomeReducer()
+        let store = TestStore(initialState: HomeFeature.State()) {
+            HomeFeature()
         } withDependencies: {
             $0.apiClient.home.getCreators = { self.creators }
             $0.apiClient.home.getNFTS = { self.nfts }
@@ -65,8 +65,8 @@ struct HomeFeatureTests {
 
     @Test func tappedNFT_setsPlayerViewReducerState() async {
         let nftItem = nfts.first!
-        let store = TestStore(initialState: HomeReducer.State()) {
-            HomeReducer()
+        let store = TestStore(initialState: HomeFeature.State()) {
+            HomeFeature()
         } withDependencies: { _ in
            // $0.videoPlayer = .noop
         }
@@ -77,8 +77,8 @@ struct HomeFeatureTests {
     }
 
     @Test func playerViewAction_stopPlayer() async {
-        let store = TestStore(initialState: HomeReducer.State(playerViewReducerState: .init(nft: nfts.first!))) {
-            HomeReducer()
+        let store = TestStore(initialState: HomeFeature.State(playerViewReducerState: .init(nft: nfts.first!))) {
+            HomeFeature()
         } withDependencies: {  _ in
           //  $0.videoPlayer = .noop
         }
@@ -89,8 +89,8 @@ struct HomeFeatureTests {
     }
 
     @Test func onAppear_loadsDataFailure() async throws {
-        let store = TestStore(initialState: HomeReducer.State()) {
-            HomeReducer()
+        let store = TestStore(initialState: HomeFeature.State()) {
+            HomeFeature()
         } withDependencies: {
             $0.apiClient.home.getCreators = { throw URLError(.badURL) }
             $0.apiClient.home.getNFTS = { throw URLError(.badURL) }

@@ -17,35 +17,41 @@ public struct PhotoLibraryClient: Sendable {
 }
 
 extension PhotoLibraryClient: DependencyKey {
-    public static let liveValue = Self {
-        var images: [(Image, Data)] = []
+    public static let liveValue = Self(
+        fetchImages: {
+            await Task.detached(priority: .userInitiated) {
+                var images: [(Image, Data)] = []
 
-        let fetchOptions = PHFetchOptions()
-        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        let allPhotos = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+                let fetchOptions = PHFetchOptions()
+                fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+                fetchOptions.fetchLimit = 10
+                let allPhotos = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+                let imageManager = PHImageManager.default()
+                let requestOptions = PHImageRequestOptions()
+                requestOptions.deliveryMode = .highQualityFormat
+                requestOptions.isNetworkAccessAllowed = true
 
-        let imageManager = PHImageManager.default()
-        let requestOptions = PHImageRequestOptions()
-        requestOptions.isSynchronous = true
-        requestOptions.deliveryMode = .highQualityFormat
-
-        for i in 0..<allPhotos.count {
-            let asset = allPhotos.object(at: i)
-            await withCheckedContinuation { continuation in
-                imageManager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: requestOptions) {
-                    uiImage, _ in
-                    if let uiImage = uiImage {
-                        let image = Image(uiImage: uiImage)
-                        if let data = uiImage.pngData() {
-                            images.append((image, data))
+                for i in 0..<allPhotos.count {
+                    let asset = allPhotos.object(at: i)
+                    let result: (Image, Data)? = await withCheckedContinuation { continuation in
+                        imageManager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: requestOptions) { uiImage, _ in
+                            if let uiImage = uiImage, let data = uiImage.pngData() {
+                                let image = Image(uiImage: uiImage)
+                                continuation.resume(returning: (image, data))
+                            } else {
+                                continuation.resume(returning: nil)
+                            }
                         }
                     }
-                    continuation.resume()
+                    
+                    if let result {
+                        images.append(result)
+                    }
                 }
-            }
+                return images
+            }.value
         }
-        return images
-    }
+    )
 }
 
 extension DependencyValues {

@@ -243,25 +243,16 @@ public struct EditProfileView: View {
         VStack(alignment: .leading, spacing: 20) {
             profileHeader
 
-            Color.connectWalletGradient1.opacity(0.2)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .ignoresSafeArea(edges: [.bottom])
-#if os(iOS)
-                .cornerRadius(24, corners: [.topLeft, .topRight])
-#endif
-                .ignoresSafeArea(edges: [.bottom])
-                .overlay {
-                    ScrollView {
-                        VStack(alignment: .leading, spacing: 32) {
-                            HStack(alignment: .top) {
-                                userImage
-                                userImageWarningLabelAndButton
-                            }
-                            fields
-                        }
-                        .padding(20)
+            BottomSheetBackground(cornerRadius: 24) {
+                VStack(alignment: .leading, spacing: 32) {
+                    HStack(alignment: .top) {
+                        userImage
+                        userImageWarningLabelAndButton
                     }
+                    fields
                 }
+                .padding(20)
+            }
         }
         .animation(.easeInOut, value: focusedField)
         .frame(maxWidth: .infinity, maxHeight: .infinity)

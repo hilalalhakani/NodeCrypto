@@ -19,10 +19,10 @@ struct EditProfileSnapshotsTests {
     @Test
     func testEditProfileScreen() throws {
         @Shared(.user) var user = .mock1
-        let store: StoreOf<EditProfile> = .init(
+        let store: StoreOf<EditProfileFeature> = .init(
             initialState: .init(user: User.mock1)
         ) {
-            EditProfile()
+            EditProfileFeature()
         } withDependencies: {
             $0.keychainManager.get =  { @Sendable _ in Data() }
         }

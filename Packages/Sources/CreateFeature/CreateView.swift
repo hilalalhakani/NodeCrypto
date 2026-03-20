@@ -12,79 +12,23 @@ public struct CreateView: View {
     }
 
     public var body: some View {
-        ZStack {
-            Color.white
-                .edgesIgnoringSafeArea(.all)
+        NavigationStack {
+            ZStack {
+                Color.white
+                    .ignoresSafeArea()
 
-            VStack(spacing: 0) {
-                HStack(spacing: 16) {
-
-                    Circle()
-                        .foregroundColor(Color.neutral6)
-                        .frame(width: 32, height: 32)
-                        .overlay {
-                            Image(systemName: "chevron.backward")
-                                .resizable()
-                                .foregroundStyle(Color.neutral2)
-                                .frame(width: 7, height: 12)
-                                .font(.headline)
-                        }
-                        .onTapGesture { store.send(.view(.backButtonTapped)) }
-
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("New collectible")
-                            .font(Font(FontName.poppinsBold, size: 12))
-                            .foregroundColor(.neutral1)
-                        HStack(spacing: 8) {
-                            Image("Check")
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                            Text("Auto saved")
-                                .font(Font(FontName.poppinsBold, size: 12))
-                                .foregroundColor(.neutral4)
-                        }
-                    }
-                    Spacer()
-                    Button(action: { store.send(.view(.nextButtonTapped)) }) {
-                        Text("Next")
-                            .font(Font(FontName.poppinsBold, size: 12))
-                            .foregroundColor(.white)
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 12)
-                            .background(Color.primary1)
-                            .cornerRadius(90)
-                    }
-                    .opacity(store.isNextButtonEnabled ? 1 : 0.5)
-                    .disabled(!store.isNextButtonEnabled)
-                }
-                .padding(.horizontal, 24)
-                .padding(.top, 56)
-                .padding(.bottom, 20)
-
-                // Main Content
                 VStack(spacing: 0) {
-                    VStack(alignment: .leading, spacing: 24) {
-                        // Upload File Section
-                        VStack(alignment: .leading, spacing: 16) {
-                            VStack(alignment: .leading, spacing: 4) {
-                                HStack(spacing: 8) {
-                                    Text("1")
-                                        .font(Font(FontName.poppinsBold, size: 12))
-                                        .foregroundColor(.white)
-                                        .frame(width: 24, height: 24)
-                                        .background(Color.neutral1)
-                                        .clipShape(Circle())
-                                    Text("Upload file")
-                                        .font(Font(FontName.poppinsBold, size: 12))
-                                        .foregroundColor(.neutral1)
-                                }
-                                Text("Choose your file to upload")
-                                    .font(Font(FontName.poppinsBold, size: 12))
-                                    .foregroundColor(.neutral4)
-                                    .padding(.leading, 32)
-                            }
-
-                            ImagePickerView(
+                    CreateTopBar(
+                        isNextButtonEnabled: store.isNextButtonEnabled,
+                        onBack: { store.send(.view(.backButtonTapped)) },
+                        onNext: { store.send(.view(.nextButtonTapped)) }
+                    )
+                    
+                    VStack(spacing: 0) {
+                        UploadFileSection(
+                            selectedImagesCount: store.selectedImages.count,
+                            selectedImages: store.selectedImages,
+                            picker: ImagePickerView(
                                 store: store.scope(
                                     state: \.picker,
                                     action: \.internal.picker
@@ -104,53 +48,164 @@ public struct CreateView: View {
                                     .cornerRadius(24)
                                 }
                             )
-                        }
+                        )
                     }
-                    .padding(24)
+                    .background(Color.connectWalletGradient1.opacity(0.2))
+                    .clipShape(.rect(topLeadingRadius: 32, topTrailingRadius: 32))
+                    .ignoresSafeArea(edges: .bottom)
+                }
+            }
+            .navigationDestination(
+                item: $store.scope(state: \.itemDetails, action: \.internal.itemDetails)
+            ) { store in
+                ItemDetailsView(store: store)
+            }
+            .onAppear { store.send(.view(.onAppear)) }
+            .navigationBarHidden(true)
+        }
+    }
+}
 
-                    // Image Grid
-                    VStack(alignment: .leading, spacing: 16) {
-                        Text("Choose from gallery")
+// MARK: - Subviews
+
+struct CreateTopBar: View {
+    let isNextButtonEnabled: Bool
+    let onBack: () -> Void
+    let onNext: () -> Void
+
+    var body: some View {
+        HStack(spacing: 16) {
+            Button(action: onBack) {
+                Circle()
+                    .foregroundColor(Color.neutral6)
+                    .frame(width: 32, height: 32)
+                    .overlay {
+                        Image(systemName: "chevron.backward")
+                            .resizable()
+                            .foregroundStyle(Color.neutral2)
+                            .frame(width: 7, height: 12)
+                            .font(.headline)
+                    }
+            }
+            .buttonStyle(.plain)
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text("New collectible")
+                    .font(Font(FontName.poppinsBold, size: 12))
+                    .foregroundColor(.neutral1)
+                HStack(spacing: 8) {
+                    Image(systemName: "checkmark.circle.fill")
+                        .resizable()
+                        .frame(width: 16, height: 16)
+                        .foregroundColor(.green)
+                    Text("Auto saved")
+                        .font(Font(FontName.poppinsBold, size: 12))
+                        .foregroundColor(.neutral4)
+                }
+            }
+            Spacer()
+            Button(action: onNext) {
+                Text("Next")
+                    .font(Font(FontName.poppinsBold, size: 12))
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+                    .background(Color.primary1)
+                    .cornerRadius(90)
+            }
+            .opacity(isNextButtonEnabled ? 1 : 0.5)
+            .disabled(!isNextButtonEnabled)
+        }
+        .padding(.horizontal, 24)
+        .padding(.top, 56)
+        .padding(.bottom, 20)
+    }
+}
+
+struct UploadFileSection<Picker: View>: View {
+    let selectedImagesCount: Int
+    let selectedImages: [CreateFeature.GalleryItem]
+    let picker: Picker
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 24) {
+            VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack(spacing: 8) {
+                        Text("\(selectedImagesCount)")
+                            .font(Font(FontName.poppinsBold, size: 12))
+                            .foregroundColor(.white)
+                            .frame(width: 24, height: 24)
+                            .background(Color.neutral1)
+                            .clipShape(Circle())
+                        Text("Upload file")
                             .font(Font(FontName.poppinsBold, size: 12))
                             .foregroundColor(.neutral1)
-
-                        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4), spacing: 12) {
-                            ImagePickerView(
-                                store: store.scope(
-                                    state: \.picker,
-                                    action: \.internal.picker
-                                ),
-                                label: {
-                                    ZStack {
-                                        Rectangle()
-                                            .fill(Color.primary1)
-                                            .aspectRatio(1, contentMode: .fit)
-                                            .cornerRadius(12)
-                                        Image("Add")
-                                            .resizable()
-                                            .frame(width: 24, height: 24)
-                                    }
-                                }
-                            )
-
-                        ForEach(Array(store.galleryImages.enumerated()), id: \.offset) { index, item in
-                                item
-                                    .resizable()
-                                    .aspectRatio(1, contentMode: .fill)
-                                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-                                    .cornerRadius(12)
-                                    .clipped()
-                            }
-                        }
                     }
-                    .padding(.horizontal, 24)
-                    .padding(.bottom, 24)
+                    Text("Choose your file to upload")
+                        .font(Font(FontName.poppinsBold, size: 12))
+                        .foregroundColor(.neutral4)
+                        .padding(.leading, 32)
                 }
-                .background(Color.connectWalletGradient1.opacity(0.2))
-                .cornerRadius(32, corners: [.topLeft, .topRight])
+
+                if selectedImages.isEmpty {
+                    picker
+                        .transition(.opacity)
+                } else {
+                    SelectedImagesContent(items: selectedImages)
+                        .transition(.scale(scale: 0.95).combined(with: .opacity))
+                }
+            }
+            .frame(maxHeight: .infinity)
+        }
+        .padding(24)
+        .frame(maxHeight: .infinity)
+    }
+}
+
+struct SelectedImagesContent: View {
+    let items: [CreateFeature.GalleryItem]
+
+    var body: some View {
+        if items.count == 1, let item = items.first {
+            SingleImageView(item: item)
+        } else {
+            MultipleImagesCarousel(items: items)
+        }
+    }
+}
+
+struct SingleImageView: View {
+    let item: CreateFeature.GalleryItem
+
+    var body: some View {
+        item.image
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.white)
+            .clipShape(RoundedRectangle(cornerRadius: 24))
+            .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 5)
+    }
+}
+
+struct MultipleImagesCarousel: View {
+    let items: [CreateFeature.GalleryItem]
+
+    var body: some View {
+        TabView {
+            ForEach(items) { item in
+                item.image
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 24))
+                    .padding(.horizontal, 4)
             }
         }
-        .edgesIgnoringSafeArea(.bottom)
-        .onAppear { store.send(.view(.onAppear)) }
+        .tabViewStyle(.page(indexDisplayMode: .always))
+        .indexViewStyle(.page(backgroundDisplayMode: .always))
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }

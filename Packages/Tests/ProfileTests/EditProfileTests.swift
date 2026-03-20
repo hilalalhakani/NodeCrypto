@@ -9,7 +9,7 @@ import SwiftUI
 import APIClient
 
 @MainActor
-struct EditProfileTests {
+struct EditProfileFeatureTests {
 
     @Test func testUpdateProfileSuccess() async {
         @Shared(.user) var user = .mock1
@@ -20,9 +20,9 @@ struct EditProfileTests {
         let imageURLString = "https://example.com/new-image.jpg"
 
         let store = TestStore(
-          initialState: EditProfile.State(user: .mock1)
+          initialState: EditProfileFeature.State(user: .mock1)
         ) {
-          EditProfile()
+          EditProfileFeature()
         } withDependencies: {
             $0.apiClient.imageUploader.uploadImage = { (data: Data) async throws -> String in
               try await withCheckedThrowingContinuation { cont in
@@ -78,9 +78,9 @@ struct EditProfileTests {
         let error = NSError(domain: "test", code: 1)
 
         let store = TestStore(
-          initialState: EditProfile.State(user: .mock1)
+          initialState: EditProfileFeature.State(user: .mock1)
         ) {
-          EditProfile()
+          EditProfileFeature()
         } withDependencies: {
             $0.apiClient.imageUploader.uploadImage = { (data: Data) async throws -> String in
               try await withCheckedThrowingContinuation { cont in
@@ -138,9 +138,9 @@ struct EditProfileTests {
 
     @Test func testRemoveImage() async {
         let store = TestStore(
-            initialState: EditProfile.State(user: .mock1)
+            initialState: EditProfileFeature.State(user: .mock1)
         ) {
-            EditProfile()
+            EditProfileFeature()
         }
 
         await store.send(.view(.removeImageButtonTapped)) {
@@ -168,9 +168,9 @@ struct EditProfileTests {
 
     @Test func testUpdateFields() async {
         let store = TestStore(
-            initialState: EditProfile.State(user: .mock1)
+            initialState: EditProfileFeature.State(user: .mock1)
         ) {
-            EditProfile()
+            EditProfileFeature()
         }
 
         await store.send(.internal(.didUpdateName("New Name"))) {
@@ -188,9 +188,9 @@ struct EditProfileTests {
 
     @Test func testNavigationFlow() async {
         let store = TestStore(
-            initialState: EditProfile.State(user: .mock1)
+            initialState: EditProfileFeature.State(user: .mock1)
         ) {
-            EditProfile()
+            EditProfileFeature()
         }
 
         await store.send(\.view.backButtonTapped)

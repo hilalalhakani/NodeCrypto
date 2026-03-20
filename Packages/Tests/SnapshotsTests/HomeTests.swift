@@ -17,8 +17,8 @@ import UIKit
 @MainActor
 struct HomeSnapshotsTests {
     @Test func test_initialLoadingState() throws {
-        let store = Store(initialState: HomeReducer.State()) {
-            HomeReducer()
+        let store = Store(initialState: HomeFeature.State()) {
+            HomeFeature()
         } //withDependencies: {
 //            $0.apiClient.home.getNFTS = { try await Task.never() }
 //            $0.apiClient.home.getCreators = { try await Task.never() }
@@ -56,9 +56,9 @@ struct HomeSnapshotsTests {
         ]
 
         let store = Store(
-            initialState: HomeReducer.State(nfts: nfts, creators: creators, isLoading: false)
+            initialState: HomeFeature.State(nfts: nfts, creators: creators, isLoading: false)
         ) {
-            HomeReducer()
+            HomeFeature()
         } withDependencies: {
             $0.apiClient.home.getNFTS = { nfts }
             $0.apiClient.home.getCreators = { creators }

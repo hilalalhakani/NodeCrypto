@@ -5,28 +5,32 @@
 //  Created by Hilal Hakkani on 20/07/2024.
 //
 
+import APIClientLive
 import ComposableArchitecture
+import DependenciesTestSupport
 import Foundation
 import ProfileFeature
 import Root
 import SharedModels
 import SnapshotTesting
+import SwiftUI
 import Testing
 import UIKit
-import SwiftUI
-import APIClientLive
 
+@Suite(.dependencies {
+    $0.apiClient.profile = .mock()
+    $0.apiClient.profile.getUserInfo = { try await Task.never() }
+    $0.apiClient.profile.getSavedNFT = { try await Task.never() }
+    $0.defaultInMemoryStorage = .init()
+})
 @MainActor
 struct ProfileSnapshotsTests {
     @Test
     func testLoadingState() throws {
         @Shared(.user) var user = .mock1
-        let store: StoreOf<ProfileReducer> = .init(initialState: .init()) {
-            ProfileReducer()
-        }// withDependencies: {
-         //   $0.apiClient.profile.getUserInfo = { try await Task.never() }
-         //   $0.apiClient.profile.getSavedNFT = { try await Task.never() }
-      //  }
+        let store: StoreOf<ProfileFeatureReducer> = .init(initialState: .init()) {
+            ProfileFeatureReducer()
+        }
 
         let profileView = ProfileView(store: store)
 
@@ -39,7 +43,7 @@ struct ProfileSnapshotsTests {
         @Shared(.user) var user = .mock1
 
 
-        let store: StoreOf<ProfileReducer> = .init(
+        let store: StoreOf<ProfileFeatureReducer> = .init(
             initialState: .init(
                 nfts: nfts,
                 aboutMeItems: aboutmeItems,
@@ -47,9 +51,7 @@ struct ProfileSnapshotsTests {
                 selectedTitle: "on Sale"
             )
         ) {
-            ProfileReducer()
-        } withDependencies:  {
-            $0.apiClient.profile = .mock()
+            ProfileFeatureReducer()
         }
 
         try assert(ProfileView(store: store))
@@ -58,7 +60,7 @@ struct ProfileSnapshotsTests {
     @Test
     func testLoadedState_aboutView() throws {
         @Shared(.user) var user = .mock1
-        let store: StoreOf<ProfileReducer> = .init(
+        let store: StoreOf<ProfileFeatureReducer> = .init(
             initialState: .init(
                 nfts: nfts,
                 aboutMeItems: aboutmeItems,
@@ -66,9 +68,7 @@ struct ProfileSnapshotsTests {
                 selectedTitle: "about Me"
             )
         ) {
-            ProfileReducer()
-        }  withDependencies:  {
-            $0.apiClient.profile = .mock()
+            ProfileFeatureReducer()
         }
 
         try assert(ProfileView(store: store))
@@ -78,13 +78,10 @@ struct ProfileSnapshotsTests {
  @Test
 func testEditMenuPressed() throws {
     @Shared(.user) var user = .mock1
-    let store: StoreOf<RootViewReducer> = .init(
+    let store: StoreOf<RootFeature> = .init(
         initialState: .init(showsProfileActionsList: true)
     ) {
-        RootViewReducer()
-    } withDependencies: {
-        $0.apiClient.profile.getUserInfo = { try await Task.never() }
-        $0.apiClient.profile.getSavedNFT = { try await Task.never() }
+        RootFeature()
     }
 
     let rootView = RootView(store: store)

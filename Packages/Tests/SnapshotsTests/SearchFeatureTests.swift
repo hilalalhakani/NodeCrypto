@@ -18,12 +18,12 @@ struct SearchSnapshotsTests {
 
     @Test
     func testInitialStateWithSearchHistory() throws {
-        let store: StoreOf<SearchReducer> = .init(
-            initialState: SearchReducer.State(
+        let store: StoreOf<SearchFeatureReducer> = .init(
+            initialState: SearchFeatureReducer.State(
                 searchHistory: ["Ethereum", "NFT", "DeFi"]
             )
         ) {
-            SearchReducer()
+            SearchFeatureReducer()
         }
 
         let searchView = SearchView(store: store)
@@ -33,15 +33,15 @@ struct SearchSnapshotsTests {
 
     @Test
     func testSearchingStateWithNoResults() throws {
-        let store: StoreOf<SearchReducer> = .init(
-            initialState: SearchReducer.State(
+        let store: StoreOf<SearchFeatureReducer> = .init(
+            initialState: SearchFeatureReducer.State(
                 searchBar: .init(searchText: "Bitcoin"),
                 searchHistory: ["Ethereum", "NFT", "DeFi", "Web3"],
                 isSearching: true,
                 searchResults: []
             )
         ) {
-            SearchReducer()
+            SearchFeatureReducer()
         }
 
         let searchView = SearchView(store: store)
@@ -51,8 +51,8 @@ struct SearchSnapshotsTests {
 
     @Test
     func testSearchingStateWithResults() throws {
-        let store: StoreOf<SearchReducer> = .init(
-            initialState: SearchReducer.State(
+        let store: StoreOf<SearchFeatureReducer> = .init(
+            initialState: SearchFeatureReducer.State(
                 searchBar: .init(searchText: "Bitcoin"),
                 searchHistory: ["Ethereum", "NFT", "DeFi", "Web3"],
                 isSearching: true,
@@ -72,7 +72,7 @@ struct SearchSnapshotsTests {
                 ])
             )
         ) {
-            SearchReducer()
+            SearchFeatureReducer()
         }
 
         let searchView = SearchView(store: store)

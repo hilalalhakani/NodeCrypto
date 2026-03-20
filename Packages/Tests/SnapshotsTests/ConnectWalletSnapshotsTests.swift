@@ -1,10 +1,18 @@
 import ComposableArchitecture
 import ConnectWalletFeature
+import DependenciesTestSupport
 import Foundation
 import SnapshotTesting
 import SwiftUI
 import Testing
 
+@Suite(.dependencies {
+    $0.analyticsClient.sendAnalytics = { _ in }
+    $0.apiClient.connectWallet.connectWallet = { _, _ in .mock1 }
+    $0.device = .current
+    $0.encode = .liveValue
+    $0.keychainManager.get = { @Sendable _ in Data() }
+})
 @MainActor
 struct ConnectWalletSnapshotsTests {
     @Test
@@ -14,12 +22,6 @@ struct ConnectWalletSnapshotsTests {
                 initialState: .init(wallet: .rainbow),
                 reducer: {
                     ConnectingWalletViewReducer()
-                },
-                withDependencies: {
-                    $0.keychainManager.get = { @Sendable _ in Data() }
-                    $0.device = .current
-                    $0.encode = .liveValue
-                    $0.apiClient.connectWallet.connectWallet = { _, _ in .mock1 }
                 }
             )
         )
@@ -30,16 +32,9 @@ struct ConnectWalletSnapshotsTests {
     @Test
     func test_connectWallet_alert() throws {
         let store = Store(
-            initialState: ConnectWalletReducer.State(),
+            initialState: ConnectWalletFeature.State(),
             reducer: {
-                ConnectWalletReducer()
-            },
-            withDependencies: {
-                $0.device = .current
-                $0.encode = .liveValue
-                $0.apiClient.connectWallet.connectWallet = { _, _ in .mock1 }
-                $0.analyticsClient.sendAnalytics = { _ in }
-                $0.keychainManager.get = { @Sendable _ in Data() }
+                ConnectWalletFeature()
             }
         )
 
@@ -57,12 +52,7 @@ struct ConnectWalletSnapshotsTests {
             store: .init(
                 initialState: .init(),
                 reducer: {
-                    ConnectWalletReducer()
-                },
-                withDependencies: {
-                    $0.device = .current
-                    $0.encode = .liveValue
-                    $0.apiClient.connectWallet.connectWallet = { _, _ in .mock1 }
+                    ConnectWalletFeature()
                 }
             )
         )

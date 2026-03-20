@@ -6,11 +6,11 @@ import SharedModels
 import Testing
 
 @MainActor
-struct ProfileReducerTests {
+struct ProfileFeatureReducerTests {
 
     @Test func test_initialState() {
-        let store = TestStore(initialState: ProfileReducer.State()) {
-            ProfileReducer()
+        let store = TestStore(initialState: ProfileFeatureReducer.State()) {
+            ProfileFeatureReducer()
         }
 
         // Verify initial state
@@ -36,8 +36,8 @@ struct ProfileReducerTests {
             )
         ]
 
-        let store = TestStore(initialState: ProfileReducer.State()) {
-            ProfileReducer()
+        let store = TestStore(initialState: ProfileFeatureReducer.State()) {
+            ProfileFeatureReducer()
         } withDependencies: { [nftItems] in
             $0.apiClient.profile.getSavedNFT = { @Sendable in nftItems }
             $0.apiClient.profile.getUserInfo = { @Sendable in aboutMeItems }
@@ -67,8 +67,8 @@ struct ProfileReducerTests {
     }
     
     @Test func test_selectedTitleChange() async {
-        let store = TestStore(initialState: ProfileReducer.State()) {
-            ProfileReducer()
+        let store = TestStore(initialState: ProfileFeatureReducer.State()) {
+            ProfileFeatureReducer()
         }
 
         await store.send(.internal(.onSelectedTitleChange("about Me"))) {

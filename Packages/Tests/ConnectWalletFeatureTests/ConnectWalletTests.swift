@@ -11,9 +11,9 @@ struct ConnectWalletTests {
     @Test
     func testOnButtonSelect() async {
         let store = TestStore(
-            initialState: ConnectWalletReducer.State(),
+            initialState: ConnectWalletFeature.State(),
             reducer: {
-                ConnectWalletReducer()
+                ConnectWalletFeature()
                     .dependency(\.analyticsClient.sendAnalytics, { _ in })
                     .dependency(\.keychainManager.get, { @Sendable _ in  Data() })
             }
@@ -28,9 +28,9 @@ struct ConnectWalletTests {
     @Test
     func testCancelButtonPressed() async {
         let store = TestStore(
-            initialState: ConnectWalletReducer.State(),
+            initialState: ConnectWalletFeature.State(),
             reducer: {
-                ConnectWalletReducer()
+                ConnectWalletFeature()
                     .dependency(\.analyticsClient.sendAnalytics, { _ in })
                     .dependency(\.keychainManager.get, { @Sendable _ in  Data() })
             }
@@ -49,9 +49,9 @@ struct ConnectWalletTests {
     @Test
     func testOpenButtonPressed() async {
         let store = TestStore(
-            initialState: ConnectWalletReducer.State(),
+            initialState: ConnectWalletFeature.State(),
             reducer: {
-                ConnectWalletReducer()
+                ConnectWalletFeature()
                     .dependency(\.analyticsClient.sendAnalytics, { _ in })
                     .dependency(\.keychainManager.get, { @Sendable _ in  Data() })
             }
@@ -71,9 +71,9 @@ struct ConnectWalletTests {
     @Test
     func testNavigation() async {
         let store = TestStore(
-            initialState: ConnectWalletReducer.State(),
+            initialState: ConnectWalletFeature.State(),
             reducer: {
-                ConnectWalletReducer()
+                ConnectWalletFeature()
                     .dependency(\.analyticsClient.sendAnalytics, { _ in })
                     .dependency(\.keychainManager.get, { @Sendable _ in  Data() })
             }

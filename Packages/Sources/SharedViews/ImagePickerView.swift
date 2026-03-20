@@ -21,9 +21,9 @@ public struct ImagesPicker {
 
     @ObservableState
     public struct State: Equatable, Sendable {
-        var pickerItem: PhotosPickerItem?
-        var pickerItems = [PhotosPickerItem]()
-        var pickerMode: PickerMode
+        public var pickerItem: PhotosPickerItem?
+        public var pickerItems = [PhotosPickerItem]()
+        public var pickerMode: PickerMode
         public init(pickerMode: PickerMode = .single) {
             self.pickerMode = pickerMode
         }
