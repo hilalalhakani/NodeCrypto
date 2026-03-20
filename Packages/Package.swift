@@ -11,30 +11,8 @@ let package = Package(
         .macOS(.v14),
     ],
     products: [
-        // Core Infrastructure
         .library(name: "AppFeature", targets: ["AppFeature"]),
-        .library(name: "Root", targets: ["Root"]),
-
-        // Features
-        .library(name: "OnboardingFeature", targets: ["OnboardingFeature"]),
-        .library(name: "HomeFeature", targets: ["HomeFeature"]),
-        .library(name: "ProfileFeature", targets: ["ProfileFeature"]),
-        .library(name: "SearchFeature", targets: ["SearchFeature"]),
-        .library(name: "CreateFeature", targets: ["CreateFeature"]),
-        .library(name: "NotificationsFeature", targets: ["NotificationsFeature"]),
-        .library(name: "ConnectWalletFeature", targets: ["ConnectWalletFeature"]),
-
-        // Shared Utilities
-        .library(name: "SharedModels", targets: ["SharedModels"]),
-        .library(name: "SharedViews", targets: ["SharedViews"]),
-        .library(name: "StyleGuide", targets: ["StyleGuide"]),
-        .library(name: "TCAHelpers", targets: ["TCAHelpers"]),
-
-        // Clients & Services
-        .library(name: "APIClient", targets: ["APIClient"]),
         .library(name: "APIClientLive", targets: ["APIClientLive"]),
-        .library(name: "AuthenticationClient", targets: ["AuthenticationClient"]),
-        .library(name: "Keychain", targets: ["Keychain"]),
     ],
     dependencies: [
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.25.2"),
