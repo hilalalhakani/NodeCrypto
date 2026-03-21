@@ -73,6 +73,11 @@ public struct ItemDetailsView: View {
                 }
             }
         }
+        .navigationDestination(
+            item: $store.scope(state: \.collectible, action: \.internal.collectible)
+        ) { store in
+            CollectibleView(store: store)
+        }
         .navigationBarHidden(true)
     }
 }

@@ -16,6 +16,7 @@ public struct ItemDetailsFeature: Sendable {
         public var royalties: String = "10"
         public var isUnlockOncePurchased: Bool = false
         public var isPutOnSale: Bool = true
+        @Presents public var collectible: CollectibleFeature.State? = nil
         
         public init() {}
     }
@@ -43,7 +44,9 @@ public struct ItemDetailsFeature: Sendable {
     }
 
     @CasePathable
-    public enum InternalAction: Sendable {}
+    public enum InternalAction: Sendable {
+        case collectible(PresentationAction<CollectibleFeature.Action>)
+    }
 
     @CasePathable
     public enum DelegateAction: Sendable {}
@@ -57,7 +60,7 @@ public struct ItemDetailsFeature: Sendable {
                 return .run { _ in await dismiss() }
                 
             case .view(.nextButtonTapped):
-                // Handle what happens next
+                state.collectible = CollectibleFeature.State()
                 return .none
                 
             case .view(.fixedPriceTapped):
@@ -96,9 +99,15 @@ public struct ItemDetailsFeature: Sendable {
                 state.isPutOnSale = val
                 return .none
                 
-            case .delegate, .internal:
+            case .internal(.collectible):
+                return .none
+                
+            case .delegate:
                 return .none
             }
+        }
+        .ifLet(\.$collectible, action: \.internal.collectible) {
+            CollectibleFeature()
         }
     }
 }
