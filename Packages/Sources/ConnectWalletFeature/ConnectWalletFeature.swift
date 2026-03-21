@@ -4,7 +4,6 @@ import SwiftUI
 import ComposableArchitecture
 import TCAHelpers
 import SharedModels
-import ComposableAnalytics
 
 @Reducer
 public struct ConnectWalletFeature: Sendable {
