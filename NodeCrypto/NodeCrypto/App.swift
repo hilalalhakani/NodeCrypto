@@ -6,7 +6,7 @@
 //
 
 import AppFeature
-@preconcurrency import ComposableAnalytics
+import TCAHelpers
 import ComposableArchitecture
 import OnboardingFeature
 import SwiftUI
