@@ -19,7 +19,7 @@ let package = Package(
         .package(url: "https://github.com/pointfreeco/swift-custom-dump", from: "1.0.0"),
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.10.1"),
         .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.19.1"),
-        .package(path: "../../swift-composable-analytics"),
+        .package(url: "https://github.com/oliverfoggin/swift-composable-analytics.git", from: "1.1.0"),
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "12.4.0"),
         .package(url: "https://github.com/tgrapperon/swift-dependencies-additions", branch: "xcode26"),
     ],
