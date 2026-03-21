@@ -62,6 +62,27 @@ extension AnalyticsClient {
     public nonisolated(unsafe) static var noop: Self = .init(sendAnalytics: { _ in })
 }
 
+// MARK: - Test Support
+
+extension AnalyticsClient {
+    /// Mutates the client so that it asserts the next analytics event matches
+    /// `expectedAnalytics`. Call this on `store.dependencies.analyticsClient`
+    /// before sending an action that should fire analytics.
+    public mutating func expect(_ expectedAnalytics: AnalyticsData?) {
+        let previous = self.sendAnalytics
+        self.sendAnalytics = { @Sendable received in
+            if let expected = expectedAnalytics {
+                assert(
+                    received == expected,
+                    "Expected analytics '\(expected)' but received '\(received)'"
+                )
+            } else {
+                previous(received)
+            }
+        }
+    }
+}
+
 // MARK: - Dependency
 
 extension AnalyticsClient: DependencyKey {
