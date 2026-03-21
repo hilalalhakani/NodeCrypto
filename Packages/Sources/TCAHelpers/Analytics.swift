@@ -51,7 +51,7 @@ extension AnalyticsClient {
         }
     }
 
-    public static var consoleLogger: Self = .init(
+    public nonisolated(unsafe) static var consoleLogger: Self = .init(
         sendAnalytics: { analytics in
 #if DEBUG
             print("[Analytics] ✅ \(analytics)")
@@ -59,7 +59,7 @@ extension AnalyticsClient {
         }
     )
 
-    public static var noop: Self = .init(sendAnalytics: { _ in })
+    public nonisolated(unsafe) static var noop: Self = .init(sendAnalytics: { _ in })
 }
 
 // MARK: - Dependency
@@ -79,7 +79,7 @@ public extension DependencyValues {
 
 // MARK: - AnalyticsReducer
 
-public struct AnalyticsReducer<State, Action>: Reducer {
+public struct AnalyticsReducer<State, Action>: Reducer, @unchecked Sendable {
     @usableFromInline
     let toAnalyticsData: (State, Action) -> AnalyticsData?
 
@@ -96,8 +96,9 @@ public struct AnalyticsReducer<State, Action>: Reducer {
         guard let analyticsData = toAnalyticsData(state, action) else {
             return .none
         }
+        let client = analyticsClient
         return .run { _ in
-            analyticsClient.sendAnalytics(analyticsData)
+            client.sendAnalytics(analyticsData)
         }
     }
 }
