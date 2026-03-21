@@ -16,6 +16,15 @@ import Testing
 
 let precision: Float = 0.8
 
+extension ViewImageConfig {
+    // iPhone 16 Pro: 393 × 852 pt logical resolution, 3× scale
+    static let iPhone16Pro = ViewImageConfig.init(
+        safeArea: .init(top: 59, left: 0, bottom: 34, right: 0),
+        size: .init(width: 393, height: 852),
+        traits: .init(displayScale: 3)
+    )
+}
+
 @MainActor func assert(
     _ view: some View,
     delay: TimeInterval = 0,
@@ -37,8 +46,8 @@ let precision: Float = 0.8
     viewController.overrideUserInterfaceStyle = .light
 
     let strategy: Snapshotting<UIViewController, UIImage> = delay > 0
-        ? .wait(for: delay, on: .image(on: .iPhone13Pro, precision: precision))
-        : .image(on: .iPhone13Pro, precision: precision)
+        ? .wait(for: delay, on: .image(on: .iPhone16Pro, precision: precision))
+        : .image(on: .iPhone16Pro, precision: precision)
 
     assertSnapshot(
         of: viewController,
