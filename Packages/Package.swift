@@ -249,7 +249,8 @@ let package = Package(
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 .product(name: "DependenciesTestSupport", package: "swift-dependencies"),
                 "AppFeature",
-                "APIClientLive"
+                "APIClientLive",
+                "CreateFeature",
             ]
         ),
     ]

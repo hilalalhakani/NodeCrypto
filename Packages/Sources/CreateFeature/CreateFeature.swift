@@ -17,6 +17,12 @@ public struct CreateFeature: Sendable {
         public var image: Image
         public var data: Data
 
+        public init(id: UUID = UUID(), image: Image, data: Data) {
+            self.id = id
+            self.image = image
+            self.data = data
+        }
+
         public static func ==(lhs: GalleryItem, rhs: GalleryItem) -> Bool {
             lhs.id == rhs.id
         }
@@ -24,12 +30,12 @@ public struct CreateFeature: Sendable {
 
     @ObservableState
     public struct State: Equatable, Sendable {
-        var picker: ImagesPicker.State
-        var isNextButtonEnabled = false
-        var selectedItem: GalleryItem? = nil
-        var selectedItems: Set<UUID> = []
-        var selectedImages: [GalleryItem] = []
-        @Presents var itemDetails: ItemDetailsFeature.State? = nil
+        public var picker: ImagesPicker.State
+        public var isNextButtonEnabled = false
+        public var selectedItem: GalleryItem? = nil
+        public var selectedItems: Set<UUID> = []
+        public var selectedImages: [GalleryItem] = []
+        @Presents public var itemDetails: ItemDetailsFeature.State? = nil
 
         public init(pickerMode: ImagesPicker.PickerMode) {
             self.picker = ImagesPicker.State(pickerMode: pickerMode)

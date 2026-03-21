@@ -247,6 +247,7 @@ struct PricingGridSection: View {
                         .font(Font(FontName.poppinsBold, size: 14))
                         .foregroundColor(.neutral2)
                         .keyboardType(.decimalPad)
+                        .layoutPriority(0)
                     
                     Menu {
                         Button(action: { onCurrencyChange("ETH") }) { Text("Ethereum") }
@@ -265,7 +266,7 @@ struct PricingGridSection: View {
                             Text(currency)
                                 .font(Font(FontName.poppinsBold, size: 14))
                                 .foregroundColor(.primary4)
-                                .lineLimit(1)
+                                .fixedSize()
                             Image(systemName: "chevron.down")
                                 .foregroundColor(.primary4)
                                 .font(.system(size: 10))
