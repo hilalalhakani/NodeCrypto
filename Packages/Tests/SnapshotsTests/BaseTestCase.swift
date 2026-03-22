@@ -91,5 +91,14 @@ extension ViewImageConfig {
             column: column
         )
     }
+
+    // Fix: SnapshotTesting retains the viewController in a global UIWindow.
+    // This prevents the TCA Store from deallocating, which causes any infinite
+    // .run effects (like Combine publisher streams) to leak and hang Swift Testing.
+    if let window = viewController.view.window {
+        window.rootViewController = nil
+        // Also setting it to a dummy UIViewController to ensure clean deallocation
+        window.rootViewController = UIViewController()
+    }
 }
 
