@@ -70,13 +70,17 @@ extension UIFont {
         return true
     }
 
-    public static func registerAllFonts() {
+    private static let _registerAllFontsOnce: Void = {
         let bundle = Bundle.module
         guard let urls = bundle.urls(forResourcesWithExtension: "ttf", subdirectory: nil) else { return }
         for url in urls {
             let fontName = url.deletingPathExtension().lastPathComponent
             _ = registerFont(bundle: bundle, fontName: fontName, fontExtension: "ttf")
         }
+    }()
+
+    public static func registerAllFonts() {
+        _ = _registerAllFontsOnce
     }
 }
 #endif
