@@ -35,7 +35,7 @@ let package = Package(
                 "SharedModels",
                 "Keychain",
             ],
-            resources: [.process("Resources/Media.xcassets")]
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "AppFeatureTests",
@@ -64,10 +64,7 @@ let package = Package(
                 "StyleGuide",
                 "SharedViews"
             ],
-            resources: [
-                .process("Resources/Media.xcassets"),
-                .process("Resources/fr.lproj")
-            ]
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "OnboardingFeatureTests",
@@ -106,7 +103,7 @@ let package = Package(
                 "TCAHelpers",
                 "SharedViews"
             ],
-            resources: [.process("Resources/Media.xcassets")]
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "ProfileTests",
@@ -122,7 +119,7 @@ let package = Package(
                 "TCAHelpers",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ],
-            resources: [.process("Resources/Media.xcassets")]
+            resources: [.process("Resources")]
         ),
 
         .target(
@@ -132,7 +129,7 @@ let package = Package(
                 "SharedViews",
                 "TCAHelpers"
             ],
-            resources: [.process("Resources/Media.xcassets")]
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "CreateFeatureTests",
@@ -151,7 +148,7 @@ let package = Package(
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 .product(name: "Dependencies", package: "swift-dependencies")
             ],
-            resources: [.process("Resources/Media.xcassets")]
+            resources: [.process("Resources")]
         ),
 
         .target(
@@ -164,10 +161,7 @@ let package = Package(
                 "TCAHelpers",
                 .product(name: "DependenciesAdditions", package: "swift-dependencies-additions")
             ],
-            resources: [
-                .process("Resources/Media.xcassets"),
-                .process("Resources/fr.lproj")
-            ]
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "ConnectWalletFeatureTests",

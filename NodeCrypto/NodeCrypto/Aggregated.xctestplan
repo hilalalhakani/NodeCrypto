@@ -9,13 +9,6 @@
     }
   ],
   "defaultOptions" : {
-    "environmentVariables" : [
-      {
-        "isEnabled" : true,
-        "key" : "PACKAGE_RESOURCE_BUNDLE_PATH",
-        "value" : "$(BUILT_PRODUCTS_DIR)"
-      }
-    ],
     "language" : "en",
     "targetForVariableExpansion" : {
       "containerPath" : "container:NodeCrypto.xcodeproj",
