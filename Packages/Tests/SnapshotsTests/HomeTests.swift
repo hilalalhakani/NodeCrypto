@@ -14,19 +14,13 @@ import SwiftUI
 import Testing
 import UIKit
 
-@Suite(.dependencies {
-    $0.defaultInMemoryStorage = .init()
-})
+
 @MainActor
 struct HomeSnapshotsTests {
     @Test func test_initialLoadingState() throws {
         let store = Store(initialState: HomeFeature.State()) {
             HomeFeature()
-        } //withDependencies: {
-//            $0.apiClient.home.getNFTS = { try await Task.never() }
-//            $0.apiClient.home.getCreators = { try await Task.never() }
-       // }
-
+        }
         let view = HomeView(store: store)
         try assert(view)
     }
