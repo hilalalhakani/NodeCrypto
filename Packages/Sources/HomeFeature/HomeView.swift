@@ -199,7 +199,7 @@ public struct HomeView: View {
 
     private var headerView: some View {
         HStack {
-            Text("Best sellers")
+            Text("Best sellersZZZ")
                 .font(Font(FontName.dmSansBold, size: 32))
                 .foregroundStyle(Color.neutral2)
                 .frame(maxWidth: .infinity, alignment: .leading)

@@ -30,8 +30,6 @@ struct CreateFeatureSnapshotsTests {
             initialState: CreateFeature.State(pickerMode: .single),
             reducer: { CreateFeature() }
         )
-
-        // isNextButtonEnabled defaults to false — button should appear dimmed
         try assert(CreateView(store: store))
     }
 
@@ -51,7 +49,7 @@ struct CreateFeatureSnapshotsTests {
     @Test
     func test_createView_singleImageSelected() throws {
         var initialState = CreateFeature.State(pickerMode: .single)
-        let placeholderImage = Image(systemName: "photo")
+        let placeholderImage = Image(systemName: "photo.fill")
         let placeholderData = Data()
         let item = CreateFeature.GalleryItem(image: placeholderImage, data: placeholderData)
 
@@ -71,7 +69,7 @@ struct CreateFeatureSnapshotsTests {
     @Test
     func test_createView_multipleImagesSelected() throws {
         var initialState = CreateFeature.State(pickerMode: .multiple)
-        let placeholderImage = Image(systemName: "photo")
+        let placeholderImage = Image(systemName: "photo.fill")
         let items = (0..<3).map { _ in
             CreateFeature.GalleryItem(image: placeholderImage, data: Data())
         }

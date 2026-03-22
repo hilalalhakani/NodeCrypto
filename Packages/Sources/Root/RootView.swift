@@ -222,6 +222,7 @@ public struct RootView: View {
                 }
                 .tag(Tab.profile)
                 .toolbarBackground(.white, for: .tabBar)
+                .toolbar(addButtonVisibility ? .visible : .hidden, for: .tabBar)
             }
 
             if store.showsWobbleMenu {

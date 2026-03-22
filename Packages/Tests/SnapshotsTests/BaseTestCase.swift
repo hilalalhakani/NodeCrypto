@@ -10,17 +10,16 @@ import Foundation
 import Keychain
 import SharedModels
 import SnapshotTesting
+import StyleGuide
 import SwiftUI
 import UIKit
 import Testing
 
-let precision: Float = 0.8
-
 extension ViewImageConfig {
-    // iPhone 16 Pro: 393 × 852 pt logical resolution, 3× scale
-    static let iPhone16Pro = ViewImageConfig.init(
-        safeArea: .init(top: 59, left: 0, bottom: 34, right: 0),
-        size: .init(width: 393, height: 852),
+    // iPhone 17 (and Pro): 402 × 874 pt logical resolution, 3× scale
+    static let iPhone17 = ViewImageConfig.init(
+        safeArea: .init(top: 62, left: 0, bottom: 34, right: 0),
+        size: .init(width: 402, height: 874),
         traits: .init(displayScale: 3)
     )
 }
@@ -35,42 +34,62 @@ extension ViewImageConfig {
     column: UInt = #column,
     named: String = #function
 ) throws {
+    UIFont.registerAllFonts()
     UIView.setAnimationsEnabled(false)
     let viewController = UIHostingController(
-        rootView: view.transaction{
+        rootView: view.transaction {
             $0.disablesAnimations = true
             $0.animation = nil
         }
     )
-
     viewController.overrideUserInterfaceStyle = .light
 
     let strategy: Snapshotting<UIViewController, UIImage> = delay > 0
-        ? .wait(for: delay, on: .image(on: .iPhone16Pro, precision: precision))
-        : .image(on: .iPhone16Pro, precision: precision)
+        ? .wait(for: delay, on: .image(on: .iPhone17))
+        : .image(on: .iPhone17)
 
-    assertSnapshot(
-        of: viewController,
-        as: strategy,
-        named: named + "light",
-        fileID: fileID,
-        file: filePath,
-        testName: named,
-        line: line,
-        column: column
-    )
+    // 1️⃣ Create a custom DiffTool that copies the failed screenshot
+    let ciDiffTool = SnapshotTestingConfiguration.DiffTool { currentPath, failedPath in
+        let fileManager = FileManager.default
+        let sourceURL = URL(fileURLWithPath: "\(filePath)")
+        let destDirectory = sourceURL
+            .deletingLastPathComponent()
+            .appendingPathComponent("FailingSnapshots")
 
-    viewController.overrideUserInterfaceStyle = .dark
+        print("🚨 Intercepted failing snapshot, saving to: \(destDirectory.path)")
 
-    assertSnapshot(
-        of: viewController,
-        as: strategy,
-        named: named + "dark",
-        fileID: fileID,
-        file: filePath,
-        testName: named,
-        line: line,
-        column: column
-    )
+        let failedDirectory = destDirectory.appendingPathComponent("failed")
+        let referenceDirectory = destDirectory.appendingPathComponent("reference")
 
+        try? fileManager.createDirectory(at: failedDirectory, withIntermediateDirectories: true)
+        try? fileManager.createDirectory(at: referenceDirectory, withIntermediateDirectories: true)
+
+        let fileName = URL(fileURLWithPath: currentPath).lastPathComponent
+        let failedDestURL = failedDirectory.appendingPathComponent(fileName)
+        let referenceDestURL = referenceDirectory.appendingPathComponent(fileName)
+
+        // Copy both images
+        try? fileManager.removeItem(at: failedDestURL)
+        try? fileManager.copyItem(at: URL(fileURLWithPath: failedPath), to: failedDestURL)
+
+        try? fileManager.removeItem(at: referenceDestURL)
+        try? fileManager.copyItem(at: URL(fileURLWithPath: currentPath), to: referenceDestURL)
+
+        // Fallback to printing paths in console (matches default DiffTool behavior)
+        return SnapshotTestingConfiguration.DiffTool.default(currentFilePath: currentPath, failedFilePath: failedPath)
+    }
+
+    withSnapshotTesting(diffTool: ciDiffTool) {
+        assertSnapshot(
+            of: viewController,
+            as: strategy,
+            named: named,
+            fileID: fileID,
+            file: filePath,
+            testName: named,
+            line: line,
+            column: column
+        )
+    }
 }
+
