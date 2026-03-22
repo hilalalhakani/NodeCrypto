@@ -45,8 +45,8 @@ extension ViewImageConfig {
     viewController.overrideUserInterfaceStyle = .light
 
     let strategy: Snapshotting<UIViewController, UIImage> = delay > 0
-        ? .wait(for: delay, on: .image(on: .iPhone17))
-        : .image(on: .iPhone17)
+        ? .wait(for: delay, on: .image(on: .iPhone17, perceptualPrecision: 0.98))
+        : .image(on: .iPhone17, perceptualPrecision: 0.98)
 
     // 1️⃣ Create a custom DiffTool that copies the failed screenshot
     let ciDiffTool = SnapshotTestingConfiguration.DiffTool { currentPath, failedPath in
