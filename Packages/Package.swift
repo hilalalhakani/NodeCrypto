@@ -53,6 +53,10 @@ let package = Package(
             ],
             resources: [.process("Media.xcassets")]
         ),
+        .testTarget(
+            name: "RootTests",
+            dependencies: ["Root"]
+        ),
 
         // MARK: - Features
 
@@ -121,6 +125,10 @@ let package = Package(
             ],
             resources: [.process("Resources")]
         ),
+        .testTarget(
+            name: "SearchFeatureTests",
+            dependencies: ["SearchFeature"]
+        ),
 
         .target(
             name: "CreateFeature",
@@ -149,6 +157,10 @@ let package = Package(
                 .product(name: "Dependencies", package: "swift-dependencies")
             ],
             resources: [.process("Resources")]
+        ),
+        .testTarget(
+            name: "NotificationsFeatureTests",
+            dependencies: ["NotificationsFeature"]
         ),
 
         .target(
@@ -200,6 +212,10 @@ let package = Package(
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
+        ),
+        .testTarget(
+            name: "TCAHelpersTests",
+            dependencies: ["TCAHelpers"]
         ),
 
         // MARK: - Clients & Services

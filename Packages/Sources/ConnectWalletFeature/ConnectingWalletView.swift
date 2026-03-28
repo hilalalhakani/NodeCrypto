@@ -17,6 +17,7 @@ import DependenciesAdditions
 
 @Reducer
 public struct ConnectingWalletViewReducer: Sendable {
+    // MARK: - Properties
     @Dependency(\.apiClient.connectWallet.connectWallet) var connectWallet
     @Dependency(\.dismiss) var dismiss
     @Dependency(\.keychainManager) var keychainManager
@@ -24,9 +25,11 @@ public struct ConnectingWalletViewReducer: Sendable {
     @Dependency(\.authenticationClient) var authenticationClient
     @Shared(.user) var user
 
+    // MARK: - Initialization
     public init() {}
 
-  @ObservableState
+    // MARK: - State
+    @ObservableState
     public struct State: Hashable, Sendable {
     let wallet: WalletType
     @Presents public var alert: AlertState<Action.InternalAction.Alert>?
@@ -35,12 +38,13 @@ public struct ConnectingWalletViewReducer: Sendable {
           self.wallet = wallet
       }
   }
+  // MARK: - Action
   @CasePathable
     public enum Action: TCAFeatureAction, Sendable {
-    case view(ViewAction)
-    case `internal`(InternalAction)
-    case delegate(DelegateAction)
-  }
+        case view(ViewAction)
+        case `internal`(InternalAction)
+        case delegate(DelegateAction)
+    }
 
   @CasePathable
     public enum InternalAction: Sendable {
@@ -64,6 +68,7 @@ public struct ConnectingWalletViewReducer: Sendable {
     case backButtonPressed
   }
 
+  // MARK: - Reducer
   public var body: some ReducerOf<Self> {
 
       CombineReducers {
@@ -133,14 +138,18 @@ public struct ConnectingWalletViewReducer: Sendable {
   }
 }
 
+// MARK: - ConnectingWalletView
 public struct ConnectingWalletView: View {
 
- @Bindable var store: StoreOf<ConnectingWalletViewReducer>
+  // MARK: - Properties
+  @Bindable var store: StoreOf<ConnectingWalletViewReducer>
 
+  // MARK: - Initialization
   public init(store: StoreOf<ConnectingWalletViewReducer>) {
     self.store = store
   }
 
+  // MARK: - Body
   public var body: some View {
       ZStack {
         Image(.connectWalletBackground)
@@ -180,6 +189,7 @@ public struct ConnectingWalletView: View {
   }
 }
 
+// MARK: - Subviews
 struct CancelButton: View {
   let action: () -> Void
 
@@ -195,6 +205,7 @@ struct CancelButton: View {
   }
 }
 
+// MARK: - Preview
 #Preview {
   ConnectingWalletView(
     store: .init(

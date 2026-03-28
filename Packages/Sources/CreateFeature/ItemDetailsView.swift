@@ -5,6 +5,7 @@ import TCAHelpers
 import SharedViews
 
 public struct ItemDetailsView: View {
+    // MARK: - Properties
     @Bindable var store: StoreOf<ItemDetailsFeature>
 
     enum Field: Hashable {
@@ -13,10 +14,12 @@ public struct ItemDetailsView: View {
 
     @FocusState fileprivate var focusedField: Field?
 
+    // MARK: - Initialization
     public init(store: StoreOf<ItemDetailsFeature>) {
         self.store = store
     }
 
+    // MARK: - Body
     public var body: some View {
         ZStack {
             Color.neutral8

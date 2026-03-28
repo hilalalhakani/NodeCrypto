@@ -53,7 +53,7 @@ struct HomeSnapshotsTests {
         ]
 
         let store = Store(
-            initialState: HomeFeature.State(nfts: nfts, creators: creators, isLoading: false)
+            initialState: HomeFeature.State(creators: creators, isLoading: false, nfts: nfts)
         ) {
             HomeFeature()
         } withDependencies: {
@@ -62,7 +62,7 @@ struct HomeSnapshotsTests {
 
         }
 
-        store.send(.view(.onAppear))
+        store.send(.view(.task))
 
         let view = HomeView(store: store)
 

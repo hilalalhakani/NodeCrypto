@@ -9,6 +9,7 @@ public struct OnboardingFeature: Sendable {
     public init() {}
     @Shared(.currentStep) public var currentStep
 
+    // MARK: - State
     @ObservableState
     public struct State: Equatable, Sendable {
         public var onboardingStepper: OnboardingStepperFeature.State = .init()
@@ -16,6 +17,7 @@ public struct OnboardingFeature: Sendable {
         public init() {}
     }
 
+    // MARK: - Action
     @CasePathable
     public enum Action: TCAFeatureAction {
         case view(ViewAction)
@@ -43,6 +45,7 @@ public struct OnboardingFeature: Sendable {
         case onboardingStepper(OnboardingStepperFeature.Action)
     }
 
+    // MARK: - Reducer
     public var body: some Reducer<State, Action> {
 
         CombineReducers {
@@ -108,8 +111,11 @@ public struct OnboardingFeature: Sendable {
 }
 
 public struct OnboardingView: View {
+    // MARK: - Properties
     @Bindable var store: StoreOf<OnboardingFeature>
     @Shared(.currentStep) var currentStep
+
+    // MARK: - Initialization
     public init(
         store: StoreOf<OnboardingFeature> = .init(initialState: .init()) {
             OnboardingFeature()
@@ -118,6 +124,7 @@ public struct OnboardingView: View {
         self.store = store
     }
 
+    // MARK: - Body
     public var body: some View {
         ZStack(alignment: .center) {
             BackgroundLinearGradient(
@@ -198,6 +205,7 @@ public struct OnboardingView: View {
     }
 }
 
+// MARK: - Subviews
 struct BackgroundImage: View {
     let imageName: ImageResource
 
@@ -228,6 +236,7 @@ struct OnboardingLabels: View {
     }
 }
 
+// MARK: - Preview
 #Preview {
     OnboardingView()
 }

@@ -4,8 +4,10 @@ import SwiftUI
 import SharedViews
 
 public struct CollectibleView: View {
+    // MARK: - Properties
     @Bindable var store: StoreOf<CollectibleFeature>
 
+    // MARK: - Initialization
     public init(store: StoreOf<CollectibleFeature>) {
         self.store = store
     }
@@ -15,6 +17,7 @@ public struct CollectibleView: View {
         GridItem(.flexible(), spacing: 8)
     ]
 
+    // MARK: - Body
     public var body: some View {
         ZStack {
             Color.neutral8

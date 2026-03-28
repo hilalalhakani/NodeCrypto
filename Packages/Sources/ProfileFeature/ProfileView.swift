@@ -10,14 +10,16 @@ import StyleGuide
 
 @Reducer
 public struct ProfileFeatureReducer: Sendable {
+    // MARK: - Properties
     @Dependency(\.openURL) var openURL
     @Dependency(\.apiClient.profile) var profileAPI
     @Shared(.user) var user
     @Shared(.inMemory("addButtonVisibility")) var addButtonVisibility: Bool = true
 
+    // MARK: - Initialization
     public init() {}
 
-    //MARK: State
+    // MARK: - State
     @ObservableState
     public struct State: Equatable, Sendable {
         public var nfts: IdentifiedArrayOf<NFT> = []
@@ -44,7 +46,7 @@ public struct ProfileFeatureReducer: Sendable {
 
     }
 
-    //MARK: Action
+    // MARK: - Action
     @CasePathable
     public enum Action: TCAFeatureAction, Sendable {
         case view(ViewAction)
@@ -78,9 +80,10 @@ public struct ProfileFeatureReducer: Sendable {
         case navigateToEditProfile
     }
 
+    // MARK: - Reducer
     public var body: some ReducerOf<Self> {
         CombineReducers {
-            //MARK: Internal Action Handler
+            // MARK: Internal Action Handler
             NestedAction(\.internal) { state, action in
                 switch action {
                     case .onGetNFTResponse(.success(let nfts)):
@@ -130,7 +133,7 @@ public struct ProfileFeatureReducer: Sendable {
                 }
             }
 
-            //MARK: View Action Handler
+            // MARK: View Action Handler
             NestedAction(\.view) { state, action in
                 switch action {
                     case .onAppear:
@@ -212,18 +215,21 @@ public struct ProfileFeatureReducer: Sendable {
     }
 }
 
-//MARK: ProfileView
+// MARK: - ProfileView
 public struct ProfileView: View {
+    // MARK: - Properties
     @Bindable var store: StoreOf<ProfileFeatureReducer>
     @Shared(.user) var user
     let gridLayout: [GridItem] = [
         GridItem(.flexible(), spacing: 8), GridItem(.flexible(), spacing: 8)
     ]
 
+    // MARK: - Initialization
     public init(store: StoreOf<ProfileFeatureReducer>) {
         self.store = store
     }
 
+    // MARK: - Body
     public var body: some View {
             ZStack {
                 Image(ImageResource.profileBackground)
@@ -262,6 +268,7 @@ public struct ProfileView: View {
                 }
     }
 
+    // MARK: - View Components
     @ViewBuilder
     private var profileImageView: some View {
         if let profileImage = user?.profileImage,
@@ -475,12 +482,14 @@ public struct ProfileView: View {
     }
 }
 
+// MARK: - Extensions
 extension Array {
     subscript(safe index: Index) -> Element? {
         return indices.contains(index) ? self[index] : nil
     }
 }
 
+// MARK: - Preview
 #Preview {
     NavigationStack {
         ProfileView(store: .init(initialState: .init(), reducer: { ProfileFeatureReducer() }))

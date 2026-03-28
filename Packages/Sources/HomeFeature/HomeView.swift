@@ -13,181 +13,189 @@ import SharedViews
 public struct HomeFeature: Sendable {
     @Dependency(\.apiClient.home) var api
 
+    // MARK: - Initialization
     public init() {}
 
+    // MARK: - State
     @ObservableState
     public struct State: Equatable, Sendable {
 
-        public var nfts: IdentifiedArrayOf<NFTItem> = []
+        @Presents public var allCreatorsState: AllCreatorsReducer.State?
         public var creators: IdentifiedArrayOf<Creator> = []
+        public var errorMessage: String?
         public var isLoading = true
-        public var errorMessage: String? = nil
-
-        @Presents public var allCreatorsState: AllCreatorsReducer.State? = nil
-        @Presents public var playerViewReducerState: PlayerViewReducer.State? = nil
+        public var nfts: IdentifiedArrayOf<NFTItem> = []
+        @Presents public var playerViewReducerState: PlayerViewReducer.State?
 
         public init() {}
         
-        public init(playerViewReducerState: PlayerViewReducer.State) {
+        public init(
+            allCreatorsState: AllCreatorsReducer.State? = nil,
+            creators: [Creator] = [],
+            errorMessage: String? = nil,
+            isLoading: Bool = true,
+            nfts: [NFTItem] = [],
+            playerViewReducerState: PlayerViewReducer.State? = nil
+        ) {
+            self.allCreatorsState = allCreatorsState
+            self.creators = .init(uniqueElements: creators)
+            self.errorMessage = errorMessage
+            self.isLoading = isLoading
+            self.nfts = .init(uniqueElements: nfts)
             self.playerViewReducerState = playerViewReducerState
         }
-
-        public init(nfts: [NFTItem], creators: [Creator], isLoading: Bool, errorMessage: String? = nil) {
-            self.nfts = .init(uniqueElements: nfts)
-            self.creators = .init(uniqueElements: creators)
-            self.isLoading = isLoading
-            self.errorMessage = errorMessage
-        }
     }
 
+    // MARK: - Action
     @CasePathable
     public enum Action: Sendable, TCAFeatureAction {
-        case view(ViewAction)
-        case `internal`(InternalAction)
         case delegate(DelegateAction)
-    }
-
-    @CasePathable
-    public enum ViewAction: Sendable {
-        case onAppear
-        case tappedNFT(NFTItem)
-        case navigateToAllCreatorsButtonPressed
-    }
-
-    @CasePathable
-    public enum InternalAction: Sendable {
-        case onCreatorsResponse([Creator])
-        case onNFTSResponse([NFTItem])
-        case onCreatorsError(String)
-        case onNFTSError(String)
-        case removePlaceHolder
-        case playerViewAction(PresentationAction<PlayerViewReducer.Action>)
-        case allCreatorsAction(PresentationAction<AllCreatorsReducer.Action>)
+        case `internal`(InternalAction)
+        case view(ViewAction)
     }
 
     @CasePathable
     public enum DelegateAction: Sendable {}
 
+    @CasePathable
+    public enum InternalAction: Sendable {
+        case allCreatorsAction(PresentationAction<AllCreatorsReducer.Action>)
+        case creatorsResponse(Result<[Creator], any Error>)
+        case nftsResponse(Result<[NFTItem], any Error>)
+        case playerViewAction(PresentationAction<PlayerViewReducer.Action>)
+    }
+
+    @CasePathable
+    public enum ViewAction: Sendable {
+        case allCreatorsButtonTapped
+        case nftTapped(NFTItem)
+        case retryButtonTapped
+        case task
+    }
+
+    // MARK: - Reducer
     public var body: some Reducer<State, Action> {
 
         CombineReducers {
-            //MARK: Internal Actions
+            // MARK: Internal Actions
             NestedAction(\.internal) { state, action in
 
                 switch action {
+                case .allCreatorsAction:
+                    return .none
+
+                case .creatorsResponse(.failure):
+                    state.errorMessage = "Failed to load items"
+                    state.isLoading = false
+                    return .none
+
+                case let .creatorsResponse(.success(items)):
+                    state.creators = .init(uniqueElements: items)
+                    return .none
+
+                case .nftsResponse(.failure):
+                    state.errorMessage = "Failed to load items"
+                    state.isLoading = false
+                    return .none
+
+                case let .nftsResponse(.success(items)):
+                    state.nfts = .init(uniqueElements: items)
+                    state.isLoading = false
+                    return .none
+
                 case .playerViewAction(.presented(.delegate(.playerClosed))):
                     state.playerViewReducerState = nil
                     return .none
 
                 case .playerViewAction:
                     return .none
-
-                case .removePlaceHolder:
-                    state.isLoading = false
-                    return .none
-
-                case .onCreatorsResponse(let items):
-                    state.creators = .init(uniqueElements: items)
-                    return .none
-
-                case .onNFTSResponse(let items):
-                    state.nfts = .init(uniqueElements: items)
-                    return .none
-                    
-                case .onCreatorsError:
-                    state.errorMessage = "Failed to load items"
-                    return .none
-                    
-                case .onNFTSError:
-                    state.errorMessage = "Failed to load items"
-                    return .none
-
-                case .allCreatorsAction:
-                    return .none
                 }
             }
 
-            //MARK: View Actions
+            // MARK: View Actions
             NestedAction(\.view) { state, action in
 
                 switch action {
 
-                case .tappedNFT(let nFTItem):
-                    state.playerViewReducerState = .init(nft: nFTItem)
+                case .allCreatorsButtonTapped:
+                    state.allCreatorsState = .init(
+                        creators: state.creators.elements
+                    )
                     return .none
 
-                case .onAppear:
+                case let .nftTapped(nftItem):
+                    state.playerViewReducerState = .init(nft: nftItem)
+                    return .none
+
+                case .retryButtonTapped, .task:
                     guard state.nfts.isEmpty && state.creators.isEmpty else { return .none }
                     state.errorMessage = nil
                     state.isLoading = true
-                    return .run(priority: .background) { send in
+                    return .run { send in
                         do {
                             async let creators = try await api.getCreators()
                             async let nfts = try await api.getNFTS()
 
                             let (fetchedCreators, fetchedNFTs) = try await (creators, nfts)
 
-                            await send(.internal(.onCreatorsResponse(fetchedCreators)))
-                            await send(.internal(.onNFTSResponse(fetchedNFTs)))
+                            await send(.internal(.creatorsResponse(.success(fetchedCreators))))
+                            await send(.internal(.nftsResponse(.success(fetchedNFTs))))
                         } catch {
-                            await send(.internal(.onCreatorsError(error.localizedDescription)))
-                            await send(.internal(.onNFTSError(error.localizedDescription)))
+                            await send(.internal(.creatorsResponse(.failure(error))))
                         }
-                        await send(.internal(.removePlaceHolder))
                     }
 
-                case .navigateToAllCreatorsButtonPressed:
-                    state.allCreatorsState = .init(
-                        creators: state.creators.elements
-                    )
-                    return .none
                 }
             }
         }
-        .ifLet(\.$playerViewReducerState, action: \.internal.playerViewAction) {
-            PlayerViewReducer()
-        }
         .ifLet(\.$allCreatorsState, action: \.internal.allCreatorsAction) {
             AllCreatorsReducer()
+        }
+        .ifLet(\.$playerViewReducerState, action: \.internal.playerViewAction) {
+            PlayerViewReducer()
         }
     }
 }
 
 public struct HomeView: View {
+    // MARK: - Properties
     @Bindable var store: StoreOf<HomeFeature>
 
+    // MARK: - Initialization
     public init(store: StoreOf<HomeFeature>) {
         self.store = store
     }
 
+    // MARK: - Body
     public var body: some View {
-         Group {
+        Group {
             if let errorMessage = store.errorMessage {
                 errorView(message: errorMessage)
             } else {
                 mainContentView
             }
         }
-            .transition(.opacity)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .animation(.easeInOut(duration: 0.3), value: store.errorMessage)
-            .fullScreenCover(
-                item: $store.scope(
-                    state: \.playerViewReducerState,
-                    action: \.internal.playerViewAction
-                )
-            ) { store in
-                PlayerView(store: store)
-            }
-            .navigationDestination(
-                item: $store.scope(state: \.allCreatorsState, action: \.internal.allCreatorsAction),
-                destination: AllCreatorsView.init
+        .transition(.opacity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .animation(.easeInOut(duration: 0.3), value: store.errorMessage)
+        .fullScreenCover(
+            item: $store.scope(
+                state: \.playerViewReducerState,
+                action: \.internal.playerViewAction
             )
-            .task {
-                store.send(.view(.onAppear))
-            }
+        ) { store in
+            PlayerView(store: store)
+        }
+        .navigationDestination(
+            item: $store.scope(state: \.allCreatorsState, action: \.internal.allCreatorsAction),
+            destination: AllCreatorsView.init
+        )
+        .task {
+            store.send(.view(.task))
+        }
     }
 
+    // MARK: - View Components
     private var mainContentView: some View {
         VStack(alignment: .leading, spacing: 0) {
             headerView
@@ -199,13 +207,13 @@ public struct HomeView: View {
 
     private var headerView: some View {
         HStack {
-            Text("Best sellersZZZ")
+            Text("Best sellers")
                 .font(Font(FontName.dmSansBold, size: 32))
                 .foregroundStyle(Color.neutral2)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             Button(action: {
-                store.send(.view(.navigateToAllCreatorsButtonPressed))
+                store.send(.view(.allCreatorsButtonTapped))
             }) {
                 Image(systemName: "arrow.right")
                     .foregroundColor(.gray)
@@ -228,13 +236,13 @@ public struct HomeView: View {
                 .multilineTextAlignment(.center)
             
             Button("Retry") {
-                store.send(.view(.onAppear))
+                store.send(.view(.retryButtonTapped))
             }
             .buttonStyle(.bordered)
         }
         .frame(maxWidth: .infinity)
         .padding()
-        .cornerRadius(12)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
     private var bestSellersScrollView: some View {
@@ -260,6 +268,7 @@ public struct HomeView: View {
         .padding(.bottom, 12)
     }
     
+    // MARK: - Subviews
     private struct SellerItemSkeletonView: View {
         var body: some View {
             HStack(spacing: 10) {
@@ -288,7 +297,7 @@ public struct HomeView: View {
                         ForEach(store.nfts) { nft in
                             FeaturedItem(nft: nft)
                                 .onTapGesture {
-                                    store.send(.view(.tappedNFT(nft)))
+                                    store.send(.view(.nftTapped(nft)))
                                 }
                         }
                     } else {
@@ -316,6 +325,7 @@ public struct HomeView: View {
         }
     }
 
+    // MARK: - FeaturedItem
     struct FeaturedItem: View {
         let nft: NFTItem
         

@@ -9,6 +9,7 @@ import TCAHelpers
 @Reducer
 public struct CreateFeature: Sendable {
     @Dependency(\.dismiss) var dismiss
+    @Dependency(\.uuid) var uuid
 
     public init() {}
 
@@ -95,7 +96,7 @@ public struct CreateFeature: Sendable {
                     switch internalAction {
                     case let .picker(.delegate(.loadSingleImage(image, data))):
                         if let image = image, let data = data {
-                            let item = GalleryItem(image: image, data: data)
+                            let item = GalleryItem(id: self.uuid(), image: image, data: data)
                             state.selectedItem = item
                             state.selectedItems = [item.id]
                             state.selectedImages = [item]
@@ -105,7 +106,7 @@ public struct CreateFeature: Sendable {
                         return .none
 
                     case let .picker(.delegate(.loadMultipleImages(images))):
-                        let items = images.map { GalleryItem(image: $0.0, data: $0.1) }
+                        let items = images.map { GalleryItem(id: self.uuid(), image: $0.0, data: $0.1) }
                         state.selectedImages = items
                         state.selectedItems = Set(items.map { $0.id })
                         state.isNextButtonEnabled = !images.isEmpty

@@ -12,9 +12,11 @@ import StyleGuide
 import SharedViews
 
 @Reducer
-public struct AllCreatorsReducer {
+public struct AllCreatorsReducer: Sendable {
+    // MARK: - Initialization
     public init() {}
 
+    // MARK: - State
     @ObservableState
     public struct State: Equatable, Sendable {
         var creators: [Creator] = []
@@ -24,6 +26,7 @@ public struct AllCreatorsReducer {
         }
     }
 
+    // MARK: - Action
     public enum Action: TCAFeatureAction, Sendable {
         case view(ViewAction)
         case `internal`(InternalAction)
@@ -39,6 +42,7 @@ public struct AllCreatorsReducer {
         public enum DelegateAction: Sendable {}
     }
 
+    // MARK: - Reducer
     public var body: some ReducerOf<Self> {
 
         NestedAction(\.view) { state, action in
@@ -59,13 +63,17 @@ public struct AllCreatorsReducer {
     }
 }
 
+// MARK: - AllCreatorsView
 public struct AllCreatorsView: View {
+    // MARK: - Properties
     let store: StoreOf<AllCreatorsReducer>
 
+    // MARK: - Initialization
     public init(store: StoreOf<AllCreatorsReducer>) {
         self.store = store
     }
 
+    // MARK: - Body
     public var body: some View {
         ScrollView {
             LazyVStack(spacing: 20) {
@@ -88,6 +96,7 @@ public struct AllCreatorsView: View {
     }
 }
 
+// MARK: - View Components
 struct CreatorCardView: View {
     let creator: Creator
     let index: Int

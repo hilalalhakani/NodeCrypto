@@ -1,4 +1,3 @@
-
 //
 //  HomeFeatureTests.swift
 //  HomeFeatureTests
@@ -48,17 +47,14 @@ struct HomeFeatureTests {
             $0.apiClient.home.getNFTS = { self.nfts }
         }
 
-        await store.send(\.view.onAppear)
+        await store.send(\.view.task)
 
-        await store.receive(\.internal.onCreatorsResponse) {
+        await store.receive(\.internal.creatorsResponse) {
             $0.creators = .init(uniqueElements: self.creators)
         }
 
-        await store.receive(\.internal.onNFTSResponse) {
+        await store.receive(\.internal.nftsResponse) {
             $0.nfts = .init(uniqueElements: self.nfts)
-        }
-
-        await store.receive(\.internal.removePlaceHolder) {
             $0.isLoading = false
         }
     }
@@ -67,11 +63,9 @@ struct HomeFeatureTests {
         let nftItem = nfts.first!
         let store = TestStore(initialState: HomeFeature.State()) {
             HomeFeature()
-        } withDependencies: { _ in
-           // $0.videoPlayer = .noop
         }
 
-        await store.send(\.view.tappedNFT, nftItem) {
+        await store.send(\.view.nftTapped, nftItem) {
             $0.playerViewReducerState = PlayerViewReducer.State(nft: nftItem)
         }
     }
@@ -79,8 +73,6 @@ struct HomeFeatureTests {
     @Test func playerViewAction_stopPlayer() async {
         let store = TestStore(initialState: HomeFeature.State(playerViewReducerState: .init(nft: nfts.first!))) {
             HomeFeature()
-        } withDependencies: {  _ in
-          //  $0.videoPlayer = .noop
         }
 
         await store.send(\.internal.playerViewAction, .presented(.delegate(.playerClosed))) {
@@ -96,15 +88,10 @@ struct HomeFeatureTests {
             $0.apiClient.home.getNFTS = { throw URLError(.badURL) }
         }
 
-        await store.send(\.view.onAppear)
+        await store.send(\.view.task)
 
-        await store.receive(\.internal.onCreatorsError) {
+        await store.receive(\.internal.creatorsResponse) {
             $0.errorMessage = "Failed to load items"
-        }
-
-        await store.receive(\.internal.onNFTSError)
-
-        await store.receive(\.internal.removePlaceHolder) {
             $0.isLoading = false
         }
     }

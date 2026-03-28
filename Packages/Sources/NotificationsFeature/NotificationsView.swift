@@ -25,11 +25,13 @@ public struct NotificationFeature {
         case loading
     }
 
-    public init() {}
     @Dependency(\.apiClient.profile) var profileAPI
     @Shared(.user) var user
 
-    //MARK: State
+    // MARK: - Initialization
+    public init() {}
+
+    // MARK: - State
     @ObservableState
     public struct State: Equatable, Sendable {
         var itemsState: ItemsState = .loading
@@ -43,7 +45,7 @@ public struct NotificationFeature {
 
     }
 
-    //MARK: Action
+    // MARK: - Action
     @CasePathable
     public enum Action: TCAFeatureAction, Sendable {
         case view(ViewAction)
@@ -66,6 +68,7 @@ public struct NotificationFeature {
         case onAppear
     }
 
+    // MARK: - Reducer
     public var body: some ReducerOf<Self> {
 
         //MARK: Internal Action Handler
@@ -105,14 +108,18 @@ public struct NotificationFeature {
 
 }
 
+// MARK: - NotificationsView
 public struct NotificationsView: View {
 
+    // MARK: - Properties
     @Bindable var store: StoreOf<NotificationFeature>
 
+    // MARK: - Initialization
     public init(store: StoreOf<NotificationFeature>) {
         self.store = store
     }
 
+    // MARK: - Body
     public var body: some View {
             VStack(alignment: .leading) {
                 Text("Notifications")
@@ -138,6 +145,7 @@ public struct NotificationsView: View {
         }
     }
 
+    // MARK: - View Components
     var emptyView: some View {
         VStack {
             Image(.emptyNotifications)
@@ -208,6 +216,7 @@ public struct NotificationsView: View {
     }
 }
 
+// MARK: - Preview
 #Preview {
     NotificationsView(
         store: .init(initialState: .init(), reducer: { NotificationFeature() })

@@ -10,10 +10,13 @@ import TCAHelpers
 
 @Reducer
 public struct RootFeature: Sendable {
-    public init() {}
-
+    // MARK: - Properties
     @Shared(.inMemory("addButtonVisibility")) var addButtonVisibility: Bool = true
 
+    // MARK: - Initialization
+    public init() {}
+
+    // MARK: - State
     @ObservableState
     public struct State: Equatable, Sendable {
         var profile: ProfileFeatureReducer.State = .init()
@@ -25,11 +28,18 @@ public struct RootFeature: Sendable {
         var showsWobbleMenu = false
         var selectedTab: Tab = .home
 
-        public init(showsProfileActionsList: Bool = false) {
+        public init(
+            showsProfileActionsList: Bool = false,
+            showsWobbleMenu: Bool = false,
+            selectedTab: Tab = .home
+        ) {
             self.showsProfileActionsList = showsProfileActionsList
+            self.showsWobbleMenu = showsWobbleMenu
+            self.selectedTab = selectedTab
         }
     }
 
+    // MARK: - Action
     @CasePathable
     public enum Action: TCAFeatureAction, Sendable {
         case view(ViewAction)
@@ -64,6 +74,7 @@ public struct RootFeature: Sendable {
         case createMultipleButtonTapped
     }
 
+    // MARK: - Reducer
     public var body: some ReducerOf<Self> {
 
 
@@ -150,14 +161,18 @@ public struct RootFeature: Sendable {
     }
 }
 
+// MARK: - RootView
 public struct RootView: View {
+    // MARK: - Properties
     @Bindable var store: StoreOf<RootFeature>
     @SharedReader(.inMemory("addButtonVisibility")) var addButtonVisibility: Bool = true
 
+    // MARK: - Initialization
     public init(store: StoreOf<RootFeature>) {
         self.store = store
     }
 
+    // MARK: - Body
     public var body: some View {
         ZStack {
             TabView(selection: $store.selectedTab.sending(\.view.tabSelected)) {
@@ -259,6 +274,7 @@ public struct RootView: View {
         }
     }
 
+    // MARK: - View Components
     @ViewBuilder
     private var blurView: some View {
         Rectangle()
@@ -328,6 +344,7 @@ public struct RootView: View {
     }
 }
 
+// MARK: - Subviews
 #if os(iOS)
     struct BlurView: UIViewRepresentable {
         var style: UIBlurEffect.Style
@@ -342,6 +359,7 @@ public struct RootView: View {
     }
 #endif
 
+// MARK: - Preview
 #Preview {
     RootView(
         store: .init(

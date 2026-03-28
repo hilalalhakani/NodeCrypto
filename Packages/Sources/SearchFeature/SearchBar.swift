@@ -11,8 +11,10 @@ import TCAHelpers
 
 @Reducer
 public struct SearchBarReducer {
+    // MARK: - Initialization
     public init() {}
 
+    // MARK: - State
     @ObservableState
     public struct State: Equatable, Sendable {
         var searchText: String = ""
@@ -22,6 +24,7 @@ public struct SearchBarReducer {
         }
     }
 
+    // MARK: - Action
     @CasePathable
     public enum Action: TCAFeatureAction, Sendable {
         case view(ViewAction)
@@ -47,6 +50,7 @@ public struct SearchBarReducer {
         case searchDidClear
     }
 
+    // MARK: - Reducer
     public var body: some Reducer<State, Action> {
         CombineReducers {
             NestedAction(\.view) { state, viewAction in
@@ -81,13 +85,17 @@ public struct SearchBarReducer {
     }
 }
 
+// MARK: - SearchBar
 public struct SearchBar: View {
+    // MARK: - Properties
     @Bindable var store: StoreOf<SearchBarReducer>
 
+    // MARK: - Initialization
     public init(store: StoreOf<SearchBarReducer>) {
         self.store = store
     }
 
+    // MARK: - Body
     public var body: some View {
             HStack(spacing: 8) {
                 HStack {
@@ -129,6 +137,7 @@ public struct SearchBar: View {
     }
 }
 
+// MARK: - Preview
 #Preview {
     VStack(spacing: 20) {
         // Empty state

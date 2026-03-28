@@ -5,12 +5,15 @@ import SwiftUI
 import SharedViews
 
 public struct CreateView: View {
+    // MARK: - Properties
     @Bindable var store: StoreOf<CreateFeature>
 
+    // MARK: - Initialization
     public init(store: StoreOf<CreateFeature>) {
         self.store = store
     }
 
+    // MARK: - Body
     public var body: some View {
         NavigationStack {
             ZStack {

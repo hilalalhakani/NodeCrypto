@@ -11,6 +11,7 @@ import SwiftUI
 
 @Reducer
 public struct CustomSliderReducer: Sendable {
+    // MARK: - Properties
     @Dependency(\.videoPlayer) var player
     @Dependency(\.haptics) var haptics
 
@@ -18,6 +19,7 @@ public struct CustomSliderReducer: Sendable {
         case timeUpdates
     }
 
+    // MARK: - State
     @ObservableState
     public struct State: Equatable, Sendable {
         var duration: Double
@@ -40,6 +42,7 @@ public struct CustomSliderReducer: Sendable {
         }
     }
 
+    // MARK: - Action
     public enum Action: Sendable {
         case onAppear
         case gestureStarted
@@ -50,6 +53,7 @@ public struct CustomSliderReducer: Sendable {
         case startTimeUpdates
     }
 
+    // MARK: - Reducer
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
@@ -110,16 +114,20 @@ public struct CustomSliderReducer: Sendable {
     }
 }
 
+// MARK: - CustomSlider
 struct CustomSlider: View {
+    // MARK: - Properties
     let trackHeight: CGFloat = 8
     let store: StoreOf<CustomSliderReducer>
     
+    // MARK: - Initialization
     init(
         store: StoreOf<CustomSliderReducer>
     ) {
         self.store = store
     }
 
+    // MARK: - Body
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
@@ -133,6 +141,7 @@ struct CustomSlider: View {
         .frame(height: trackHeight)
     }
     
+    // MARK: - View Components
     private func sliderTrack(in geometry: GeometryProxy) -> some View {
         Capsule()
             .foregroundStyle(.gray)

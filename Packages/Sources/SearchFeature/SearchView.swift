@@ -17,8 +17,10 @@ import Dependencies
 public struct SearchFeatureReducer: Sendable {
     @Dependency(\.apiClient.profile) var profileAPI
     
+    // MARK: - Initialization
     public init() {}
 
+    // MARK: - State
     public enum SearchDestination: Equatable, Sendable {
         case bestArtist
         case recentUploaded
@@ -58,6 +60,7 @@ public struct SearchFeatureReducer: Sendable {
         }
     }
 
+    // MARK: - Action
     @CasePathable
     public enum Action: TCAFeatureAction, Sendable {
         case view(ViewAction)
@@ -85,6 +88,7 @@ public struct SearchFeatureReducer: Sendable {
         case onAppear
     }
 
+    // MARK: - Reducer
     public var body: some ReducerOf<Self> {
         Scope(state: \.searchBar, action: \.searchBar) {
             SearchBarReducer()
@@ -161,17 +165,21 @@ public struct SearchFeatureReducer: Sendable {
     }
 }
 
+// MARK: - SearchView
 public struct SearchView: View {
+    // MARK: - Properties
     @Bindable var store: StoreOf<SearchFeatureReducer>
     let gridLayout: [GridItem] = [
         GridItem(.flexible(), spacing: 8),
         GridItem(.flexible(), spacing: 8),
     ]
 
+    // MARK: - Initialization
     public init(store: StoreOf<SearchFeatureReducer>) {
         self.store = store
     }
 
+    // MARK: - Body
     public var body: some View {
         VStack(spacing: 20) {
             Text("Discover")
@@ -223,6 +231,7 @@ public struct SearchView: View {
         }
     }
 
+    // MARK: - View Components
     @ViewBuilder private var searchResults: some View {
         if store.searchResults.isEmpty {
             Text("No results found for '\(store.searchBar.searchText)'")

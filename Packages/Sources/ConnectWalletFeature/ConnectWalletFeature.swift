@@ -7,8 +7,10 @@ import SharedModels
 
 @Reducer
 public struct ConnectWalletFeature: Sendable {
+  // MARK: - Initialization
   public init() {}
 
+  // MARK: - State
   @ObservableState
   public struct State: Equatable, Sendable {
     public var showPopup = false
@@ -17,6 +19,7 @@ public struct ConnectWalletFeature: Sendable {
     public init() {}
   }
 
+  // MARK: - Action
   @CasePathable
     public enum Action: TCAFeatureAction, Sendable {
     case view(ViewAction)
@@ -40,6 +43,7 @@ public struct ConnectWalletFeature: Sendable {
     case popConnectingWalletView
   }
 
+  // MARK: - Reducer
   public var body: some ReducerOf<Self> {
 
     CombineReducers {
@@ -108,13 +112,17 @@ public struct ConnectWalletFeature: Sendable {
   }
 }
 
+// MARK: - ConnectWalletView
 public struct ConnectWalletView: View {
+  // MARK: - Properties
   @Bindable var store: StoreOf<ConnectWalletFeature>
 
+  // MARK: - Initialization
   public init(store: StoreOf<ConnectWalletFeature>) {
     self.store = store
   }
 
+  // MARK: - Body
   public var body: some View {
     NavigationStack {
       ZStack {
@@ -161,6 +169,7 @@ public struct ConnectWalletView: View {
   }
 }
 
+// MARK: - Preview
 #Preview {
   ConnectWalletView(
     store: .init(

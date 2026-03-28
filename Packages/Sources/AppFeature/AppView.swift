@@ -10,12 +10,15 @@ import TCAHelpers
 
 @Reducer
 public struct AppFeature {
+    // MARK: - Properties
     @Dependency(\.logger) var logger
     @Shared(.user) var user
     @Dependency(\.mainQueue) var mainQueue
 
+    // MARK: - Initialization
     public init() {}
 
+    // MARK: - State
     @ObservableState
     public struct State: Equatable, Sendable {
         public var appDelegate = AppDelegateFeature.State()
@@ -23,6 +26,7 @@ public struct AppFeature {
         public init() {}
     }
 
+    // MARK: - Action
     @CasePathable
     public enum Action: TCAFeatureAction {
         case view(ViewAction)
@@ -45,6 +49,7 @@ public struct AppFeature {
         case onAppear
     }
 
+    // MARK: - Reducer
     public var body: some ReducerOf<Self> {
         Scope(state: \.appDelegate, action: \.internal.appDelegate) {
             AppDelegateFeature()
@@ -103,13 +108,17 @@ public struct AppFeature {
 
 extension AppFeature.Destination.State: Sendable, Equatable {}
 
+// MARK: - AppView
 public struct AppView: View {
+    // MARK: - Properties
     @Bindable var store: StoreOf<AppFeature>
 
+    // MARK: - Initialization
     public init(store: StoreOf<AppFeature>) {
         self.store = store
     }
 
+    // MARK: - Body
     public var body: some View {
         Group {
             if let destinationStore = store.scope(
