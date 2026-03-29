@@ -3,7 +3,6 @@ import ConnectWalletFeature
 import Foundation
 import SharedModels
 import Testing
-import XCTest
 
 @MainActor
 struct ConnectWalletTests {
@@ -14,12 +13,14 @@ struct ConnectWalletTests {
             initialState: ConnectWalletFeature.State(),
             reducer: {
                 ConnectWalletFeature()
-                    .dependency(\.analyticsClient.sendAnalytics, { _ in })
-                    .dependency(\.keychainManager.get, { @Sendable _ in  Data() })
+            },
+            withDependencies: {
+                $0.analyticsClient.sendAnalytics = { _ in }
+                $0.keychainManager.get = { @Sendable _ in Data() }
             }
         )
 
-        await store.send(\.view.onButtonSelect.coinbase) {
+        await store.send(\.view.onButtonSelect, .coinbase) {
             $0.selectedWallet = .coinbase
             $0.showPopup = true
         }
@@ -31,12 +32,14 @@ struct ConnectWalletTests {
             initialState: ConnectWalletFeature.State(),
             reducer: {
                 ConnectWalletFeature()
-                    .dependency(\.analyticsClient.sendAnalytics, { _ in })
-                    .dependency(\.keychainManager.get, { @Sendable _ in  Data() })
+            },
+            withDependencies: {
+                $0.analyticsClient.sendAnalytics = { _ in }
+                $0.keychainManager.get = { @Sendable _ in Data() }
             }
         )
 
-        await store.send(\.view.onButtonSelect.coinbase) {
+        await store.send(\.view.onButtonSelect, .coinbase) {
             $0.selectedWallet = .coinbase
             $0.showPopup = true
         }
@@ -52,12 +55,14 @@ struct ConnectWalletTests {
             initialState: ConnectWalletFeature.State(),
             reducer: {
                 ConnectWalletFeature()
-                    .dependency(\.analyticsClient.sendAnalytics, { _ in })
-                    .dependency(\.keychainManager.get, { @Sendable _ in  Data() })
+            },
+            withDependencies: {
+                $0.analyticsClient.sendAnalytics = { _ in }
+                $0.keychainManager.get = { @Sendable _ in Data() }
             }
         )
 
-        await store.send(\.view.onButtonSelect.metamask) {
+        await store.send(\.view.onButtonSelect, .metamask) {
             $0.showPopup = true
             $0.selectedWallet = .metamask
         }
@@ -74,12 +79,14 @@ struct ConnectWalletTests {
             initialState: ConnectWalletFeature.State(),
             reducer: {
                 ConnectWalletFeature()
-                    .dependency(\.analyticsClient.sendAnalytics, { _ in })
-                    .dependency(\.keychainManager.get, { @Sendable _ in  Data() })
+            },
+            withDependencies: {
+                $0.analyticsClient.sendAnalytics = { _ in }
+                $0.keychainManager.get = { @Sendable _ in Data() }
             }
         )
 
-        await store.send(\.view.onButtonSelect.metamask) {
+        await store.send(\.view.onButtonSelect, .metamask) {
             $0.showPopup = true
             $0.selectedWallet = .metamask
         }
