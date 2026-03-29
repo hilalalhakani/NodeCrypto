@@ -20,7 +20,7 @@ let package = Package(
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.10.1"),
         .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.19.1"),
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "12.4.0"),
-        .package(url: "https://github.com/tgrapperon/swift-dependencies-additions", branch: "xcode26"),
+        .package(url: "https://github.com/tgrapperon/swift-dependencies-additions", revision: "0afff683710e63433847641562da5908fe01205f"),
     ],
     targets: [
         // MARK: - Core Infrastructure

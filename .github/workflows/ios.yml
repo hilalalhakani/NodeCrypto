@@ -35,14 +35,39 @@ jobs:
           key: ${{ runner.os }}-packages-${{ hashFiles('**/Package.resolved') }}
           restore-keys: |
             ${{ runner.os }}-packages-
-          save-always: true
 
       # 4. Install SwiftLint (consider moving to a dependency manager like Carthage or SPM for SwiftLint)
       - name: Install SwiftLint
         run: brew install swiftlint
 
       - name: Run tests
-        run: ./build_scripts/test.sh
+        run: |
+          # Find iPhone 17 (strictly) available on iOS 26.0 or above
+          DESTINATION=$(xcrun simctl list devices available | grep -E "iPhone 17\s+\(" | head -n 1 | sed -E 's/.*\(([-0-9A-F]+)\).*/id=\1/')
+          
+          if [ -z "$DESTINATION" ]; then
+            echo "❌ No available iOS simulator found"
+            exit 1
+          fi
+          
+          echo "🚀 Testing on destination: $DESTINATION"
+          
+          PACKAGES_PATH="packages_cache"
+          XCODEBUILD_FLAGS=(
+            test
+            -scheme NodeCrypto
+            -project NodeCrypto/NodeCrypto.xcodeproj
+            -clonedSourcePackagesDirPath "$PACKAGES_PATH"
+            -destination "$DESTINATION"
+            -disableAutomaticPackageResolution
+          )
+          
+          if [ "$HAS_PACKAGES_CACHE_HIT" = "true" ]; then
+             echo "🎉 Using cached dependencies"
+             XCODEBUILD_FLAGS+=(-skipPackageUpdates)
+          fi
+          
+          set -o pipefail && xcrun xcodebuild "${XCODEBUILD_FLAGS[@]}" | xcbeautify --renderer github-actions
         env:
           HAS_PACKAGES_CACHE_HIT: ${{ steps.packages-cache.outputs.cache-hit == 'true' }}
 
@@ -52,4 +77,3 @@ jobs:
         with:
           path: packages_cache
           key: ${{ runner.os }}-packages-${{ hashFiles('**/Package.resolved') }}
-          save-always: true

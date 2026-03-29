@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "created_at": "2026-03-31T05:01:13.509921+00:00",
+  "type": "compilation-diagnostics",
+  "build": {
+    "entrypoint": "project",
+    "path": "/Users/hilalhakkani/Desktop/NodeCrypto/NodeCrypto/NodeCrypto.xcodeproj",
+    "scheme": "NodeCrypto",
+    "configuration": "Debug",
+    "destination": "platform=iOS Simulator,name=iPhone 17"
+  },
+  "threshold_ms": 100,
+  "build_duration_seconds": 60.936,
+  "build_success": true,
+  "raw_log_path": ".build-benchmark/20260331T050005Z-nodecrypto-diagnostics.log",
+  "warnings": [],
+  "summary": {
+    "total_warnings": 0,
+    "function_body_warnings": 0,
+    "expression_warnings": 0,
+    "slowest_ms": 0
+  }
+}

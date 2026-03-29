@@ -1,0 +1,998 @@
+{
+  "schema_version": "1.2.0",
+  "created_at": "2026-03-31T04:59:46.395316+00:00",
+  "build": {
+    "entrypoint": "project",
+    "path": "/Users/hilalhakkani/Desktop/NodeCrypto/NodeCrypto/NodeCrypto.xcodeproj",
+    "scheme": "NodeCrypto",
+    "configuration": "Debug",
+    "destination": "platform=iOS Simulator,name=iPhone 17",
+    "derived_data_path": "",
+    "command": "xcodebuild -project /Users/hilalhakkani/Desktop/NodeCrypto/NodeCrypto/NodeCrypto.xcodeproj -scheme NodeCrypto -configuration Debug -destination \"platform=iOS Simulator,name=iPhone 17\""
+  },
+  "environment": {
+    "host": "Hilals-MacBook-Pro.local",
+    "macos_version": "macOS-26.1-arm64-arm-64bit",
+    "xcode_version": "Xcode 26.0\nBuild version 17A324",
+    "cwd": "/Users/hilalhakkani/Desktop/NodeCrypto"
+  },
+  "runs": {
+    "clean": [
+      {
+        "id": "clean-1",
+        "build_type": "clean",
+        "duration_seconds": 58.862,
+        "success": true,
+        "exit_code": 0,
+        "command": "xcodebuild -project /Users/hilalhakkani/Desktop/NodeCrypto/NodeCrypto/NodeCrypto.xcodeproj -scheme NodeCrypto -configuration Debug -destination \"platform=iOS Simulator,name=iPhone 17\" build -showBuildTimingSummary",
+        "raw_log_path": ".build-benchmark/20260331T044650Z-nodecrypto-clean-1.log",
+        "timing_summary_categories": [
+          {
+            "name": "SwiftCompile",
+            "seconds": 144.341,
+            "task_count": 315
+          },
+          {
+            "name": "CompileAssetCatalogVariant",
+            "seconds": 68.537,
+            "task_count": 10
+          },
+          {
+            "name": "SwiftDriver",
+            "seconds": 39.777,
+            "task_count": 63
+          },
+          {
+            "name": "SwiftEmitModule",
+            "seconds": 24.352,
+            "task_count": 63
+          },
+          {
+            "name": "ExtractAppIntentsMetadata",
+            "seconds": 12.88,
+            "task_count": 59
+          },
+          {
+            "name": "Ld",
+            "seconds": 6.422,
+            "task_count": 81
+          },
+          {
+            "name": "CompileC",
+            "seconds": 2.866,
+            "task_count": 50
+          },
+          {
+            "name": "ScanDependencies",
+            "seconds": 2.098,
+            "task_count": 50
+          },
+          {
+            "name": "RegisterExecutionPolicyException",
+            "seconds": 1.877,
+            "task_count": 101
+          },
+          {
+            "name": "CodeSign",
+            "seconds": 1.806,
+            "task_count": 25
+          },
+          {
+            "name": "Copy",
+            "seconds": 1.266,
+            "task_count": 347
+          },
+          {
+            "name": "GenerateAssetSymbols",
+            "seconds": 0.274,
+            "task_count": 10
+          },
+          {
+            "name": "WriteAuxiliaryFile",
+            "seconds": 0.229,
+            "task_count": 680
+          },
+          {
+            "name": "CpResource",
+            "seconds": 0.221,
+            "task_count": 108
+          },
+          {
+            "name": "ProcessInfoPlistFile",
+            "seconds": 0.209,
+            "task_count": 23
+          },
+          {
+            "name": "SwiftDriver Compilation",
+            "seconds": 0.146,
+            "task_count": 63
+          },
+          {
+            "name": "Touch",
+            "seconds": 0.072,
+            "task_count": 23
+          },
+          {
+            "name": "SwiftDriver Compilation Requirements",
+            "seconds": 0.064,
+            "task_count": 63
+          },
+          {
+            "name": "CopySwiftLibs",
+            "seconds": 0.048,
+            "task_count": 1
+          },
+          {
+            "name": "SwiftMergeGeneratedHeaders",
+            "seconds": 0.042,
+            "task_count": 59
+          },
+          {
+            "name": "LinkAssetCatalog",
+            "seconds": 0.025,
+            "task_count": 10
+          },
+          {
+            "name": "AppIntentsSSUTraining",
+            "seconds": 0.023,
+            "task_count": 1
+          },
+          {
+            "name": "ConstructStubExecutorLinkFileList",
+            "seconds": 0.018,
+            "task_count": 1
+          },
+          {
+            "name": "ProcessProductPackagingDER",
+            "seconds": 0.01,
+            "task_count": 2
+          },
+          {
+            "name": "ProcessProductPackaging",
+            "seconds": 0.002,
+            "task_count": 2
+          },
+          {
+            "name": "CopyPlistFile",
+            "seconds": 0.002,
+            "task_count": 1
+          },
+          {
+            "name": "Validate",
+            "seconds": 0.0,
+            "task_count": 1
+          },
+          {
+            "name": "ValidateDevelopmentAssets",
+            "seconds": 0.0,
+            "task_count": 1
+          }
+        ]
+      },
+      {
+        "id": "clean-2",
+        "build_type": "clean",
+        "duration_seconds": 57.014,
+        "success": true,
+        "exit_code": 0,
+        "command": "xcodebuild -project /Users/hilalhakkani/Desktop/NodeCrypto/NodeCrypto/NodeCrypto.xcodeproj -scheme NodeCrypto -configuration Debug -destination \"platform=iOS Simulator,name=iPhone 17\" build -showBuildTimingSummary",
+        "raw_log_path": ".build-benchmark/20260331T044650Z-nodecrypto-clean-2.log",
+        "timing_summary_categories": [
+          {
+            "name": "SwiftCompile",
+            "seconds": 140.274,
+            "task_count": 315
+          },
+          {
+            "name": "CompileAssetCatalogVariant",
+            "seconds": 66.462,
+            "task_count": 10
+          },
+          {
+            "name": "SwiftDriver",
+            "seconds": 37.368,
+            "task_count": 63
+          },
+          {
+            "name": "SwiftEmitModule",
+            "seconds": 24.523,
+            "task_count": 63
+          },
+          {
+            "name": "ExtractAppIntentsMetadata",
+            "seconds": 12.083,
+            "task_count": 59
+          },
+          {
+            "name": "Ld",
+            "seconds": 5.568,
+            "task_count": 81
+          },
+          {
+            "name": "CompileC",
+            "seconds": 2.783,
+            "task_count": 50
+          },
+          {
+            "name": "CodeSign",
+            "seconds": 2.195,
+            "task_count": 25
+          },
+          {
+            "name": "RegisterExecutionPolicyException",
+            "seconds": 1.974,
+            "task_count": 101
+          },
+          {
+            "name": "ScanDependencies",
+            "seconds": 1.551,
+            "task_count": 50
+          },
+          {
+            "name": "Copy",
+            "seconds": 1.301,
+            "task_count": 347
+          },
+          {
+            "name": "GenerateAssetSymbols",
+            "seconds": 0.241,
+            "task_count": 10
+          },
+          {
+            "name": "ProcessInfoPlistFile",
+            "seconds": 0.228,
+            "task_count": 23
+          },
+          {
+            "name": "CpResource",
+            "seconds": 0.198,
+            "task_count": 108
+          },
+          {
+            "name": "WriteAuxiliaryFile",
+            "seconds": 0.194,
+            "task_count": 680
+          },
+          {
+            "name": "SwiftDriver Compilation Requirements",
+            "seconds": 0.106,
+            "task_count": 63
+          },
+          {
+            "name": "Touch",
+            "seconds": 0.091,
+            "task_count": 23
+          },
+          {
+            "name": "SwiftDriver Compilation",
+            "seconds": 0.079,
+            "task_count": 63
+          },
+          {
+            "name": "SwiftMergeGeneratedHeaders",
+            "seconds": 0.049,
+            "task_count": 59
+          },
+          {
+            "name": "CopySwiftLibs",
+            "seconds": 0.047,
+            "task_count": 1
+          },
+          {
+            "name": "LinkAssetCatalog",
+            "seconds": 0.024,
+            "task_count": 10
+          },
+          {
+            "name": "AppIntentsSSUTraining",
+            "seconds": 0.021,
+            "task_count": 1
+          },
+          {
+            "name": "ConstructStubExecutorLinkFileList",
+            "seconds": 0.018,
+            "task_count": 1
+          },
+          {
+            "name": "ProcessProductPackagingDER",
+            "seconds": 0.011,
+            "task_count": 2
+          },
+          {
+            "name": "ProcessProductPackaging",
+            "seconds": 0.003,
+            "task_count": 2
+          },
+          {
+            "name": "CopyPlistFile",
+            "seconds": 0.003,
+            "task_count": 1
+          },
+          {
+            "name": "Validate",
+            "seconds": 0.0,
+            "task_count": 1
+          },
+          {
+            "name": "ValidateDevelopmentAssets",
+            "seconds": 0.0,
+            "task_count": 1
+          }
+        ]
+      },
+      {
+        "id": "clean-3",
+        "build_type": "clean",
+        "duration_seconds": 55.411,
+        "success": true,
+        "exit_code": 0,
+        "command": "xcodebuild -project /Users/hilalhakkani/Desktop/NodeCrypto/NodeCrypto/NodeCrypto.xcodeproj -scheme NodeCrypto -configuration Debug -destination \"platform=iOS Simulator,name=iPhone 17\" build -showBuildTimingSummary",
+        "raw_log_path": ".build-benchmark/20260331T044650Z-nodecrypto-clean-3.log",
+        "timing_summary_categories": [
+          {
+            "name": "SwiftCompile",
+            "seconds": 140.133,
+            "task_count": 315
+          },
+          {
+            "name": "CompileAssetCatalogVariant",
+            "seconds": 53.889,
+            "task_count": 10
+          },
+          {
+            "name": "SwiftDriver",
+            "seconds": 38.187,
+            "task_count": 63
+          },
+          {
+            "name": "SwiftEmitModule",
+            "seconds": 23.721,
+            "task_count": 63
+          },
+          {
+            "name": "ExtractAppIntentsMetadata",
+            "seconds": 11.069,
+            "task_count": 59
+          },
+          {
+            "name": "Ld",
+            "seconds": 5.653,
+            "task_count": 81
+          },
+          {
+            "name": "CompileC",
+            "seconds": 2.654,
+            "task_count": 50
+          },
+          {
+            "name": "RegisterExecutionPolicyException",
+            "seconds": 2.075,
+            "task_count": 101
+          },
+          {
+            "name": "CodeSign",
+            "seconds": 1.813,
+            "task_count": 25
+          },
+          {
+            "name": "ScanDependencies",
+            "seconds": 1.784,
+            "task_count": 50
+          },
+          {
+            "name": "Copy",
+            "seconds": 1.231,
+            "task_count": 347
+          },
+          {
+            "name": "GenerateAssetSymbols",
+            "seconds": 0.303,
+            "task_count": 10
+          },
+          {
+            "name": "CpResource",
+            "seconds": 0.245,
+            "task_count": 108
+          },
+          {
+            "name": "ProcessInfoPlistFile",
+            "seconds": 0.244,
+            "task_count": 23
+          },
+          {
+            "name": "WriteAuxiliaryFile",
+            "seconds": 0.22,
+            "task_count": 680
+          },
+          {
+            "name": "SwiftDriver Compilation",
+            "seconds": 0.119,
+            "task_count": 63
+          },
+          {
+            "name": "Touch",
+            "seconds": 0.109,
+            "task_count": 23
+          },
+          {
+            "name": "SwiftDriver Compilation Requirements",
+            "seconds": 0.05,
+            "task_count": 63
+          },
+          {
+            "name": "CopySwiftLibs",
+            "seconds": 0.047,
+            "task_count": 1
+          },
+          {
+            "name": "SwiftMergeGeneratedHeaders",
+            "seconds": 0.039,
+            "task_count": 59
+          },
+          {
+            "name": "LinkAssetCatalog",
+            "seconds": 0.031,
+            "task_count": 10
+          },
+          {
+            "name": "AppIntentsSSUTraining",
+            "seconds": 0.023,
+            "task_count": 1
+          },
+          {
+            "name": "ConstructStubExecutorLinkFileList",
+            "seconds": 0.018,
+            "task_count": 1
+          },
+          {
+            "name": "ProcessProductPackagingDER",
+            "seconds": 0.012,
+            "task_count": 2
+          },
+          {
+            "name": "CopyPlistFile",
+            "seconds": 0.002,
+            "task_count": 1
+          },
+          {
+            "name": "ProcessProductPackaging",
+            "seconds": 0.002,
+            "task_count": 2
+          },
+          {
+            "name": "Validate",
+            "seconds": 0.0,
+            "task_count": 1
+          },
+          {
+            "name": "ValidateDevelopmentAssets",
+            "seconds": 0.0,
+            "task_count": 1
+          }
+        ]
+      }
+    ],
+    "incremental": [
+      {
+        "id": "zero-change-1",
+        "build_type": "zero-change",
+        "duration_seconds": 15.226,
+        "success": true,
+        "exit_code": 0,
+        "command": "xcodebuild -project /Users/hilalhakkani/Desktop/NodeCrypto/NodeCrypto/NodeCrypto.xcodeproj -scheme NodeCrypto -configuration Debug -destination \"platform=iOS Simulator,name=iPhone 17\" build -showBuildTimingSummary",
+        "raw_log_path": ".build-benchmark/20260331T044650Z-nodecrypto-zero-change-1.log",
+        "timing_summary_categories": [
+          {
+            "name": "Copy",
+            "seconds": 0.882,
+            "task_count": 22
+          },
+          {
+            "name": "ProcessInfoPlistFile",
+            "seconds": 0.018,
+            "task_count": 1
+          }
+        ]
+      },
+      {
+        "id": "zero-change-2",
+        "build_type": "zero-change",
+        "duration_seconds": 7.914,
+        "success": true,
+        "exit_code": 0,
+        "command": "xcodebuild -project /Users/hilalhakkani/Desktop/NodeCrypto/NodeCrypto/NodeCrypto.xcodeproj -scheme NodeCrypto -configuration Debug -destination \"platform=iOS Simulator,name=iPhone 17\" build -showBuildTimingSummary",
+        "raw_log_path": ".build-benchmark/20260331T044650Z-nodecrypto-zero-change-2.log",
+        "timing_summary_categories": []
+      },
+      {
+        "id": "zero-change-3",
+        "build_type": "zero-change",
+        "duration_seconds": 7.527,
+        "success": true,
+        "exit_code": 0,
+        "command": "xcodebuild -project /Users/hilalhakkani/Desktop/NodeCrypto/NodeCrypto/NodeCrypto.xcodeproj -scheme NodeCrypto -configuration Debug -destination \"platform=iOS Simulator,name=iPhone 17\" build -showBuildTimingSummary",
+        "raw_log_path": ".build-benchmark/20260331T044650Z-nodecrypto-zero-change-3.log",
+        "timing_summary_categories": []
+      }
+    ],
+    "cached_clean": [
+      {
+        "id": "cached-clean-1",
+        "build_type": "cached-clean",
+        "duration_seconds": 102.306,
+        "success": true,
+        "exit_code": 0,
+        "command": "xcodebuild -project /Users/hilalhakkani/Desktop/NodeCrypto/NodeCrypto/NodeCrypto.xcodeproj -scheme NodeCrypto -configuration Debug -destination \"platform=iOS Simulator,name=iPhone 17\" -derivedDataPath /var/folders/gx/5tz7xl5j007_k93khfk6tly00000gn/T/xcode-bench-dd-_hdqd4rf build -showBuildTimingSummary",
+        "raw_log_path": ".build-benchmark/20260331T044650Z-nodecrypto-cached-clean-1.log",
+        "timing_summary_categories": [
+          {
+            "name": "SwiftCompile",
+            "seconds": 162.755,
+            "task_count": 315
+          },
+          {
+            "name": "CompileAssetCatalogVariant",
+            "seconds": 65.493,
+            "task_count": 10
+          },
+          {
+            "name": "SwiftDriver",
+            "seconds": 63.026,
+            "task_count": 63
+          },
+          {
+            "name": "SwiftEmitModule",
+            "seconds": 25.797,
+            "task_count": 63
+          },
+          {
+            "name": "ExtractAppIntentsMetadata",
+            "seconds": 15.275,
+            "task_count": 59
+          },
+          {
+            "name": "ScanDependencies",
+            "seconds": 6.981,
+            "task_count": 50
+          },
+          {
+            "name": "Ld",
+            "seconds": 5.874,
+            "task_count": 81
+          },
+          {
+            "name": "CodeSign",
+            "seconds": 3.308,
+            "task_count": 25
+          },
+          {
+            "name": "CompileC",
+            "seconds": 2.523,
+            "task_count": 50
+          },
+          {
+            "name": "RegisterExecutionPolicyException",
+            "seconds": 1.909,
+            "task_count": 101
+          },
+          {
+            "name": "Copy",
+            "seconds": 1.383,
+            "task_count": 347
+          },
+          {
+            "name": "GenerateAssetSymbols",
+            "seconds": 0.335,
+            "task_count": 10
+          },
+          {
+            "name": "CpResource",
+            "seconds": 0.253,
+            "task_count": 108
+          },
+          {
+            "name": "ProcessInfoPlistFile",
+            "seconds": 0.22,
+            "task_count": 23
+          },
+          {
+            "name": "WriteAuxiliaryFile",
+            "seconds": 0.202,
+            "task_count": 680
+          },
+          {
+            "name": "SwiftDriver Compilation Requirements",
+            "seconds": 0.085,
+            "task_count": 63
+          },
+          {
+            "name": "Touch",
+            "seconds": 0.066,
+            "task_count": 23
+          },
+          {
+            "name": "SwiftDriver Compilation",
+            "seconds": 0.058,
+            "task_count": 63
+          },
+          {
+            "name": "SwiftMergeGeneratedHeaders",
+            "seconds": 0.051,
+            "task_count": 59
+          },
+          {
+            "name": "CopySwiftLibs",
+            "seconds": 0.045,
+            "task_count": 1
+          },
+          {
+            "name": "AppIntentsSSUTraining",
+            "seconds": 0.023,
+            "task_count": 1
+          },
+          {
+            "name": "LinkAssetCatalog",
+            "seconds": 0.019,
+            "task_count": 10
+          },
+          {
+            "name": "ConstructStubExecutorLinkFileList",
+            "seconds": 0.018,
+            "task_count": 1
+          },
+          {
+            "name": "ProcessProductPackagingDER",
+            "seconds": 0.01,
+            "task_count": 2
+          },
+          {
+            "name": "CopyPlistFile",
+            "seconds": 0.003,
+            "task_count": 1
+          },
+          {
+            "name": "ProcessProductPackaging",
+            "seconds": 0.003,
+            "task_count": 2
+          },
+          {
+            "name": "Validate",
+            "seconds": 0.0,
+            "task_count": 1
+          },
+          {
+            "name": "ValidateDevelopmentAssets",
+            "seconds": 0.0,
+            "task_count": 1
+          }
+        ]
+      },
+      {
+        "id": "cached-clean-2",
+        "build_type": "cached-clean",
+        "duration_seconds": 99.719,
+        "success": true,
+        "exit_code": 0,
+        "command": "xcodebuild -project /Users/hilalhakkani/Desktop/NodeCrypto/NodeCrypto/NodeCrypto.xcodeproj -scheme NodeCrypto -configuration Debug -destination \"platform=iOS Simulator,name=iPhone 17\" -derivedDataPath /var/folders/gx/5tz7xl5j007_k93khfk6tly00000gn/T/xcode-bench-dd-_hdqd4rf build -showBuildTimingSummary",
+        "raw_log_path": ".build-benchmark/20260331T044650Z-nodecrypto-cached-clean-2.log",
+        "timing_summary_categories": [
+          {
+            "name": "SwiftCompile",
+            "seconds": 157.723,
+            "task_count": 315
+          },
+          {
+            "name": "SwiftDriver",
+            "seconds": 62.637,
+            "task_count": 63
+          },
+          {
+            "name": "CompileAssetCatalogVariant",
+            "seconds": 53.711,
+            "task_count": 10
+          },
+          {
+            "name": "SwiftEmitModule",
+            "seconds": 23.084,
+            "task_count": 63
+          },
+          {
+            "name": "ExtractAppIntentsMetadata",
+            "seconds": 16.715,
+            "task_count": 59
+          },
+          {
+            "name": "ScanDependencies",
+            "seconds": 8.176,
+            "task_count": 50
+          },
+          {
+            "name": "Ld",
+            "seconds": 5.966,
+            "task_count": 81
+          },
+          {
+            "name": "CompileC",
+            "seconds": 2.63,
+            "task_count": 50
+          },
+          {
+            "name": "RegisterExecutionPolicyException",
+            "seconds": 1.936,
+            "task_count": 101
+          },
+          {
+            "name": "CodeSign",
+            "seconds": 1.862,
+            "task_count": 25
+          },
+          {
+            "name": "Copy",
+            "seconds": 1.396,
+            "task_count": 347
+          },
+          {
+            "name": "WriteAuxiliaryFile",
+            "seconds": 0.367,
+            "task_count": 680
+          },
+          {
+            "name": "ProcessInfoPlistFile",
+            "seconds": 0.286,
+            "task_count": 23
+          },
+          {
+            "name": "CpResource",
+            "seconds": 0.229,
+            "task_count": 108
+          },
+          {
+            "name": "GenerateAssetSymbols",
+            "seconds": 0.217,
+            "task_count": 10
+          },
+          {
+            "name": "SwiftDriver Compilation",
+            "seconds": 0.094,
+            "task_count": 63
+          },
+          {
+            "name": "Touch",
+            "seconds": 0.07,
+            "task_count": 23
+          },
+          {
+            "name": "SwiftMergeGeneratedHeaders",
+            "seconds": 0.056,
+            "task_count": 59
+          },
+          {
+            "name": "SwiftDriver Compilation Requirements",
+            "seconds": 0.054,
+            "task_count": 63
+          },
+          {
+            "name": "CopySwiftLibs",
+            "seconds": 0.044,
+            "task_count": 1
+          },
+          {
+            "name": "LinkAssetCatalog",
+            "seconds": 0.027,
+            "task_count": 10
+          },
+          {
+            "name": "AppIntentsSSUTraining",
+            "seconds": 0.022,
+            "task_count": 1
+          },
+          {
+            "name": "ConstructStubExecutorLinkFileList",
+            "seconds": 0.018,
+            "task_count": 1
+          },
+          {
+            "name": "ProcessProductPackagingDER",
+            "seconds": 0.011,
+            "task_count": 2
+          },
+          {
+            "name": "CopyPlistFile",
+            "seconds": 0.003,
+            "task_count": 1
+          },
+          {
+            "name": "ProcessProductPackaging",
+            "seconds": 0.003,
+            "task_count": 2
+          },
+          {
+            "name": "Validate",
+            "seconds": 0.0,
+            "task_count": 1
+          },
+          {
+            "name": "ValidateDevelopmentAssets",
+            "seconds": 0.0,
+            "task_count": 1
+          }
+        ]
+      },
+      {
+        "id": "cached-clean-3",
+        "build_type": "cached-clean",
+        "duration_seconds": 102.376,
+        "success": true,
+        "exit_code": 0,
+        "command": "xcodebuild -project /Users/hilalhakkani/Desktop/NodeCrypto/NodeCrypto/NodeCrypto.xcodeproj -scheme NodeCrypto -configuration Debug -destination \"platform=iOS Simulator,name=iPhone 17\" -derivedDataPath /var/folders/gx/5tz7xl5j007_k93khfk6tly00000gn/T/xcode-bench-dd-_hdqd4rf build -showBuildTimingSummary",
+        "raw_log_path": ".build-benchmark/20260331T044650Z-nodecrypto-cached-clean-3.log",
+        "timing_summary_categories": [
+          {
+            "name": "SwiftCompile",
+            "seconds": 152.173,
+            "task_count": 315
+          },
+          {
+            "name": "CompileAssetCatalogVariant",
+            "seconds": 65.417,
+            "task_count": 10
+          },
+          {
+            "name": "SwiftDriver",
+            "seconds": 62.183,
+            "task_count": 63
+          },
+          {
+            "name": "SwiftEmitModule",
+            "seconds": 23.447,
+            "task_count": 63
+          },
+          {
+            "name": "ExtractAppIntentsMetadata",
+            "seconds": 15.312,
+            "task_count": 59
+          },
+          {
+            "name": "ScanDependencies",
+            "seconds": 7.449,
+            "task_count": 50
+          },
+          {
+            "name": "Ld",
+            "seconds": 6.329,
+            "task_count": 81
+          },
+          {
+            "name": "CompileC",
+            "seconds": 2.657,
+            "task_count": 50
+          },
+          {
+            "name": "CodeSign",
+            "seconds": 1.979,
+            "task_count": 25
+          },
+          {
+            "name": "RegisterExecutionPolicyException",
+            "seconds": 1.943,
+            "task_count": 101
+          },
+          {
+            "name": "Copy",
+            "seconds": 1.227,
+            "task_count": 347
+          },
+          {
+            "name": "CpResource",
+            "seconds": 0.876,
+            "task_count": 108
+          },
+          {
+            "name": "WriteAuxiliaryFile",
+            "seconds": 0.304,
+            "task_count": 680
+          },
+          {
+            "name": "GenerateAssetSymbols",
+            "seconds": 0.244,
+            "task_count": 10
+          },
+          {
+            "name": "ProcessInfoPlistFile",
+            "seconds": 0.236,
+            "task_count": 23
+          },
+          {
+            "name": "Touch",
+            "seconds": 0.094,
+            "task_count": 23
+          },
+          {
+            "name": "SwiftDriver Compilation",
+            "seconds": 0.076,
+            "task_count": 63
+          },
+          {
+            "name": "SwiftDriver Compilation Requirements",
+            "seconds": 0.056,
+            "task_count": 63
+          },
+          {
+            "name": "CopySwiftLibs",
+            "seconds": 0.042,
+            "task_count": 1
+          },
+          {
+            "name": "AppIntentsSSUTraining",
+            "seconds": 0.036,
+            "task_count": 1
+          },
+          {
+            "name": "SwiftMergeGeneratedHeaders",
+            "seconds": 0.033,
+            "task_count": 59
+          },
+          {
+            "name": "LinkAssetCatalog",
+            "seconds": 0.019,
+            "task_count": 10
+          },
+          {
+            "name": "ConstructStubExecutorLinkFileList",
+            "seconds": 0.018,
+            "task_count": 1
+          },
+          {
+            "name": "ProcessProductPackagingDER",
+            "seconds": 0.01,
+            "task_count": 2
+          },
+          {
+            "name": "CopyPlistFile",
+            "seconds": 0.004,
+            "task_count": 1
+          },
+          {
+            "name": "ProcessProductPackaging",
+            "seconds": 0.002,
+            "task_count": 2
+          },
+          {
+            "name": "Validate",
+            "seconds": 0.0,
+            "task_count": 1
+          },
+          {
+            "name": "ValidateDevelopmentAssets",
+            "seconds": 0.0,
+            "task_count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "summary": {
+    "clean": {
+      "count": 3,
+      "min_seconds": 55.411,
+      "max_seconds": 58.862,
+      "median_seconds": 57.014,
+      "average_seconds": 57.096
+    },
+    "incremental": {
+      "count": 3,
+      "min_seconds": 7.527,
+      "max_seconds": 15.226,
+      "median_seconds": 7.914,
+      "average_seconds": 10.222
+    },
+    "cached_clean": {
+      "count": 3,
+      "min_seconds": 99.719,
+      "max_seconds": 102.376,
+      "median_seconds": 102.306,
+      "average_seconds": 101.467
+    }
+  },
+  "notes": []
+}

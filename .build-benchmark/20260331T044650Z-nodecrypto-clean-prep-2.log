@@ -1,0 +1,50 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project /Users/hilalhakkani/Desktop/NodeCrypto/NodeCrypto/NodeCrypto.xcodeproj -scheme NodeCrypto -configuration Debug -destination "platform=iOS Simulator,name=iPhone 17" clean
+
+Resolve Package Graph
+
+
+Resolved source packages:
+  swift-navigation: https://github.com/pointfreeco/swift-navigation @ 2.7.0
+  GoogleAdsOnDeviceConversion: https://github.com/googleads/google-ads-on-device-conversion-ios-sdk @ 3.1.0
+  GTMSessionFetcher: https://github.com/google/gtm-session-fetcher.git @ 4.2.0
+  nanopb: https://github.com/firebase/nanopb.git @ 2.30910.0
+  gRPC: https://github.com/google/grpc-binary.git @ 1.69.0
+  swift-clocks: https://github.com/pointfreeco/swift-clocks @ 1.0.6
+  swift-syntax: https://github.com/swiftlang/swift-syntax @ 600.0.1
+  GoogleDataTransport: https://github.com/google/GoogleDataTransport.git @ 10.1.0
+  swift-dependencies-additions: https://github.com/tgrapperon/swift-dependencies-additions @ xcode26 (0afff68)
+  swift-sharing: https://github.com/pointfreeco/swift-sharing @ 2.7.4
+  xctest-dynamic-overlay: https://github.com/pointfreeco/xctest-dynamic-overlay @ 1.9.0
+  Main: /Users/hilalhakkani/Desktop/NodeCrypto/Packages
+  combine-schedulers: https://github.com/pointfreeco/combine-schedulers @ 1.0.3
+  Promises: https://github.com/google/promises.git @ 2.4.0
+  swift-custom-dump: https://github.com/pointfreeco/swift-custom-dump @ 1.5.0
+  Firebase: https://github.com/firebase/firebase-ios-sdk.git @ 12.4.0
+  swift-concurrency-extras: https://github.com/pointfreeco/swift-concurrency-extras @ 1.3.1
+  swift-perception: https://github.com/pointfreeco/swift-perception @ 2.0.9
+  swift-collections: https://github.com/apple/swift-collections @ 1.4.1
+  InteropForGoogle: https://github.com/google/interop-ios-for-google-sdks.git @ 101.0.0
+  leveldb: https://github.com/firebase/leveldb.git @ 1.22.5
+  swift-case-paths: https://github.com/pointfreeco/swift-case-paths @ 1.7.2
+  swift-dependencies: https://github.com/pointfreeco/swift-dependencies @ 1.11.0
+  GoogleUtilities: https://github.com/google/GoogleUtilities.git @ 8.1.0
+  SwiftProtobuf: https://github.com/apple/swift-protobuf.git @ 1.28.2
+  AppCheck: https://github.com/google/app-check.git @ 11.2.0
+  abseil: https://github.com/google/abseil-cpp-binary.git @ 1.2024072200.0
+  swift-identified-collections: https://github.com/pointfreeco/swift-identified-collections @ 1.1.1
+  swift-composable-architecture: https://github.com/pointfreeco/swift-composable-architecture @ 1.25.2
+  GoogleAppMeasurement: https://github.com/google/GoogleAppMeasurement.git @ 12.4.0
+  swift-snapshot-testing: https://github.com/pointfreeco/swift-snapshot-testing @ 1.19.1
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+** CLEAN SUCCEEDED **
+
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+{ platform:iOS Simulator, arch:arm64, id:FE9B30DC-672E-4C9A-B2E3-C77149979EC6, OS:26.0, name:iPhone 17 }
+{ platform:iOS Simulator, arch:x86_64, id:FE9B30DC-672E-4C9A-B2E3-C77149979EC6, OS:26.0, name:iPhone 17 }
