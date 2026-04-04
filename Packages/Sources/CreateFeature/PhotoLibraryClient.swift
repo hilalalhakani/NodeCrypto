@@ -8,7 +8,9 @@
 import Dependencies
 import SwiftUI
 import Photos
+#if canImport(UIKit)
 import UIKit
+#endif
 import ComposableArchitecture
 
 @DependencyClient

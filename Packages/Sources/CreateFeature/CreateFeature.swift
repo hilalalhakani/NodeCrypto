@@ -3,7 +3,9 @@ import Foundation
 import Photos
 import SharedViews
 import SwiftUI
+#if canImport(UIKit)
 import UIKit
+#endif
 import TCAHelpers
 
 @Reducer

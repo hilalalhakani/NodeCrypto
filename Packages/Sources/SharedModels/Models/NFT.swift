@@ -7,12 +7,20 @@
 
 import Foundation
 
-public struct NFT: Decodable, Equatable, Hashable, Sendable {
+public struct NFT: Codable, Equatable, Hashable, Sendable {
     public var isNew: Bool
     public var isVideo: Bool
     public var imageURL: String
     public var videoURL: String
     public var isLiked: Bool
+
+    enum CodingKeys: String, CodingKey {
+        case isNew
+        case isVideo
+        case imageURL = "image"
+        case videoURL
+        case isLiked
+    }
 
     public init(isNew: Bool, isVideo: Bool, imageURL: String, videoURL: String, isLiked: Bool = true) {
         self.isNew = isNew

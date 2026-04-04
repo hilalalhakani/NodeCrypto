@@ -12,13 +12,27 @@ let package = Package(
     ],
     products: [
         .library(name: "AppFeature", targets: ["AppFeature"]),
+        .library(name: "APIClient", targets: ["APIClient"]),
         .library(name: "APIClientLive", targets: ["APIClientLive"]),
+        .library(name: "OnboardingFeature", targets: ["OnboardingFeature"]),
+        .library(name: "HomeFeature", targets: ["HomeFeature"]),
+        .library(name: "ProfileFeature", targets: ["ProfileFeature"]),
+        .library(name: "SearchFeature", targets: ["SearchFeature"]),
+        .library(name: "CreateFeature", targets: ["CreateFeature"]),
+        .library(name: "NotificationsFeature", targets: ["NotificationsFeature"]),
+        .library(name: "ConnectWalletFeature", targets: ["ConnectWalletFeature"]),
+        .library(name: "StyleGuide", targets: ["StyleGuide"]),
+        .library(name: "TCAHelpers", targets: ["TCAHelpers"]),
+        .library(name: "SharedModels", targets: ["SharedModels"]),
+        .library(name: "SharedViews", targets: ["SharedViews"]),
+        .library(name: "AuthenticationClient", targets: ["AuthenticationClient"]),
+        .library(name: "Keychain", targets: ["Keychain"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.25.2"),
-        .package(url: "https://github.com/pointfreeco/swift-custom-dump", from: "1.0.0"),
-        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.10.1"),
-        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.19.1"),
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.17.1"),
+        .package(url: "https://github.com/pointfreeco/swift-custom-dump", from: "1.1.2"),
+        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.12.0"),
+        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.17.6"),
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "12.4.0"),
         .package(url: "https://github.com/tgrapperon/swift-dependencies-additions", revision: "0afff683710e63433847641562da5908fe01205f"),
     ],
@@ -213,10 +227,6 @@ let package = Package(
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
         ),
-        .testTarget(
-            name: "TCAHelpersTests",
-            dependencies: ["TCAHelpers"]
-        ),
 
         // MARK: - Clients & Services
 
@@ -267,6 +277,15 @@ let package = Package(
                 "AppFeature",
                 "APIClientLive",
                 "CreateFeature",
+                "HomeFeature",
+                "ProfileFeature",
+                "SearchFeature",
+                "NotificationsFeature",
+                "ConnectWalletFeature",
+                "Keychain",
+                "SharedModels",
+                "StyleGuide",
+                "Root"
             ]
         ),
     ]

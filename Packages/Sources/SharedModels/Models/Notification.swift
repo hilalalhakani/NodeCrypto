@@ -7,17 +7,17 @@
 
 import Foundation
 
-public struct Notification: Sendable {
+public struct Notification: Sendable, Codable {
     public let senderName: String
     public let senderImageURLString: String
     public let date: String
     public let id: UUID
 
-    public init(senderName: String, senderImageURLString: String, date: String) {
+    public init(senderName: String, senderImageURLString: String, date: String, id: UUID = .init()) {
         self.senderName = senderName
         self.senderImageURLString = senderImageURLString
         self.date = date
-        self.id = .init()
+        self.id = id
     }
 }
 

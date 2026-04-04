@@ -133,4 +133,36 @@ extension APIClient.Profile {
             }
         )
     }
+
+    public static func live(baseURL: URL) -> Self {
+        @Dependency(\.urlSession) var urlSession
+
+        return .init(
+            getSavedNFT: {
+                let url = baseURL.appendingPathComponent("api/profile/saved-nfts")
+                let (data, _) = try await urlSession.data(from: url)
+                return try JSONDecoder().decode([NFT].self, from: data)
+            },
+            getUserInfo: {
+                let url = baseURL.appendingPathComponent("api/profile/user-info")
+                let (data, _) = try await urlSession.data(from: url)
+                return try JSONDecoder().decode([AboutMeItem].self, from: data)
+            },
+            getCreatedNFT: {
+                let url = baseURL.appendingPathComponent("api/profile/created-nfts")
+                let (data, _) = try await urlSession.data(from: url)
+                return try JSONDecoder().decode([NFT].self, from: data)
+            },
+            getLikedNFT: {
+                let url = baseURL.appendingPathComponent("api/profile/liked-nfts")
+                let (data, _) = try await urlSession.data(from: url)
+                return try JSONDecoder().decode([NFT].self, from: data)
+            },
+            getNotifications: {
+                let url = baseURL.appendingPathComponent("api/profile/notifications")
+                let (data, _) = try await urlSession.data(from: url)
+                return try JSONDecoder().decode([SharedModels.Notification].self, from: data)
+            }
+        )
+    }
 }

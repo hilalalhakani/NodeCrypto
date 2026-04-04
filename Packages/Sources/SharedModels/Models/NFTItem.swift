@@ -6,7 +6,7 @@
 //
 import Foundation
 
-public struct NFTItem: Identifiable, Equatable, Sendable {
+public struct NFTItem: Identifiable, Equatable, Sendable, Codable {
     public var id : String {
         image + name + price
     }
@@ -37,7 +37,7 @@ public struct NFTItem: Identifiable, Equatable, Sendable {
     }
 }
 
-public struct Creator: Identifiable, Equatable, Sendable, Hashable {
+public struct Creator: Identifiable, Equatable, Sendable, Hashable, Codable {
     public var id : String {
         image + name + price
     }

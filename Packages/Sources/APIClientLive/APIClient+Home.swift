@@ -7,6 +7,7 @@
 
 import APIClient
 import Dependencies
+import Foundation
 
 extension APIClient.Home {
     public static func mock() -> Self {
@@ -63,4 +64,17 @@ extension APIClient.Home {
         }
     }
 
+    public static func live(baseURL: URL) -> Self {
+        @Dependency(\.urlSession) var urlSession
+
+        return .init {
+            let url = baseURL.appendingPathComponent("api/home/creators")
+            let (data, _) = try await urlSession.data(from: url)
+            return try JSONDecoder().decode([Creator].self, from: data)
+        } _: {
+            let url = baseURL.appendingPathComponent("api/home/nfts")
+            let (data, _) = try await urlSession.data(from: url)
+            return try JSONDecoder().decode([NFTItem].self, from: data)
+        }
+    }
 }

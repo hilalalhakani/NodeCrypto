@@ -5,7 +5,9 @@
 //  Created by Antigravity on 27/01/2026.
 //
 
+#if canImport(UIKit)
 import UIKit
+#endif
 import Dependencies
 import DependenciesMacros
 

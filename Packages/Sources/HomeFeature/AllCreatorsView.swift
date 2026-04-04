@@ -13,6 +13,8 @@ import SharedViews
 
 @Reducer
 public struct AllCreatorsReducer: Sendable {
+    @Dependency(\.apiClient.home) var api
+
     // MARK: - Initialization
     public init() {}
 
@@ -37,7 +39,9 @@ public struct AllCreatorsReducer: Sendable {
             case followButtonTapped(Creator)
         }
 
-        public enum InternalAction: Sendable {}
+        public enum InternalAction: Sendable {
+            case creatorsResponse(Result<[Creator], any Error>)
+        }
 
         public enum DelegateAction: Sendable {}
     }
@@ -48,7 +52,15 @@ public struct AllCreatorsReducer: Sendable {
         NestedAction(\.view) { state, action in
             switch action {
                 case .onAppear:
-                    return .none
+                    guard state.creators.isEmpty else { return .none }
+                    return .run { send in
+                         do {
+                             let creators = try await api.getCreators()
+                             await send(.internal(.creatorsResponse(.success(creators))))
+                         } catch {
+                             await send(.internal(.creatorsResponse(.failure(error))))
+                         }
+                    }
 
                 case let .followButtonTapped(creator):
                     // make api request here
@@ -57,6 +69,16 @@ public struct AllCreatorsReducer: Sendable {
                         state.creators[index] = .init(image: creator.image, name: creator.name, price: creator.price, isFollowing: !creator.isFollowing)
                     }
                     return .none
+            }
+        }
+
+        NestedAction(\.internal) { state, action in
+            switch action {
+            case let .creatorsResponse(.success(items)):
+                state.creators = items
+                return .none
+            case .creatorsResponse(.failure):
+                return .none
             }
         }
 

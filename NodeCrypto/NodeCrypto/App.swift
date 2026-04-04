@@ -17,12 +17,22 @@ import APIClient
 
 @MainActor
 final class AppDelegate: NSObject {
+ 
+    private static var resolvedAPIClient: APIClient {
+        #if LIVE
+        let baseURL = URL(string: "http://localhost:8080")!
+        return .liveValue(baseURL: baseURL)
+        #else
+        return .mockValue
+        #endif
+    }
+ 
     let store = Store(
         initialState: AppFeature.State(),
         reducer: {
             AppFeature()
                 .dependency(\.analyticsClient, .consoleLogger)
-                .dependency(\.apiClient, APIClient.liveValue)
+                .dependency(\.apiClient, resolvedAPIClient)
         }
     )
 

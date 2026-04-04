@@ -26,7 +26,7 @@ extension APIClient: Sendable, TestDependencyKey {
         connectWallet: .init(),
         profile: .init(),
         home: .init(),
-        imageUploader: .init() 
+        imageUploader: .init()
     )
 }
 

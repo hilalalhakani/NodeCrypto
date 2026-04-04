@@ -5,7 +5,9 @@
 //  Created by Hilal Hakkani on 03/12/2024.
 //
 
+#if canImport(UIKit)
 import UIKit
+#endif
 import AVFoundation
 import Dependencies
 

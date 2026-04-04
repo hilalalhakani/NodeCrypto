@@ -2,7 +2,9 @@ import Foundation
 
 
 #if canImport(UIKit)
- import UIKit
+ #if canImport(UIKit)
+import UIKit
+#endif
 
 extension UIFont {
     struct FontDescription: Hashable {
