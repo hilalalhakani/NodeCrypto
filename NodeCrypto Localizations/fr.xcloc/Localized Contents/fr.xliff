@@ -150,6 +150,11 @@
         <target state="translated">Impossible de charger les éléments</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
+      <trans-unit id="Play NFT Preview" xml:space="preserve">
+        <source>Play NFT Preview</source>
+        <target state="translated">Lire l'aperçu NFT</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
     </body>
   </file>
   <file original="Packages/Sources/SearchFeature/Resources/en.lproj/Localizable.strings" source-language="en" target-language="fr" datatype="plaintext">
@@ -408,14 +413,34 @@
         <target state="translated">Collection</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
-      <trans-unit id="Choose an exiting collection or create a new one" xml:space="preserve">
-        <source>Choose an exiting collection or create a new one</source>
+      <trans-unit id="Choose an existing collection or create a new one" xml:space="preserve">
+        <source>Choose an existing collection or create a new one</source>
         <target state="translated">Choisissez une collection existante ou créez-en une nouvelle</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Create\ncollection" xml:space="preserve">
         <source>Create\ncollection</source>
         <target state="translated">Créer une\ncollection</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Describe your item" xml:space="preserve">
+        <source>Describe your item</source>
+        <target state="translated">Décrivez votre article</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="FIXED PRICE" xml:space="preserve">
+        <source>FIXED PRICE</source>
+        <target state="translated">PRIX FIXE</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Unlock once purchased" xml:space="preserve">
+        <source>Unlock once purchased</source>
+        <target state="translated">Déverrouiller après achat</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Put on sale" xml:space="preserve">
+        <source>Put on sale</source>
+        <target state="translated">Mettre en vente</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
     </body>

@@ -220,8 +220,8 @@ public struct EditProfileFeature: Sendable {
     }
 
      func updateProfile(profileUser: User) {
-        // API call here
-        // Update local user
+        // TODO: Persist profile changes to backend API
+        // Currently only updates local shared state.
          @Shared(.user) var user
         $user.withLock { $0 = profileUser }
     }

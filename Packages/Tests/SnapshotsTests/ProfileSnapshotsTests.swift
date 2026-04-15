@@ -91,6 +91,27 @@ func testEditMenuPressed() throws {
 
 }
 
+    @Test
+    func testLoadedState_french() throws {
+        @Shared(.user) var user = User.mock1
+        let store: StoreOf<ProfileFeatureReducer> = .init(
+            initialState: .init(
+                nfts: nfts,
+                aboutMeItems: aboutmeItems,
+                isLoading: false,
+                selectedTitle: "on Sale"
+            )
+        ) {
+            ProfileFeatureReducer()
+        }
+
+        try assert(
+            ProfileView(store: store)
+                .environment(\.locale, Locale(identifier: "fr")),
+            named: "testLoadedState_fr"
+        )
+    }
+
 //Constants
 let nfts = [
     NFT(

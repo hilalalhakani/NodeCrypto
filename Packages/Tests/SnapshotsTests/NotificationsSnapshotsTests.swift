@@ -86,4 +86,30 @@ struct NotificationsSnapshotsTests {
 
     }
 
+    @Test
+    func test_notifications_loaded_french() throws {
+        let notifications: [SharedModels.Notification] = [
+            .init(
+                senderName: "KidEight",
+                senderImageURLString: "app://placeholder",
+                date: "9 Jul 2021, 11:34 PM"
+            ),
+        ]
+
+        let store = StoreOf<NotificationFeature>(
+            initialState: .init(
+                itemsState: NotificationFeature.ItemsState.loaded,
+                notifications: notifications
+            ),
+            reducer: {
+                NotificationFeature()
+            }
+        )
+
+        let notificationsView = NotificationsView(store: store)
+            .environment(\.locale, Locale(identifier: "fr"))
+
+        try assert(notificationsView, named: "test_notifications_loaded_fr")
+    }
+
 }

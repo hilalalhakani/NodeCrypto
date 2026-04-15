@@ -36,4 +36,23 @@ struct EditProfileSnapshotsTests {
 
         try assert(editProfileView)
     }
+
+    @Test
+    func testEditProfileScreen_french() throws {
+        @Shared(.user) var user = User.mock1
+        let store: StoreOf<EditProfileFeature> = .init(
+            initialState: .init(user: User.mock1)
+        ) {
+            EditProfileFeature()
+        } withDependencies: {
+            $0.keychainManager.get = { @Sendable _ in Data() }
+        }
+
+        let editProfileView = NavigationStack {
+            EditProfileView(store: store)
+                .environment(\.locale, Locale(identifier: "fr"))
+        }
+
+        try assert(editProfileView, named: "testEditProfileScreen_fr")
+    }
 }

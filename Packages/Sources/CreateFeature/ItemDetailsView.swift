@@ -151,7 +151,7 @@ struct ItemDetailsHeader: View {
                     .foregroundColor(.neutral2)
                     .lineLimit(1)
             }
-            Text("Describe your item")
+            Text("Describe your item", bundle: .module)
                 .font(Font(FontName.poppinsRegular, size: 12))
                 .foregroundColor(.neutral4)
                 .padding(.leading, 32)
@@ -245,7 +245,7 @@ struct PricingGridSection: View {
     var body: some View {
         HStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 12) {
-                Text("FIXED PRICE")
+                Text("FIXED PRICE", bundle: .module)
                     .font(Font(FontName.poppinsBold, size: 12))
                     .foregroundColor(.neutral5)
                 
@@ -329,13 +329,13 @@ struct TogglesSection: View {
     var body: some View {
         VStack(spacing: 32) {
             ToggleRow(
-                title: "Unlock once purchased",
+                title: String(localized: "Unlock once purchased", bundle: .module),
                 subtitle: "Content will be unlocked after successful transaction",
                 isOn: $isUnlockOncePurchased
             )
-            
+
             ToggleRow(
-                title: "Put on sale",
+                title: String(localized: "Put on sale", bundle: .module),
                 subtitle: "You’ll receive bids on this item",
                 isOn: $isPutOnSale
             )

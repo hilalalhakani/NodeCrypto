@@ -41,7 +41,19 @@
 "Collection" = "Collection";
 
 /* No comment provided by engineer. */
-"Choose an exiting collection or create a new one" = "Choisissez une collection existante ou créez-en une nouvelle";
+"Choose an existing collection or create a new one" = "Choisissez une collection existante ou créez-en une nouvelle";
 
 /* No comment provided by engineer. */
 "Create\ncollection" = "Créer une\ncollection";
+
+/* No comment provided by engineer. */
+"Describe your item" = "Décrivez votre article";
+
+/* No comment provided by engineer. */
+"FIXED PRICE" = "PRIX FIXE";
+
+/* No comment provided by engineer. */
+"Unlock once purchased" = "Déverrouiller après achat";
+
+/* No comment provided by engineer. */
+"Put on sale" = "Mettre en vente";

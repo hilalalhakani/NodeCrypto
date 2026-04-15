@@ -22,7 +22,7 @@ public struct HomeFeature: Sendable {
 
         @Presents public var allCreatorsState: AllCreatorsReducer.State?
         public var creators: IdentifiedArrayOf<Creator> = []
-        public var errorMessage: String? = "jygj gjhjghjgh"
+        public var errorMessage: String?
         public var isLoading = true
         public var nfts: IdentifiedArrayOf<NFTItem> = []
         @Presents public var playerViewReducerState: PlayerViewReducer.State?
@@ -142,6 +142,7 @@ public struct HomeFeature: Sendable {
                             await send(.internal(.nftsResponse(.success(fetchedNFTs))))
                         } catch {
                             await send(.internal(.creatorsResponse(.failure(error))))
+                            await send(.internal(.nftsResponse(.failure(error))))
                         }
                     }
 
@@ -449,7 +450,7 @@ private struct FeaturedItem: View {
                     .font(.title2)
             }
             .accessibilityElement(children: .ignore)
-            .accessibilityLabel("Play NFT Preview")
+            .accessibilityLabel(String(localized: "Play NFT Preview", bundle: .module))
             .accessibilityAddTraits(.isButton)
     }
 

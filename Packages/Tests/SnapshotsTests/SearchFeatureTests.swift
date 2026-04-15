@@ -82,4 +82,20 @@ struct SearchSnapshotsTests {
 
         try assert(searchView)
     }
+
+    @Test
+    func testInitialStateWithSearchHistory_french() throws {
+        let store: StoreOf<SearchFeatureReducer> = .init(
+            initialState: SearchFeatureReducer.State(
+                searchHistory: ["Ethereum", "NFT", "DeFi"]
+            )
+        ) {
+            SearchFeatureReducer()
+        }
+
+        let searchView = SearchView(store: store)
+            .environment(\.locale, Locale(identifier: "fr"))
+
+        try assert(searchView, named: "testInitialStateWithSearchHistory_fr")
+    }
 }

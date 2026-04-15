@@ -68,4 +68,35 @@ struct HomeSnapshotsTests {
 
         try assert(view)
     }
+
+    @Test func test_receivedResponse_french() async throws {
+        let nfts = [
+            NFTItem(
+                image: "Image 1",
+                name: "Name 1",
+                creator: "Creator 1",
+                creatorImage: "Dummy",
+                price: "Dummy",
+                cryptoPrice: "Dummy",
+                videoURL: "Dummy"
+            ),
+        ]
+
+        let creators = [
+            Creator(image: "Image 1", name: "Name 1", price: "price 1"),
+        ]
+
+        let store = Store(
+            initialState: HomeFeature.State(creators: creators, isLoading: false, nfts: nfts)
+        ) {
+            HomeFeature()
+        } withDependencies: {
+            $0.apiClient.home.getNFTS = { nfts }
+            $0.apiClient.home.getCreators = { creators }
+        }
+
+        let view = HomeView(store: store)
+            .environment(\.locale, Locale(identifier: "fr"))
+        try assert(view, named: "test_receivedResponse_fr")
+    }
 }

@@ -160,4 +160,25 @@ struct CreateFeatureSnapshotsTests {
 
         try assert(ItemDetailsView(store: store))
     }
+
+    @Test
+    func test_itemDetailsView_french() throws {
+        var state = ItemDetailsFeature.State()
+        state.label = "Redeemable Bitcoin Card"
+        state.description = "After purchasing you will be able to redeem this rare digital collectible."
+        state.isFixedPrice = true
+        state.isUnlockOncePurchased = true
+        state.isPutOnSale = true
+
+        let store = Store(
+            initialState: state,
+            reducer: { ItemDetailsFeature() }
+        )
+
+        try assert(
+            ItemDetailsView(store: store)
+                .environment(\.locale, Locale(identifier: "fr")),
+            named: "test_itemDetailsView_fr"
+        )
+    }
 }

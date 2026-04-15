@@ -165,7 +165,7 @@ struct CollectibleHeader: View {
                     .foregroundColor(.neutral2)
                     .lineLimit(1)
             }
-            Text("Choose an exiting collection or create a new one", bundle: .module)
+            Text("Choose an existing collection or create a new one", bundle: .module)
                 .font(Font(FontName.poppinsRegular, size: 12))
                 .foregroundColor(.neutral4)
                 .padding(.leading, 32)
