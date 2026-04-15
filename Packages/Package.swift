@@ -68,7 +68,7 @@ let package = Package(
                 "SearchFeature",
                 "CreateFeature",
             ],
-            resources: [.process("Media.xcassets")]
+            resources: [.process("Media.xcassets"), .process("en.lproj"), .process("fr.lproj")]
         ),
         .testTarget(
             name: "RootTests",
@@ -109,7 +109,8 @@ let package = Package(
                 "SharedModels",
                 "SharedViews",
                 "StyleGuide"
-            ]
+            ],
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "HomeTests",

@@ -182,7 +182,7 @@ public struct SearchView: View {
     // MARK: - Body
     public var body: some View {
         VStack(spacing: 20) {
-            Text("Discover")
+            Text("Discover", bundle: .module)
                 .foregroundStyle(Color.neutral2)
                 .font(.custom(FontName.poppinsBold.rawValue, size: 24))
                 .padding(.horizontal, 16)
@@ -220,13 +220,13 @@ public struct SearchView: View {
         .navigationDestination(item: $store.selectedDestination.sending(\.internal.onSelectedDestinationChange)) {
             switch $0 {
                 case .bestArtist:
-                    Text("Artist")
+                    Text("Artist", bundle: .module)
                 case .modeling:
-                    Text("Modeling")
+                    Text("Modeling", bundle: .module)
                 case .recentUploaded:
-                    Text("Recent Uploaded")
+                    Text("Recent Uploaded", bundle: .module)
                 case .videos:
-                    Text("Videos")
+                    Text("Videos", bundle: .module)
             }
         }
     }
@@ -234,7 +234,7 @@ public struct SearchView: View {
     // MARK: - View Components
     @ViewBuilder private var searchResults: some View {
         if store.searchResults.isEmpty {
-            Text("No results found for '\(store.searchBar.searchText)'")
+            Text(String(format: String(localized: "No results found for '%@'", bundle: .module), store.searchBar.searchText))
                 .foregroundColor(.gray)
                 .frame(maxHeight: .infinity, alignment: .center)
         } else {
@@ -250,7 +250,7 @@ public struct SearchView: View {
                             )
                             .overlay(alignment: .topLeading) {
                                 if nft.isNew {
-                                    Text("New")
+                                    Text("New", bundle: .module)
                                         .padding(8)
                                         .foregroundStyle(Color.neutral8)
                                         .font(
@@ -298,27 +298,27 @@ public struct SearchView: View {
                 .bestArtist,
                 icon: "star.fill",
                 color: .yellow,
-                title: "Best artist",
-                subtitle: "Top 50 artist of the month"
+                title: String(localized: "Best artist", bundle: .module),
+                subtitle: String(localized: "Top 50 artist of the month", bundle: .module)
             )
 
             suggestionLink(
                 .recentUploaded,
                 icon: "square.and.arrow.up.fill",
                 color: .green,
-                title: "Recent uploaded",
-                subtitle: "Top 50 artist of the month"
+                title: String(localized: "Recent uploaded", bundle: .module),
+                subtitle: String(localized: "Top 50 artist of the month", bundle: .module)
             )
 
             suggestionLink(
                 .videos,
                 icon: "play.circle.fill",
                 color: .red,
-                title: "Videos",
-                subtitle: "Top 50 artist of the month"
+                title: String(localized: "Videos", bundle: .module),
+                subtitle: String(localized: "Top 50 artist of the month", bundle: .module)
             )
         } header: {
-            Text("Suggestions")
+            Text("Suggestions", bundle: .module)
                 .font(.custom(FontName.poppinsRegular.rawValue, size: 12))
                 .foregroundStyle(Color.neutral4)
         }
@@ -327,7 +327,7 @@ public struct SearchView: View {
     private var searchHistorySection: some View {
         Section {
             if store.searchHistory.isEmpty {
-                Text("No search history")
+                Text("No search history", bundle: .module)
                     .foregroundColor(.gray)
                     .italic()
             } else {
@@ -345,13 +345,13 @@ public struct SearchView: View {
                     }
                 }
 
-                Button("Clear History") {
+                Button(String(localized: "Clear History", bundle: .module)) {
                     store.send(.view(.clearSearchHistory))
                 }
                 .foregroundColor(.red)
             }
         } header: {
-            Text("Search history")
+            Text("Search history", bundle: .module)
                 .font(.custom(FontName.poppinsRegular.rawValue, size: 12))
                 .foregroundStyle(Color.neutral4)
         }

@@ -106,21 +106,21 @@ struct ItemDetailsTopBar: View {
                 .onTapGesture { onBack() }
 
             VStack(alignment: .leading, spacing: 4) {
-                Text("New collectible")
+                Text("New collectible", bundle: .module)
                     .font(Font(FontName.poppinsBold, size: 12))
                     .foregroundColor(.neutral1)
                 HStack(spacing: 8) {
                     Image("Check", bundle: .module)
                         .resizable()
                         .frame(width: 24, height: 24)
-                    Text("Auto saved")
+                    Text("Auto saved", bundle: .module)
                         .font(Font(FontName.poppinsBold, size: 12))
                         .foregroundColor(.neutral4)
                 }
             }
             Spacer()
             Button(action: onNext) {
-                Text("Next")
+                Text("Next", bundle: .module)
                     .font(Font(FontName.poppinsBold, size: 12))
                     .foregroundColor(.white)
                     .padding(.horizontal, 16)
@@ -146,7 +146,7 @@ struct ItemDetailsHeader: View {
                     .background(Color.neutral2)
                     .clipShape(Circle())
                 
-                Text("Item details")
+                Text("Item details", bundle: .module)
                     .font(Font(FontName.poppinsBold, size: 16))
                     .foregroundColor(.neutral2)
                     .lineLimit(1)
@@ -165,7 +165,7 @@ struct LabelFieldSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("LABEL")
+            Text("LABEL", bundle: .module)
                 .font(Font(FontName.poppinsBold, size: 12))
                 .foregroundColor(.neutral5)
             
@@ -187,7 +187,7 @@ struct DescriptionFieldSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("DESCRIPTION")
+            Text("DESCRIPTION", bundle: .module)
                 .font(Font(FontName.poppinsBold, size: 12))
                 .foregroundColor(.neutral5)
             
@@ -212,7 +212,7 @@ struct PriceTypeSelector: View {
     var body: some View {
         HStack(spacing: 12) {
             Button(action: onFixedPrice) {
-                Text("Fixed price")
+                Text("Fixed price", bundle: .module)
                     .font(Font(FontName.dmSansBold, size: 14))
                     .foregroundColor(isFixedPrice ? .white : .neutral2)
                     .padding(.horizontal, 16)
@@ -222,7 +222,7 @@ struct PriceTypeSelector: View {
             }
             
             Button(action: onLiveAuction) {
-                Text("Live auction")
+                Text("Live auction", bundle: .module)
                     .font(Font(FontName.dmSansBold, size: 14))
                     .foregroundColor(!isFixedPrice ? .white : .neutral2)
                     .padding(.horizontal, 16)
@@ -290,7 +290,7 @@ struct PricingGridSection: View {
             }
             
             VStack(alignment: .leading, spacing: 12) {
-                Text("ROYALTIES")
+                Text("ROYALTIES", bundle: .module)
                     .font(Font(FontName.poppinsBold, size: 12))
                     .foregroundColor(.neutral5)
                 

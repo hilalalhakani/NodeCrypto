@@ -316,7 +316,7 @@ public struct RootView: View {
                     Button(action: {
                         store.send(.view(.createSingleButtonTapped))
                     }) {
-                        Text("Single")
+                        Text("Single", bundle: .module)
                             .foregroundStyle(Color.white)
                             .font(.system(size: 16, weight: .bold))
                     }
@@ -328,7 +328,7 @@ public struct RootView: View {
                     Button(action: {
                         store.send(.view(.createMultipleButtonTapped))
                     }) {
-                        Text("Multiple")
+                        Text("Multiple", bundle: .module)
                             .foregroundStyle(Color.white)
                             .font(.system(size: 16, weight: .bold))
                     }

@@ -279,7 +279,7 @@ public struct EditProfileView: View {
     @ViewBuilder
     private var fields: some View {
         ProfileTextField(
-            title: "DISPLAY NAME",
+            title: String(localized: "DISPLAY NAME", bundle: .module),
             text: $store.user.fullName.sending(\.internal.didUpdateName)
         )
         .focused($focusedField, equals: .name)
@@ -289,7 +289,7 @@ public struct EditProfileView: View {
 #endif
 
         ProfileTextField(
-            title: "BIO",
+            title: String(localized: "BIO", bundle: .module),
             text: $store.user.profileDescription.sending(\.internal.didUpdateBio),
             textFieldHeight: 72
         )
@@ -300,7 +300,7 @@ public struct EditProfileView: View {
 #endif
 
         ProfileTextField(
-            title: "EMAIL",
+            title: String(localized: "EMAIL", bundle: .module),
             text: $store.user.email.sending(\.internal.didUpdateEmail)
         )
         .focused($focusedField, equals: .email)
@@ -310,7 +310,7 @@ public struct EditProfileView: View {
 #endif
 
         ProfileTextField(
-            title: "INSTAGRAM",
+            title: String(localized: "INSTAGRAM", bundle: .module),
             text: .constant("@kohaku"),
             overlayImageName: "instagram",
             accessoryViewTapped: {}
@@ -319,7 +319,7 @@ public struct EditProfileView: View {
         .id(FocusedField.instagram)
 
         ProfileTextField(
-            title: "Twitter",
+            title: String(localized: "Twitter", bundle: .module),
             text: .constant("@kohaku"),
             overlayImageName: "twitter",
             accessoryViewTapped: {}
@@ -330,13 +330,13 @@ public struct EditProfileView: View {
 
     @ViewBuilder var userImageWarningLabelAndButton: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("We recommend an image of at least 800x800px.")
+            Text("We recommend an image of at least 800x800px.", bundle: .module)
                 .foregroundStyle(Color.neutral4)
                 .font(.custom(FontName.poppinsRegular.rawValue, size: 14))
             Button(
                 action: { store.send(.view(.removeImageButtonTapped)) },
                 label: {
-                    Text("Remove")
+                    Text("Remove", bundle: .module)
                         .foregroundStyle(Color.neutral2)
                         .font(.custom(FontName.dmSansBold.rawValue, size: 14))
                         .padding(.vertical, 8)
@@ -358,7 +358,7 @@ public struct EditProfileView: View {
                 .foregroundStyle(Color.primary4)
                 .frame(width: 10, height: 10)
 
-            Text("Auto Saved")
+            Text("Auto Saved", bundle: .module)
                 .foregroundStyle(Color.neutral3)
                 .font(.custom(FontName.poppinsRegular.rawValue, size: 12))
         }
@@ -419,7 +419,7 @@ public struct EditProfileView: View {
                                     .font(.headline)
                             }
 
-                        Text("Edit Profile")
+                        Text("Edit Profile", bundle: .module)
                             .font(.custom(FontName.poppinsBold.rawValue, size: 24))
                             .foregroundStyle(Color.neutral2)
                     }
@@ -433,7 +433,7 @@ public struct EditProfileView: View {
                     store.send(.view(.submitButtonTapped))
                 },
                 label: {
-                    Text("Done")
+                    Text("Done", bundle: .module)
                         .font(.custom(FontName.poppinsBold.rawValue, size: 12))
                         .foregroundStyle(Color.neutral8)
                         .padding(12)
@@ -447,7 +447,7 @@ public struct EditProfileView: View {
 
         ToolbarItem(placement: .keyboard) {
             HStack {
-                Button("Done") {
+                Button(String(localized: "Done", bundle: .module)) {
                     withAnimation {
                         focusedField = nil
                     }

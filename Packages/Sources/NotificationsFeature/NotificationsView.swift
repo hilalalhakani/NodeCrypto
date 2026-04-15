@@ -122,7 +122,7 @@ public struct NotificationsView: View {
     // MARK: - Body
     public var body: some View {
             VStack(alignment: .leading) {
-                Text("Notifications")
+                Text("Notifications", bundle: .module)
                     .foregroundStyle(Color.neutral2)
                     .font(.custom(FontName.poppinsBold.rawValue, size: 24))
                     .padding(.horizontal, 16)
@@ -149,11 +149,11 @@ public struct NotificationsView: View {
     var emptyView: some View {
         VStack {
             Image(.emptyNotifications)
-            Text("No recents")
+            Text("No recents", bundle: .module)
                 .foregroundStyle(Color.neutral2)
                 .font(.custom(FontName.dmSansBold.rawValue, size: 40))
             Button(action: {}, label: {
-                Text("Get Home")
+                Text("Get Home", bundle: .module)
             })
             .buttonStyle(.borderedProminent)
             .foregroundStyle(Color.neutral8)
@@ -182,7 +182,7 @@ public struct NotificationsView: View {
                                     .foregroundStyle(Color.neutral2)
                                     .font(.custom(FontName.poppinsBold.rawValue, size: 14))
                                     .lineLimit(1)
-                                Text("followed you")
+                                Text("followed you", bundle: .module)
                                     .foregroundStyle(Color.neutral4)
                                     .font(.custom(FontName.poppinsBold.rawValue, size: 14))
                                     .layoutPriority(1)
@@ -194,7 +194,7 @@ public struct NotificationsView: View {
                                 .font(.custom(FontName.poppinsRegular.rawValue, size: 12))
                         }
                         Button(action: {}, label: {
-                            Text("Follow")
+                            Text("Follow", bundle: .module)
                                 .padding(.vertical, 8)
                                 .padding(.horizontal, 16)
                         })

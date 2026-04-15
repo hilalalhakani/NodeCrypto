@@ -54,11 +54,11 @@ public struct NotificationsScreen: View {
 
     public var body: some View {
         VStack(spacing: 20) {
-            Text("Notifications")
+            Text("Notifications", bundle: .module)
                 .font(.largeTitle)
                 .fontWeight(.bold)
             
-            Text("No notifications yet")
+            Text("No notifications yet", bundle: .module)
                 .foregroundColor(.secondary)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

@@ -41,7 +41,7 @@ public struct CreateView: View {
                                         Image("FileUpload")
                                             .resizable()
                                             .frame(width: 40, height: 40)
-                                        Text("PNG, GIF, WEBP, MP4 or MP3. Max 1Gb.")
+                                        Text("PNG, GIF, WEBP, MP4 or MP3. Max 1Gb.", bundle: .module)
                                             .font(Font(FontName.poppinsBold, size: 12))
                                             .foregroundColor(.neutral4)
                                     }
@@ -93,7 +93,7 @@ struct CreateTopBar: View {
             .buttonStyle(.plain)
 
             VStack(alignment: .leading, spacing: 4) {
-                Text("New collectible")
+                Text("New collectible", bundle: .module)
                     .font(Font(FontName.poppinsBold, size: 12))
                     .foregroundColor(.neutral1)
                 HStack(spacing: 8) {
@@ -101,14 +101,14 @@ struct CreateTopBar: View {
                         .resizable()
                         .frame(width: 16, height: 16)
                         .foregroundColor(.green)
-                    Text("Auto saved")
+                    Text("Auto saved", bundle: .module)
                         .font(Font(FontName.poppinsBold, size: 12))
                         .foregroundColor(.neutral4)
                 }
             }
             Spacer()
             Button(action: onNext) {
-                Text("Next")
+                Text("Next", bundle: .module)
                     .font(Font(FontName.poppinsBold, size: 12))
                     .foregroundColor(.white)
                     .padding(.horizontal, 16)
@@ -141,11 +141,11 @@ struct UploadFileSection<Picker: View>: View {
                             .frame(width: 24, height: 24)
                             .background(Color.neutral1)
                             .clipShape(Circle())
-                        Text("Upload file")
+                        Text("Upload file", bundle: .module)
                             .font(Font(FontName.poppinsBold, size: 12))
                             .foregroundColor(.neutral1)
                     }
-                    Text("Choose your file to upload")
+                    Text("Choose your file to upload", bundle: .module)
                         .font(Font(FontName.poppinsBold, size: 12))
                         .foregroundColor(.neutral4)
                         .padding(.leading, 32)

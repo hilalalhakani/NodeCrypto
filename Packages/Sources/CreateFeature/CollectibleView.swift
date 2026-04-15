@@ -38,7 +38,7 @@ public struct CollectibleView: View {
                 Button {
                     store.send(.view(.uploadItemTapped))
                 } label: {
-                    Text("Upload item")
+                    Text("Upload item", bundle: .module)
                         .font(Font(FontName.dmSansBold, size: 16))
                         .foregroundColor(.white)
                         .padding(.horizontal, 24)
@@ -129,14 +129,14 @@ struct CollectibleTopBar: View {
             .buttonStyle(.plain)
 
             VStack(alignment: .leading, spacing: 4) {
-                Text("New collectible")
+                Text("New collectible", bundle: .module)
                     .font(Font(FontName.poppinsBold, size: 24))
                     .foregroundColor(.neutral2)
                 HStack(spacing: 8) {
                     Image("Check", bundle: .module)
                         .resizable()
                         .frame(width: 24, height: 24)
-                    Text("Auto saved")
+                    Text("Auto saved", bundle: .module)
                         .font(Font(FontName.poppinsRegular, size: 12))
                         .foregroundColor(.neutral3)
                 }
@@ -160,12 +160,12 @@ struct CollectibleHeader: View {
                     .background(Color.neutral2)
                     .clipShape(Circle())
                 
-                Text("Collection")
+                Text("Collection", bundle: .module)
                     .font(Font(FontName.poppinsRegular, size: 16))
                     .foregroundColor(.neutral2)
                     .lineLimit(1)
             }
-            Text("Choose an exiting collection or create a new one")
+            Text("Choose an exiting collection or create a new one", bundle: .module)
                 .font(Font(FontName.poppinsRegular, size: 12))
                 .foregroundColor(.neutral4)
                 .padding(.leading, 32)
@@ -185,7 +185,7 @@ struct CreateCollectionCell: View {
                         .font(.system(size: 16, weight: .bold))
                 }
             Spacer()
-            Text("Create\ncollection")
+            Text("Create\ncollection", bundle: .module)
                 .font(Font(FontName.dmSansBold, size: 14))
                 .foregroundColor(.neutral2)
                 .multilineTextAlignment(.leading)

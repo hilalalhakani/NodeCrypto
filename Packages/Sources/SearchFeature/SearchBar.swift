@@ -100,7 +100,7 @@ public struct SearchBar: View {
             HStack(spacing: 8) {
                 HStack {
                     TextField(
-                        "Search anything",
+                        String(localized: "Search anything", bundle: .module),
                         text: $store.searchText.sending(\.internal.queryChanged)
                     )
                     .textFieldStyle(.plain)
@@ -123,7 +123,7 @@ public struct SearchBar: View {
                     Button(action: {
                         store.send(.view(.clearSearchTextTapped))
                     }) {
-                        Text("Cancel")
+                        Text("Cancel", bundle: .module)
                             .foregroundStyle(Color.neutral2)
                     }
                     .transition(

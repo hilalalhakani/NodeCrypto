@@ -120,4 +120,321 @@
       </trans-unit>
     </body>
   </file>
+  <file original="Packages/Sources/HomeFeature/Resources/en.lproj/Localizable.strings" source-language="en" target-language="fr" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="15.2" build-num="15C5500c"/>
+    </header>
+    <body>
+      <trans-unit id="Best sellers" xml:space="preserve">
+        <source>Best sellers</source>
+        <target state="translated">Meilleurs vendeurs</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="View all best sellers" xml:space="preserve">
+        <source>View all best sellers</source>
+        <target state="translated">Voir tous les meilleurs vendeurs</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Retry" xml:space="preserve">
+        <source>Retry</source>
+        <target state="translated">Réessayer</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Place a bid" xml:space="preserve">
+        <source>Place a bid</source>
+        <target state="translated">Placer une offre</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Failed to load items" xml:space="preserve">
+        <source>Failed to load items</source>
+        <target state="translated">Impossible de charger les éléments</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="Packages/Sources/SearchFeature/Resources/en.lproj/Localizable.strings" source-language="en" target-language="fr" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="15.2" build-num="15C5500c"/>
+    </header>
+    <body>
+      <trans-unit id="Discover" xml:space="preserve">
+        <source>Discover</source>
+        <target state="translated">Découvrir</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Search anything" xml:space="preserve">
+        <source>Search anything</source>
+        <target state="translated">Rechercher n'importe quoi</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Artist" xml:space="preserve">
+        <source>Artist</source>
+        <target state="translated">Artiste</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Modeling" xml:space="preserve">
+        <source>Modeling</source>
+        <target state="translated">Modélisation</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Recent Uploaded" xml:space="preserve">
+        <source>Recent Uploaded</source>
+        <target state="translated">Récemment téléchargés</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Videos" xml:space="preserve">
+        <source>Videos</source>
+        <target state="translated">Vidéos</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="New" xml:space="preserve">
+        <source>New</source>
+        <target state="translated">Nouveau</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Best artist" xml:space="preserve">
+        <source>Best artist</source>
+        <target state="translated">Meilleur artiste</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Recent uploaded" xml:space="preserve">
+        <source>Recent uploaded</source>
+        <target state="translated">Récemment téléchargé</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Top 50 artist of the month" xml:space="preserve">
+        <source>Top 50 artist of the month</source>
+        <target state="translated">Top 50 artistes du mois</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Suggestions" xml:space="preserve">
+        <source>Suggestions</source>
+        <target state="translated">Suggestions</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="No search history" xml:space="preserve">
+        <source>No search history</source>
+        <target state="translated">Aucun historique de recherche</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Clear History" xml:space="preserve">
+        <source>Clear History</source>
+        <target state="translated">Effacer l'historique</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Search history" xml:space="preserve">
+        <source>Search history</source>
+        <target state="translated">Historique de recherche</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Cancel" xml:space="preserve">
+        <source>Cancel</source>
+        <target state="translated">Annuler</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="No results found for '%@'" xml:space="preserve">
+        <source>No results found for '%@'</source>
+        <target state="translated">Aucun résultat pour « %@ »</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="Packages/Sources/NotificationsFeature/Resources/en.lproj/Localizable.strings" source-language="en" target-language="fr" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="15.2" build-num="15C5500c"/>
+    </header>
+    <body>
+      <trans-unit id="Notifications" xml:space="preserve">
+        <source>Notifications</source>
+        <target state="translated">Notifications</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="No recents" xml:space="preserve">
+        <source>No recents</source>
+        <target state="translated">Aucune récente</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Get Home" xml:space="preserve">
+        <source>Get Home</source>
+        <target state="translated">Retour à l'accueil</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="followed you" xml:space="preserve">
+        <source>followed you</source>
+        <target state="translated">vous a suivi</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Follow" xml:space="preserve">
+        <source>Follow</source>
+        <target state="translated">Suivre</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="No notifications yet" xml:space="preserve">
+        <source>No notifications yet</source>
+        <target state="translated">Aucune notification pour l'instant</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="Packages/Sources/ProfileFeature/Resources/en.lproj/Localizable.strings" source-language="en" target-language="fr" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="15.2" build-num="15C5500c"/>
+    </header>
+    <body>
+      <trans-unit id="Edit Profile" xml:space="preserve">
+        <source>Edit Profile</source>
+        <target state="translated">Modifier le profil</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Done" xml:space="preserve">
+        <source>Done</source>
+        <target state="translated">Terminé</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Remove" xml:space="preserve">
+        <source>Remove</source>
+        <target state="translated">Supprimer</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="DISPLAY NAME" xml:space="preserve">
+        <source>DISPLAY NAME</source>
+        <target state="translated">NOM D'AFFICHAGE</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="BIO" xml:space="preserve">
+        <source>BIO</source>
+        <target state="translated">BIO</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="EMAIL" xml:space="preserve">
+        <source>EMAIL</source>
+        <target state="translated">E-MAIL</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="INSTAGRAM" xml:space="preserve">
+        <source>INSTAGRAM</source>
+        <target state="translated">INSTAGRAM</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Twitter" xml:space="preserve">
+        <source>Twitter</source>
+        <target state="translated">Twitter</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="We recommend an image of at least 800x800px." xml:space="preserve">
+        <source>We recommend an image of at least 800x800px.</source>
+        <target state="translated">Nous recommandons une image d'au moins 800x800 pixels.</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Auto Saved" xml:space="preserve">
+        <source>Auto Saved</source>
+        <target state="translated">Sauvegarde automatique</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="Packages/Sources/CreateFeature/Resources/en.lproj/Localizable.strings" source-language="en" target-language="fr" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="15.2" build-num="15C5500c"/>
+    </header>
+    <body>
+      <trans-unit id="New collectible" xml:space="preserve">
+        <source>New collectible</source>
+        <target state="translated">Nouveau collectionnable</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Next" xml:space="preserve">
+        <source>Next</source>
+        <target state="translated">Suivant</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Auto saved" xml:space="preserve">
+        <source>Auto saved</source>
+        <target state="translated">Sauvegarde auto</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Upload file" xml:space="preserve">
+        <source>Upload file</source>
+        <target state="translated">Télécharger un fichier</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Choose your file to upload" xml:space="preserve">
+        <source>Choose your file to upload</source>
+        <target state="translated">Choisissez votre fichier à télécharger</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="PNG, GIF, WEBP, MP4 or MP3. Max 1Gb." xml:space="preserve">
+        <source>PNG, GIF, WEBP, MP4 or MP3. Max 1Gb.</source>
+        <target state="translated">PNG, GIF, WEBP, MP4 ou MP3. Max 1 Go.</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Item details" xml:space="preserve">
+        <source>Item details</source>
+        <target state="translated">Détails de l'article</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="LABEL" xml:space="preserve">
+        <source>LABEL</source>
+        <target state="translated">LIBELLÉ</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="DESCRIPTION" xml:space="preserve">
+        <source>DESCRIPTION</source>
+        <target state="translated">DESCRIPTION</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Fixed price" xml:space="preserve">
+        <source>Fixed price</source>
+        <target state="translated">Prix fixe</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Live auction" xml:space="preserve">
+        <source>Live auction</source>
+        <target state="translated">Vente aux enchères en direct</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="ROYALTIES" xml:space="preserve">
+        <source>ROYALTIES</source>
+        <target state="translated">REDEVANCES</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Upload item" xml:space="preserve">
+        <source>Upload item</source>
+        <target state="translated">Publier l'article</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Collection" xml:space="preserve">
+        <source>Collection</source>
+        <target state="translated">Collection</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Choose an exiting collection or create a new one" xml:space="preserve">
+        <source>Choose an exiting collection or create a new one</source>
+        <target state="translated">Choisissez une collection existante ou créez-en une nouvelle</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Create\ncollection" xml:space="preserve">
+        <source>Create\ncollection</source>
+        <target state="translated">Créer une\ncollection</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="Packages/Sources/Root/en.lproj/Localizable.strings" source-language="en" target-language="fr" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="15.2" build-num="15C5500c"/>
+    </header>
+    <body>
+      <trans-unit id="Multiple" xml:space="preserve">
+        <source>Multiple</source>
+        <target state="translated">Multiple</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Single" xml:space="preserve">
+        <source>Single</source>
+        <target state="translated">Simple</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>

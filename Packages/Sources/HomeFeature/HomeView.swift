@@ -85,7 +85,7 @@ public struct HomeFeature: Sendable {
                     return .none
 
                 case .creatorsResponse(.failure):
-                    state.errorMessage = "Failed to load items"
+                    state.errorMessage = String(localized: "Failed to load items", bundle: .module)
                     state.isLoading = false
                     return .none
 
@@ -94,7 +94,7 @@ public struct HomeFeature: Sendable {
                     return .none
 
                 case .nftsResponse(.failure):
-                    state.errorMessage = "Failed to load items"
+                    state.errorMessage = String(localized: "Failed to load items", bundle: .module)
                     state.isLoading = false
                     return .none
 
@@ -231,7 +231,7 @@ private struct HomeHeaderView: View {
 
     var body: some View {
         HStack {
-            Text("Best sellers")
+            Text("Best sellers", bundle: .module)
                 .font(Font(FontName.dmSansBold, size: 32))
                 .foregroundStyle(Color.neutral2)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -240,7 +240,7 @@ private struct HomeHeaderView: View {
                 Image(systemName: "arrow.right")
                     .foregroundStyle(.gray)
             }
-            .accessibilityLabel("View all best sellers")
+            .accessibilityLabel(String(localized: "View all best sellers", bundle: .module))
         }
         .padding(.horizontal, 20)
         .padding(.bottom, 8)
@@ -330,7 +330,7 @@ private struct HomeErrorView: View {
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
             
-            Button("Retry", action: onRetry)
+            Button(String(localized: "Retry", bundle: .module), action: onRetry)
                 .buttonStyle(.bordered)
                 .controlSize(.large)
         }
@@ -457,7 +457,7 @@ private struct FeaturedItem: View {
         Button(action: {
             // TODO: Implement bid action
         }) {
-            Text("Place a bid")
+            Text("Place a bid", bundle: .module)
                 .padding(.horizontal, 20)
                 .padding(.vertical, 5)
         }
