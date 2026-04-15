@@ -51,3 +51,4 @@ Derived/
 *.xcworkspace
 !*.xcodeproj/project.pbxproj
 !*.xcworkspace/contents.xcworkspacedata
+.claude

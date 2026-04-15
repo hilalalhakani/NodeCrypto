@@ -1,7 +1,7 @@
 import ComposableArchitecture
 import Testing
-@testable import CreateFeature
-@testable import SharedViews
+import CreateFeature
+import SharedViews
 import SwiftUI
 import Foundation
 

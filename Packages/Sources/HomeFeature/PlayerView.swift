@@ -19,11 +19,11 @@ public struct PlayerViewReducer {
     // MARK: - State
     @ObservableState
     public struct State: Equatable, Sendable {
-        var isPlaying: Bool
-        var areControlsHidden: Bool
-        var nft: NFTItem
-        var sliderState: CustomSliderReducer.State
-        var volume: Double
+        public var isPlaying: Bool
+        public var areControlsHidden: Bool
+        public var nft: NFTItem
+        public var sliderState: CustomSliderReducer.State
+        public var volume: Double
 
         public init(
             isPlaying: Bool = true,

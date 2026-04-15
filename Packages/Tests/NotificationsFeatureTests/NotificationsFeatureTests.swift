@@ -2,7 +2,7 @@ import ComposableArchitecture
 import Testing
 import Foundation
 import SharedModels
-@testable import NotificationsFeature
+import NotificationsFeature
 
 @MainActor
 struct NotificationsFeatureTests {

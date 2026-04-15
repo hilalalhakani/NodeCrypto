@@ -2,7 +2,7 @@ import ComposableArchitecture
 import Testing
 import Foundation
 import SharedModels
-@testable import SearchFeature
+import SearchFeature
 
 @MainActor
 struct SearchFeatureTests {

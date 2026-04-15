@@ -19,14 +19,14 @@ public struct RootFeature: Sendable {
     // MARK: - State
     @ObservableState
     public struct State: Equatable, Sendable {
-        var profile: ProfileFeatureReducer.State = .init()
-        var notifications: NotificationFeature.State = .init()
-        var home: HomeFeature.State = .init()
-        var search: SearchFeatureReducer.State = .init()
-        @Presents var create: CreateFeature.State?
-        var showsProfileActionsList = false
-        var showsWobbleMenu = false
-        var selectedTab: Tab = .home
+        public var profile: ProfileFeatureReducer.State = .init()
+        public var notifications: NotificationFeature.State = .init()
+        public var home: HomeFeature.State = .init()
+        public var search: SearchFeatureReducer.State = .init()
+        @Presents public var create: CreateFeature.State?
+        public var showsProfileActionsList = false
+        public var showsWobbleMenu = false
+        public var selectedTab: Tab = .home
 
         public init(
             showsProfileActionsList: Bool = false,

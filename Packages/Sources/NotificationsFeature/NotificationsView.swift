@@ -34,8 +34,8 @@ public struct NotificationFeature {
     // MARK: - State
     @ObservableState
     public struct State: Equatable, Sendable {
-        var itemsState: ItemsState = .loading
-        var notifications: IdentifiedArrayOf<SharedModels.Notification> = .init()
+        public var itemsState: ItemsState = .loading
+        public var notifications: IdentifiedArrayOf<SharedModels.Notification> = .init()
         public init() {}
 
         public init(itemsState: ItemsState, notifications: [SharedModels.Notification]) {

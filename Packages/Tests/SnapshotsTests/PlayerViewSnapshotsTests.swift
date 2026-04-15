@@ -1,5 +1,5 @@
 import ComposableArchitecture
-@testable import HomeFeature
+import HomeFeature
 import SharedModels
 import SnapshotTesting
 import SwiftUI

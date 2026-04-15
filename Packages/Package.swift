@@ -53,7 +53,10 @@ let package = Package(
         ),
         .testTarget(
             name: "AppFeatureTests",
-            dependencies: ["AppFeature"]
+            dependencies: [
+                "AppFeature",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+            ]
         ),
 
         .target(
@@ -69,7 +72,10 @@ let package = Package(
         ),
         .testTarget(
             name: "RootTests",
-            dependencies: ["Root"]
+            dependencies: [
+                "Root",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+            ]
         ),
 
         // MARK: - Features
@@ -107,7 +113,11 @@ let package = Package(
         ),
         .testTarget(
             name: "HomeTests",
-            dependencies: ["HomeFeature"]
+            dependencies: [
+                "HomeFeature",
+                "SharedModels",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+            ]
         ),
 
         .target(
@@ -125,7 +135,10 @@ let package = Package(
         ),
         .testTarget(
             name: "ProfileTests",
-            dependencies: ["ProfileFeature"]
+            dependencies: [
+                "ProfileFeature",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+            ]
         ),
 
         .target(
@@ -141,7 +154,10 @@ let package = Package(
         ),
         .testTarget(
             name: "SearchFeatureTests",
-            dependencies: ["SearchFeature"]
+            dependencies: [
+                "SearchFeature",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+            ]
         ),
 
         .target(
@@ -155,7 +171,11 @@ let package = Package(
         ),
         .testTarget(
             name: "CreateFeatureTests",
-            dependencies: ["CreateFeature"]
+            dependencies: [
+                "CreateFeature",
+                "SharedViews",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+            ]
         ),
 
         .target(
@@ -174,7 +194,10 @@ let package = Package(
         ),
         .testTarget(
             name: "NotificationsFeatureTests",
-            dependencies: ["NotificationsFeature"]
+            dependencies: [
+                "NotificationsFeature",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+            ]
         ),
 
         .target(
@@ -191,7 +214,10 @@ let package = Package(
         ),
         .testTarget(
             name: "ConnectWalletFeatureTests",
-            dependencies: ["ConnectWalletFeature"]
+            dependencies: [
+                "ConnectWalletFeature",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+            ]
         ),
 
         // MARK: - Shared Utilities

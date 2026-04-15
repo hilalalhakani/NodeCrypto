@@ -1,6 +1,6 @@
 import ComposableArchitecture
 import Testing
-@testable import Root
+import Root
 import Foundation
 
 @MainActor

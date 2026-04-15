@@ -1,7 +1,7 @@
 import ComposableArchitecture
 import Testing
-@testable import HomeFeature
-@testable import SharedModels
+import HomeFeature
+import SharedModels
 
 @MainActor
 struct PlayerViewTests {

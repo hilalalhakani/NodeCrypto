@@ -30,10 +30,10 @@ public struct SearchFeatureReducer: Sendable {
 
     @ObservableState
     public struct State: Equatable, Sendable {
-        var searchBar: SearchBarReducer.State = .init()
-        var searchHistory: [String] = []
-        var isSearching: Bool = false
-        var selectedDestination: SearchDestination? = nil
+        public var searchBar: SearchBarReducer.State = .init()
+        public var searchHistory: [String] = []
+        public var isSearching: Bool = false
+        public var selectedDestination: SearchDestination? = nil
         public var selectedTitle: String = "Hot Bids"
         public var titles = ["Hot Bids", "Hot collection", "Hot artist"]
         public var searchResults: IdentifiedArrayOf<NFT> = []
