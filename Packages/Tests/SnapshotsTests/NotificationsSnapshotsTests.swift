@@ -20,96 +20,70 @@ import Testing
 })
 @MainActor
 struct NotificationsSnapshotsTests {
-    @Test func test_notifications_loading() throws {
+
+    @Test
+    func testLoadingState() throws {
         let store: StoreOf<NotificationFeature> = .init(
             initialState: .init(),
-            reducer: {
-                NotificationFeature()
-            }
+            reducer: { NotificationFeature() }
         )
 
-            let notificationsView = NotificationsView(
-                store: store
-            )
-
-            try assert(notificationsView)
-        }
+        let notificationsView = NotificationsView(store: store)
+        try assert(notificationsView)
+    }
 
     @Test
-    func test_notifications_empty() throws {
-        let emptyNotifications = [SharedModels.Notification]()
-
+    func testEmptyState() throws {
+        let emptyNotifications: [SharedModels.Notification] = [
+            .mock1,
+            .mock2,
+        ]
         let store = StoreOf<NotificationFeature>(
             initialState: .init(
-                itemsState: NotificationFeature.ItemsState.empty,
+                itemsState: .empty,
                 notifications: emptyNotifications
             ),
-            reducer: {
-                NotificationFeature()
-            }
+            reducer: { NotificationFeature() }
         )
 
         let notificationsView = NotificationsView(store: store)
-
         try assert(notificationsView)
-
     }
 
     @Test
-    func test_notifications_loaded() throws {
+    func testLoadedState() throws {
         let notifications: [SharedModels.Notification] = [
-            .init(
-                senderName: "KidEight",
-                senderImageURLString: "app://placeholder",
-                date: "9 Jul 2021, 11:34 PM"
-            ),
-            .init(
-                senderName: "Rotation ahsdjkashdkjashdjksahdjksahdjkashdkj",
-                senderImageURLString: "app://placeholder",
-                date: "19 Jul 2020, 11:34 PM"
-            ),
+            .mock1,
+            .mock2,
         ]
-
         let store = StoreOf<NotificationFeature>(
             initialState: .init(
-                itemsState: NotificationFeature.ItemsState.loaded,
+                itemsState: .loaded,
                 notifications: notifications
             ),
-            reducer: {
-                NotificationFeature()
-            }
+            reducer: { NotificationFeature() }
         )
 
         let notificationsView = NotificationsView(store: store)
-
         try assert(notificationsView)
-
     }
 
     @Test
-    func test_notifications_loaded_french() throws {
+    func testLoadedState_french() throws {
         let notifications: [SharedModels.Notification] = [
-            .init(
-                senderName: "KidEight",
-                senderImageURLString: "app://placeholder",
-                date: "9 Jul 2021, 11:34 PM"
-            ),
+            .mock1,
         ]
-
         let store = StoreOf<NotificationFeature>(
             initialState: .init(
-                itemsState: NotificationFeature.ItemsState.loaded,
+                itemsState: .loaded,
                 notifications: notifications
             ),
-            reducer: {
-                NotificationFeature()
-            }
+            reducer: { NotificationFeature() }
         )
 
         let notificationsView = NotificationsView(store: store)
             .environment(\.locale, Locale(identifier: "fr"))
 
-        try assert(notificationsView, named: "test_notifications_loaded_fr")
+        try assert(notificationsView, named: "testLoadedState_fr")
     }
-
 }

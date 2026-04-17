@@ -1,11 +1,12 @@
 //
-//  File.swift
+//  EditProfileTests.swift
 //
 //
 //  Created by Hilal Hakkani on 03/08/2024.
 //
 
 import ComposableArchitecture
+import DependenciesTestSupport
 import Foundation
 import ProfileFeature
 import SharedModels
@@ -13,21 +14,21 @@ import SnapshotTesting
 import SwiftUI
 import Testing
 
-
 @Suite(.dependencies {
     $0.defaultInMemoryStorage = .init()
+    $0.keychainManager.get = { @Sendable _ in Data() }
 })
 @MainActor
 struct EditProfileSnapshotsTests {
+
     @Test
     func testEditProfileScreen() throws {
         @Shared(.user) var user = .mock1
+
         let store: StoreOf<EditProfileFeature> = .init(
-            initialState: .init(user: User.mock1)
+            initialState: .init(user: .mock1)
         ) {
             EditProfileFeature()
-        } withDependencies: {
-            $0.keychainManager.get =  { @Sendable _ in Data() }
         }
 
         let editProfileView = NavigationStack {
@@ -39,13 +40,12 @@ struct EditProfileSnapshotsTests {
 
     @Test
     func testEditProfileScreen_french() throws {
-        @Shared(.user) var user = User.mock1
+        @Shared(.user) var user = .mock1
+
         let store: StoreOf<EditProfileFeature> = .init(
-            initialState: .init(user: User.mock1)
+            initialState: .init(user: .mock1)
         ) {
             EditProfileFeature()
-        } withDependencies: {
-            $0.keychainManager.get = { @Sendable _ in Data() }
         }
 
         let editProfileView = NavigationStack {

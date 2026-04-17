@@ -1,17 +1,18 @@
 //
-//  SearchFeature.swift
+//  SearchFeatureTests.swift
 //  Main
 //
 //  Created by Hilal Hakkani on 22/03/2025.
 //
 
 import ComposableArchitecture
+import DependenciesTestSupport
 import Foundation
 import SearchFeature
 import SharedModels
 import SnapshotTesting
-import Testing
 import SwiftUI
+import Testing
 
 @Suite(.dependencies {
     $0.defaultInMemoryStorage = .init()
@@ -30,7 +31,6 @@ struct SearchSnapshotsTests {
         }
 
         let searchView = SearchView(store: store)
-
         try assert(searchView)
     }
 
@@ -48,7 +48,6 @@ struct SearchSnapshotsTests {
         }
 
         let searchView = SearchView(store: store)
-
         try assert(searchView)
     }
 
@@ -59,27 +58,13 @@ struct SearchSnapshotsTests {
                 searchBar: .init(searchText: "Bitcoin"),
                 searchHistory: ["Ethereum", "NFT", "DeFi", "Web3"],
                 isSearching: true,
-                searchResults: .init(uniqueElements: [
-                    NFT(
-                        isNew: true,
-                        isVideo: false,
-                        imageURL: "app://placeholder",
-                        videoURL: ""
-                    ),
-                    NFT(
-                        isNew: false,
-                        isVideo: true,
-                        imageURL: "app://placeholder",
-                        videoURL: ""
-                    ),
-                ])
+                searchResults: .init(uniqueElements: [.mockImage, .mockVideo])
             )
         ) {
             SearchFeatureReducer()
         }
 
         let searchView = SearchView(store: store)
-
         try assert(searchView)
     }
 

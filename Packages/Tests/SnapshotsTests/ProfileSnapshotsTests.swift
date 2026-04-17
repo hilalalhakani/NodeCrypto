@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  ProfileSnapshotsTests.swift
 //
 //
 //  Created by Hilal Hakkani on 20/07/2024.
@@ -26,6 +26,7 @@ import UIKit
 })
 @MainActor
 struct ProfileSnapshotsTests {
+
     @Test
     func testLoadingState() throws {
         @Shared(.user) var user = .mock1
@@ -34,15 +35,12 @@ struct ProfileSnapshotsTests {
         }
 
         let profileView = ProfileView(store: store)
-
         try assert(profileView)
-
     }
 
     @Test
-    func testLoadedState_onSalesView() throws {
+    func testLoadedState_onSaleTab() throws {
         @Shared(.user) var user = .mock1
-
 
         let store: StoreOf<ProfileFeatureReducer> = .init(
             initialState: .init(
@@ -59,8 +57,9 @@ struct ProfileSnapshotsTests {
     }
 
     @Test
-    func testLoadedState_aboutView() throws {
+    func testLoadedState_aboutMeTab() throws {
         @Shared(.user) var user = .mock1
+
         let store: StoreOf<ProfileFeatureReducer> = .init(
             initialState: .init(
                 nfts: nfts,
@@ -73,27 +72,26 @@ struct ProfileSnapshotsTests {
         }
 
         try assert(ProfileView(store: store))
-
-}
-
- @Test
-func testEditMenuPressed() throws {
-    @Shared(.user) var user = .mock1
-    let store: StoreOf<RootFeature> = .init(
-        initialState: .init(showsProfileActionsList: true)
-    ) {
-        RootFeature()
     }
 
-    let rootView = RootView(store: store)
+    @Test
+    func testProfileActionsSheet() throws {
+        @Shared(.user) var user = .mock1
 
-    try assert(rootView)
+        let store: StoreOf<RootFeature> = .init(
+            initialState: .init(showsProfileActionsList: true)
+        ) {
+            RootFeature()
+        }
 
-}
+        let rootView = RootView(store: store)
+        try assert(rootView)
+    }
 
     @Test
-    func testLoadedState_french() throws {
+    func testLoadedState_onSaleTab_french() throws {
         @Shared(.user) var user = User.mock1
+
         let store: StoreOf<ProfileFeatureReducer> = .init(
             initialState: .init(
                 nfts: nfts,
@@ -111,47 +109,17 @@ func testEditMenuPressed() throws {
             named: "testLoadedState_fr"
         )
     }
-
-//Constants
-let nfts = [
-    NFT(
-        isNew: true,
-        isVideo: false,
-        imageURL: "app://placeholder",
-        videoURL: ""
-    ),
-    NFT(
-        isNew: false,
-        isVideo: true,
-        imageURL: "app://placeholder",
-        videoURL: ""
-    ),
-]
-
-let aboutmeItems = [
-    AboutMeItem(
-        title: "Items",
-        count: "24",
-        iconName: "doc",
-        id: UUID()
-    ),
-    AboutMeItem(
-        title: "Collection",
-        count: "24",
-        iconName: "magazine",
-        id: UUID()
-    ),
-    AboutMeItem(
-        title: "Followers",
-        count: "24",
-        iconName: "person",
-        id: UUID()
-    ),
-    AboutMeItem(
-        title: "Following",
-        count: "24",
-        iconName: "person",
-        id: UUID()
-    ),
-]
 }
+
+// MARK: - Test Data
+
+private let nfts: [NFT] = [
+    .mockImage,
+    .mockVideo,
+]
+
+private let aboutmeItems: [AboutMeItem] = [
+    .mockItems,
+    .mockCollection,
+    .mockFollowers,
+]

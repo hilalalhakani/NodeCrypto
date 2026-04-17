@@ -72,6 +72,27 @@
         "identifier" : "HomeTests",
         "name" : "HomeTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/Packages",
+        "identifier" : "RootTests",
+        "name" : "RootTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/Packages",
+        "identifier" : "SearchFeatureTests",
+        "name" : "SearchFeatureTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/Packages",
+        "identifier" : "NotificationsFeatureTests",
+        "name" : "NotificationsFeatureTests"
+      }
     }
   ],
   "version" : 1

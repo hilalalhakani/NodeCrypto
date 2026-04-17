@@ -1,3 +1,10 @@
+//
+//  ConnectWalletSnapshotsTests.swift
+//
+//
+//  Created by Hilal Hakkani on 17/04/2026.
+//
+
 import ComposableArchitecture
 import ConnectWalletFeature
 import DependenciesTestSupport
@@ -17,8 +24,9 @@ import Testing
 })
 @MainActor
 struct ConnectWalletSnapshotsTests {
+
     @Test
-    func test_connectWallet() throws {
+    func testConnectingWalletView() throws {
         let connectWalletView = ConnectingWalletView(
             store: .init(
                 initialState: .init(wallet: .rainbow),
@@ -32,7 +40,7 @@ struct ConnectWalletSnapshotsTests {
     }
 
     @Test
-    func test_connectWallet_alert() throws {
+    func testConnectWalletView_withAlert() throws {
         let store = Store(
             initialState: ConnectWalletFeature.State(),
             reducer: {
@@ -48,8 +56,7 @@ struct ConnectWalletSnapshotsTests {
     }
 
     @Test
-    func test_connectingWallet() throws {
-
+    func testConnectWalletView_empty() throws {
         let connectWalletView = ConnectWalletView(
             store: .init(
                 initialState: .init(),

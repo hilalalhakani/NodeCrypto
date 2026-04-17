@@ -1,3 +1,10 @@
+//
+//  OnboardingSnapshotsTests.swift
+//
+//
+//  Created by Hilal Hakkani on 10/06/2024.
+//
+
 import ComposableArchitecture
 import DependenciesTestSupport
 import Foundation
@@ -10,53 +17,44 @@ import Testing
 })
 @MainActor
 struct OnboardingSnapshotsTests {
+
     @Test
-    func testpage1() throws {
+    func testStep1_welcome() throws {
         @Shared(.currentStep) var currentStep = .step1
-        let store: StoreOf<OnboardingFeature> = .init(initialState: OnboardingFeature.State.init()) {
+        let store: StoreOf<OnboardingFeature> = .init(initialState: .init()) {
             OnboardingFeature()
         }
 
-        let onboardingView = OnboardingView(store: store)
-
-        try assert(onboardingView)
+        try assert(OnboardingView(store: store))
     }
 
     @Test
-    func testpage2() throws {
+    func testStep2_discover() throws {
         @Shared(.currentStep) var currentStep = .step2
-        let store: StoreOf<OnboardingFeature> = .init(initialState: OnboardingFeature.State.init()) {
+        let store: StoreOf<OnboardingFeature> = .init(initialState: .init()) {
             OnboardingFeature()
         }
 
-        let onboardingView = OnboardingView(store: store)
-
-        try assert(onboardingView)
+        try assert(OnboardingView(store: store))
     }
 
     @Test
-    func testpage3() throws {
+    func testStep3_create() throws {
         @Shared(.currentStep) var currentStep = .step3
-        let store: StoreOf<OnboardingFeature> = .init(initialState: OnboardingFeature.State.init()) {
+        let store: StoreOf<OnboardingFeature> = .init(initialState: .init()) {
             OnboardingFeature()
         }
 
-        let onboardingView = OnboardingView(store: store)
-
-        try assert(onboardingView)
-
+        try assert(OnboardingView(store: store))
     }
 
     @Test
-    func testpage4() throws {
+    func testStep4_complete() throws {
         @Shared(.currentStep) var currentStep = .step4
-        let store: StoreOf<OnboardingFeature> = .init(initialState: OnboardingFeature.State.init()) {
+        let store: StoreOf<OnboardingFeature> = .init(initialState: .init()) {
             OnboardingFeature()
         }
 
-        let onboardingView = OnboardingView(store: store)
-
-        try assert(onboardingView)
-
+        try assert(OnboardingView(store: store))
     }
 }

@@ -1,10 +1,18 @@
+//
+//  PlayerViewSnapshotsTests.swift
+//
+//
+//  Created by Hilal Hakkani on 03/08/2024.
+//
+
 import ComposableArchitecture
+import DependenciesTestSupport
+import Foundation
 import HomeFeature
 import SharedModels
 import SnapshotTesting
 import SwiftUI
 import Testing
-import DependenciesTestSupport
 
 @Suite(.dependencies {
     $0.videoPlayer.load = { _ in }
@@ -27,9 +35,9 @@ struct PlayerViewSnapshotsTests {
     )
 
     @Test
-    func testPlayerView_ControlsVisible() throws {
-        let store = Store(
-            initialState: PlayerViewReducer.State(
+    func testPlayerView_controlsVisible() throws {
+        let store = StoreOf<PlayerViewReducer>(
+            initialState: .init(
                 isPlaying: true,
                 areControlsHidden: false,
                 nft: nft
@@ -42,9 +50,9 @@ struct PlayerViewSnapshotsTests {
     }
 
     @Test
-    func testPlayerView_ControlsHidden() throws {
-        let store = Store(
-            initialState: PlayerViewReducer.State(
+    func testPlayerView_controlsHidden() throws {
+        let store = StoreOf<PlayerViewReducer>(
+            initialState: .init(
                 isPlaying: true,
                 areControlsHidden: true,
                 nft: nft
@@ -55,11 +63,11 @@ struct PlayerViewSnapshotsTests {
         let view = PlayerView(store: store)
         try assert(view)
     }
-    
+
     @Test
-    func testPlayerView_Paused() throws {
-        let store = Store(
-            initialState: PlayerViewReducer.State(
+    func testPlayerView_paused() throws {
+        let store = StoreOf<PlayerViewReducer>(
+            initialState: .init(
                 isPlaying: false,
                 areControlsHidden: false,
                 nft: nft
