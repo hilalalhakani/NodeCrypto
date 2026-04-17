@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scheme
+   LastUpgradeVersion = "1520"
+   version = "1.8">
+   <BuildAction
+      parallelizeBuildables = "YES"
+      buildImplicitDependencies = "YES"
+      buildTrace = "YES">
+      <PreActions>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Start Vapor Server"
+               scriptText = "#!/bin/bash&#10;# Use a persistent log file&#10;LOG_FILE=/tmp/nodecrypto-server-v2.log&#10;echo &quot;=== XCODE PRE-ACTION START (REFINED ISOLATION): $(date) ===&quot; &gt; $LOG_FILE&#10;&#10;# Try to find the Backend directory&#10;POSSIBLE_PATHS=(&quot;${PROJECT_DIR}/../Backend&quot; &quot;${SRCROOT}/../../Backend&quot; &quot;${SRCROOT}/../Backend&quot;)&#10;BACKEND_PATH=&quot;&quot;&#10;for p in &quot;${POSSIBLE_PATHS[@]}&quot;; do&#10;  if [ -f &quot;$p/Package.swift&quot; ]; then&#10;    BACKEND_PATH=&quot;$p&quot;&#10;    break&#10;  fi&#10;done&#10;&#10;if [ -z &quot;$BACKEND_PATH&quot; ]; then&#10;  BACKEND_PATH=$(find &quot;${PROJECT_DIR}/..&quot; -name &quot;Package.swift&quot; -maxdepth 3 | grep &quot;Backend&quot; | head -n 1 | xargs dirname)&#10;fi&#10;&#10;if [ -z &quot;$BACKEND_PATH&quot; ] || [ ! -d &quot;$BACKEND_PATH&quot; ]; then&#10;  echo &quot;FATAL: No Backend found.&quot; &gt;&gt; $LOG_FILE&#10;  exit 1&#10;fi&#10;&#10;echo &quot;Found Backend at: $BACKEND_PATH&quot; &gt;&gt; $LOG_FILE&#10;&#10;# Stop any existing server&#10;lsof -ti:8080 | xargs kill -9 2&gt;/dev/null || true&#10;&#10;cd &quot;$BACKEND_PATH&quot;&#10;echo &quot;Final CD to: $(pwd)&quot; &gt;&gt; $LOG_FILE&#10;&#10;# CRITICAL: Use &apos;env -i&apos; to strip ALL Xcode build environment variables (SDKROOT, etc.)&#10;# This ensures &apos;swift run&apos; uses the host macOS environment instead of the target iOS Simulator environment.&#10;echo &quot;Executing swift run in isolated environment...&quot; &gt;&gt; $LOG_FILE&#10;&#10;/usr/bin/env -i \&#10;  PATH=&quot;/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/homebrew/bin&quot; \&#10;  HOME=&quot;$HOME&quot; \&#10;  USER=&quot;$USER&quot; \&#10;  TMPDIR=&quot;$TMPDIR&quot; \&#10;  /usr/bin/swift run NodeCryptoServer serve --hostname 127.0.0.1 --port 8080 &gt;&gt; $LOG_FILE 2&gt;&amp;1 &amp;&#10;&#10;# Wait for readiness&#10;for i in $(seq 1 60); do&#10;  if /usr/bin/curl -s http://127.0.0.1:8080/api/health | /usr/bin/grep -q &quot;OK&quot;; then&#10;    echo &quot;&#x2705; SERVER IS UP AND RUNNING!&quot; &gt;&gt; $LOG_FILE&#10;    exit 0&#10;  fi&#10;  sleep 1&#10;done&#10;&#10;echo &quot;&#x274c; Server failed to respond to health check.&quot; &gt;&gt; $LOG_FILE&#10;">
+               <EnvironmentBuildable>
+                  <BuildableReference
+                     BuildableIdentifier = "primary"
+                     BlueprintIdentifier = "E75E1A532B0A8E750053C9E9"
+                     BuildableName = "NodeCrypto.app"
+                     BlueprintName = "NodeCrypto"
+                     ReferencedContainer = "container:NodeCrypto.xcodeproj">
+                  </BuildableReference>
+               </EnvironmentBuildable>
+            </ActionContent>
+         </ExecutionAction>
+      </PreActions>
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E75E1A532B0A8E750053C9E9"
+               BuildableName = "NodeCrypto.app"
+               BlueprintName = "NodeCrypto"
+               ReferencedContainer = "container:NodeCrypto.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
+   </BuildAction>
+   <TestAction
+      buildConfiguration = "Live"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      shouldUseLaunchSchemeArgsEnv = "YES">
+      <TestPlans>
+         <TestPlanReference
+            reference = "container:NodeCrypto/Aggregated.xctestplan"
+            default = "YES">
+         </TestPlanReference>
+      </TestPlans>
+      <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FED15C272C0E5074000D5A8A"
+               BuildableName = "SnapshotsTests.xctest"
+               BlueprintName = "SnapshotsTests"
+               ReferencedContainer = "container:NodeCrypto.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FED15C342C0E51C6000D5A8A"
+               BuildableName = "NodeCryptoSnapshotsTests.xctest"
+               BlueprintName = "NodeCryptoSnapshotsTests"
+               ReferencedContainer = "container:NodeCrypto.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
+   </TestAction>
+   <LaunchAction
+      buildConfiguration = "Live"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      launchStyle = "0"
+      useCustomWorkingDirectory = "NO"
+      ignoresPersistentStateOnLaunch = "NO"
+      debugDocumentVersioning = "YES"
+      debugServiceExtension = "internal"
+      allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "E75E1A532B0A8E750053C9E9"
+            BuildableName = "NodeCrypto.app"
+            BlueprintName = "NodeCrypto"
+            ReferencedContainer = "container:NodeCrypto.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
+      <LocationScenarioReference
+         identifier = "com.apple.dt.IDEFoundation.CurrentLocationScenarioIdentifier"
+         referenceType = "1">
+      </LocationScenarioReference>
+   </LaunchAction>
+   <ProfileAction
+      buildConfiguration = "Mock"
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      savedToolIdentifier = ""
+      useCustomWorkingDirectory = "NO"
+      debugDocumentVersioning = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "E75E1A532B0A8E750053C9E9"
+            BuildableName = "NodeCrypto.app"
+            BlueprintName = "NodeCrypto"
+            ReferencedContainer = "container:NodeCrypto.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
+   </ProfileAction>
+   <AnalyzeAction
+      buildConfiguration = "Debug">
+   </AnalyzeAction>
+   <ArchiveAction
+      buildConfiguration = "Mock"
+      revealArchiveInOrganizer = "YES">
+   </ArchiveAction>
+</Scheme>

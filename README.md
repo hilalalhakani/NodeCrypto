@@ -32,9 +32,9 @@
 <!-- SNAPSHOT_GALLERY_START -->
 ### 👛 Wallet Connection
 
-| **Connect Wallet** | **Connect Wallet Alert** | **Connecting Wallet** |
+| **Connect Wallet View Empty** | **Connect Wallet View With Alert** | **Connecting Wallet View** |
 | --- | --- | --- |
-| <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/ConnectWalletSnapshotsTests/test_connectWallet.test_connectWallet.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/ConnectWalletSnapshotsTests/test_connectWallet_alert.test_connectWallet_alert.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/ConnectWalletSnapshotsTests/test_connectingWallet.test_connectingWallet.png" width="180"/> |
+| <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/ConnectWalletSnapshotsTests/testConnectWalletView_empty.testConnectWalletView_empty.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/ConnectWalletSnapshotsTests/testConnectWalletView_withAlert.testConnectWalletView_withAlert.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/ConnectWalletSnapshotsTests/testConnectingWalletView.testConnectingWalletView.png" width="180"/> |
 
 ### 🎨 NFT Creation
 
@@ -42,45 +42,53 @@
 | --- | --- | --- | --- | --- |
 | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/CreateFeatureSnapshotsTests/test_createView_empty.test_createView_empty.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/CreateFeatureSnapshotsTests/test_createView_multipleImagesSelected.test_createView_multipleImagesSelected.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/CreateFeatureSnapshotsTests/test_createView_nextButtonDisabled.test_createView_nextButtonDisabled.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/CreateFeatureSnapshotsTests/test_createView_nextButtonEnabled.test_createView_nextButtonEnabled.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/CreateFeatureSnapshotsTests/test_createView_singleImageSelected.test_createView_singleImageSelected.png" width="180"/> |
 
-| **Item Details View Default State** | **Item Details View Fixed Price** | **Item Details View Live Auction** | **Item Details View Put On Sale Disabled** | **Item Details View Unlock Once Purchased Enabled** |
+| **Item Details View Default State** | **Item Details View Fixed Price** | **Item Details View Fr** | **Item Details View Live Auction** | **Item Details View Put On Sale Disabled** |
 | --- | --- | --- | --- | --- |
-| <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/CreateFeatureSnapshotsTests/test_itemDetailsView_defaultState.test_itemDetailsView_defaultState.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/CreateFeatureSnapshotsTests/test_itemDetailsView_fixedPrice.test_itemDetailsView_fixedPrice.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/CreateFeatureSnapshotsTests/test_itemDetailsView_liveAuction.test_itemDetailsView_liveAuction.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/CreateFeatureSnapshotsTests/test_itemDetailsView_putOnSale_disabled.test_itemDetailsView_putOnSale_disabled.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/CreateFeatureSnapshotsTests/test_itemDetailsView_unlockOncePurchased_enabled.test_itemDetailsView_unlockOncePurchased_enabled.png" width="180"/> |
+| <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/CreateFeatureSnapshotsTests/test_itemDetailsView_defaultState.test_itemDetailsView_defaultState.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/CreateFeatureSnapshotsTests/test_itemDetailsView_fixedPrice.test_itemDetailsView_fixedPrice.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/CreateFeatureSnapshotsTests/test_itemDetailsView_fr.test_itemDetailsView_fr.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/CreateFeatureSnapshotsTests/test_itemDetailsView_liveAuction.test_itemDetailsView_liveAuction.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/CreateFeatureSnapshotsTests/test_itemDetailsView_putOnSale_disabled.test_itemDetailsView_putOnSale_disabled.png" width="180"/> |
+
+| **Item Details View Unlock Once Purchased Enabled** |
+| --- |
+| <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/CreateFeatureSnapshotsTests/test_itemDetailsView_unlockOncePurchased_enabled.test_itemDetailsView_unlockOncePurchased_enabled.png" width="180"/> |
 
 ### 👤 Profile Features
 
-| **Edit Profile Screen** | **Edit Menu Pressed** | **Loaded State About View** | **Loaded State On Sales View** | **Loading State** |
+| **Edit Profile Screen** | **Edit Profile Screen Fr** | **Loaded State About Me Tab** | **Loaded State Fr** | **Loaded State On Sale Tab** |
 | --- | --- | --- | --- | --- |
-| <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/EditProfileTests/testEditProfileScreen.testEditProfileScreen.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/ProfileSnapshotsTests/testEditMenuPressed.testEditMenuPressed.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/ProfileSnapshotsTests/testLoadedState_aboutView.testLoadedState_aboutView.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/ProfileSnapshotsTests/testLoadedState_onSalesView.testLoadedState_onSalesView.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/ProfileSnapshotsTests/testLoadingState.testLoadingState.png" width="180"/> |
+| <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/EditProfileTests/testEditProfileScreen.testEditProfileScreen.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/EditProfileTests/testEditProfileScreen_fr.testEditProfileScreen_fr.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/ProfileSnapshotsTests/testLoadedState_aboutMeTab.testLoadedState_aboutMeTab.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/ProfileSnapshotsTests/testLoadedState_fr.testLoadedState_fr.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/ProfileSnapshotsTests/testLoadedState_onSaleTab.testLoadedState_onSaleTab.png" width="180"/> |
+
+| **Loading State** | **Profile Actions Sheet** |
+| --- | --- |
+| <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/ProfileSnapshotsTests/testLoadingState.testLoadingState.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/ProfileSnapshotsTests/testProfileActionsSheet.testProfileActionsSheet.png" width="180"/> |
 
 ### 🏠 Home Features
 
-| **Initial Loading State** | **Received Response** |
-| --- | --- |
-| <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/HomeTests/test_initialLoadingState.test_initialLoadingState.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/HomeTests/test_receivedResponse.test_receivedResponse.png" width="180"/> |
+| **Initial Loading State** | **Loaded State** | **Loaded State Fr** |
+| --- | --- | --- |
+| <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/HomeTests/test_initialLoadingState.test_initialLoadingState.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/HomeTests/test_loadedState.test_loadedState.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/HomeTests/test_loadedState_fr.test_loadedState_fr.png" width="180"/> |
 
 ### 🔔 Notifications
 
-| **Notifications Empty** | **Notifications Loaded** | **Notifications Loading** |
-| --- | --- | --- |
-| <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/NotificationsSnapshotsTests/test_notifications_empty.test_notifications_empty.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/NotificationsSnapshotsTests/test_notifications_loaded.test_notifications_loaded.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/NotificationsSnapshotsTests/test_notifications_loading.test_notifications_loading.png" width="180"/> |
+| **Empty State** | **Loaded State** | **Loaded State Fr** | **Loading State** |
+| --- | --- | --- | --- |
+| <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/NotificationsSnapshotsTests/testEmptyState.testEmptyState.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/NotificationsSnapshotsTests/testLoadedState.testLoadedState.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/NotificationsSnapshotsTests/testLoadedState_fr.testLoadedState_fr.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/NotificationsSnapshotsTests/testLoadingState.testLoadingState.png" width="180"/> |
 
 ### 🎯 Onboarding
 
-| **Page1** | **Page2** | **Page3** | **Page4** |
+| **Step1 Welcome** | **Step2 Discover** | **Step3 Create** | **Step4 Complete** |
 | --- | --- | --- | --- |
-| <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/OnboardingSnapshotsTests/testpage1.testpage1.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/OnboardingSnapshotsTests/testpage2.testpage2.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/OnboardingSnapshotsTests/testpage3.testpage3.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/OnboardingSnapshotsTests/testpage4.testpage4.png" width="180"/> |
+| <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/OnboardingSnapshotsTests/testStep1_welcome.testStep1_welcome.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/OnboardingSnapshotsTests/testStep2_discover.testStep2_discover.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/OnboardingSnapshotsTests/testStep3_create.testStep3_create.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/OnboardingSnapshotsTests/testStep4_complete.testStep4_complete.png" width="180"/> |
 
 ### 🎬 Player View
 
 | **Player View Controls Hidden** | **Player View Controls Visible** | **Player View Paused** |
 | --- | --- | --- |
-| <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/PlayerViewSnapshotsTests/testPlayerView_ControlsHidden.testPlayerView_ControlsHidden.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/PlayerViewSnapshotsTests/testPlayerView_ControlsVisible.testPlayerView_ControlsVisible.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/PlayerViewSnapshotsTests/testPlayerView_Paused.testPlayerView_Paused.png" width="180"/> |
+| <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/PlayerViewSnapshotsTests/testPlayerView_controlsHidden.testPlayerView_controlsHidden.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/PlayerViewSnapshotsTests/testPlayerView_controlsVisible.testPlayerView_controlsVisible.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/PlayerViewSnapshotsTests/testPlayerView_paused.testPlayerView_paused.png" width="180"/> |
 
 ### 🔍 Search Features
 
-| **Initial State With Search History** | **Searching State With No Results** | **Searching State With Results** |
-| --- | --- | --- |
-| <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/SearchFeatureTests/testInitialStateWithSearchHistory.testInitialStateWithSearchHistory.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/SearchFeatureTests/testSearchingStateWithNoResults.testSearchingStateWithNoResults.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/SearchFeatureTests/testSearchingStateWithResults.testSearchingStateWithResults.png" width="180"/> |
+| **Initial State With Search History** | **Initial State With Search History Fr** | **Searching State With No Results** | **Searching State With Results** |
+| --- | --- | --- | --- |
+| <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/SearchFeatureTests/testInitialStateWithSearchHistory.testInitialStateWithSearchHistory.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/SearchFeatureTests/testInitialStateWithSearchHistory_fr.testInitialStateWithSearchHistory_fr.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/SearchFeatureTests/testSearchingStateWithNoResults.testSearchingStateWithNoResults.png" width="180"/> | <img src="./Packages/Tests/SnapshotsTests/__Snapshots__/SearchFeatureTests/testSearchingStateWithResults.testSearchingStateWithResults.png" width="180"/> |
 
 <!-- SNAPSHOT_GALLERY_END -->
 
