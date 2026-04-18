@@ -13,7 +13,6 @@ public struct BottomSheetBackground<Content: View>: View {
     public var body: some View {
         Color.connectWalletGradient1.opacity(0.2)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .ignoresSafeArea(edges: [.bottom])
 #if os(iOS)
             .cornerRadius(cornerRadius, corners: [.topLeft, .topRight])
 #else

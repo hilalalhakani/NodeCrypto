@@ -52,6 +52,7 @@ extension PhotoLibraryClient: DependencyKey {
                                let data = bitmap.representation(using: .png, properties: [:]) {
                                 continuation.resume(returning: (Image(nsImage: nsImage), data))
                             } else {
+                                print("PhotoLibraryClient: failed to convert image to PNG data")
                                 continuation.resume(returning: nil)
                             }
 #endif

@@ -374,7 +374,7 @@ struct BlurView: NSViewRepresentable {
         let view = NSVisualEffectView()
         view.blendingMode = .withinWindow
         view.state = .active
-        view.material = .hudWindow
+        view.material = .sidebar // closest match to UIBlurEffect.extraLight on iOS
         return view
     }
 

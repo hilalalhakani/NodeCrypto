@@ -46,11 +46,25 @@ func _registerFont(bundle: Bundle, fontName: String, fontExtension: String) -> B
     }
 
     var error: Unmanaged<CFError>?
-    CTFontManagerRegisterGraphicsFont(font, &error)
+    let success = CTFontManagerRegisterGraphicsFont(font, &error)
+    if !success {
+        let description = error?.takeRetainedValue().localizedDescription ?? "unknown error"
+        print("RegisterFonts: failed to register \(fontName): \(description)")
+        return false
+    }
 
     FontRegistrar.shared.insert(key)
     return true
 }
+
+// MARK: - Bulk registration (shared, runs exactly once across all platforms)
+
+private let _registerAllFontsOnce: Void = {
+    guard let urls = Bundle.module.urls(forResourcesWithExtension: "ttf", subdirectory: nil) else { return }
+    for url in urls {
+        _registerFont(bundle: .module, fontName: url.deletingPathExtension().lastPathComponent, fontExtension: "ttf")
+    }
+}()
 
 // MARK: - UIFont (iOS / Mac Catalyst)
 
@@ -62,13 +76,6 @@ extension UIFont {
     public static func registerFont(bundle: Bundle, fontName: String, fontExtension: String) -> Bool {
         _registerFont(bundle: bundle, fontName: fontName, fontExtension: fontExtension)
     }
-
-    private static let _registerAllFontsOnce: Void = {
-        guard let urls = Bundle.module.urls(forResourcesWithExtension: "ttf", subdirectory: nil) else { return }
-        for url in urls {
-            _registerFont(bundle: .module, fontName: url.deletingPathExtension().lastPathComponent, fontExtension: "ttf")
-        }
-    }()
 
     public static func registerAllFonts() { _ = _registerAllFontsOnce }
 }
@@ -84,13 +91,6 @@ extension NSFont {
     public static func registerFont(bundle: Bundle, fontName: String, fontExtension: String) -> Bool {
         _registerFont(bundle: bundle, fontName: fontName, fontExtension: fontExtension)
     }
-
-    private static let _registerAllFontsOnce: Void = {
-        guard let urls = Bundle.module.urls(forResourcesWithExtension: "ttf", subdirectory: nil) else { return }
-        for url in urls {
-            _registerFont(bundle: .module, fontName: url.deletingPathExtension().lastPathComponent, fontExtension: "ttf")
-        }
-    }()
 
     public static func registerAllFonts() { _ = _registerAllFontsOnce }
 }

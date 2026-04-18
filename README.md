@@ -1,8 +1,8 @@
-# 🎨 NodeCrypto - NFT Marketplace iOS App
+# 🎨 NodeCrypto - NFT Marketplace App
 
 [![Build Status](https://app.bitrise.io/app/2c212f95-0bc5-41ea-bb12-6105ee121e35/status.svg?token=EPrfJe9VmERkf5N2OPzn-A&branch=main)](https://app.bitrise.io/app/2c212f95-0bc5-41ea-bb12-6105ee121e35)
 [![Swift Version](https://img.shields.io/badge/Swift-6.0-orange.svg)](https://swift.org)
-[![Platform](https://img.shields.io/badge/Platform-iOS%2017%2B-blue.svg)](https://developer.apple.com/ios/)
+[![Platform](https://img.shields.io/badge/Platform-iOS%2017%2B%20%7C%20macOS%2014%2B-blue.svg)](https://developer.apple.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Architecture](https://img.shields.io/badge/Architecture-TCA-purple.svg)](https://github.com/pointfreeco/swift-composable-architecture)
 

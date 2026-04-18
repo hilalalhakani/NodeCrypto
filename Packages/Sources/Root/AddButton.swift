@@ -1,8 +1,11 @@
+import Dependencies
 import Foundation
+import HomeFeature
 import SwiftUI
 
 public struct AddButton: View {
     let action: () -> Void
+    @Dependency(\.haptics) var haptics
 
     public init(action: @escaping () -> Void) {
         self.action = action
@@ -11,10 +14,7 @@ public struct AddButton: View {
     public var body: some View {
         Button(
             action: {
-                #if canImport(UIKit)
-                let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
-                impactFeedback.impactOccurred()
-                #endif
+                haptics.impactOccurred(.medium)
                 action()
             },
             label: {

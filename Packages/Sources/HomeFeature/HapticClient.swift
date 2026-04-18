@@ -50,6 +50,7 @@ extension HapticClient: DependencyKey {
 }
 #else
 extension HapticClient: DependencyKey {
+    // macOS has no programmatic haptic API; intentionally a no-op.
     public static let liveValue = Self(impactOccurred: { _ in })
     public static let testValue = Self(impactOccurred: { _ in })
 }
