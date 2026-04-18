@@ -152,7 +152,7 @@ public struct ConnectingWalletView: View {
   // MARK: - Body
   public var body: some View {
       ZStack {
-        Image(.connectWalletBackground)
+        Image("ConnectWalletBackground", bundle: .module)
           .resizable()
           .scaledToFill()
           .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -176,6 +176,12 @@ public struct ConnectingWalletView: View {
       .toolbar {
         #if os(iOS)
           ToolbarItem(placement: .navigationBarLeading) {
+            CancelButton(action: {
+              store.send(.view(.backButtonPressed))
+            })
+          }
+        #elseif os(macOS)
+          ToolbarItem(placement: .cancellationAction) {
             CancelButton(action: {
               store.send(.view(.backButtonPressed))
             })

@@ -77,22 +77,21 @@ public struct RootFeature: Sendable {
     // MARK: - Reducer
     public var body: some ReducerOf<Self> {
 
+        Scope(state: \.profile, action: \.internal.profile) {
+            ProfileFeatureReducer()
+        }
 
-            Scope(state: \.profile, action: \.internal.profile) {
-                ProfileFeatureReducer()
-            }
+        Scope(state: \.search, action: \.internal.search) {
+            SearchFeatureReducer()
+        }
 
-            Scope(state: \.search, action: \.internal.search) {
-                SearchFeatureReducer()
-            }
+        Scope(state: \.notifications, action: \.internal.notifications) {
+            NotificationFeature()
+        }
 
-            Scope(state: \.notifications, action: \.internal.notifications) {
-                NotificationFeature()
-            }
-
-            Scope(state: \.home, action: \.internal.home) {
-                HomeFeature()
-            }
+        Scope(state: \.home, action: \.internal.home) {
+            HomeFeature()
+        }
 
         CombineReducers {
 
@@ -186,7 +185,9 @@ public struct RootView: View {
                         .renderingMode(.template)
                 }
                 .tag(Tab.home)
+                #if os(iOS)
                 .toolbarBackground(.white, for: .tabBar)
+                #endif
 
                 NavigationStack {
                     SearchView(
@@ -201,7 +202,9 @@ public struct RootView: View {
                         .renderingMode(.template)
                 }
                 .tag(Tab.search)
+                #if os(iOS)
                 .toolbarBackground(.white, for: .tabBar)
+                #endif
 
                 Color.clear
                     .tabItem {
@@ -221,7 +224,9 @@ public struct RootView: View {
                         .renderingMode(.template)
                 }
                 .tag(Tab.notifications)
+                #if os(iOS)
                 .toolbarBackground(.white, for: .tabBar)
+                #endif
 
                 NavigationStack {
                     ProfileView(
@@ -236,8 +241,10 @@ public struct RootView: View {
                         .renderingMode(.template)
                 }
                 .tag(Tab.profile)
+                #if os(iOS)
                 .toolbarBackground(.white, for: .tabBar)
                 .toolbar(addButtonVisibility ? .visible : .hidden, for: .tabBar)
+                #endif
             }
 
             if store.showsWobbleMenu {
@@ -249,29 +256,34 @@ public struct RootView: View {
                     .ignoresSafeArea()
             }
 
-                VStack {
-                    if store.showsWobbleMenu {
-                        wobbleMenuView
-                    }
-
-                    if addButtonVisibility {
-                        AddButton {
-                            store.send(.view(.addButtonPressed))
-                        }
-                    }
-
+            VStack {
+                if store.showsWobbleMenu {
+                    wobbleMenuView
                 }
-                .frame(maxHeight: .infinity, alignment: .bottom)
-                .ignoresSafeArea(.keyboard)
+
+                if addButtonVisibility {
+                    AddButton {
+                        store.send(.view(.addButtonPressed))
+                    }
+                }
+            }
+            .frame(maxHeight: .infinity, alignment: .bottom)
+            .ignoresSafeArea(.keyboard)
         }
         .overlay {
             if store.showsProfileActionsList {
                 blurView
             }
         }
+        #if canImport(UIKit)
         .fullScreenCover(item: $store.scope(state: \.create, action: \.internal.create)) { store in
             CreateView(store: store)
         }
+        #else
+        .sheet(item: $store.scope(state: \.create, action: \.internal.create)) { store in
+            CreateView(store: store)
+        }
+        #endif
     }
 
     // MARK: - View Components
@@ -279,9 +291,7 @@ public struct RootView: View {
     private var blurView: some View {
         Rectangle()
             .foregroundStyle(.clear)
-            #if os(iOS)
-                .background(BlurView(style: .extraLight))
-            #endif
+            .background(BlurView())
             .ignoresSafeArea()
             .onTapGesture {
                 store.send(
@@ -307,7 +317,7 @@ public struct RootView: View {
 
     @ViewBuilder
     private var wobbleMenuView: some View {
-        Image(.wobbleMenu)
+        Image("WobbleMenu", bundle: .module)
             .frame(width: 180, height: 150)
             .scaledToFill()
             .transition(.opacity.combined(with: .scale))
@@ -344,19 +354,32 @@ public struct RootView: View {
     }
 }
 
-// MARK: - Subviews
+// MARK: - Cross-platform blur view
+
 #if os(iOS)
-    struct BlurView: UIViewRepresentable {
-        var style: UIBlurEffect.Style
+struct BlurView: UIViewRepresentable {
+    var style: UIBlurEffect.Style = .extraLight
 
-        func makeUIView(context: Context) -> UIVisualEffectView {
-            return UIVisualEffectView(effect: UIBlurEffect(style: style))
-        }
-
-        func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
-            uiView.effect = UIBlurEffect(style: style)
-        }
+    func makeUIView(context: Context) -> UIVisualEffectView {
+        UIVisualEffectView(effect: UIBlurEffect(style: style))
     }
+
+    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
+        uiView.effect = UIBlurEffect(style: style)
+    }
+}
+#elseif os(macOS)
+struct BlurView: NSViewRepresentable {
+    func makeNSView(context: Context) -> NSVisualEffectView {
+        let view = NSVisualEffectView()
+        view.blendingMode = .withinWindow
+        view.state = .active
+        view.material = .hudWindow
+        return view
+    }
+
+    func updateNSView(_ nsView: NSVisualEffectView, context: Context) {}
+}
 #endif
 
 // MARK: - Preview

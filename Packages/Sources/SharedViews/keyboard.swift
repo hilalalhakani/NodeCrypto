@@ -39,8 +39,15 @@ import Combine
     }
 
     extension View {
-        func adaptsKeyboard() -> some View {
+        public func adaptsKeyboard() -> some View {
             self.modifier(KeyboardAwareModifier())
+        }
+    }
+#else
+    extension View {
+        /// No-op on macOS — the system handles input area layout natively.
+        public func adaptsKeyboard() -> some View {
+            self
         }
     }
 #endif

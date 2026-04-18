@@ -148,7 +148,7 @@ public struct NotificationsView: View {
     // MARK: - View Components
     var emptyView: some View {
         VStack {
-            Image(.emptyNotifications)
+            Image("EmptyNotifications", bundle: .module)
             Text("No recents", bundle: .module)
                 .foregroundStyle(Color.neutral2)
                 .font(.custom(FontName.dmSansBold.rawValue, size: 40))

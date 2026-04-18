@@ -184,6 +184,7 @@ public struct HomeView: View {
         .transition(.opacity)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .animation(.easeInOut(duration: 0.3), value: store.errorMessage)
+        #if canImport(UIKit)
         .fullScreenCover(
             item: $store.scope(
                 state: \.playerViewReducerState,
@@ -192,6 +193,16 @@ public struct HomeView: View {
         ) { store in
             PlayerView(store: store)
         }
+        #else
+        .sheet(
+            item: $store.scope(
+                state: \.playerViewReducerState,
+                action: \.internal.playerViewAction
+            )
+        ) { store in
+            PlayerView(store: store)
+        }
+        #endif
         .navigationDestination(
             item: $store.scope(state: \.allCreatorsState, action: \.internal.allCreatorsAction),
             destination: AllCreatorsView.init

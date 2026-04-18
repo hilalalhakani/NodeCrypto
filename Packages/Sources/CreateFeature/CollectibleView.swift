@@ -52,7 +52,9 @@ public struct CollectibleView: View {
                 .padding(.bottom, 24)
             }
         }
+        #if canImport(UIKit)
         .navigationBarHidden(true)
+        #endif
     }
 }
 

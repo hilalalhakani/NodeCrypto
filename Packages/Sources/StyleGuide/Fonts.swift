@@ -13,20 +13,20 @@ public extension Font {
         _ fontName: FontName,
         size: CGFloat
     ) {
-        #if canImport(UIKit)
-            let fontSize = size
-            UIFont.registerFont(
-                bundle: .module,
-                fontName: fontName.rawValue,
-                fontExtension: "ttf"
-            )
-        #else
-            let fontSize = size
-        #endif
-        self = Font.custom(
-            fontName.rawValue,
-            size: fontSize
+#if canImport(UIKit)
+        UIFont.registerFont(
+            bundle: .module,
+            fontName: fontName.rawValue,
+            fontExtension: "ttf"
         )
+#elseif canImport(AppKit)
+        NSFont.registerFont(
+            bundle: .module,
+            fontName: fontName.rawValue,
+            fontExtension: "ttf"
+        )
+#endif
+        self = Font.custom(fontName.rawValue, size: size)
     }
 }
 
@@ -41,10 +41,9 @@ public extension Font {
                         FontName.poppinsBold,
                         FontName.dmSansBold
                     ],
-
                     id: \.self
                 ) { fontName in
-                    Text(verbatim: "Today’s daily challenge")
+                    Text(verbatim: "Today's daily challenge")
                         .font(Font(fontName, size: 22))
                 }
             }

@@ -81,7 +81,9 @@ public struct ItemDetailsView: View {
         ) { store in
             CollectibleView(store: store)
         }
+        #if canImport(UIKit)
         .navigationBarHidden(true)
+        #endif
     }
 }
 
@@ -254,7 +256,9 @@ struct PricingGridSection: View {
                         .focused($focusedField, equals: .price)
                         .font(Font(FontName.poppinsBold, size: 14))
                         .foregroundColor(.neutral2)
+                        #if canImport(UIKit)
                         .keyboardType(.decimalPad)
+                        #endif
                         .layoutPriority(0)
                     
                     Menu {

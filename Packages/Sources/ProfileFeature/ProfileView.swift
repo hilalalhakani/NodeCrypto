@@ -232,7 +232,7 @@ public struct ProfileView: View {
     // MARK: - Body
     public var body: some View {
             ZStack {
-                Image(ImageResource.profileBackground)
+                Image("profileBackground", bundle: .module)
                     .resizable()
                     .ignoresSafeArea()
 
@@ -264,7 +264,9 @@ public struct ProfileView: View {
                     item: $store.scope(state: \.editProfile, action: \.internal.editProfile)
                 ) { store in
                     EditProfileView(store: store)
+                        #if os(iOS)
                         .toolbar(.hidden, for: .tabBar)
+                        #endif
                 }
     }
 
@@ -333,18 +335,18 @@ public struct ProfileView: View {
         HStack(spacing: 24) {
             SocialButton(action: {
                  store.send(.view(.openURL(.twitter)))
-            }, imageResource: .twitter)
+            }, imageResource: ImageResource(name: "twitter", bundle: .module))
             SocialButton(
                 action: {
                   store.send(.view(.openURL(.instagram)))
                 },
-                imageResource: .instagram
+                imageResource: ImageResource(name: "instagram", bundle: .module)
             )
             SocialButton(
                 action: {
                    store.send(.view(.openURL(.facebook)))
                 },
-                imageResource: .facebook
+                imageResource: ImageResource(name: "facebook", bundle: .module)
             )
         }
     }
@@ -462,7 +464,7 @@ public struct ProfileView: View {
                                 }
                                 .overlay(alignment: .center) {
                                     if nft.isVideo {
-                                        Image(ImageResource.circleButton)
+                                        Image("circle-button", bundle: .module)
                                     }
                                 }
                         }

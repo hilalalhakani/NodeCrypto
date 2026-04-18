@@ -11,12 +11,14 @@ public struct AddButton: View {
     public var body: some View {
         Button(
             action: {
+                #if canImport(UIKit)
                 let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
                 impactFeedback.impactOccurred()
+                #endif
                 action()
             },
             label: {
-                Image(ImageResource.add)
+                Image("Add", bundle: .module)
                     .padding(12)
                     .background(
                         Circle()
@@ -32,7 +34,7 @@ public struct AddButton: View {
 
 public struct ScaleButtonStyle: ButtonStyle {
     public init() {}
-    
+
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .scaleEffect(configuration.isPressed ? 0.9 : 1.0)

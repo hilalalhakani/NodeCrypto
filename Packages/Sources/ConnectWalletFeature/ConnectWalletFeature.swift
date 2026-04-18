@@ -131,7 +131,7 @@ public struct ConnectWalletView: View {
 
         VStack(alignment: .center) {
 
-          Image(.background)
+          Image("Background", bundle: .module)
             .resizable()
             .scaledToFit()
 

@@ -64,7 +64,9 @@ public struct CreateView: View {
                 ItemDetailsView(store: store)
             }
             .onAppear { store.send(.view(.onAppear)) }
+            #if canImport(UIKit)
             .navigationBarHidden(true)
+            #endif
         }
     }
 }
@@ -207,8 +209,10 @@ struct MultipleImagesCarousel: View {
                     .padding(.horizontal, 4)
             }
         }
+        #if canImport(UIKit)
         .tabViewStyle(.page(indexDisplayMode: .always))
         .indexViewStyle(.page(backgroundDisplayMode: .always))
+        #endif
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }

@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Hilal Hakkani on 15/06/2024.
 //
@@ -29,3 +29,17 @@ extension View {
     }
 }
 #endif
+
+extension View {
+    /// Rounds only the top two corners — cross-platform equivalent of cornerRadius(_:corners:[.topLeft,.topRight]).
+    public func topCornerRadius(_ radius: CGFloat) -> some View {
+        clipShape(
+            UnevenRoundedRectangle(
+                topLeadingRadius: radius,
+                bottomLeadingRadius: 0,
+                bottomTrailingRadius: 0,
+                topTrailingRadius: radius
+            )
+        )
+    }
+}

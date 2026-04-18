@@ -31,7 +31,7 @@ public struct NFTItemView: View {
                     .foregroundStyle(Color.neutral4)
 
                 HStack(spacing: 4) {
-                    Image(ImageResource.heart)
+                    Image("heart", bundle: .module)
 
                     Text("27")
                         .font(Font.custom(FontName.poppinsBold.rawValue, size: 12))
