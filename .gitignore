@@ -54,11 +54,4 @@ Tuist/.build/
 *.xcworkspace
 graph.dot
 
-# Xcode projects - only allow project files and shared schemes/caches
-NodeCrypto/NodeCrypto.xcodeproj/xcuserdata/
-NodeCrypto/NodeCrypto.xcodeproj/project.xcworkspace/xcuserdata/
-NodeCrypto/NodeCrypto.xcodeproj/project.xcworkspace/state.xcuserstate
-Backend/Backend.xcodeproj/xcuserdata/
-Backend/Backend.xcodeproj/project.xcworkspace/xcuserdata/
-Backend/Backend.xcodeproj/project.xcworkspace/state.xcuserstate
 .claude
