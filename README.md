@@ -94,6 +94,58 @@
 
 ---
 
+## Getting Started with Tuist
+
+This project uses [Tuist](https://tuist.dev) (v4.110.1) for project generation. Xcode project files are generated from Swift manifests and should not be committed.
+
+### Prerequisites
+
+- Xcode 16+
+- Tuist 4.110.1+ (`curl -Ls https://install.tuist.io | bash`)
+
+### Setup
+
+```bash
+# Install external dependencies (SPM packages)
+tuist install
+
+# Generate the Xcode workspace
+tuist generate
+```
+
+### Development Commands
+
+```bash
+# Focus on a single feature for faster iteration
+tuist generate HomeFeature
+
+# Build
+tuist build --configuration Debug
+
+# Run tests
+tuist test --configuration Debug
+
+# Warm binary cache (speeds up subsequent builds)
+tuist cache
+```
+
+### Module Architecture
+
+```
+Foundation Layer (no internal deps):
+  Keychain, APIClient, APIClientLive, AuthenticationClient,
+  TCAHelpers, SharedModels, SharedViews, StyleGuide
+
+Feature Layer (depends on Foundation):
+  OnboardingFeature, HomeFeature, ProfileFeature,
+  SearchFeature, CreateFeature, NotificationsFeature, ConnectWalletFeature
+
+App Shell Layer (orchestrates Features):
+  AppFeature, Root
+```
+
+---
+
 <div align="center">
 
 

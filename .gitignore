@@ -47,6 +47,12 @@ iOSInjectionProject/
 .tuist-bin/
 .tuist-version
 Derived/
+Tuist/.build/
+
+# Tuist-generated Xcode projects and workspaces
+*.xcodeproj
+*.xcworkspace
+graph.dot
 
 # Xcode projects - only allow project files and shared schemes/caches
 NodeCrypto/NodeCrypto.xcodeproj/xcuserdata/
