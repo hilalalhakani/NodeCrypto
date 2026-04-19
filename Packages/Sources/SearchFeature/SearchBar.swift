@@ -97,42 +97,55 @@ public struct SearchBar: View {
 
     // MARK: - Body
     public var body: some View {
-            HStack(spacing: 8) {
-                HStack {
-                    TextField(
-                        String(localized: "Search anything", bundle: .module),
-                        text: $store.searchText.sending(\.internal.queryChanged)
-                    )
-                    .textFieldStyle(.plain)
-                    .submitLabel(.search)
-                    .onSubmit {
-                        store.send(.view(.searchButtonTapped))
-                    }
+        HStack(spacing: 8) {
+            searchField
+            cancelButton
+        }
+    }
 
-                    Image(systemName: "magnifyingglass")
-                        .foregroundColor(.gray)
-                }
-                .padding(10)
-                .overlay(
-                    Capsule()
-                        .stroke(store.searchText.isEmpty ? Color.neutral6 : Color.primary1, lineWidth: 2)
+    // MARK: - Private Methods
+    private func onSubmitSearch() {
+        store.send(.view(.searchButtonTapped))
+    }
+
+    private func onClearSearchText() {
+        store.send(.view(.clearSearchTextTapped))
+    }
+
+    private var searchField: some View {
+        HStack {
+            TextField(
+                String(localized: "Search anything", bundle: .module),
+                text: $store.searchText.sending(\.internal.queryChanged)
+            )
+            .textFieldStyle(.plain)
+            .submitLabel(.search)
+            .onSubmit { onSubmitSearch() }
+
+            Image(systemName: "magnifyingglass")
+                .foregroundColor(.gray)
+        }
+        .padding(10)
+        .overlay(
+            Capsule()
+                .stroke(store.searchText.isEmpty ? Color.neutral6 : Color.primary1, lineWidth: 2)
+        )
+        .animation(.easeInOut(duration: 0.25), value: store.searchText)
+    }
+
+    @ViewBuilder
+    private var cancelButton: some View {
+        if !store.searchText.isEmpty {
+            Button { onClearSearchText() } label: {
+                Text("Cancel", bundle: .module)
+                    .foregroundStyle(Color.neutral2)
+            }
+            .transition(
+                .asymmetric(
+                    insertion: .move(edge: .trailing).combined(with: .opacity),
+                    removal: .move(edge: .trailing).combined(with: .opacity)
                 )
-                .animation(.easeInOut(duration: 0.25), value: store.searchText)
-
-                if !store.searchText.isEmpty {
-                    Button(action: {
-                        store.send(.view(.clearSearchTextTapped))
-                    }) {
-                        Text("Cancel", bundle: .module)
-                            .foregroundStyle(Color.neutral2)
-                    }
-                    .transition(
-                        .asymmetric(
-                            insertion: .move(edge: .trailing).combined(with: .opacity),
-                            removal: .move(edge: .trailing).combined(with: .opacity)
-                        )
-                    )
-                }
+            )
         }
     }
 }

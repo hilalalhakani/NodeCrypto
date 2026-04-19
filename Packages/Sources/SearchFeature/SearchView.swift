@@ -169,10 +169,6 @@ public struct SearchFeatureReducer: Sendable {
 public struct SearchView: View {
     // MARK: - Properties
     @Bindable var store: StoreOf<SearchFeatureReducer>
-    let gridLayout: [GridItem] = [
-        GridItem(.flexible(), spacing: 8),
-        GridItem(.flexible(), spacing: 8),
-    ]
 
     // MARK: - Initialization
     public init(store: StoreOf<SearchFeatureReducer>) {
@@ -182,106 +178,157 @@ public struct SearchView: View {
     // MARK: - Body
     public var body: some View {
         VStack(spacing: 20) {
-            Text("Discover", bundle: .module)
-                .foregroundStyle(Color.neutral2)
-                .font(.custom(FontName.poppinsBold.rawValue, size: 24))
-                .padding(.horizontal, 16)
-                .frame(maxWidth: .infinity, alignment: .leading)
-
-            SearchBar(
-                store: store.scope(
-                    state: \.searchBar,
-                    action: \.searchBar
-                )
-            )
-            .padding(.horizontal, 25)
-
-            Group {
-                if store.isSearching {
-                    ZStack(alignment: .bottom) {
-                        searchResults
-                        ExpandingMenuButton(
-                            selectedTitle: $store.selectedTitle.sending(
-                                \.internal.onSelectedTitleChange
-                            ),
-                            titles: store.titles
-                        )
-                    }
-                } else {
-                    suggestionsForm
-                }
-            }
-            .transition(.opacity)
+            headerTitle
+            searchBarView
+            contentView
+                .transition(.opacity)
         }
         .animation(.easeInOut, value: store.isSearching)
-        .task {
-            store.send(.view(.onAppear))
-        }
+        .task { onAppearTask() }
         .navigationDestination(item: $store.selectedDestination.sending(\.internal.onSelectedDestinationChange)) {
-            switch $0 {
-                case .bestArtist:
-                    Text("Artist", bundle: .module)
-                case .modeling:
-                    Text("Modeling", bundle: .module)
-                case .recentUploaded:
-                    Text("Recent Uploaded", bundle: .module)
-                case .videos:
-                    Text("Videos", bundle: .module)
+            destinationView(for: $0)
+        }
+    }
+
+    // MARK: - Private Methods
+    private func onAppearTask() {
+        store.send(.view(.onAppear))
+    }
+
+    private func destinationView(for destination: SearchFeatureReducer.SearchDestination) -> some View {
+        switch destination {
+        case .bestArtist:
+            Text("Artist", bundle: .module)
+        case .modeling:
+            Text("Modeling", bundle: .module)
+        case .recentUploaded:
+            Text("Recent Uploaded", bundle: .module)
+        case .videos:
+            Text("Videos", bundle: .module)
+        }
+    }
+
+    private func onTitleChange(_ title: String) {
+        store.send(.internal(.onSelectedTitleChange(title)))
+    }
+
+    private func onDestinationSelected(_ destination: SearchFeatureReducer.SearchDestination) {
+        store.send(.view(.destinationSelected(destination)))
+    }
+
+    private func onHistoryItemTapped(_ item: String) {
+        store.send(.view(.historyItemTapped(item)))
+    }
+
+    private func onClearSearchHistory() {
+        store.send(.view(.clearSearchHistory))
+    }
+
+    private var headerTitle: some View {
+        Text("Discover", bundle: .module)
+            .foregroundStyle(Color.neutral2)
+            .font(.custom(FontName.poppinsBold.rawValue, size: 24))
+            .padding(.horizontal, 16)
+            .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private var searchBarView: some View {
+        SearchBar(
+            store: store.scope(
+                state: \.searchBar,
+                action: \.searchBar
+            )
+        )
+        .padding(.horizontal, 25)
+    }
+
+    @ViewBuilder
+    private var contentView: some View {
+        if store.isSearching {
+            ZStack(alignment: .bottom) {
+                searchResults
+                ExpandingMenuButton(
+                    selectedTitle: $store.selectedTitle.sending(
+                        \.internal.onSelectedTitleChange
+                    ),
+                    titles: store.titles
+                )
             }
+        } else {
+            suggestionsForm
         }
     }
 
     // MARK: - View Components
+    private var gridLayout: [GridItem] {
+        [
+            GridItem(.flexible(), spacing: 8),
+            GridItem(.flexible(), spacing: 8)
+        ]
+    }
+
     @ViewBuilder private var searchResults: some View {
         if store.searchResults.isEmpty {
-            Text(String(format: String(localized: "No results found for '%@'", bundle: .module), store.searchBar.searchText))
-                .foregroundColor(.gray)
-                .frame(maxHeight: .infinity, alignment: .center)
+            noResultsView
         } else {
-            ScrollView {
-                LazyVGrid(columns: gridLayout, spacing: 20) {
-                    ForEach(store.searchResults) { nft in
-                        SharedViews.RemoteImageView(url: URL(string: nft.imageURL)!)
-                            .frame(height: 168)
-                            .cornerRadius(8)
-                            .clipShape(
-                                RoundedRectangle(
-                                    cornerRadius: 16, style: .circular)
-                            )
-                            .overlay(alignment: .topLeading) {
-                                if nft.isNew {
-                                    Text("New", bundle: .module)
-                                        .padding(8)
-                                        .foregroundStyle(Color.neutral8)
-                                        .font(
-                                            .custom(
-                                                FontName.dmSansBold.rawValue,
-                                                size: 14)
-                                        )
-                                        .background(
-                                            Color.primary4
-                                        )
-                                        .clipShape(
-                                            RoundedRectangle(
-                                                cornerRadius: 16,
-                                                style: .circular)
-                                        )
-                                        .padding(8)
-                                }
-                            }
-                            .overlay(alignment: .center) {
-                                if nft.isVideo {
-                                    Image(systemName: "play.circle.fill")
-                                        .resizable()
-                                        .frame(width: 44, height: 44)
-                                        .foregroundColor(.white)
-                                }
-                            }
-                    }
-                }
-                .padding()
-            }
+            nftGridView
         }
+    }
+
+    private var noResultsView: some View {
+        Text(
+            String(
+                format: String(localized: "No results found for '%@'", bundle: .module),
+                store.searchBar.searchText
+            )
+        )
+        .foregroundColor(.gray)
+        .frame(maxHeight: .infinity, alignment: .center)
+    }
+
+    private var nftGridView: some View {
+        ScrollView {
+            LazyVGrid(columns: gridLayout, spacing: 20) {
+                ForEach(store.searchResults) { nft in
+                    nftCellView(nft)
+                }
+            }
+            .padding()
+        }
+    }
+
+    private func nftCellView(_ nft: NFT) -> some View {
+        SharedViews.RemoteImageView(url: URL(string: nft.imageURL)!)
+            .frame(height: 168)
+            .cornerRadius(8)
+            .clipShape(RoundedRectangle(cornerRadius: 16, style: .circular))
+            .overlay(alignment: .topLeading) {
+                if nft.isNew {
+                    newBadgeLabel
+                }
+            }
+            .overlay(alignment: .center) {
+                if nft.isVideo {
+                    videoIndicator
+                }
+            }
+    }
+
+    private var newBadgeLabel: some View {
+        Text("New", bundle: .module)
+            .padding(8)
+            .foregroundStyle(Color.neutral8)
+            .font(.custom(FontName.dmSansBold.rawValue, size: 14))
+            .background(Color.primary4)
+            .clipShape(RoundedRectangle(cornerRadius: 16, style: .circular))
+            .padding(8)
+    }
+
+    private var videoIndicator: some View {
+        Image(systemName: "play.circle.fill")
+            .resizable()
+            .frame(width: 44, height: 44)
+            .foregroundColor(.white)
     }
 
     private var suggestionsForm: some View {
@@ -332,29 +379,35 @@ public struct SearchView: View {
                     .italic()
             } else {
                 ForEach(store.searchHistory, id: \.self) { item in
-                    Button {
-                        store.send(.view(.historyItemTapped(item)))
-                    } label: {
-                        HStack {
-                            Image(systemName: "clock.arrow.circlepath")
-                                .foregroundColor(.secondary)
-                            Text(item)
-                                .foregroundColor(.primary)
-                            Spacer()
-                        }
-                    }
+                    historyItemRow(item)
                 }
 
-                Button(String(localized: "Clear History", bundle: .module)) {
-                    store.send(.view(.clearSearchHistory))
-                }
-                .foregroundColor(.red)
+                clearHistoryButton
             }
         } header: {
             Text("Search history", bundle: .module)
                 .font(.custom(FontName.poppinsRegular.rawValue, size: 12))
                 .foregroundStyle(Color.neutral4)
         }
+    }
+
+    private func historyItemRow(_ item: String) -> some View {
+        Button { onHistoryItemTapped(item) } label: {
+            HStack {
+                Image(systemName: "clock.arrow.circlepath")
+                    .foregroundColor(.secondary)
+                Text(item)
+                    .foregroundColor(.primary)
+                Spacer()
+            }
+        }
+    }
+
+    private var clearHistoryButton: some View {
+        Button { onClearSearchHistory() } label: {
+            Text("Clear History", bundle: .module)
+        }
+        .foregroundColor(.red)
     }
 
     private func suggestionLink(
@@ -364,9 +417,7 @@ public struct SearchView: View {
         title: String,
         subtitle: String
     ) -> some View {
-        Button {
-            store.send(.view(.destinationSelected(destination)))
-        } label: {
+        Button { onDestinationSelected(destination) } label: {
             HStack {
                 Image(systemName: icon)
                     .foregroundColor(color)
