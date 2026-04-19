@@ -14,6 +14,7 @@ import SnapshotTesting
 import SwiftUI
 import Testing
 
+#if os(iOS)
 @Suite(.dependencies {
     $0.analyticsClient.sendAnalytics = { _ in }
     $0.defaultInMemoryStorage = .init()
@@ -87,3 +88,4 @@ struct NotificationsSnapshotsTests {
         try assert(notificationsView, named: "testLoadedState_fr")
     }
 }
+#endif

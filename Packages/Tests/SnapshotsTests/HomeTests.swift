@@ -5,6 +5,7 @@
 //  Created by Hilal Hakkani on 21/06/2025.
 //
 
+#if os(iOS)
 import ComposableArchitecture
 import DependenciesTestSupport
 import Foundation
@@ -68,3 +69,4 @@ struct HomeSnapshotsTests {
         try assert(view, named: "test_loadedState_fr")
     }
 }
+#endif

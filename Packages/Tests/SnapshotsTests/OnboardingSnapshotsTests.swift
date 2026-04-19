@@ -12,6 +12,7 @@ import OnboardingFeature
 import SnapshotTesting
 import Testing
 
+#if os(iOS)
 @Suite(.dependencies {
     $0.defaultInMemoryStorage = .init()
 })
@@ -58,3 +59,4 @@ struct OnboardingSnapshotsTests {
         try assert(OnboardingView(store: store))
     }
 }
+#endif

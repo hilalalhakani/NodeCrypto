@@ -5,6 +5,7 @@
 //  Created by Hilal Hakkani on 06/08/2024.
 //
 
+#if os(iOS)
 import ComposableArchitecture
 import DependenciesTestSupport
 import Foundation
@@ -108,3 +109,4 @@ extension ViewImageConfig {
         window.rootViewController = UIViewController()
     }
 }
+#endif

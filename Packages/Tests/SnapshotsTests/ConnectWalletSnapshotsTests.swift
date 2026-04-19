@@ -13,6 +13,7 @@ import SnapshotTesting
 import SwiftUI
 import Testing
 
+#if os(iOS)
 @Suite(.dependencies {
     $0.continuousClock = .immediate
     $0.analyticsClient.sendAnalytics = { _ in }
@@ -69,3 +70,4 @@ struct ConnectWalletSnapshotsTests {
         try assert(connectWalletView)
     }
 }
+#endif

@@ -14,6 +14,7 @@ import SnapshotTesting
 import SwiftUI
 import Testing
 
+#if os(iOS)
 @Suite(.dependencies {
     $0.videoPlayer.load = { _ in }
     $0.videoPlayer.play = { }
@@ -79,3 +80,4 @@ struct PlayerViewSnapshotsTests {
         try assert(view)
     }
 }
+#endif

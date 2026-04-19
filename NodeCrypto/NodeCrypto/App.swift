@@ -91,6 +91,7 @@ final class AppDelegate: NSObject {
     extension AppDelegate: NSApplicationDelegate {
         func applicationDidFinishLaunching(_: Foundation.Notification) {
             userNotificationCenter.delegate = userNotificationDelegate
+            FirebaseApp.configure()
         }
     }
 #endif

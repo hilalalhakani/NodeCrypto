@@ -5,6 +5,7 @@
 //  Created by Hilal Hakkani on 20/07/2024.
 //
 
+#if os(iOS)
 import APIClientLive
 import ComposableArchitecture
 import DependenciesTestSupport
@@ -123,3 +124,4 @@ private let aboutmeItems: [AboutMeItem] = [
     .mockCollection,
     .mockFollowers,
 ]
+#endif

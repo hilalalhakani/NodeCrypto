@@ -14,6 +14,7 @@ import SnapshotTesting
 import SwiftUI
 import Testing
 
+#if os(iOS)
 @Suite(.dependencies {
     $0.defaultInMemoryStorage = .init()
 })
@@ -84,3 +85,4 @@ struct SearchSnapshotsTests {
         try assert(searchView, named: "testInitialStateWithSearchHistory_fr")
     }
 }
+#endif

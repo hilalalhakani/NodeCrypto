@@ -14,6 +14,7 @@ import SnapshotTesting
 import SwiftUI
 import Testing
 
+#if os(iOS)
 @Suite(.dependencies {
     $0.defaultInMemoryStorage = .init()
     $0.keychainManager.get = { @Sendable _ in Data() }
@@ -56,3 +57,4 @@ struct EditProfileSnapshotsTests {
         try assert(editProfileView, named: "testEditProfileScreen_fr")
     }
 }
+#endif
